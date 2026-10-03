@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A8a_gradient_diag",
+  "config_hash": "ffe1bad0837f",
+  "total": 45,
+  "done": 17,
+  "failed": 1,
+  "claimed": 2,
+  "pending": 25,
+  "elapsed_seconds": 826.1,
+  "units_per_hour": 74.08,
+  "eta_hours": 0.36,
+  "workers_alive": 1,
+  "worker_restarts": 1,
+  "stopping": false,
+  "updated": "2026-10-02T03:39:31-0700"
+}

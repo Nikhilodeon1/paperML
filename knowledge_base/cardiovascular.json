@@ -1,0 +1,56 @@
+{
+  "system": "cardiovascular",
+  "description": "10-year general cardiovascular disease (CVD) risk via the Framingham General CVD model (D'Agostino 2008). A published Cox-model risk equation, NOT a trained model (brief 2) — coefficients are encoded here with citations. `parameters` holds the measurement-noise priors that drive the confidence interval; `coefficients` holds the fixed sex-specific model constants.",
+  "parameters": {
+    "sbp_measurement_sd": {
+      "value": 0.0,
+      "unit": "mmHg",
+      "population_sd": 5.0,
+      "plausible_range": [0.0, 0.0],
+      "citation": "Visit-to-visit BP variability ~5 mmHg (Muntner 2011, Hypertension)",
+      "notes": "Drives CI: a single clinic SBP reading carries this much measurement/biological noise."
+    },
+    "total_chol_measurement_sd": {
+      "value": 0.0,
+      "unit": "mg/dL",
+      "population_sd": 8.0,
+      "plausible_range": [0.0, 0.0],
+      "citation": "Biological + analytic variation in total cholesterol ~8 mg/dL (NCEP 1995)",
+      "notes": "Drives CI."
+    },
+    "hdl_measurement_sd": {
+      "value": 0.0,
+      "unit": "mg/dL",
+      "population_sd": 4.0,
+      "plausible_range": [0.0, 0.0],
+      "citation": "Biological + analytic variation in HDL ~4 mg/dL (NCEP 1995)",
+      "notes": "Drives CI."
+    }
+  },
+  "coefficients": {
+    "_citation": "D'Agostino RB et al. 2008, 'General Cardiovascular Risk Profile for Use in Primary Care: The Framingham Heart Study', Circulation 117:743-753. Covariates: ln(age), ln(total chol), ln(HDL), ln(SBP) treated/untreated, current smoker, diabetes. risk = 1 - S0^exp(sum(beta*x) - mean).",
+    "_validated_age_range": [30, 74],
+    "male": {
+      "ln_age": 3.06117,
+      "ln_total_chol": 1.12370,
+      "ln_hdl": -0.93263,
+      "ln_sbp_untreated": 1.93303,
+      "ln_sbp_treated": 1.99881,
+      "smoker": 0.65451,
+      "diabetes": 0.57367,
+      "baseline_survival_s0": 0.88936,
+      "mean_sum": 23.9802
+    },
+    "female": {
+      "ln_age": 2.32888,
+      "ln_total_chol": 1.20904,
+      "ln_hdl": -0.70833,
+      "ln_sbp_untreated": 2.76157,
+      "ln_sbp_treated": 2.82263,
+      "smoker": 0.52873,
+      "diabetes": 0.69154,
+      "baseline_survival_s0": 0.95012,
+      "mean_sum": 26.1931
+    }
+  }
+}

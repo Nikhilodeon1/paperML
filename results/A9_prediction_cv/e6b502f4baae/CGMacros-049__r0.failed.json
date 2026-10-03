@@ -1,0 +1,7 @@
+{
+  "unit": "CGMacros-049__r0",
+  "attempts": 2,
+  "commit": "9cd814e29e2d-dirty",
+  "when": "2026-10-02T03:28:49-0700",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\runner.py\", line 213, in worker_main\n    payload = module.run_unit(unit, config)\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\prediction_cv.py\", line 389, in run_unit\n    fit = ctx.fitter(cell).fit(train)\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\prediction_cv.py\", line 270, in fit\n    theta, curve = self._run(theta0, mask_j, norm_j)\n                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: RESOURCE_EXHAUSTED: Out of memory allocating 3186544 bytes.\n"
+}

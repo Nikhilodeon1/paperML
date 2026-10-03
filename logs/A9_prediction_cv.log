@@ -1,0 +1,66 @@
+2026-10-02 02:47:29 [A9_prediction_cv] start: 225 units, 0 already done, 0 previously failed, 10 workers
+2026-10-02 02:56:01 [A9_prediction_cv] worker 8 finished CGMacros-007__r0 in 504.8s
+2026-10-02 02:56:59 [A9_prediction_cv] worker 3 finished CGMacros-002__r0 in 561.9s
+2026-10-02 02:57:02 [A9_prediction_cv] worker 5 finished CGMacros-008__r0 in 565.1s
+2026-10-02 02:57:14 [A9_prediction_cv] worker 7 finished CGMacros-003__r0 in 576.2s
+2026-10-02 02:57:48 [A9_prediction_cv] worker 6 finished CGMacros-009__r0 in 611.1s
+2026-10-02 02:57:53 [A9_prediction_cv] worker 1 finished CGMacros-006__r0 in 615.9s
+2026-10-02 02:57:58 [A9_prediction_cv] worker 0 finished CGMacros-001__r0 in 621.1s
+2026-10-02 02:57:58 [A9_prediction_cv] worker 9 finished CGMacros-010__r0 in 621.6s
+2026-10-02 02:59:12 [A9_prediction_cv] worker 4 finished CGMacros-005__r0 in 693.5s
+2026-10-02 02:59:49 [A9_prediction_cv] worker 2 finished CGMacros-004__r0 in 731.3s
+2026-10-02 03:02:38 [A9_prediction_cv] worker 8 finished CGMacros-011__r0 in 395.8s
+2026-10-02 03:02:49 [A9_prediction_cv] worker 3 finished CGMacros-012__r0 in 348.0s
+2026-10-02 03:03:16 [A9_prediction_cv] worker 1 finished CGMacros-016__r0 in 320.5s
+2026-10-02 03:03:45 [A9_prediction_cv] worker 5 finished CGMacros-013__r0 in 400.8s
+2026-10-02 03:04:08 [A9_prediction_cv] worker 7 finished CGMacros-014__r0 in 404.4s
+2026-10-02 03:04:18 [A9_prediction_cv] worker 9 finished CGMacros-018__r0 in 379.2s
+2026-10-02 03:05:43 [A9_prediction_cv] worker 0 finished CGMacros-017__r0 in 464.0s
+2026-10-02 03:05:44 [A9_prediction_cv] worker 6 finished CGMacros-015__r0 in 474.4s
+2026-10-02 03:06:22 [A9_prediction_cv] worker 2 finished CGMacros-020__r0 in 389.9s
+2026-10-02 03:07:44 [A9_prediction_cv] worker 4 finished CGMacros-019__r0 in 509.5s
+2026-10-02 03:11:10 [A9_prediction_cv] worker 8 finished CGMacros-021__r0 in 510.1s
+2026-10-02 03:11:45 [A9_prediction_cv] worker 3 finished CGMacros-022__r0 in 533.6s
+2026-10-02 03:12:05 [A9_prediction_cv] worker 5 finished CGMacros-026__r0 in 498.8s
+2026-10-02 03:12:22 [A9_prediction_cv] worker 1 finished CGMacros-023__r0 in 544.1s
+2026-10-02 03:13:30 [A9_prediction_cv] worker 7 finished CGMacros-027__r0 in 560.9s
+2026-10-02 03:13:45 [A9_prediction_cv] worker 9 finished CGMacros-028__r0 in 565.8s
+2026-10-02 03:15:03 [A9_prediction_cv] worker 6 finished CGMacros-030__r0 in 556.0s
+2026-10-02 03:15:49 [A9_prediction_cv] worker 4 finished CGMacros-032__r0 in 476.1s
+2026-10-02 03:15:57 [A9_prediction_cv] worker 0 finished CGMacros-029__r0 in 610.5s
+2026-10-02 03:20:28 [A9_prediction_cv] worker 5 finished CGMacros-035__r0 in 493.1s
+2026-10-02 03:20:30 [A9_prediction_cv] worker 1 finished CGMacros-036__r0 in 483.9s
+2026-10-02 03:20:37 [A9_prediction_cv] worker 2 finished CGMacros-031__r0 in 845.5s
+2026-10-02 03:20:48 [A9_prediction_cv] worker 8 finished CGMacros-033__r0 in 568.9s
+2026-10-02 03:22:04 [A9_prediction_cv] worker 7 finished CGMacros-038__r0 in 510.5s
+2026-10-02 03:22:08 [A9_prediction_cv] worker 4 finished CGMacros-042__r0 in 378.0s
+2026-10-02 03:22:39 [A9_prediction_cv] worker 9 finished CGMacros-039__r0 in 529.9s
+2026-10-02 03:24:15 [A9_prediction_cv] worker 0 unit CGMacros-043__r0 attempt 1 failed: numpy._core._exceptions._ArrayMemoryError: Unable to allocate 2.33 MiB for an array with shape (102000, 3) and data type float64
+2026-10-02 03:24:15 [A9_prediction_cv] worker 3 unit CGMacros-034__r0 attempt 1 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 6359536 bytes.
+2026-10-02 03:24:15 [A9_prediction_cv] worker 5 unit CGMacros-044__r0 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:25:15 [A9_prediction_cv] worker 5 unit CGMacros-044__r0 attempt 2 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 5000240 bytes.
+2026-10-02 03:25:15 [A9_prediction_cv] worker 5 gave up on CGMacros-044__r0 after 2 attempts
+2026-10-02 03:25:17 [A9_prediction_cv] worker 0 unit CGMacros-043__r0 attempt 2 failed: RuntimeError: [enforce fail at alloc_cpu.cpp:117] data. DefaultCPUAllocator: not enough memory: you tried to allocate 1200000 bytes.
+2026-10-02 03:25:17 [A9_prediction_cv] worker 0 gave up on CGMacros-043__r0 after 2 attempts
+2026-10-02 03:25:17 [A9_prediction_cv] worker 9 unit CGMacros-001__r1 attempt 1 failed: RuntimeError: [enforce fail at alloc_cpu.cpp:117] data. DefaultCPUAllocator: not enough memory: you tried to allocate 1200000 bytes.
+2026-10-02 03:25:18 [A9_prediction_cv] worker 1 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-02 03:26:47 [A9_prediction_cv] worker 6 finished CGMacros-041__r0 in 701.0s
+2026-10-02 03:26:55 [A9_prediction_cv] worker 5 unit CGMacros-002__r1 attempt 1 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 12783488 bytes.
+2026-10-02 03:27:09 [A9_prediction_cv] worker 2 unit CGMacros-046__r0 attempt 1 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 4091632 bytes.
+2026-10-02 03:27:09 [A9_prediction_cv] worker 2 unit CGMacros-046__r0 attempt 2 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 4093936 bytes.
+2026-10-02 03:27:09 [A9_prediction_cv] worker 2 gave up on CGMacros-046__r0 after 2 attempts
+2026-10-02 03:27:14 [A9_prediction_cv] worker 1 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-02 03:28:10 [A9_prediction_cv] worker 1 unit CGMacros-007__r1 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:28:48 [A9_prediction_cv] worker 7 unit CGMacros-048__r0 attempt 1 failed: RuntimeError: [enforce fail at alloc_cpu.cpp:117] data. DefaultCPUAllocator: not enough memory: you tried to allocate 1200000 bytes.
+2026-10-02 03:28:48 [A9_prediction_cv] worker 7 unit CGMacros-048__r0 attempt 2 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 4093936 bytes.
+2026-10-02 03:28:48 [A9_prediction_cv] worker 7 gave up on CGMacros-048__r0 after 2 attempts
+2026-10-02 03:28:48 [A9_prediction_cv] worker 4 unit CGMacros-049__r0 attempt 1 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 3184368 bytes.
+2026-10-02 03:28:49 [A9_prediction_cv] worker 4 unit CGMacros-049__r0 attempt 2 failed: ValueError: RESOURCE_EXHAUSTED: Out of memory allocating 3186544 bytes.
+2026-10-02 03:28:49 [A9_prediction_cv] worker 4 gave up on CGMacros-049__r0 after 2 attempts
+2026-10-02 03:29:19 [A9_prediction_cv] worker 8 finished CGMacros-047__r0 in 508.2s
+2026-10-02 03:29:42 [A9_prediction_cv] worker 6 unit CGMacros-005__r1 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:31:31 [A9_prediction_cv] worker 9 finished CGMacros-001__r1 in 374.2s
+2026-10-02 03:32:26 [A9_prediction_cv] worker 3 finished CGMacros-034__r0 in 490.3s
+2026-10-02 03:35:04 [A9_prediction_cv] worker 7 finished CGMacros-008__r1 in 373.9s
+2026-10-02 03:36:15 [A9_prediction_cv] worker 8 finished CGMacros-010__r1 in 415.1s
+2026-10-02 03:37:45 [A9_prediction_cv] worker 9 finished CGMacros-011__r1 in 367.8s

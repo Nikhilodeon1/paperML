@@ -1,0 +1,201 @@
+{
+  "schema_note": "Declarative self-report questionnaires. Each questionnaire has `questions` (asked in the app) and `indicators` (derived health signals the scoring engine computes from the answers). An indicator draws a numeric value either `from` one question (a number answer directly, or a choice option's `score`) or as the `sum_of` several questions (a validated instrument total), then maps it through ordered `bands` to a labelled severity (ok | watch | concern). `citation` fields ground the thresholds. Extend by adding entries here; no code change needed.",
+  "questionnaires": [
+    {
+      "id": "digestive",
+      "title": "Digestive & Gut Health",
+      "description": "A quick read on bowel regularity and stool quality — the everyday signals of gut health.",
+      "icon": "gut",
+      "questions": [
+        {
+          "id": "bowel_freq_per_week",
+          "text": "How many bowel movements do you have in a typical week?",
+          "type": "number",
+          "unit": "per week",
+          "min": 0,
+          "max": 40,
+          "help": "Count roughly. 1 per day = 7 per week."
+        },
+        {
+          "id": "bristol_type",
+          "text": "Which best matches your typical stool?",
+          "type": "choice",
+          "options": [
+            {"value": "t1", "label": "Separate hard lumps (hard to pass)", "score": 1},
+            {"value": "t2", "label": "Lumpy and sausage-like", "score": 2},
+            {"value": "t3", "label": "Sausage with cracks on surface", "score": 3},
+            {"value": "t4", "label": "Smooth, soft sausage (ideal)", "score": 4},
+            {"value": "t5", "label": "Soft blobs with clear edges", "score": 5},
+            {"value": "t6", "label": "Mushy, ragged edges", "score": 6},
+            {"value": "t7", "label": "Watery, no solid pieces", "score": 7}
+          ]
+        },
+        {
+          "id": "straining",
+          "text": "How often do you strain to pass a stool?",
+          "type": "choice",
+          "options": [
+            {"value": "never", "label": "Never", "score": 0},
+            {"value": "sometimes", "label": "Sometimes", "score": 1},
+            {"value": "often", "label": "Often", "score": 2},
+            {"value": "always", "label": "Almost always", "score": 3}
+          ]
+        }
+      ],
+      "indicators": [
+        {
+          "key": "constipation",
+          "label": "Bowel regularity",
+          "from": "bowel_freq_per_week",
+          "bands": [
+            {"max": 2.999, "label": "Constipated", "severity": "concern",
+             "note": "Fewer than 3 bowel movements per week meets the Rome IV threshold for constipation. Fibre, fluids, and movement help; persistent constipation is worth raising with a clinician."},
+            {"min": 3, "max": 4.999, "label": "Low-normal", "severity": "watch",
+             "note": "On the low side of normal (3-4/week). More fibre and water often nudges this up."},
+            {"min": 5, "max": 21, "label": "Regular", "severity": "ok",
+             "note": "Within the healthy 5-21/week range."},
+            {"min": 21.001, "label": "Frequent / loose", "severity": "watch",
+             "note": "More than ~3/day can signal loose stools or a GI upset if it persists."}
+          ],
+          "citation": "Rome IV functional constipation criteria (Lacy 2016): <3 spontaneous BM/week."
+        },
+        {
+          "key": "stool_consistency",
+          "label": "Stool consistency",
+          "from": "bristol_type",
+          "bands": [
+            {"max": 2, "label": "Hard (constipation-type)", "severity": "watch",
+             "note": "Bristol types 1-2 are hard, slow-transit stools associated with constipation."},
+            {"min": 3, "max": 4, "label": "Ideal", "severity": "ok",
+             "note": "Bristol types 3-4 are the target — well-formed and easy to pass."},
+            {"min": 5, "max": 5, "label": "Soft", "severity": "watch",
+             "note": "Bristol type 5 is soft and can indicate a lack of fibre or fast transit."},
+            {"min": 6, "label": "Loose (diarrhoea-type)", "severity": "watch",
+             "note": "Bristol types 6-7 are loose/watery; if frequent, watch hydration and see a clinician if it persists."}
+          ],
+          "citation": "Bristol Stool Form Scale (Lewis & Heaton 1997)."
+        }
+      ]
+    },
+    {
+      "id": "hydration",
+      "title": "Hydration",
+      "description": "Two quick signals of whether you're drinking enough day to day.",
+      "icon": "water",
+      "questions": [
+        {
+          "id": "urine_color",
+          "text": "What colour is your urine, typically, during the day?",
+          "type": "choice",
+          "options": [
+            {"value": "c1", "label": "Almost clear", "score": 1},
+            {"value": "c2", "label": "Pale straw", "score": 2},
+            {"value": "c3", "label": "Light yellow", "score": 3},
+            {"value": "c4", "label": "Yellow", "score": 4},
+            {"value": "c5", "label": "Dark yellow", "score": 5},
+            {"value": "c6", "label": "Amber", "score": 6},
+            {"value": "c7", "label": "Brown-ish", "score": 7}
+          ]
+        },
+        {
+          "id": "glasses_water_per_day",
+          "text": "About how many glasses of water (250 ml) do you drink per day?",
+          "type": "number",
+          "unit": "glasses/day",
+          "min": 0,
+          "max": 25
+        }
+      ],
+      "indicators": [
+        {
+          "key": "hydration_status",
+          "label": "Hydration",
+          "from": "urine_color",
+          "bands": [
+            {"max": 3, "label": "Well hydrated", "severity": "ok",
+             "note": "Pale urine (shades 1-3) usually means you're well hydrated."},
+            {"min": 4, "max": 5, "label": "Mildly under-hydrated", "severity": "watch",
+             "note": "Darker yellow suggests you could drink a bit more, especially in heat or exercise."},
+            {"min": 6, "label": "Under-hydrated", "severity": "concern",
+             "note": "Amber/brown urine points to dehydration. Increase fluids; persistent dark urine warrants medical review."}
+          ],
+          "citation": "Urine colour chart validated against hydration status (Armstrong 1994)."
+        }
+      ]
+    },
+    {
+      "id": "stress_pss4",
+      "title": "Perceived Stress (PSS-4)",
+      "description": "The validated 4-item Perceived Stress Scale — how uncontrollable and overloaded life has felt this past month.",
+      "icon": "calm",
+      "questions": [
+        {
+          "id": "pss_unable_control",
+          "text": "In the last month, how often have you felt unable to control the important things in your life?",
+          "type": "choice",
+          "options": [
+            {"value": "0", "label": "Never", "score": 0},
+            {"value": "1", "label": "Almost never", "score": 1},
+            {"value": "2", "label": "Sometimes", "score": 2},
+            {"value": "3", "label": "Fairly often", "score": 3},
+            {"value": "4", "label": "Very often", "score": 4}
+          ]
+        },
+        {
+          "id": "pss_confident",
+          "text": "In the last month, how often have you felt confident about your ability to handle your personal problems?",
+          "type": "choice",
+          "reverse": true,
+          "options": [
+            {"value": "0", "label": "Never", "score": 4},
+            {"value": "1", "label": "Almost never", "score": 3},
+            {"value": "2", "label": "Sometimes", "score": 2},
+            {"value": "3", "label": "Fairly often", "score": 1},
+            {"value": "4", "label": "Very often", "score": 0}
+          ]
+        },
+        {
+          "id": "pss_going_your_way",
+          "text": "In the last month, how often have you felt that things were going your way?",
+          "type": "choice",
+          "reverse": true,
+          "options": [
+            {"value": "0", "label": "Never", "score": 4},
+            {"value": "1", "label": "Almost never", "score": 3},
+            {"value": "2", "label": "Sometimes", "score": 2},
+            {"value": "3", "label": "Fairly often", "score": 1},
+            {"value": "4", "label": "Very often", "score": 0}
+          ]
+        },
+        {
+          "id": "pss_difficulties_piling",
+          "text": "In the last month, how often have you felt difficulties were piling up so high you could not overcome them?",
+          "type": "choice",
+          "options": [
+            {"value": "0", "label": "Never", "score": 0},
+            {"value": "1", "label": "Almost never", "score": 1},
+            {"value": "2", "label": "Sometimes", "score": 2},
+            {"value": "3", "label": "Fairly often", "score": 3},
+            {"value": "4", "label": "Very often", "score": 4}
+          ]
+        }
+      ],
+      "indicators": [
+        {
+          "key": "perceived_stress",
+          "label": "Perceived stress",
+          "sum_of": ["pss_unable_control", "pss_confident", "pss_going_your_way", "pss_difficulties_piling"],
+          "bands": [
+            {"max": 5, "label": "Low", "severity": "ok",
+             "note": "PSS-4 score in the low range — you're feeling largely in control this month."},
+            {"min": 6, "max": 10, "label": "Moderate", "severity": "watch",
+             "note": "Moderate perceived stress. Recovery habits (sleep, movement, downtime) matter here."},
+            {"min": 11, "label": "High", "severity": "concern",
+             "note": "High perceived stress. Consider active stress-reduction and support; if sustained, discuss with a clinician."}
+          ],
+          "citation": "Perceived Stress Scale, 4-item (Cohen & Williamson 1988); range 0-16."
+        }
+      ]
+    }
+  ]
+}

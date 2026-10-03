@@ -1,0 +1,94 @@
+{
+  "system": "metabolic",
+  "description": "Energy balance and weight trajectory. Base resting metabolic rate via Mifflin-St Jeor; activity via PAL multiplier; weight change via the energy-balance identity (brief 2). Organ/system level; calibratable per user in Layer 3.",
+  "parameters": {
+    "msj_weight_coeff": {
+      "value": 10.0,
+      "unit": "kcal/day per kg",
+      "population_sd": 0.0,
+      "plausible_range": [10.0, 10.0],
+      "citation": "Mifflin et al. 1990, Am J Clin Nutr (Mifflin-St Jeor RMR equation)",
+      "notes": "RMR = 10*kg + 6.25*cm - 5*age + s, where s = +5 (male) / -161 (female)."
+    },
+    "msj_height_coeff": {
+      "value": 6.25,
+      "unit": "kcal/day per cm",
+      "population_sd": 0.0,
+      "plausible_range": [6.25, 6.25],
+      "citation": "Mifflin et al. 1990, Am J Clin Nutr",
+      "notes": "Height term of Mifflin-St Jeor."
+    },
+    "msj_age_coeff": {
+      "value": 5.0,
+      "unit": "kcal/day per year",
+      "population_sd": 0.0,
+      "plausible_range": [5.0, 5.0],
+      "citation": "Mifflin et al. 1990, Am J Clin Nutr",
+      "notes": "Subtracted: RMR declines ~5 kcal/day per year of age."
+    },
+    "msj_sex_offset_male": {
+      "value": 5.0,
+      "unit": "kcal/day",
+      "population_sd": 0.0,
+      "plausible_range": [5.0, 5.0],
+      "citation": "Mifflin et al. 1990, Am J Clin Nutr",
+      "notes": "Additive sex constant (male)."
+    },
+    "msj_sex_offset_female": {
+      "value": -161.0,
+      "unit": "kcal/day",
+      "population_sd": 0.0,
+      "plausible_range": [-161.0, -161.0],
+      "citation": "Mifflin et al. 1990, Am J Clin Nutr",
+      "notes": "Additive sex constant (female)."
+    },
+    "rmr_individual_sd": {
+      "value": 0.0,
+      "unit": "fraction of RMR",
+      "population_sd": 0.10,
+      "plausible_range": [0.0, 0.0],
+      "citation": "Mifflin et al. 1990 (SEE ~10% of measured RMR); Donahoo 2004",
+      "notes": "Mifflin-St Jeor predicts true RMR to within ~10% for ~80% of people. population_sd drives the prior on the per-user RMR multiplier (Layer 3 calibrates it)."
+    },
+    "kcal_per_kg_fat": {
+      "value": 7700.0,
+      "unit": "kcal/kg",
+      "population_sd": 0.0,
+      "plausible_range": [7000.0, 7700.0],
+      "citation": "Wishnofsky 1958 (3500 kcal/lb ~= 7700 kcal/kg)",
+      "notes": "First-order energy-balance constant. Known to overestimate long-run loss (Hall 2011 dynamic model) — flag as a v1 simplification; refine with Hall's model later."
+    },
+    "pal_sedentary": {
+      "value": 1.4,
+      "unit": "dimensionless (TDEE = PAL * RMR)",
+      "population_sd": 0.1,
+      "plausible_range": [1.2, 1.6],
+      "citation": "FAO/WHO/UNU 2004 physical activity level categories",
+      "notes": "Little/no exercise."
+    },
+    "pal_moderate": {
+      "value": 1.7,
+      "unit": "dimensionless",
+      "population_sd": 0.1,
+      "plausible_range": [1.6, 1.9],
+      "citation": "FAO/WHO/UNU 2004",
+      "notes": "Moderate exercise 3-5 days/week."
+    },
+    "pal_active": {
+      "value": 2.0,
+      "unit": "dimensionless",
+      "population_sd": 0.1,
+      "plausible_range": [1.9, 2.4],
+      "citation": "FAO/WHO/UNU 2004",
+      "notes": "Hard exercise / physical job."
+    }
+  },
+  "biomarkers": {
+    "HbA1c": {
+      "unit": "%",
+      "reference_range": [4.0, 5.6],
+      "citation": "ADA Standards of Care (normal < 5.7%, prediabetes 5.7-6.4%)",
+      "notes": "Glycemic marker. Future metabolic-module output under chronic caloric/glycemic load; not modeled in v1."
+    }
+  }
+}

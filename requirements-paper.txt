@@ -1,0 +1,41 @@
+# Horizon SBI paper — pinned, reproducible dependency set.
+# Paper branch only: simulation engine + personalization + evaluation. NO FastAPI, NO LLM
+# backends, NO web search (those belong to the product codebase, not the paper claims).
+#
+# Versions pinned to what the results were produced with (paperML/.venv, Python 3.14.2, Windows).
+# Install:  python -m pip install -r requirements-paper.txt
+
+# --- core scientific stack ---
+numpy==2.5.0
+scipy==1.18.0
+scikit-learn==1.9.0
+pandas==3.0.3
+
+# --- simulation-based inference (Block 1: SNPE-C calibrated posteriors) ---
+torch==2.13.0                # CPU build; no GPU required
+sbi==0.26.1                  # Macke lab SNPE-C / SBC diagnostics
+# transitive but pinned for reproducibility of the flow:
+nflows==0.14
+zuko==1.6.0
+
+# --- differentiable engine + gradient-based inference (Phase 1+, NeurIPS direction) ---
+jax==0.11.0                  # CPU; native Windows cp314 wheel
+jaxlib==0.11.0
+diffrax==0.7.2               # ODE solve with autodiff
+equinox==0.13.8              # pytree modules for params
+optax==0.2.8                 # Adam for gradient fit
+
+# --- statistics for the results tables (bootstrap CIs, ANOVA + Tukey) ---
+statsmodels==0.14.6
+
+# --- figures (Block 6) ---
+matplotlib==3.11.0
+seaborn==0.13.2
+
+# --- real dataset loaders (Sleep-EDF / NHANES / ShanghaiT2DM tables) ---
+mne==1.12.1
+xlrd==2.0.2          # legacy .xls (89 of the ShanghaiT2DM patient files)
+openpyxl==3.1.5      # .xlsx (ShanghaiT2DM summary + 20 patient files)
+
+# --- testing ---
+pytest==9.1.1

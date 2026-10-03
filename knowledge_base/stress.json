@@ -1,0 +1,58 @@
+{
+  "system": "stress",
+  "description": "Acute physiological stress / arousal, inferred from wearable signals (heart rate, HRV, electrodermal activity). ML-based module (brief 2) — no clean governing equation. This Layer 1 file supplies (a) population norms used to bootstrap synthetic training data before the real wearable dataset is available, and (b) cited effect sizes for cross-system edges. Target dataset: PhysioNet 'Wearable Exam Stress Dataset' (HR/EDA/HRV, open/credentialed, ~days to access).",
+  "parameters": {
+    "rest_hr_mean": {
+      "value": 68.0,
+      "unit": "bpm",
+      "population_sd": 9.0,
+      "plausible_range": [40.0, 110.0],
+      "citation": "Nanchen 2018 (resting HR distribution in adults)",
+      "notes": "Baseline resting heart rate."
+    },
+    "rmssd_mean": {
+      "value": 42.0,
+      "unit": "ms (HRV, root mean square of successive differences)",
+      "population_sd": 18.0,
+      "plausible_range": [8.0, 120.0],
+      "citation": "Nunan 2010, normative RMSSD values meta-analysis",
+      "notes": "Higher RMSSD = more parasympathetic (recovered) tone; drops under stress."
+    },
+    "eda_mean": {
+      "value": 2.5,
+      "unit": "microsiemens (skin conductance level)",
+      "population_sd": 1.5,
+      "plausible_range": [0.5, 15.0],
+      "citation": "Boucsein 2012, Electrodermal Activity (typical SCL range)",
+      "notes": "Rises with sympathetic arousal."
+    },
+    "stress_index_mean": {
+      "value": 30.0,
+      "unit": "0-100 composite stress score",
+      "population_sd": 18.0,
+      "plausible_range": [0.0, 100.0],
+      "citation": "Composite target normalized to 0-100 (operational definition; calibrate on labelled data)",
+      "notes": "Module output. Operational until validated against a LABELLED stress dataset (this exam dataset has no labels)."
+    },
+    "exam_hr_reference": {
+      "value": 94.7,
+      "unit": "bpm (mean heart rate under real exam stress)",
+      "population_sd": 17.5,
+      "plausible_range": [80.0, 110.0],
+      "citation": "PhysioNet Wearable Exam Stress Dataset (Empatica E4, 597 5-min windows, fitted)",
+      "notes": "Real high-stress HR reference; anchors the upper end of the arousal index (resting rest_hr_mean=68 anchors 0). HR elevation is the one cross-person-reliable signal here; wrist EDA/RMSSD absolute values are device-uncalibrated in this dataset."
+    }
+  },
+  "cross_system_modifiers": {
+    "stress_to_sleep": {
+      "efficiency_per_stress_point": {
+        "value": -0.12,
+        "unit": "sleep-efficiency percentage points per stress-index point at bedtime",
+        "population_sd": 0.05,
+        "plausible_range": [-0.30, -0.02],
+        "citation": "Kalmbach 2018, J Sleep Res (pre-sleep arousal/stress reduces sleep continuity)",
+        "notes": "GRADED MODERATE evidence. Build the edge only with a clearly stated confidence; direction well established, exact dose-response less so."
+      }
+    }
+  }
+}

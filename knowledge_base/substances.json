@@ -1,0 +1,37 @@
+{
+  "schema_note": "Data-driven pharmacology. Each substance has PK (one-compartment: absorption_min + elimination half_life_min via a gut->blood model) and PD `effects`: the approximate STEADY-STATE shift each shared BodyState variable takes at ONE standard dose (in the variable's own units — bpm, mmHg, ug/dL cortisol, 0-1 alertness). The engine converts these to the right dynamics and scales by actual dose and blood level, so effects rise and fade with the drug. Add a new drug/substance HERE — no code change — so the simulator can address 'what does X do to me' for substances it was never explicitly built for. Coefficients are directional/approximate, graded WEAK-to-MODERATE, and are NOT medical advice.",
+  "substances": {
+    "nicotine": {
+      "typical_dose_mg": 1.0, "absorption_min": 8, "half_life_min": 120,
+      "effects": {"heart_rate_bpm": 12.0, "sbp_mmhg": 7.0, "dbp_mmhg": 4.0,
+                  "alertness": 0.12, "cortisol_ug_dl": 1.5},
+      "note": "Stimulant; raises heart rate and blood pressure, transiently increases alertness and cortisol.",
+      "citation": "Benowitz 2009, NEJM (nicotine pharmacology)"
+    },
+    "melatonin": {
+      "typical_dose_mg": 3.0, "absorption_min": 20, "half_life_min": 45,
+      "effects": {"alertness": -0.45, "heart_rate_bpm": -4.0},
+      "note": "Sleep-timing hormone; reduces alertness (promotes sleep onset) and mildly lowers heart rate.",
+      "citation": "Brzezinski 1997, NEJM (melatonin)"
+    },
+    "pseudoephedrine": {
+      "typical_dose_mg": 60.0, "absorption_min": 30, "half_life_min": 360,
+      "effects": {"heart_rate_bpm": 6.0, "sbp_mmhg": 10.0, "dbp_mmhg": 5.0, "alertness": 0.1},
+      "note": "Decongestant sympathomimetic; raises blood pressure and heart rate, mildly stimulating.",
+      "citation": "Kollar 2007 (pseudoephedrine cardiovascular effects)"
+    },
+    "l_theanine": {
+      "typical_dose_mg": 200.0, "absorption_min": 25, "half_life_min": 180,
+      "effects": {"heart_rate_bpm": -3.0, "sbp_mmhg": -3.5, "cortisol_ug_dl": -1.2,
+                  "alertness": 0.05},
+      "note": "Calming amino acid; slightly lowers heart rate/BP and blunts the stress response (often paired with caffeine).",
+      "citation": "Hidese 2019, Nutrients (L-theanine)"
+    },
+    "diphenhydramine": {
+      "typical_dose_mg": 25.0, "absorption_min": 45, "half_life_min": 540,
+      "effects": {"alertness": -0.55, "heart_rate_bpm": 4.0},
+      "note": "Sedating antihistamine; strongly reduces alertness/causes drowsiness (mild anticholinergic tachycardia).",
+      "citation": "Simons 2004 (H1-antihistamines)"
+    }
+  }
+}

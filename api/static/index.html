@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Horizon — Model Test Console</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, Segoe UI, Arial, sans-serif; max-width: 760px;
+         margin: 32px auto; padding: 0 16px; line-height: 1.45; }
+  h1 { font-size: 1.3rem; margin-bottom: 4px; }
+  .sub { color: #888; font-size: 0.85rem; margin-bottom: 20px; }
+  fieldset { border: 1px solid #ccc4; border-radius: 8px; margin-bottom: 14px; padding: 12px 14px; }
+  legend { font-size: 0.8rem; color: #888; padding: 0 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+  label { display: block; font-size: 0.75rem; color: #999; margin-bottom: 2px; }
+  input, select, textarea { width: 100%; box-sizing: border-box; padding: 6px 8px;
+    border-radius: 6px; border: 1px solid #ccc4; font-size: 0.9rem; background: transparent; color: inherit; }
+  textarea { min-height: 54px; font-size: 1rem; }
+  button { margin-top: 10px; padding: 10px 18px; border-radius: 8px; border: none;
+    background: #2563eb; color: white; font-size: 0.95rem; cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .llm-toggle { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #888; margin-top: 8px; }
+  #result { margin-top: 22px; }
+  .card { border: 1px solid #ccc4; border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.7rem;
+    font-weight: 600; text-transform: uppercase; }
+  .badge.strong { background: #16a34a33; color: #16a34a; }
+  .badge.weak { background: #ca8a0433; color: #ca8a04; }
+  .badge.none { background: #dc262633; color: #dc2626; }
+  .answer-text { font-size: 1.05rem; margin: 10px 0; }
+  h3 { font-size: 0.85rem; text-transform: uppercase; color: #888; margin: 14px 0 6px; }
+  ul { margin: 0; padding-left: 20px; }
+  pre { background: #8882; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 0.8rem; }
+  .examples { font-size: 0.8rem; color: #888; margin-top: 8px; }
+  .examples span { cursor: pointer; text-decoration: underline; margin-right: 10px; }
+</style>
+</head>
+<body>
+  <h1>Horizon — Model Test Console</h1>
+  <div class="sub">Talks to the backend's /ask endpoint. Answers are composed by the
+  Gemini-orchestrated engine by default; every number still comes from a validated
+  simulation or cited formula. Tick the box to use the fast no-LLM engine instead.</div>
+
+  <fieldset>
+    <legend>User</legend>
+    <div style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap">
+      <div style="flex:1; min-width:180px">
+        <label>Active user</label>
+        <select id="user_id" onchange="loadUser()"></select>
+      </div>
+      <button type="button" onclick="seedDemo()" style="background:#475569">Seed demo user</button>
+    </div>
+    <div id="user_note" class="examples"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>User info &amp; reports <span style="font-size:0.7rem;color:#999">(edit anything, then Save)</span></legend>
+    <div class="grid">
+      <div><label>Weight (kg)</label><input id="weight_kg" type="number"></div>
+      <div><label>Height (cm)</label><input id="height_cm" type="number"></div>
+      <div><label>Age</label><input id="age" type="number"></div>
+      <div><label>Sex</label>
+        <select id="sex"><option value="male">male</option><option value="female">female</option></select>
+      </div>
+      <div><label>Total chol (mg/dL)</label><input id="total_chol" type="number" placeholder="—"></div>
+      <div><label>HDL (mg/dL)</label><input id="hdl" type="number" placeholder="—"></div>
+      <div><label>Systolic BP</label><input id="sbp" type="number" placeholder="—"></div>
+      <div><label>Smoker</label><select id="smoker"><option value="false">no</option><option value="true">yes</option></select></div>
+      <div><label>Diabetic</label><select id="diabetic"><option value="false">no</option><option value="true">yes</option></select></div>
+    </div>
+    <div class="grid" style="margin-top:8px">
+      <div style="grid-column:1/-1"><label>Allergies (comma-separated)</label><input id="allergies" type="text" placeholder="e.g. penicillin"></div>
+      <div style="grid-column:1/-1"><label>Conditions (comma-separated)</label><input id="conditions" type="text" placeholder="e.g. mild hypertension"></div>
+      <div style="grid-column:1/-1"><label>Medications (comma-separated)</label><input id="medications" type="text"></div>
+    </div>
+    <label style="margin-top:8px">Notes (free text, one per line — e.g. "very low calcium consumption")</label>
+    <textarea id="notes" style="min-height:60px"></textarea>
+    <button type="button" onclick="saveUser()">Save changes</button>
+    <span id="save_status" style="font-size:0.8rem;color:#16a34a;margin-left:8px"></span>
+    <div id="derived_box" style="font-size:0.8rem;color:#888;margin-top:8px"></div>
+    <h3>Recent reports</h3>
+    <div id="reports" style="font-size:0.82rem"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Question</legend>
+    <textarea id="question" placeholder="e.g. if I drink 2 shots of vodka now, how will my sleep be affected?"></textarea>
+    <div class="examples">Try:
+      <span onclick="fillQ(this)">2 shots of vodka now, how will my sleep be affected?</span>
+      <span onclick="fillQ(this)">If I eat 1800 kcal a day for 3 months, what happens to my weight?</span>
+      <span onclick="fillQ(this)">What's my heart disease risk?</span>
+      <span onclick="fillQ(this)">Will standing on my head improve my eyesight?</span>
+    </div>
+    <label class="llm-toggle"><input id="force_deterministic" type="checkbox" style="width:auto"> Use the fast deterministic engine instead (no LLM, no API calls)</label>
+    <button id="askBtn" onclick="ask()">Ask</button>
+    <button type="button" onclick="chatSend()" style="background:#0d9488">Send as chat (with memory)</button>
+    <div id="chatlog" style="margin-top:12px"></div>
+  </fieldset>
+
+  <div id="result"></div>
+
+<script>
+function fillQ(el) { document.getElementById('question').value = el.textContent; }
+
+const $ = id => document.getElementById(id);
+
+async function loadUsers() {
+  const r = await fetch('/users'); const d = await r.json();
+  const sel = $('user_id');
+  if (!d.users.length) { await fetch('/users/seed_demo', {method:'POST'}); return loadUsers(); }
+  const cur = sel.value || d.users[0];
+  sel.innerHTML = d.users.map(u => `<option value="${u}">${u}</option>`).join('');
+  sel.value = d.users.includes(cur) ? cur : d.users[0];
+  await loadUser();
+}
+async function seedDemo() { await fetch('/users/seed_demo', {method:'POST'}); await loadUsers(); }
+
+async function loadUser() {
+  const uid = $('user_id').value; if (!uid) return;
+  const u = await (await fetch('/users/' + uid)).json();
+  const p = u.profile || {};
+  $('weight_kg').value = p.weight_kg ?? ''; $('height_cm').value = p.height_cm ?? '';
+  $('age').value = p.age ?? ''; $('sex').value = p.sex ?? 'male';
+  $('total_chol').value = p.total_chol ?? ''; $('hdl').value = p.hdl ?? ''; $('sbp').value = p.sbp ?? '';
+  $('smoker').value = String(!!p.smoker); $('diabetic').value = String(!!p.diabetic);
+  const m = u.medical || {};
+  $('allergies').value = (m.allergies||[]).join(', ');
+  $('conditions').value = (m.conditions||[]).join(', ');
+  $('medications').value = (m.medications||[]).join(', ');
+  $('notes').value = (u.notes||[]).join('\n');
+  const d = u.derived || {}; const s = u.data_summary || {};
+  $('derived_box').innerHTML =
+    `Data: ${s.weigh_ins||0} weigh-ins · ${s.wearable_days||0} wearable days · ${s.surveys||0} surveys. ` +
+    (d.metabolic ? `Personalized RMR: ${(d.metabolic.rmr_multiplier*100).toFixed(0)}% of average (±${(d.metabolic.rmr_multiplier_sd*100).toFixed(0)}%, from ${d.metabolic.n_observations} weigh-ins).` : 'No personalization yet.');
+  $('reports').innerHTML = (u.reports && u.reports.length)
+    ? u.reports.map(r => `<div style="border-bottom:1px solid #8882;padding:4px 0">
+        <span style="color:#888">${(r.ts||'').slice(0,16).replace('T',' ')}</span> ·
+        <b>${r.headline||''}</b> <span style="font-size:0.7rem;color:#888">${r.tool||''} · ${r.evidence||''}</span></div>`).join('')
+    : '<span style="color:#888">No reports yet — ask a question.</span>';
+}
+
+function csv(id) { return $(id).value.split(',').map(s=>s.trim()).filter(Boolean); }
+async function saveUser() {
+  const uid = $('user_id').value; if (!uid) return;
+  const body = {
+    profile: { weight_kg:Number($('weight_kg').value), height_cm:Number($('height_cm').value),
+      age:Number($('age').value), sex:$('sex').value,
+      smoker:$('smoker').value==='true', diabetic:$('diabetic').value==='true',
+      total_chol: $('total_chol').value===''?null:Number($('total_chol').value),
+      hdl: $('hdl').value===''?null:Number($('hdl').value),
+      sbp: $('sbp').value===''?null:Number($('sbp').value) },
+    medical: { allergies:csv('allergies'), conditions:csv('conditions'), medications:csv('medications') },
+    notes: $('notes').value.split('\n').map(s=>s.trim()).filter(Boolean),
+  };
+  await fetch('/users/' + uid, {method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  $('save_status').textContent = 'Saved ✓'; setTimeout(()=>$('save_status').textContent='', 2000);
+  await loadUser();
+}
+loadUsers();
+
+// Render markdown-ish **bold** and newlines to HTML.
+function md(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+}
+
+async function ask() {
+  const btn = document.getElementById('askBtn');
+  btn.disabled = true; btn.textContent = 'Thinking…';
+  const body = { question: $('question').value, user_id: $('user_id').value };
+  // Default: backend auto-picks the LLM orchestrator; tick box to force deterministic.
+  if ($('force_deterministic').checked) body.use_llm = false;
+  try {
+    const resp = await fetch('/ask', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    render(data, resp.ok);
+    loadUser();  // refresh reports (this query was recorded)
+  } catch (e) {
+    document.getElementById('result').innerHTML = `<div class="card">Error: ${e}</div>`;
+  }
+  btn.disabled = false; btn.textContent = 'Ask';
+}
+
+let chatMessages = [];
+async function chatSend() {
+  const q = $('question').value.trim(); if (!q) return;
+  chatMessages.push({role:'user', content:q});
+  const log = $('chatlog');
+  log.innerHTML += `<div style="margin:6px 0"><b>You:</b> ${q}</div><div style="color:#888">…</div>`;
+  try {
+    const r = await fetch('/chat', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: chatMessages, user_id: $('user_id').value })});
+    const d = await r.json();
+    chatMessages = d.messages;
+    log.lastChild.remove();
+    log.innerHTML += `<div style="margin:6px 0;padding:8px;background:#0d948815;border-radius:6px">
+      <b>Horizon</b> <span style="font-size:0.7rem;color:#888">${d.tool||''} · ${d.evidence}</span><br>${md(d.reply)}</div>`;
+    $('question').value=''; loadUser();
+  } catch(e){ log.innerHTML += `<div>Error: ${e}</div>`; }
+}
+
+function render(data, ok) {
+  if (!ok) {
+    document.getElementById('result').innerHTML = `<div class="card">Error: ${data.detail || JSON.stringify(data)}</div>`;
+    return;
+  }
+  const badgeClass = data.evidence === 'strong' ? 'strong' : data.evidence === 'weak' ? 'weak' : 'none';
+  let html = `<div class="card">
+    <span class="badge ${badgeClass}">${data.evidence} evidence</span>
+    ${data.tool ? `<span style="color:#888;font-size:0.75rem;margin-left:8px">via ${data.tool}</span>` : ''}
+    ${data.user_id ? `<span style="color:#888;font-size:0.75rem;margin-left:8px">user ${data.user_id}</span>` : ''}`;
+
+  if (data.headline) html += `<div style="font-size:1.15rem;font-weight:700;margin:10px 0">${md(data.headline)}</div>`;
+  html += `<div class="answer-text">${md(data.text)}</div>`;
+
+  const p = data.personalization;
+  if (p && p.metric) {
+    html += `<h3>For an average person vs. you</h3>
+      <div style="display:flex;gap:20px;margin:4px 0">
+        <div><div style="font-size:0.7rem;color:#888">average person</div>
+             <div style="font-size:1.1rem;font-weight:600">${p.average_person}</div></div>
+        <div><div style="font-size:0.7rem;color:#888">you</div>
+             <div style="font-size:1.1rem;font-weight:600;color:#2563eb">${p.you}</div></div>
+        <div style="flex:1"><div style="font-size:0.7rem;color:#888">${p.metric}</div>
+             <div style="font-size:0.82rem;color:#888">${p.why}</div></div>
+      </div>`;
+  }
+
+  if (data.explanation && data.explanation.length) {
+    html += `<h3>Why (plain-language drivers)</h3><ul>` +
+      data.explanation.map(b => `<li>${b}</li>`).join('') + `</ul>`;
+  }
+  if (data.indicators && Object.keys(data.indicators).length) {
+    html += `<h3>Indicators used</h3><pre>${JSON.stringify(data.indicators, null, 2)}</pre>`;
+  }
+  if (data.citations && data.citations.length) {
+    html += `<h3>Citations</h3><ul>` + data.citations.map(c => `<li>${c}</li>`).join('') + `</ul>`;
+  }
+  html += `</div>`;
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>

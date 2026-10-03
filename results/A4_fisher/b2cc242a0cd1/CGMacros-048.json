@@ -1,0 +1,190 @@
+{
+  "analysis_id": "A4_fisher",
+  "unit": "CGMacros-048",
+  "commit": "9cd814e29e2d-dirty",
+  "config": {
+    "bounds_scale": 0.5,
+    "cohort": "cgmacros",
+    "learning_rate": 0.02,
+    "limit": null,
+    "min_meals": 10,
+    "objective": "iauc",
+    "optimizer": "adam",
+    "pilot_steps": 300,
+    "rank_rtol": 1e-06,
+    "steps": 600
+  },
+  "config_hash": "b2cc242a0cd1",
+  "seed": null,
+  "timestamp": "2026-10-02T02:36:10-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "subject_id": "CGMacros-048",
+    "cohort": "cgmacros",
+    "objective": "iauc",
+    "bounds_scale": 0.5,
+    "n_meals": 36,
+    "n_residuals": 36,
+    "theta_ml": {
+      "insulin_sensitivity": 1.052859210361994,
+      "gastric_emptying": 0.019168293127388172,
+      "carb_absorption": 0.01533463450191054
+    },
+    "theta_natural": {
+      "insulin_sensitivity": 1.052859210361994,
+      "gastric_emptying": 0.019168293127388172,
+      "carb_absorption": 0.01533463450191054
+    },
+    "theta_pilot": {
+      "insulin_sensitivity": 1.052859210361994,
+      "gastric_emptying": 0.019168293127388172,
+      "carb_absorption": 0.01533463450191054
+    },
+    "log_theta": [
+      0.05150952085281773,
+      -3.9544977646269954,
+      -4.177641315941205
+    ],
+    "noise": {
+      "sigma": {
+        "iauc": 2050.688778723627
+      },
+      "rho": 0.0,
+      "innovation_sigma": 1.0,
+      "dof": {
+        "iauc": 33
+      },
+      "n_samples": {
+        "iauc": 36
+      },
+      "whitened": false,
+      "note": "no autocorrelation correction (no trace residuals)"
+    },
+    "fit": {
+      "converged": true,
+      "still_moving": false,
+      "projected_grad_norm": 0.0,
+      "initial_projected_grad_norm": 0.0,
+      "at_bound": {
+        "insulin_sensitivity": "upper",
+        "gastric_emptying": "lower",
+        "carb_absorption": "lower"
+      },
+      "n_at_bound": 3,
+      "interior": false,
+      "final_loss": 16.500000000000004,
+      "bound_tolerance": 0.01,
+      "relative_distance_to_nearest_bound": {
+        "insulin_sensitivity": 0.0,
+        "gastric_emptying": 0.0,
+        "carb_absorption": 0.0
+      }
+    },
+    "fisher": {
+      "fisher": [
+        [
+          47.64299529578919,
+          -14.900555838794794,
+          -19.352827189967098
+        ],
+        [
+          -14.900555838794794,
+          4.6618028084183925,
+          6.0548216586637515
+        ],
+        [
+          -19.352827189967098,
+          6.0548216586637515,
+          7.864100023361566
+        ]
+      ],
+      "eigenvalues": [
+        7.33232724611697e-08,
+        0.003541223654993056,
+        60.16535683059089
+      ],
+      "eigenvectors": [
+        [
+          -0.00902096807246894,
+          0.45613955318249455,
+          -0.8898625344161367
+        ],
+        [
+          -0.8029316025879771,
+          0.5270996312064724,
+          0.2783286193468143
+        ],
+        [
+          0.5960029057819587,
+          0.7170095444305297,
+          0.3614939134964604
+        ]
+      ],
+      "singular_values": [
+        7.756633085984595,
+        0.05950818141225731,
+        0.0002707826996679673
+      ],
+      "condition_number": 820549258.2515743,
+      "eigenvalue_ratio": 1.2186958795512156e-09,
+      "weak_direction": [
+        0.00902096807246894,
+        0.8029316025879771,
+        -0.5960029057819587
+      ]
+    },
+    "numerical_rank": 3,
+    "timing_block": {
+      "block": [
+        [
+          0.0015885853914685555,
+          0.0021400337505177447
+        ],
+        [
+          0.0021400337505177447,
+          0.002883113730532294
+        ]
+      ],
+      "names": [
+        "gastric_emptying",
+        "carb_absorption"
+      ],
+      "eigenvalues": [
+        7.332923776786487e-08,
+        0.004471625792763082
+      ],
+      "condition_number": 60980.12101146762,
+      "eigenvalue_ratio": 1.6398786742518024e-05,
+      "weak_direction": [
+        0.8029642298182835,
+        -0.5960272188686779
+      ],
+      "profiled_out": [
+        "insulin_sensitivity"
+      ]
+    },
+    "parameters": [
+      "log_insulin_sensitivity",
+      "log_gastric_emptying",
+      "log_carb_absorption"
+    ],
+    "jacobian_shape": [
+      36,
+      3
+    ],
+    "macros": {},
+    "wall_seconds": 47.69
+  }
+}

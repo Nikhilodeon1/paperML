@@ -1,0 +1,93 @@
+{
+  "schema_note": "Data-driven lab-marker reference for T3 reasoning: turn a user's stored lab value into a known-science implication, tagged by the body systems it touches. Extend freely — a new marker is a JSON entry, no code. Ranges are typical adult reference intervals; implications are directional, NOT diagnoses. `aliases` let free-text/records resolve to a marker.",
+  "markers": {
+    "wbc": {
+      "name": "White blood cell count", "unit": "10^9/L", "low": 4.0, "high": 11.0,
+      "aliases": ["white blood cell", "white blood cells", "leukocyte", "leucocyte", "wcc"],
+      "low_implication": "reduced immune defence — infections may be more frequent or slower to clear, and you may want to be more careful around sick contacts",
+      "high_implication": "often reflects an active infection or inflammation at the time of the test",
+      "systems": ["immune", "stress"],
+      "citation": "Adult reference interval, common haematology guidance"
+    },
+    "neutrophils": {
+      "name": "Neutrophil count", "unit": "10^9/L", "low": 1.5, "high": 7.5,
+      "aliases": ["neutrophil", "anc", "absolute neutrophil"],
+      "low_implication": "neutropenia lowers defence against bacterial infection specifically — low counts warrant more caution and a doctor's input",
+      "high_implication": "commonly rises with acute bacterial infection or physical/inflammatory stress",
+      "systems": ["immune"],
+      "citation": "Adult reference interval"
+    },
+    "vitamin_d": {
+      "name": "Vitamin D (25-OH)", "unit": "ng/mL", "low": 20.0, "high": 80.0,
+      "aliases": ["vitamin d", "25-oh", "25 hydroxy", "vit d"],
+      "low_implication": "low vitamin D is linked to more frequent infections, fatigue, and poorer sleep; it also interacts with immune and bone health",
+      "high_implication": "very high levels are usually from over-supplementation",
+      "systems": ["immune", "sleep", "metabolic"],
+      "citation": "Endocrine Society vitamin D guidance"
+    },
+    "ferritin": {
+      "name": "Ferritin (iron stores)", "unit": "ng/mL", "low": 30.0, "high": 300.0,
+      "aliases": ["ferritin", "iron stores"],
+      "low_implication": "low iron stores commonly cause fatigue, reduced exercise tolerance, and can worsen how run-down you feel when fighting something off",
+      "high_implication": "high ferritin can reflect inflammation or iron overload",
+      "systems": ["metabolic", "activity", "immune"],
+      "citation": "WHO iron status guidance"
+    },
+    "hba1c": {
+      "name": "HbA1c (3-month glucose)", "unit": "%", "low": 4.0, "high": 5.7,
+      "aliases": ["a1c", "hba1c", "glycated haemoglobin", "glycated hemoglobin"],
+      "low_implication": "in the normal range",
+      "high_implication": "elevated average glucose (>=5.7 pre-diabetic, >=6.5 diabetic range); high glucose also blunts immune function, which is one reason it can mean slower healing and more infections",
+      "systems": ["metabolic", "cardiovascular", "immune"],
+      "citation": "ADA Standards of Care, HbA1c thresholds"
+    },
+    "fasting_glucose": {
+      "name": "Fasting glucose", "unit": "mg/dL", "low": 70.0, "high": 100.0,
+      "aliases": ["fasting glucose", "fasting blood sugar", "fbg"],
+      "low_implication": "low-normal or below range — watch for hypoglycaemia symptoms",
+      "high_implication": "elevated fasting glucose (>=100 impaired, >=126 diabetic range) points to insulin resistance",
+      "systems": ["metabolic", "cardiovascular"],
+      "citation": "ADA fasting glucose thresholds"
+    },
+    "triglycerides": {
+      "name": "Triglycerides", "unit": "mg/dL", "low": 0.0, "high": 150.0,
+      "aliases": ["triglyceride", "trigs", "tg"],
+      "low_implication": "in range",
+      "high_implication": "high triglycerides raise cardiovascular risk and often travel with insulin resistance and central weight gain",
+      "systems": ["cardiovascular", "metabolic"],
+      "citation": "AHA/ACC lipid guidance"
+    },
+    "hdl": {
+      "name": "HDL cholesterol", "unit": "mg/dL", "low": 40.0, "high": 200.0,
+      "aliases": ["hdl", "good cholesterol"],
+      "low_implication": "low HDL is a cardiovascular risk factor; it tends to rise with exercise and fall with inactivity",
+      "high_implication": "high HDL is generally protective",
+      "systems": ["cardiovascular"],
+      "citation": "Framingham / AHA lipid guidance"
+    },
+    "ldl": {
+      "name": "LDL cholesterol", "unit": "mg/dL", "low": 0.0, "high": 130.0,
+      "aliases": ["ldl", "bad cholesterol"],
+      "low_implication": "at or below target",
+      "high_implication": "elevated LDL is a primary driver of cardiovascular risk over time",
+      "systems": ["cardiovascular"],
+      "citation": "AHA/ACC cholesterol guidance"
+    },
+    "tsh": {
+      "name": "TSH (thyroid)", "unit": "mIU/L", "low": 0.4, "high": 4.0,
+      "aliases": ["tsh", "thyroid stimulating hormone", "thyroid"],
+      "low_implication": "low TSH can reflect an overactive thyroid — may show up as a fast heart rate, feeling wired, or poor sleep",
+      "high_implication": "high TSH can reflect an underactive thyroid — may show up as fatigue, feeling cold, and weight gain",
+      "systems": ["metabolic", "stress", "sleep"],
+      "citation": "Thyroid function reference intervals"
+    },
+    "crp": {
+      "name": "C-reactive protein (inflammation)", "unit": "mg/L", "low": 0.0, "high": 3.0,
+      "aliases": ["crp", "c-reactive", "c reactive protein"],
+      "low_implication": "low inflammation",
+      "high_implication": "elevated CRP signals active inflammation somewhere — could be an infection, or chronic low-grade inflammation that raises cardiovascular risk",
+      "systems": ["immune", "cardiovascular"],
+      "citation": "hs-CRP cardiovascular risk guidance"
+    }
+  }
+}

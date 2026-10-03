@@ -1,0 +1,71 @@
+2026-10-02 03:04:59 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 539, in <module>
+    if state["failed"]:
+    ^^^^^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 523, in main
+    directory = analysis_dir(module.ANALYSIS_ID, config)
+    
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 381, in run
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 359, in _write_progress
+    # The progress file is bookkeeping. On Windows `os.replace` fails with a permission error if
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\logs\\A5_profile.progress.json.partial' -> 'C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\logs\\A5_profile.progress.json'
+2026-10-02 03:17:25 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  0/45 done, 0 failed, 5 workers
+  2/45 done, 1 failed, 5 workers, eta 4.4h
+  2/45 done, 1 failed, 5 workers, eta 4.6h
+  2/45 done, 1 failed, 5 workers, eta 4.8h
+  2/45 done, 1 failed, 5 workers, eta 4.9h
+  2/45 done, 1 failed, 5 workers, eta 5.1h
+  2/45 done, 1 failed, 5 workers, eta 5.3h
+  3/45 done, 1 failed, 5 workers, eta 3.6h
+  3/45 done, 1 failed, 5 workers, eta 3.7h
+  3/45 done, 1 failed, 5 workers, eta 3.8h
+  3/45 done, 1 failed, 5 workers, eta 3.9h
+  3/45 done, 1 failed, 5 workers, eta 4.0h
+  3/45 done, 1 failed, 5 workers, eta 4.2h
+  4/45 done, 1 failed, 5 workers, eta 3.1h
+  4/45 done, 1 failed, 5 workers, eta 3.2h
+  4/45 done, 1 failed, 5 workers, eta 3.3h
+  4/45 done, 1 failed, 5 workers, eta 3.4h
+  5/45 done, 1 failed, 5 workers, eta 2.7h
+  7/45 done, 1 failed, 5 workers, eta 1.9h
+  7/45 done, 1 failed, 5 workers, eta 1.9h

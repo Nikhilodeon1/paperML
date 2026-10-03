@@ -1,0 +1,123 @@
+{
+  "analysis_id": "A2_gut_sweep",
+  "unit": "gut_sweep",
+  "commit": "a363004099ec-dirty",
+  "config": {
+    "fractions_percent": [
+      0,
+      0.5,
+      1,
+      2,
+      5,
+      10
+    ]
+  },
+  "config_hash": "9c108dd0a350",
+  "seed": null,
+  "timestamp": "2026-10-02T20:15:03-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "symbolic": {
+      "Ra_laplace": "f*k_a*(Q0*(k_e + s) + k_e*(D0 + U))/((k_a + s)*(k_e + s))",
+      "difference_empty_gut_with_meal_input": "0",
+      "difference_with_initial_stomach_content_only": "0",
+      "difference_with_initial_gut_content": "Q0*f*s*(k_a - k_e)/(k_a*k_e + k_a*s + k_e*s + s**2)",
+      "exchange_symmetric_when_gut_empty": true,
+      "exchange_symmetric_with_stomach_content_only": true,
+      "exchange_symmetric_with_gut_content": false
+    },
+    "sweep": {
+      "rows": [
+        {
+          "gut_content_percent_of_meal": 0.0,
+          "max_abs_glucose_difference_mg_dl": 0.008627651105598488,
+          "median_abs_glucose_difference_mg_dl": 0.002707621545908978,
+          "n_cases": 15
+        },
+        {
+          "gut_content_percent_of_meal": 0.5,
+          "max_abs_glucose_difference_mg_dl": 0.5993459814126538,
+          "median_abs_glucose_difference_mg_dl": 0.3181812996825073,
+          "n_cases": 15
+        },
+        {
+          "gut_content_percent_of_meal": 1.0,
+          "max_abs_glucose_difference_mg_dl": 1.1955308229852193,
+          "median_abs_glucose_difference_mg_dl": 0.63265963253113,
+          "n_cases": 15
+        },
+        {
+          "gut_content_percent_of_meal": 2.0,
+          "max_abs_glucose_difference_mg_dl": 2.3860554396144806,
+          "median_abs_glucose_difference_mg_dl": 1.262709765342322,
+          "n_cases": 15
+        },
+        {
+          "gut_content_percent_of_meal": 5.0,
+          "max_abs_glucose_difference_mg_dl": 5.9389709325325555,
+          "median_abs_glucose_difference_mg_dl": 3.1470478910139974,
+          "n_cases": 15
+        },
+        {
+          "gut_content_percent_of_meal": 10.0,
+          "max_abs_glucose_difference_mg_dl": 11.80110480325635,
+          "median_abs_glucose_difference_mg_dl": 6.268244433981906,
+          "n_cases": 15
+        }
+      ],
+      "pairs": [
+        [
+          0.015,
+          0.045
+        ],
+        [
+          0.02,
+          0.03
+        ],
+        [
+          0.04,
+          0.012
+        ],
+        [
+          0.035,
+          0.015
+        ],
+        [
+          0.012,
+          0.03
+        ]
+      ],
+      "meals_g_carb_fat_fibre": [
+        [
+          30.0,
+          10.0,
+          2.0
+        ],
+        [
+          60.0,
+          20.0,
+          5.0
+        ],
+        [
+          90.0,
+          5.0,
+          8.0
+        ]
+      ],
+      "note": "The swap-induced change is the largest absolute difference in the simulated glucose trace over 210 min. Compare it with CGM noise of roughly 5 to 10 mg/dL."
+    },
+    "macros": {}
+  }
+}

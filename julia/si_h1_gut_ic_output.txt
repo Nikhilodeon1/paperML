@@ -1,0 +1,63 @@
+[ Info: Summary of the model:
+[ Info: State variables: G, Id, X, s, g
+[ Info: Parameters: SI, ka, ke
+[ Info: Inputs: 
+[ Info: Outputs: y
+[ Info: Summary of the model:
+[ Info: State variables: G, Id, X, s, g
+[ Info: Parameters: SI, ka, ke
+[ Info: Inputs: u
+[ Info: Outputs: y
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 11.1292211 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 9.8047398 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 0.0387353 seconds
+[ Info: Simplifying generating set. Simplification level: standard
+⌜ # Computing specializations..     Time: 0:00:06[K✓ # Computing specializations..     Time: 0:00:07[K
+=== P1: meal as initial condition s(0)=D known, no input, g(0) unconstrained ===
+known initial conditions: Nemo.QQMPolyRingElem[G(t), Id(t), X(t), s(t)]
+--- assess_identifiability (global)
+  SI => globally
+  ka => globally
+  ke => globally
+=== P2: meal as input u(t), gut ICs unconstrained, basal G Id X known ===
+known initial conditions: Nemo.QQMPolyRingElem[G(t), Id(t), X(t)]
+--- assess_identifiability (global)
+  SI => globally
+  ka => locally
+  ke => locally
+=== P3: meal as input u(t), every initial condition unknown ===
+--- assess_identifiability (global)
+  SI => globally
+  ka => locally
+  ke => locally
+[ Info: Search for polynomial generators concluded in 6.3080237
+[ Info: Selecting generators in 0.0181601
+[ Info: Inclusion checked with probability 0.99875 in 9.6763933 seconds
+[ Info: The search for identifiable functions concluded in 70.3833404 seconds
+[ Info: The search for identifiable functions with known initial conditions concluded in 70.482886 seconds
+[ Info: Assessing identifiability with known initial conditions concluded in 82.378266 seconds
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 0.0398186 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 0.2369254 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 3.85e-5 seconds
+[ Info: Simplifying generating set. Simplification level: standard
+[ Info: Search for polynomial generators concluded in 0.0029596
+[ Info: Selecting generators in 0.0189089
+[ Info: Inclusion checked with probability 0.99875 in 0.0185801 seconds
+[ Info: The search for identifiable functions concluded in 0.3936364 seconds
+[ Info: The search for identifiable functions with known initial conditions concluded in 0.3937367 seconds
+[ Info: Assessing identifiability with known initial conditions concluded in 0.4096385 seconds
+[ Info: Assessing local identifiability
+[ Info: Assessing global identifiability
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 0.0283259 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 0.0289986 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 7.09e-5 seconds
+[ Info: Global identifiability assessed in 0.2261955 seconds

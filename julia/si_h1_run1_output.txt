@@ -1,0 +1,72 @@
+[ Info: Summary of the model:
+[ Info: State variables: G, Id, X, s, g
+[ Info: Parameters: SI, ka, ke
+[ Info: Inputs: u
+[ Info: Outputs: y
+[ Info: Summary of the model:
+[ Info: State variables: G, Id, X, s, g
+[ Info: Parameters: SI, Sg, Vg, gam, ka, ke, n, p2, p3
+[ Info: Inputs: u
+[ Info: Outputs: y
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 16.1403557 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 4.3032846 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 0.0434527 seconds
+[ Info: Simplifying generating set. Simplification level: standard
+⌜ # Computing specializations..     Time: 0:00:09[K✓ # Computing specializations..     Time: 0:00:11[K
+=== A: S_I, ke, ka unknown, constants known ===
+parameters: Nemo.QQMPolyRingElem[SI, ka, ke]
+states: Nemo.QQMPolyRingElem[G(t), Id(t), X(t), s(t), g(t)]
+--- assess_local_identifiability (initial conditions generic unknown: conservative)
+  SI => true
+  ka => true
+  ke => true
+--- assess_identifiability, global (all initial conditions known)
+  SI => globally
+  ka => globally
+  ke => globally
+[ Info: Search for polynomial generators concluded in 9.6202578
+[ Info: Selecting generators in 0.0576559
+[ Info: Inclusion checked with probability 0.99875 in 17.9957461 seconds
+[ Info: The search for identifiable functions concluded in 96.2067595 seconds
+[ Info: The search for identifiable functions with known initial conditions concluded in 96.3283165 seconds
+[ Info: Assessing identifiability with known initial conditions concluded in 113.3948868 seconds
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 0.079255 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 0.0529736 seconds
+[ Info: Dimensions of the Wronskians [72]
+[ Info: Ranks of the Wronskians computed in 0.0009557 seconds
+[ Info: Simplifying generating set. Simplification level: standard
+⌜ # Computing specializations..     Time: 0:00:04[K✓ # Computing specializations..     Time: 0:00:04[K
+=== B: constants also unknown ===
+parameters: Nemo.QQMPolyRingElem[SI, Sg, Vg, gam, ka, ke, n, p2, p3]
+states: Nemo.QQMPolyRingElem[G(t), Id(t), X(t), s(t), g(t)]
+--- assess_local_identifiability (initial conditions generic unknown: conservative)
+  SI => false
+  Sg => true
+  Vg => true
+  gam => false
+  ka => true
+  ke => true
+  n => true
+  p2 => true
+  p3 => false
+--- assess_identifiability, global (all initial conditions known)
+  SI => nonidentifiable
+  Sg => globally
+  Vg => globally
+  gam => locally
+  ka => globally
+  ke => globally
+  n => locally
+  p2 => locally
+  p3 => nonidentifiable
+[ Info: Search for polynomial generators concluded in 3.4716164
+[ Info: Selecting generators in 0.0864768
+[ Info: Inclusion checked with probability 0.99875 in 0.1470707 seconds
+[ Info: The search for identifiable functions concluded in 13.6786764 seconds
+[ Info: The search for identifiable functions with known initial conditions concluded in 13.6789381 seconds
+[ Info: Assessing identifiability with known initial conditions concluded in 33.2634685 seconds

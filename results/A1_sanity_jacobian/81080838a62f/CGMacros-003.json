@@ -1,0 +1,131 @@
+{
+  "analysis_id": "A1_sanity_jacobian",
+  "unit": "CGMacros-003",
+  "commit": "c1845b67bdab-dirty",
+  "config": {
+    "meal": 0,
+    "steps": 400,
+    "subject": "CGMacros-003"
+  },
+  "config_hash": "81080838a62f",
+  "seed": null,
+  "timestamp": "2026-10-01T21:01:11-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "subject_id": "CGMacros-003",
+    "meal_index": 0,
+    "carbs_g": 81.0,
+    "theta_hat": {
+      "insulin_sensitivity": 0.5866467584080697,
+      "gastric_emptying": 0.04,
+      "carb_absorption": 0.032
+    },
+    "parameters": [
+      "log_insulin_sensitivity",
+      "log_gastric_emptying",
+      "log_carb_absorption"
+    ],
+    "rows": {
+      "iauc": {
+        "per_parameter": [
+          -2003.4469428015245,
+          151.47887053292644,
+          266.1387630667773
+        ],
+        "is_vector": false,
+        "ratio_to_si": [
+          1.0,
+          0.07560912510171376,
+          0.1328404348430718
+        ]
+      },
+      "centroid": {
+        "per_parameter": [
+          -15.535743186656257,
+          -18.61041313392153,
+          -20.535539848767566
+        ],
+        "is_vector": false,
+        "ratio_to_si": [
+          1.0,
+          1.1979094215400088,
+          1.3218253933552189
+        ]
+      },
+      "peak_time": {
+        "per_parameter": [
+          -27.515602632714703,
+          -43.782518154206436,
+          -43.238786262767064
+        ],
+        "is_vector": false,
+        "ratio_to_si": [
+          1.0,
+          1.5911887789130654,
+          1.5714279218205551
+        ]
+      },
+      "trace": {
+        "per_parameter": [
+          90.3136443433777,
+          90.78375197230224,
+          102.22358036459799
+        ],
+        "is_vector": true,
+        "n_samples": 37,
+        "ratio_to_si": [
+          1.0,
+          1.0052052780323775,
+          1.1318730531561545
+        ]
+      }
+    },
+    "window": {
+      "post_min": 180.0,
+      "step_min": 5.0
+    },
+    "beta": 10.0,
+    "fit": {
+      "theta_ml": {
+        "insulin_sensitivity": 0.5866467584080697,
+        "gastric_emptying": 0.04,
+        "carb_absorption": 0.032
+      },
+      "at_bound": {
+        "insulin_sensitivity": null,
+        "gastric_emptying": "upper",
+        "carb_absorption": "upper"
+      },
+      "interior": false,
+      "converged": false,
+      "noise": {
+        "sigma": {
+          "iauc": 3192.378118801077
+        },
+        "rho": 0.0,
+        "innovation_sigma": 1.0,
+        "dof": {
+          "iauc": 32
+        },
+        "n_samples": {
+          "iauc": 35
+        },
+        "whitened": false,
+        "note": "no autocorrelation correction (no trace residuals)"
+      },
+      "n_meals": 35
+    }
+  }
+}

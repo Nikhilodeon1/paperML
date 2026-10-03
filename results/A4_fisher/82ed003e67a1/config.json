@@ -1,0 +1,11 @@
+{
+  "cohort": "cgmacros",
+  "learning_rate": 0.02,
+  "limit": 3,
+  "min_meals": 10,
+  "objective": "iauc",
+  "optimizer": "adam",
+  "pilot_steps": 300,
+  "rank_rtol": 1e-06,
+  "steps": 600
+}

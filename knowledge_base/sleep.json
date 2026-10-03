@@ -1,0 +1,101 @@
+{
+  "system": "sleep",
+  "description": "Sleep architecture norms and well-established modifiers. The sleep module is ML-based (gradient-boosted trees) per brief 2; this Layer 1 file supplies (a) population norms used to bootstrap synthetic training data before real wearable data is available, and (b) cited effect sizes for cross-system edges (e.g. alcohol -> sleep, brief 2.5).",
+  "parameters": {
+    "rem_pct_mean": {
+      "value": 22.0,
+      "unit": "% of total sleep time",
+      "population_sd": 4.0,
+      "plausible_range": [10.0, 30.0],
+      "citation": "Ohayon et al. 2004, Sleep (meta-analysis of normative sleep across age)",
+      "notes": "REM ~20-25% of TST in healthy adults."
+    },
+    "deep_pct_mean": {
+      "value": 18.0,
+      "unit": "% of total sleep time (N3/slow-wave)",
+      "population_sd": 5.0,
+      "plausible_range": [3.0, 30.0],
+      "citation": "Ohayon et al. 2004, Sleep",
+      "notes": "Slow-wave sleep; declines markedly with age."
+    },
+    "deep_pct_age_slope": {
+      "value": -0.175,
+      "unit": "percentage points per year of age",
+      "population_sd": 0.05,
+      "plausible_range": [-0.30, -0.05],
+      "citation": "Ohayon et al. 2004 (SWS declines ~2%/decade); cohort-refined on PhysioNet Sleep-EDF (153 nights, fitted slope -0.175 pp/yr, r=-0.39)",
+      "notes": "Applied relative to a ~30y reference age. Literature value -0.18 confirmed by Sleep-EDF cohort fit (-0.175); updated to the data-fitted value per the Layer 1 cohort-refinement mechanism."
+    },
+    "sleep_efficiency_mean": {
+      "value": 90.0,
+      "unit": "% (time asleep / time in bed)",
+      "population_sd": 6.0,
+      "plausible_range": [60.0, 99.0],
+      "citation": "Ohayon et al. 2004",
+      "notes": "Healthy adult norm ~85-95%."
+    },
+    "awakenings_mean": {
+      "value": 1.5,
+      "unit": "count per night (sustained)",
+      "population_sd": 1.0,
+      "plausible_range": [0.0, 8.0],
+      "citation": "Ohayon et al. 2004 (WASO/awakenings increase with age)",
+      "notes": "Sustained awakenings; not micro-arousals."
+    }
+  },
+  "behavioral_modifiers": {
+    "_note": "Applied as additive shifts on top of the age baseline (which is trained on real Sleep-EDF). Directions are well established; magnitudes are approximate, taken from the cited studies' reported ranges. Graded accordingly.",
+    "caffeine_efficiency_per_mg": {
+      "value": -0.015,
+      "unit": "sleep-efficiency percentage points per mg afternoon caffeine",
+      "population_sd": 0.008,
+      "plausible_range": [-0.04, 0.0],
+      "citation": "Drake et al. 2013, J Clin Sleep Med (caffeine 3-6 h pre-bed reduces sleep)",
+      "notes": "Approx: ~400 mg late-day caffeine -> a few points lower efficiency."
+    },
+    "exercise_deep_per_min": {
+      "value": 0.02,
+      "unit": "deep-sleep percentage points per minute of exercise that day",
+      "population_sd": 0.015,
+      "plausible_range": [0.0, 0.05],
+      "citation": "Kredlow et al. 2015, J Behav Med (meta-analysis: exercise increases SWS)",
+      "notes": "Approx and saturating; capped at a modest boost."
+    },
+    "screen_efficiency_per_min": {
+      "value": -0.01,
+      "unit": "sleep-efficiency percentage points per minute of pre-bed screen use",
+      "population_sd": 0.01,
+      "plausible_range": [-0.03, 0.0],
+      "citation": "Chang et al. 2015, PNAS (evening light-emitting screens delay/worsen sleep)",
+      "notes": "Weaker/mixed evidence — small magnitude, flag as low confidence."
+    },
+    "regularity_efficiency_per_unit": {
+      "value": 8.0,
+      "unit": "sleep-efficiency percentage points per unit bedtime regularity (0-1), vs 0.75 ref",
+      "population_sd": 3.0,
+      "plausible_range": [0.0, 15.0],
+      "citation": "Windred et al. 2023, Sleep (sleep regularity linked to outcomes)",
+      "notes": "Applied relative to a 0.75 baseline regularity."
+    }
+  },
+  "cross_system_modifiers": {
+    "alcohol_bedtime": {
+      "rem_pct_per_gkg": {
+        "value": -8.0,
+        "unit": "percentage points REM per g ethanol / kg body weight at bedtime",
+        "population_sd": 3.0,
+        "plausible_range": [-15.0, -2.0],
+        "citation": "Ebrahim et al. 2013, Alcohol Clin Exp Res (moderate-high doses suppress REM, esp. first half of night)",
+        "notes": "STRONG evidence edge (brief 2.5). Input = residual BAC / alcohol metabolized at bedtime from the hepatic module. Effect is dose-dependent and saturates; modeled as linear in g/kg over the typical range, clamped to plausible_range."
+      },
+      "awakenings_per_gkg": {
+        "value": 1.2,
+        "unit": "additional awakenings per g ethanol / kg at bedtime",
+        "population_sd": 0.5,
+        "plausible_range": [0.0, 3.0],
+        "citation": "Ebrahim et al. 2013 (increased second-half-of-night fragmentation/awakenings)",
+        "notes": "Rebound fragmentation as alcohol clears. STRONG evidence edge."
+      }
+    }
+  }
+}

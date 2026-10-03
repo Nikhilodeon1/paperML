@@ -1,0 +1,92 @@
+{
+  "analysis_id": "A3_generic_rank",
+  "unit": "iauc_peak",
+  "commit": "9cd814e29e2d-dirty",
+  "config": {
+    "beta": 10.0,
+    "bounds_scale": 1.0,
+    "cohort": "cgmacros",
+    "min_meals": 10,
+    "n_meals": 10,
+    "n_theta": 200,
+    "rank_rtol": 1e-06,
+    "seed": 0
+  },
+  "config_hash": "db802c43ec8f",
+  "seed": null,
+  "timestamp": "2026-10-02T03:10:03-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "observables": [
+      "iauc",
+      "peak"
+    ],
+    "n_theta": 200,
+    "n_meals": 10,
+    "meal_sources": [
+      "CGMacros-006",
+      "CGMacros-006",
+      "CGMacros-008",
+      "CGMacros-028",
+      "CGMacros-030",
+      "CGMacros-032",
+      "CGMacros-033",
+      "CGMacros-046",
+      "CGMacros-048",
+      "CGMacros-049"
+    ],
+    "bounds_scale": 1.0,
+    "rank_rtol": 1e-06,
+    "block_scale": {
+      "iauc": 3836.5496981287865,
+      "peak": 59.75840063818477
+    },
+    "singular_values": {
+      "median": [
+        2.6415968512678565,
+        1.5477107722459025,
+        0.016164748731325354
+      ],
+      "q1": [
+        2.4146125275195516,
+        1.2604378065979112,
+        0.007884950103471585
+      ],
+      "q3": [
+        2.8155845233341,
+        1.8741001074637003,
+        0.03293952058408899
+      ],
+      "min": [
+        1.9740946969938993,
+        0.5938903663763601,
+        0.0001630408660924829
+      ],
+      "max": [
+        5.848405117393546,
+        2.7060559069208105,
+        0.11651537088531153
+      ]
+    },
+    "rank_counts": {
+      "3": 200
+    },
+    "rank_median": 3.0,
+    "smallest_over_largest_median": 0.00600065996578766,
+    "finite": true,
+    "macros": {},
+    "wall_seconds": 63.12
+  }
+}

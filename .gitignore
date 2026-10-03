@@ -1,0 +1,29 @@
+# Virtual environment (recreate from requirements-aistats.txt)
+.venv/
+
+# Byte-compiled
+__pycache__/
+*.py[cod]
+
+# Datasets are never vendored into the repository; see data_paths.py
+data/
+
+# Local scratch
+*.log.tmp
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.env
+
+# Parsed-cohort cache (rebuilt from the datasets on demand)
+.cache/
+.jax_cache/
+
+# Local tool settings. Records absolute paths and the machine owner, so it must never reach
+# the anonymized submission package.
+.claude/
+
+# Product user records copied in with the branch. Personal data; never part of the artifact.
+user_data/

@@ -1,0 +1,63 @@
+{
+  "analysis_id": "A8a_gradient_diag",
+  "unit": "CGMacros-017",
+  "commit": "9cd814e29e2d-dirty",
+  "config": {
+    "beta": 10.0,
+    "bounds_scale": 0.5,
+    "cohort": "cgmacros",
+    "lam": 0.01,
+    "learning_rate": 0.02,
+    "limit": null,
+    "min_meals": 10,
+    "steps": 150
+  },
+  "config_hash": "ffe1bad0837f",
+  "seed": null,
+  "timestamp": "2026-10-02T03:38:30-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "subject_id": "CGMacros-017",
+    "bounds_scale": 0.5,
+    "n_meals": 47,
+    "theta": {
+      "insulin_sensitivity": 1.052859210361994,
+      "gastric_emptying": 0.019168293127388172,
+      "carb_absorption": 0.01533463450191054
+    },
+    "at_bound": {
+      "insulin_sensitivity": "upper",
+      "gastric_emptying": "lower",
+      "carb_absorption": "lower"
+    },
+    "raw_norm": {
+      "insulin_sensitivity": 1842445.7633519312,
+      "gastric_emptying": 631547.7000929875,
+      "carb_absorption": 820184.8227738839
+    },
+    "projected_norm": {
+      "insulin_sensitivity": 50339.132935586415,
+      "gastric_emptying": 1539.9941272627677,
+      "carb_absorption": 2155.086555281272
+    },
+    "fraction_of_steps_blocked": {
+      "insulin_sensitivity": 0.98,
+      "gastric_emptying": 0.9933333333333333,
+      "carb_absorption": 0.9933333333333333
+    },
+    "macros": {},
+    "wall_seconds": 19.08
+  }
+}

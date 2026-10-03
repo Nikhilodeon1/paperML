@@ -1,0 +1,190 @@
+{
+  "analysis_id": "A0_benchmark",
+  "unit": "benchmark",
+  "commit": "2f1df06cb797-dirty",
+  "config": {
+    "grid_shape": [
+      20,
+      8,
+      8
+    ],
+    "n_subjects": 3
+  },
+  "config_hash": "72395d99e601",
+  "seed": null,
+  "timestamp": "2026-10-01T01:40:27-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "jax": {
+      "x64": true,
+      "compilation_cache": ".jax_cache",
+      "jax_version": "0.11.0"
+    },
+    "cores_logical": 16,
+    "workers_planned": 14,
+    "n_subjects_benchmarked": 3,
+    "subjects": [
+      {
+        "subject_id": "CGMacros-001",
+        "n_meals": 41,
+        "compile_plus_fit_500_s": 23.820041400002083,
+        "fit_500_steps_s": 16.51173435000237,
+        "refit_60_steps_s": 2.73274985000171,
+        "profile_15_points_60_steps_s": 23.048904700001003,
+        "profile_first_call_s": 36.83744570000272,
+        "grid_20x8x8_s": 11.578300099994522,
+        "grid_first_call_s": 12.907706800004235,
+        "jacrev_loss_s": 0.10979545000736834,
+        "theta_hat": [
+          1.6,
+          0.015,
+          0.012
+        ]
+      },
+      {
+        "subject_id": "CGMacros-002",
+        "n_meals": 35,
+        "compile_plus_fit_500_s": 19.740956800000276,
+        "fit_500_steps_s": 15.292100850005227,
+        "refit_60_steps_s": 3.097135049996723,
+        "profile_15_points_60_steps_s": 25.733080400008475,
+        "profile_first_call_s": 39.488456499995664,
+        "grid_20x8x8_s": 10.033443100008299,
+        "grid_first_call_s": 11.554232399998,
+        "jacrev_loss_s": 0.09659359999204753,
+        "theta_hat": [
+          0.3008383998549905,
+          0.04,
+          0.032
+        ]
+      },
+      {
+        "subject_id": "CGMacros-003",
+        "n_meals": 35,
+        "compile_plus_fit_500_s": 20.180616400000872,
+        "fit_500_steps_s": 17.453312300000107,
+        "refit_60_steps_s": 2.757009900007688,
+        "profile_15_points_60_steps_s": 24.850477400003,
+        "profile_first_call_s": 25.170085299992934,
+        "grid_20x8x8_s": 9.760016500003985,
+        "grid_first_call_s": 10.799977499991655,
+        "jacrev_loss_s": 0.1035450999988825,
+        "theta_hat": [
+          0.5872366781500206,
+          0.04,
+          0.032
+        ]
+      }
+    ],
+    "unit_cost_seconds": {
+      "fit_500": 16.51173435000237,
+      "refit_60": 2.757009900007688,
+      "profile_one_parameter": 24.850477400003,
+      "grid3": 10.033443100008299,
+      "jacrev": 0.1035450999988825,
+      "compile_once": 3.6688820499985013
+    },
+    "plan": [
+      {
+        "job": "A4 full Fisher, iAUC",
+        "units": 45,
+        "seconds_per_unit": 0.31,
+        "serial_hours": 0.0,
+        "projected_wall_hours": 0.0,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A5 profile likelihood, iAUC (3 parameters)",
+        "units": 45,
+        "seconds_per_unit": 74.55,
+        "serial_hours": 0.93,
+        "projected_wall_hours": 0.07,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A6 ladder: fit + Fisher + profile, 2 further objectives",
+        "units": 45,
+        "seconds_per_unit": 182.75,
+        "serial_hours": 2.28,
+        "projected_wall_hours": 0.16,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A9 grad3 CV, 5 folds x 5 repeats",
+        "units": 45,
+        "seconds_per_unit": 412.79,
+        "serial_hours": 5.16,
+        "projected_wall_hours": 0.37,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A9 grad1 CV, 5 folds x 5 repeats",
+        "units": 45,
+        "seconds_per_unit": 412.79,
+        "serial_hours": 5.16,
+        "projected_wall_hours": 0.37,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A9 grid3 CV, 5 folds x 5 repeats",
+        "units": 45,
+        "seconds_per_unit": 250.84,
+        "serial_hours": 3.14,
+        "projected_wall_hours": 0.22,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A9 multistart grad3, 10 inits x 5 folds x 5 repeats",
+        "units": 45,
+        "seconds_per_unit": 4127.93,
+        "serial_hours": 51.6,
+        "projected_wall_hours": 3.69,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A9b trace-objective CV, 2 cells",
+        "units": 45,
+        "seconds_per_unit": 825.59,
+        "serial_hours": 10.32,
+        "projected_wall_hours": 0.74,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A10 noise-floor replica, 3 repeats",
+        "units": 45,
+        "seconds_per_unit": 247.68,
+        "serial_hours": 3.1,
+        "projected_wall_hours": 0.22,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A11 synthetic recovery, 60 subjects x 4 observables",
+        "units": 60,
+        "seconds_per_unit": 364.25,
+        "serial_hours": 6.07,
+        "projected_wall_hours": 0.43,
+        "over_12h_budget": false
+      },
+      {
+        "job": "A12 replication on Hall and Shanghai",
+        "units": 121,
+        "seconds_per_unit": 91.06,
+        "serial_hours": 3.06,
+        "projected_wall_hours": 0.22,
+        "over_12h_budget": false
+      }
+    ]
+  }
+}

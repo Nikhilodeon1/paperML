@@ -1,0 +1,7 @@
+{
+  "unit": "CGMacros-009",
+  "attempts": 2,
+  "commit": "9cd814e29e2d-dirty",
+  "when": "2026-10-02T03:29:46-0700",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\runner.py\", line 213, in worker_main\n    payload = module.run_unit(unit, config)\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\profile_lik.py\", line 161, in run_unit\n    raw = profile_likelihood(loss_log, phi_hat, index, np.log(grid), lower=phi_lower,\n                             upper=phi_upper, steps=config[\"steps\"],\n                             learning_rate=config[\"learning_rate\"])\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\identifiability_tools.py\", line 262, in profile_likelihood\n    losses, thetas, grad_norms, drifts = runner(grid)\n                                         ~~~~~~^^^^^^\n  File \"C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\evaluation\\identifiability_tools.py\", line 250, in one_point\n    (theta_final, _), curve = jax.lax.scan(body, (start, opt.init(start)), None, length=steps)\n                              ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nMemoryError: bad allocation\n--------------------\nFor simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.\n"
+}

@@ -1,0 +1,24 @@
+2026-10-02 03:25:47 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 1 workers
+2026-10-02 03:27:12 [A8a_gradient_diag] worker 0 exited 3221226505; restarting.   warnings.warn(
+2026-10-02 03:28:13 [A8a_gradient_diag] worker 0 unit CGMacros-002 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:28:49 [A8a_gradient_diag] worker 0 unit CGMacros-002 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:28:50 [A8a_gradient_diag] worker 0 gave up on CGMacros-002 after 2 attempts
+2026-10-02 03:29:41 [A8a_gradient_diag] worker 0 unit CGMacros-003 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:30:50 [A8a_gradient_diag] worker 0 finished CGMacros-003 in 53.0s
+2026-10-02 03:32:04 [A8a_gradient_diag] worker 0 finished CGMacros-004 in 74.5s
+2026-10-02 03:33:00 [A8a_gradient_diag] worker 0 finished CGMacros-005 in 56.0s
+2026-10-02 03:33:24 [A8a_gradient_diag] worker 0 finished CGMacros-006 in 24.1s
+2026-10-02 03:34:04 [A8a_gradient_diag] worker 0 finished CGMacros-007 in 39.0s
+2026-10-02 03:34:40 [A8a_gradient_diag] worker 0 finished CGMacros-008 in 36.8s
+2026-10-02 03:35:07 [A8a_gradient_diag] worker 0 finished CGMacros-009 in 27.1s
+2026-10-02 03:35:33 [A8a_gradient_diag] worker 0 finished CGMacros-010 in 25.4s
+2026-10-02 03:35:54 [A8a_gradient_diag] worker 0 finished CGMacros-011 in 21.5s
+2026-10-02 03:36:18 [A8a_gradient_diag] worker 0 finished CGMacros-012 in 23.3s
+2026-10-02 03:36:43 [A8a_gradient_diag] worker 0 finished CGMacros-013 in 24.8s
+2026-10-02 03:37:10 [A8a_gradient_diag] worker 0 finished CGMacros-014 in 27.5s
+2026-10-02 03:37:38 [A8a_gradient_diag] worker 0 finished CGMacros-015 in 27.5s
+2026-10-02 03:38:11 [A8a_gradient_diag] worker 0 finished CGMacros-016 in 33.7s
+2026-10-02 03:38:30 [A8a_gradient_diag] worker 0 finished CGMacros-017 in 19.1s
+2026-10-02 03:38:48 [A8a_gradient_diag] worker 0 finished CGMacros-018 in 17.1s
+2026-10-02 03:39:11 [A8a_gradient_diag] worker 0 finished CGMacros-019 in 23.3s
+2026-10-02 03:39:31 [A8a_gradient_diag] worker 0 finished CGMacros-020 in 20.0s

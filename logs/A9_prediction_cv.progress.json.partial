@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A9_prediction_cv",
+  "config_hash": "e6b502f4baae",
+  "total": 225,
+  "done": 37,
+  "failed": 3,
+  "claimed": 12,
+  "pending": 173,
+  "elapsed_seconds": 2477.3,
+  "units_per_hour": 53.77,
+  "eta_hours": 3.44,
+  "workers_alive": 10,
+  "worker_restarts": 2,
+  "stopping": false,
+  "updated": "2026-10-02T03:28:46-0700"
+}

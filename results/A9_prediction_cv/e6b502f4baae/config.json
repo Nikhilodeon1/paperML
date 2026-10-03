@@ -1,0 +1,31 @@
+{
+  "beta": 10.0,
+  "cells": [
+    "grad3",
+    "grad1",
+    "grad3_trace",
+    "grad1_trace",
+    "grid3",
+    "grid1",
+    "grid1_legacy",
+    "rf",
+    "snpe",
+    "personal_mean",
+    "population",
+    "persistence"
+  ],
+  "cohort": "cgmacros",
+  "folds": 5,
+  "grid1_points": 41,
+  "grid_shape": [
+    20,
+    8,
+    8
+  ],
+  "lam": 0.01,
+  "learning_rate": 0.02,
+  "limit": null,
+  "min_meals": 10,
+  "repeats": 5,
+  "steps": 150
+}

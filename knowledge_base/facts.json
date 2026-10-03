@@ -1,0 +1,30 @@
+{
+  "system": "facts",
+  "description": "Cited reference facts, thresholds, and classifications used across the system. These are established lookups (not simulations) — the LLM orchestrator uses them to ground answers instead of recalling facts from memory. Extend this file to broaden coverage cheaply (no new module needed).",
+  "facts": {
+    "legal_bac_limit_driving_us": {
+      "value": 0.08,
+      "unit": "g/100mL",
+      "citation": "US per se DUI limit (NHTSA; all states except Utah 0.05)",
+      "notes": "Commercial drivers 0.04; under-21 zero-tolerance (~0.00-0.02). Many countries use 0.05. This is a legal threshold, not a safety guarantee — impairment starts below it."
+    },
+    "bmi_categories": {
+      "value": [[0, 18.5, "underweight"], [18.5, 25, "normal weight"], [25, 30, "overweight"], [30, 999, "obese"]],
+      "unit": "kg/m^2",
+      "citation": "WHO BMI classification (adults)",
+      "notes": "Adult classification only. Not valid under 18y (use pediatric BMI-for-age percentiles) or for high-muscle athletes."
+    },
+    "healthy_bmi_range": {
+      "value": [18.5, 25.0],
+      "unit": "kg/m^2",
+      "citation": "WHO normal-weight range",
+      "notes": "Used to derive a healthy weight range for a given height."
+    },
+    "standard_drink_grams_us": {
+      "value": 14.0,
+      "unit": "g ethanol",
+      "citation": "NIAAA (US standard drink)",
+      "notes": "1 beer (12oz 5%) ~= 1; 1 shot (1.5oz 40%) ~= 1; 1 UK pint (5-6%) ~= 1.3-1.6."
+    }
+  }
+}

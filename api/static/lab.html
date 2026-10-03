@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Horizon ML Lab</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#121a30; --panel2:#0e1526; --ink:#e6ecf5;
+    --dim:#93a1bd; --line:#26324f; --teal:#31d0b6; --tealdim:#1c8f7e; --amber:#e0b64a;
+    --red:#f2748a; --green:#5bd98a; --violet:#a78bfa;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;height:100vh}
+  header{padding:11px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  header .logo{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#31d0b6,#7c5cff)}
+  header h1{font-size:14px;margin:0;font-weight:700;letter-spacing:.5px}
+  header .backend{font:12px var(--mono);color:var(--teal);border:1px solid var(--line);padding:3px 10px;border-radius:20px}
+  header .spacer{flex:1}
+  select,button,input{font-family:inherit}
+  select{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px 11px;font-size:13px;max-width:240px}
+  button{background:linear-gradient(135deg,var(--teal),var(--tealdim));color:#04120f;border:0;border-radius:9px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:13px}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:600}
+  button:disabled{opacity:.5;cursor:default}
+  .wrap{flex:1;display:flex;min-height:0}
+  /* ---- subject sidebar ---- */
+  aside{width:360px;flex:0 0 auto;border-right:1px solid var(--line);overflow:auto;padding:14px}
+  @media(max-width:860px){aside{display:none}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:12px}
+  .card h2{font-size:11px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);display:flex;justify-content:space-between}
+  .who{font-size:16px;font-weight:800}
+  .sub{color:var(--dim);font-size:12px}
+  .kv{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:12.5px;border-bottom:1px dashed var(--line)}
+  .kv .k{color:var(--dim)}.kv .v{font-family:var(--mono)}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tile{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px}
+  .tile .t{font-weight:700;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+  .tile .h{color:var(--teal);font-size:11px;font-family:var(--mono);margin-top:3px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .dot.good{background:var(--green)}.dot.watch{background:var(--amber)}.dot.none{background:var(--dim)}
+  .chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;margin:2px 3px 0 0}
+  .chip.ok{color:var(--green);background:rgba(91,217,138,.12)}
+  .chip.flag{color:var(--amber);background:rgba(224,182,74,.12)}
+  /* ---- chat ---- */
+  main{flex:1;display:flex;flex-direction:column;min-width:0}
+  #thread{flex:1;overflow:auto;padding:20px;scroll-behavior:smooth}
+  .turn{max-width:860px;margin:0 auto 22px}
+  .msg-user{display:flex;justify-content:flex-end;margin-bottom:12px}
+  .msg-user .b{background:linear-gradient(135deg,var(--teal),var(--tealdim));color:#04120f;font-weight:600;padding:9px 14px;border-radius:14px 14px 4px 14px;max-width:80%}
+  .assistant .bubble{background:var(--panel);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:14px 16px;font-size:14.5px}
+  .assistant .bubble .hl{font-weight:800;font-size:15.5px;display:block;margin-bottom:6px}
+  .md p{margin:0 0 9px}.md p:last-child{margin-bottom:0}
+  .md h4,.md h5,.md h6{margin:12px 0 6px;font-size:14px;font-weight:800;color:var(--ink)}
+  .md ul,.md ol{margin:6px 0 9px;padding-left:22px}
+  .md li{margin:3px 0}
+  .md code{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font:12px var(--mono);color:var(--teal)}
+  .md em{color:var(--dim);font-style:italic}
+  .md table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;display:block;overflow-x:auto}
+  .md th,.md td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+  .md th{background:var(--panel2);color:var(--ink);font-weight:700}
+  .md b{color:var(--ink)}
+  .think{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--panel2);overflow:hidden}
+  .think>.h{padding:8px 12px;cursor:pointer;font-size:12.5px;color:var(--violet);display:flex;justify-content:space-between;user-select:none}
+  .think .body{padding:0 12px 10px;font-size:12.5px;color:var(--dim)}
+  .step{border-left:2px solid var(--line);margin:0 0 8px 6px;padding:2px 0 2px 12px}
+  .step.tool{border-left-color:var(--teal)}
+  .step.reason{border-left-color:var(--violet)}
+  .step .sh{font-size:12.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .step .sh b{color:var(--ink)}
+  .step .reasontext{color:var(--dim);font-size:12px;white-space:pre-wrap;margin-top:4px;max-height:200px;overflow:auto}
+  pre{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px;overflow:auto;font:11.5px/1.5 var(--mono);color:#c7d4ec;margin:5px 0 0;max-height:260px;white-space:pre-wrap;word-break:break-word}
+  .pill{display:inline-block;font:10.5px var(--mono);padding:1px 7px;border-radius:20px;border:1px solid var(--line)}
+  .pill.strong{color:var(--green);border-color:#2e6b46}
+  .pill.moderate{color:var(--amber);border-color:#6b5a2e}
+  .pill.weak,.pill.none{color:var(--dim)}
+  .meta{color:var(--dim);font-size:11.5px;margin-top:8px;font-family:var(--mono);display:flex;gap:12px;flex-wrap:wrap}
+  .cite{color:var(--dim);font-size:11.5px;margin-top:3px}
+  .fold{margin-top:8px}
+  .fold>summary{cursor:pointer;color:var(--dim);font-size:12px}
+  .factors{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel2)}
+  .factors>summary{color:var(--teal);font-weight:600}
+  .factor{font-size:12.5px;margin:6px 0;line-height:1.4}
+  .ftag{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:1px 6px;border-radius:5px;margin-right:6px;font-family:var(--mono);color:var(--dim);border:1px solid var(--line)}
+  .ftag.sim{color:var(--teal);border-color:#1c8f7e}
+  .ftag.cause{color:var(--violet);border-color:#5b4b9e}
+  .ftag.data{color:var(--amber);border-color:#6b5a2e}
+  .ftag.saved{color:#04120f;background:var(--green);border-color:var(--green)}
+  .ftag.web{color:#7fb2ff;border-color:#39507e}
+  .ftag.cite{color:var(--dim)}
+  .hide{display:none}
+  .muted{color:var(--dim)}
+  .dots span{animation:bl 1s infinite}.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+  @keyframes bl{0%,100%{opacity:.2}50%{opacity:1}}
+  footer{flex:0 0 auto;border-top:1px solid var(--line);padding:12px 16px;display:flex;gap:10px;align-items:flex-end}
+  footer textarea{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:11px 13px;font-size:14px;resize:none;min-height:46px;max-height:150px;font-family:inherit}
+  .planToggle{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--dim);white-space:nowrap;cursor:pointer;user-select:none}
+  .plan-box{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--panel2);overflow:hidden}
+  .plan-box>.h{padding:8px 12px;font-size:12.5px;color:#7fb2ff;display:flex;justify-content:space-between}
+  .plan-step{border-left:2px solid var(--line);margin:0 0 8px 8px;padding:2px 0 2px 12px}
+  .plan-step.ran{border-left-color:var(--teal)}
+  .plan-step .sh{font-size:12.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .plan-step .why{color:var(--dim);font-size:11.5px;margin-top:2px}
+  .plan-step .res{font-size:12px;margin-top:3px;color:var(--ink)}
+  .hintbar{max-width:860px;margin:0 auto 10px;display:flex;gap:6px;flex-wrap:wrap}
+  .hintbar .q{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:16px;padding:5px 11px;cursor:pointer;background:var(--panel2)}
+  .empty{max-width:640px;margin:8vh auto;text-align:center;color:var(--dim)}
+  .empty h3{color:var(--ink);font-weight:800;font-size:20px}
+  /* ---- full-record modal ---- */
+  .modal{position:fixed;inset:0;background:rgba(4,8,18,.82);backdrop-filter:blur(4px);z-index:50;display:none;padding:20px}
+  .modal.open{display:flex}
+  .sheet{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:1000px;width:100%;margin:auto;max-height:92vh;display:flex;flex-direction:column}
+  .sheet>.top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .sheet>.top .who2{font-weight:800;font-size:16px}
+  .sheet>.top .x{margin-left:auto;cursor:pointer;color:var(--dim);font-size:22px;line-height:1}
+  .sheet>.bd{overflow:auto;padding:16px 18px}
+  .sec{margin-bottom:18px}
+  .sec>.st{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--teal);margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:5px;display:flex;justify-content:space-between}
+  .sec>.st .n{color:var(--dim)}
+  .kvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2px 16px}
+  table{width:100%;border-collapse:collapse;font-size:12px;font-family:var(--mono)}
+  table th{text-align:left;color:var(--dim);font-weight:600;padding:4px 8px;position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line)}
+  table td{padding:3px 8px;border-bottom:1px solid rgba(38,50,79,.5)}
+  .scrollbox{max-height:240px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  .rec{border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:7px}
+  .rec .rh{display:flex;justify-content:space-between;font-size:12px}
+  .rec .rh b{font-size:13px}
+  .rec .rk{color:var(--teal);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"></div>
+  <h1>HORIZON · ML LAB</h1>
+  <div class="backend" id="backend">…</div>
+  <div class="spacer"></div>
+  <select id="userSel"><option value="">— pick a subject —</option></select>
+  <button id="genBtn">✦ Generate person</button>
+</header>
+
+<div class="modal" id="modal"><div class="sheet">
+  <div class="top"><div class="who2" id="mTitle">Full record</div><div class="x" id="mClose">×</div></div>
+  <div class="bd" id="mBody"></div>
+</div></div>
+
+<div class="wrap">
+  <aside id="subject"><div class="muted" style="padding:20px 4px">Generate or pick a subject to load their full record + simulated body.</div></aside>
+  <main>
+    <div id="thread">
+      <div class="empty" id="emptyState">
+        <h3>Ask anything — watch it think.</h3>
+        <p>Pick or generate a subject, then ask a question. Every simulation the model runs,
+        its reasoning between steps, and exactly what it was sent all show inline.</p>
+      </div>
+    </div>
+    <div class="hintbar" id="hints"></div>
+    <footer>
+      <textarea id="input" placeholder="e.g. Why do I keep getting sick? · If I drink 4 beers tonight, can I drive by 1am and how's my sleep? · Am I on track for my goal?" rows="1"></textarea>
+      <label class="planToggle" title="Plan → execute → synthesize: decomposes the question into grounded analyses (memory-aware). Uncheck for the raw tool-loop.">
+        <input type="checkbox" id="planMode" checked/> 🧭 plan</label>
+      <button id="sendBtn">Send</button>
+    </footer>
+  </main>
+</div>
+
+<script>
+const API=location.origin;
+const $=id=>document.getElementById(id);
+const esc=s=>(s==null?'':String(s)).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const jn=o=>JSON.stringify(o,null,2);
+const mdBold=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+// --- lightweight markdown -> HTML (bold, italic, code, headings, lists, tables) ---
+function mdInline(s){
+  s=esc(s);
+  s=s.replace(/`([^`]+)`/g,'<code>$1</code>');
+  s=s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  s=s.replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g,'$1<em>$2</em>');
+  return s;
+}
+function splitRow(ln){return ln.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(x=>x.trim());}
+function mdToHtml(src){
+  const L=(src||'').replace(/\r/g,'').split('\n'); let h='',i=0;
+  const isUL=s=>/^\s*[-*•]\s+/.test(s), isOL=s=>/^\s*\d+[.)]\s+/.test(s), isH=s=>/^#{1,4}\s/.test(s);
+  while(i<L.length){
+    const ln=L[i];
+    if(/\|/.test(ln)&&i+1<L.length&&/^\s*\|?[\s:|-]*-[\s:|-]*\|?\s*$/.test(L[i+1])){
+      const head=splitRow(ln); i+=2; const rows=[];
+      while(i<L.length&&/\|/.test(L[i])&&L[i].trim()){rows.push(splitRow(L[i]));i++;}
+      h+='<table><thead><tr>'+head.map(c=>'<th>'+mdInline(c)+'</th>').join('')+'</tr></thead><tbody>'+
+        rows.map(r=>'<tr>'+r.map(c=>'<td>'+mdInline(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'; continue;
+    }
+    let m=ln.match(/^(#{1,4})\s+(.*)$/);
+    if(m){const lv=Math.min(6,m[1].length+2);h+=`<h${lv}>`+mdInline(m[2])+`</h${lv}>`;i++;continue;}
+    if(isUL(ln)){h+='<ul>';while(i<L.length&&isUL(L[i])){h+='<li>'+mdInline(L[i].replace(/^\s*[-*•]\s+/,''))+'</li>';i++;}h+='</ul>';continue;}
+    if(isOL(ln)){h+='<ol>';while(i<L.length&&isOL(L[i])){h+='<li>'+mdInline(L[i].replace(/^\s*\d+[.)]\s+/,''))+'</li>';i++;}h+='</ol>';continue;}
+    if(!ln.trim()){i++;continue;}
+    const para=[ln];i++;
+    while(i<L.length&&L[i].trim()&&!isUL(L[i])&&!isOL(L[i])&&!isH(L[i])&&!/\|/.test(L[i])){para.push(L[i]);i++;}
+    h+='<p>'+para.map(mdInline).join('<br>')+'</p>';
+  }
+  return h;
+}
+async function jget(p){const r=await fetch(API+p);return r.json();}
+async function jpost(p,b){const r=await fetch(API+p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});if(!r.ok)throw new Error((await r.json()).detail||r.status);return r.json();}
+
+let currentUser=null;
+let turns=[]; // {question, data|null}
+
+// ---- boot ----
+(async()=>{
+  try{const h=await jget('/health');$('backend').textContent='backend: '+(h.backend||'?');}catch(e){$('backend').textContent='offline';}
+  await refreshUsers();
+})();
+
+async function refreshUsers(sel){
+  try{
+    const users=(await jget('/users')).users||[];
+    const s=$('userSel');s.innerHTML='<option value="">— pick a subject —</option>';
+    users.forEach(u=>s.appendChild(new Option(u,u)));
+    if(sel){s.value=sel;}
+  }catch(e){}
+}
+
+$('userSel').onchange=async e=>{
+  const id=e.target.value; if(!id){currentUser=null;$('subject').innerHTML='';return;}
+  currentUser=id; turns=[]; renderThread(); setHints();
+  await loadSubjectPanel(id);
+};
+
+$('genBtn').onclick=async()=>{
+  const b=$('genBtn');b.disabled=true;b.textContent='Generating…';
+  try{
+    const d=await jpost('/debug/generate_user',{});
+    await refreshUsers(d.user_id);
+    currentUser=d.user_id; turns=[]; renderThread();
+    renderSubject({profile:d.user.profile,medical:d.user.medical,notes:d.user.notes,
+      account:d.user.account,surveys:d.user.surveys,records:d.user.records,systems:d.systems});
+    setHints();
+  }catch(e){alert('Generate failed: '+e.message);}
+  b.disabled=false;b.textContent='✦ Generate person';
+};
+
+// Loads ONLY the sidebar (does not touch the chat). Renders profile/labs instantly,
+// then fills the simulated-body tiles when the (possibly cold) models finish.
+async function loadSubjectPanel(id){
+  $('subject').innerHTML='<div class="muted" style="padding:16px 4px">Loading…</div>';
+  let info,q,acc;
+  try{[info,q,acc]=await Promise.all([jget('/users/'+id), jget('/users/'+id+'/questionnaires'), jget('/users/'+id+'/accuracy')]);}
+  catch(e){$('subject').innerHTML='<div class="muted">Could not load subject.</div>';return;}
+  const surveys=[];
+  Object.entries(q.answers||{}).forEach(([qid,a])=>surveys.push({id:qid,indicators:a.indicators}));
+  const s={profile:info.profile,medical:info.medical,notes:info.notes,account:info.account,
+    surveys,records:info.records,accuracy:acc,systems:null,systemsLoading:true};
+  renderSubject(s);
+  try{const sys=await jget('/users/'+id+'/systems'); s.systems=sys.systems||[];}
+  catch(e){s.systems=[];}
+  s.systemsLoading=false; renderSubject(s);
+}
+
+const LAB_KEYS=[['total_chol','Total chol'],['hdl','HDL'],['ldl','LDL'],['triglycerides','Trig'],
+  ['sbp','SBP'],['dbp','DBP'],['hba1c','HbA1c'],['fasting_glucose','Glucose'],
+  ['vitamin_d','Vit D'],['b12','B12'],['ferritin','Ferritin'],['resting_hr','Rest HR']];
+
+function renderSubject(s){
+  const p=s.profile||{}, name=(s.account&&s.account.name)||currentUser;
+  let h=`<button class="ghost" id="fullBtn" style="width:100%;margin-bottom:12px">📋 View full record</button>`;
+  h+=`<div class="card"><div class="who">${esc(name)}</div>
+    <div class="sub">${esc(p.sex||'?')}, ${Math.round(p.age||0)}y · ${esc(p.diet||'diet n/a')} · ${esc(p.activity||'')}</div>
+    <div style="margin-top:8px">`;
+  const bmi=(p.weight_kg&&p.height_cm)?(p.weight_kg/((p.height_cm/100)**2)).toFixed(1):'—';
+  h+=`<div class="kv"><span class="k">Height / Weight</span><span class="v">${p.height_cm||'?'}cm · ${p.weight_kg||'?'}kg</span></div>`;
+  h+=`<div class="kv"><span class="k">BMI</span><span class="v">${bmi}</span></div>`;
+  if(p.goal)h+=`<div class="kv"><span class="k">Goal</span><span class="v">${esc(p.goal)}</span></div>`;
+  h+=`</div></div>`;
+
+  // labs
+  const labs=LAB_KEYS.filter(([k])=>p[k]!=null);
+  if(labs.length){h+=`<div class="card"><h2>Labs & vitals</h2>`+
+    labs.map(([k,l])=>`<div class="kv"><span class="k">${l}</span><span class="v">${esc(p[k])}</span></div>`).join('')+`</div>`;}
+
+  // body systems (the simulation)
+  if(s.systemsLoading){h+=`<div class="card"><h2>Simulated body</h2><div class="muted dots">simulating<span>.</span><span>.</span><span>.</span> <span style="font-size:11px">(fitting models, up to ~1 min on first run)</span></div></div>`;}
+  else if((s.systems||[]).length){h+=`<div class="card"><h2>Simulated body</h2><div class="tiles">`;
+    s.systems.forEach(t=>{h+=`<div class="tile"><div class="t">${esc(t.title)} <span class="dot ${t.status}"></span></div><div class="h">${esc(t.headline||'')}</div></div>`;});
+    h+=`</div></div>`;}
+
+  // Baseline journal. NB: this is a running-mean predictor, NOT the simulation engine —
+  // label it as such. Persistence ("tomorrow = today") is the honest bar, so show that
+  // rather than only the flattering comparison against a population constant.
+  const am=(s.accuracy&&s.accuracy.metrics)||{};
+  if(Object.keys(am).length){h+=`<div class="card"><h2>Baseline accuracy (running mean)</h2>`;
+    Object.values(am).forEach(m=>{
+      const p=m.vs_persistence_pct, cls=(p>0?'ok':'warn'), sign=(p>0?'better':'worse');
+      h+=`<div class="kv"><span class="k">${esc(m.label)}</span><span class="v">MAE ${m.mae} · <span class="${cls}">${Math.abs(p)}% ${sign} than persistence</span></span></div>`;});
+    h+=`<div class="sub" style="margin-top:5px">Predictor: personal running mean — <b>not</b> the simulation engine. vs population constant: ${Object.values(am)[0].vs_population_pct}% · ~90% band covers ${Object.values(am)[0].coverage_90*100|0}%</div></div>`;}
+
+  // questionnaire indicators
+  const inds=[];(s.surveys||[]).forEach(sv=>(sv.indicators||[]).forEach(i=>inds.push(i)));
+  if(inds.length){h+=`<div class="card"><h2>Check-in signals</h2>`+
+    inds.map(i=>`<span class="chip ${i.severity==='ok'?'ok':'flag'}">${esc(i.label)}: ${esc(i.band)}</span>`).join('')+`</div>`;}
+
+  // medical + notes
+  const med=s.medical||{};
+  const medbits=[['conditions','Conditions'],['medications','Meds'],['allergies','Allergies'],['family_history','Family hx']]
+    .filter(([k])=>(med[k]||[]).length).map(([k,l])=>`<div class="kv"><span class="k">${l}</span><span class="v">${esc((med[k]||[]).join(', '))}</span></div>`).join('');
+  if(medbits||(s.notes||[]).length){h+=`<div class="card"><h2>Medical & notes</h2>${medbits}`+
+    (s.notes||[]).map(n=>`<div class="sub" style="margin-top:5px">• ${esc(n)}</div>`).join('')+`</div>`;}
+
+  $('subject').innerHTML=h;
+  const fb=$('fullBtn'); if(fb)fb.onclick=openFullRecord;
+}
+
+// ---- full-record modal ----
+$('mClose').onclick=()=>$('modal').classList.remove('open');
+$('modal').onclick=e=>{if(e.target===$('modal'))$('modal').classList.remove('open');};
+
+async function openFullRecord(){
+  if(!currentUser)return;
+  $('mBody').innerHTML='<div class="muted">Loading…</div>';
+  $('modal').classList.add('open');
+  let u;
+  try{u=await jget('/debug/user/'+currentUser);}
+  catch(e){$('mBody').innerHTML='<div class="muted">Could not load record.</div>';return;}
+  $('mTitle').textContent=((u.account&&u.account.name)||currentUser)+' — full record';
+  $('mBody').innerHTML=renderFull(u);
+}
+
+function sec(title,count,inner){
+  return `<div class="sec"><div class="st"><span>${esc(title)}</span>${count!=null?`<span class="n">${count}</span>`:''}</div>${inner}</div>`;
+}
+function kvgrid(obj){
+  const ks=Object.keys(obj||{}).filter(k=>obj[k]!=null&&obj[k]!=='');
+  if(!ks.length)return '<div class="muted">—</div>';
+  return `<div class="kvgrid">`+ks.map(k=>`<div class="kv"><span class="k">${esc(k)}</span><span class="v">${esc(fmt(obj[k]))}</span></div>`).join('')+`</div>`;
+}
+function fmt(v){if(Array.isArray(v))return v.join(', ')||'—';if(typeof v==='object'&&v)return JSON.stringify(v);return v;}
+function table(rows,cols){
+  if(!rows||!rows.length)return '<div class="muted">—</div>';
+  return `<div class="scrollbox"><table><thead><tr>`+cols.map(c=>`<th>${esc(c[1])}</th>`).join('')+`</tr></thead><tbody>`+
+    rows.map(r=>`<tr>`+cols.map(c=>`<td>${esc(r[c[0]]!=null?r[c[0]]:'')}</td>`).join('')+`</tr>`).join('')+`</tbody></table></div>`;
+}
+
+function renderFull(u){
+  let h='';
+  h+=sec('Account',null,kvgrid(u.account));
+  h+=sec('Profile — vitals, labs & lifestyle',Object.keys(u.profile||{}).length,kvgrid(u.profile));
+  h+=sec('Medical',null,kvgrid(u.medical));
+  if((u.notes||[]).length)h+=sec('Notes',u.notes.length,(u.notes||[]).map(n=>`<div class="rec">${esc(n)}</div>`).join(''));
+  h+=sec('Personalization (learned)',null,kvgrid(u.derived));
+
+  // questionnaires
+  const sv=u.surveys||[];
+  if(sv.length){
+    let inner=sv.map(s=>{
+      const inds=(s.indicators||[]).map(i=>`<span class="chip ${i.severity==='ok'?'ok':'flag'}">${esc(i.label)}: ${esc(i.band)}</span>`).join(' ');
+      return `<div class="rec"><div class="rh"><b>${esc(s.name||s.id)}</b><span class="muted">${esc((s.date||'').slice(0,10))}</span></div>
+        <div style="margin:6px 0">${inds}</div>
+        <div class="muted" style="font-size:11px;font-family:var(--mono)">${esc(JSON.stringify(s.responses||{}))}</div></div>`;
+    }).join('');
+    h+=sec('Questionnaire history',sv.length,inner);
+  }
+
+  // wearable
+  const w=(u.wearable&&u.wearable.daily)||[];
+  h+=sec('Wearable — daily',w.length,table(w,[['date','date'],['resting_hr','rest HR'],['hrv_rmssd','HRV'],['steps','steps'],['sleep_efficiency','sleep %']]));
+
+  // weigh-ins
+  const wi=(u.logs&&u.logs.weighins)||[];
+  h+=sec('Weigh-ins',wi.length,table(wi,[['day','day'],['weight_kg','weight kg'],['mean_daily_intake_kcal','intake kcal']]));
+
+  // drinks + bac
+  const dr=(u.logs&&u.logs.drinks)||[], bac=(u.logs&&u.logs.bac_readings)||[];
+  if(dr.length||bac.length)h+=sec('Alcohol logs',dr.length+bac.length,
+    table(dr,[['hour','hour'],['standard_drinks','std drinks']])+ (bac.length?`<div style="height:6px"></div>`+table(bac,[['hour','hour'],['bac','BAC']]):''));
+
+  // records
+  const rec=u.records||[];
+  if(rec.length)h+=sec('Health records',rec.length,rec.map(r=>
+    `<div class="rec"><div class="rh"><b>${esc(r.title||'')}</b><span class="muted">${esc((r.ts||'').slice(0,10))}</span></div>
+     <div class="rk">${esc(r.kind||'')}</div><div style="font-size:12.5px;margin-top:3px">${esc(r.summary||'')}</div></div>`).join(''));
+
+  // daily log
+  const dl=u.daily_log||[];
+  if(dl.length)h+=sec('Daily log',dl.length,dl.map(e=>
+    `<div class="rec"><div class="rh"><span>${esc(e.text||'')}</span><span class="muted">${esc((e.ts||'').slice(0,10))}</span></div></div>`).join(''));
+
+  // routines
+  const ro=u.routines||[];
+  if(ro.length)h+=sec('Routines',ro.length,ro.map(r=>`<span class="chip ${r.done?'ok':'flag'}">${r.done?'✓':'○'} ${esc(r.title)}</span>`).join(' '));
+
+  // metrics history
+  const mh=u.metrics_history||[];
+  if(mh.length)h+=sec('Past app interactions',mh.length,mh.map(m=>
+    `<div class="rec"><div class="rh"><span>${esc(m.question||'')}</span><span class="muted">${esc((m.ts||'').slice(0,10))}</span></div>
+     <div class="muted" style="font-size:11.5px">${esc(m.tool||'')} · ${esc(m.evidence||'')}</div></div>`).join(''));
+
+  h+=`<details class="fold"><summary>raw JSON</summary><pre>${esc(jn(u))}</pre></details>`;
+  return h;
+}
+
+function setHints(){
+  const qs=['Why do I keep getting sick?','Am I on track for my goal?',
+    'If I drink 4 beers tonight, can I drive by 1am and how will my sleep be?',
+    "What's driving my heart risk?",'Why am I so tired lately?'];
+  $('hints').innerHTML=qs.map(q=>`<span class="q">${esc(q)}</span>`).join('');
+  $('hints').querySelectorAll('.q').forEach((el,i)=>el.onclick=()=>{$('input').value=qs[i];$('input').focus();});
+}
+
+// ---- send ----
+$('sendBtn').onclick=send;
+$('input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+$('input').addEventListener('input',e=>{e.target.style.height='auto';e.target.style.height=Math.min(150,e.target.scrollHeight)+'px';});
+
+async function send(){
+  const q=$('input').value.trim();
+  if(!q)return;
+  if(!currentUser){alert('Pick or generate a subject first.');return;}
+  turns.push({question:q,data:null});
+  $('input').value='';$('input').style.height='auto';
+  renderThread();
+  if($('planMode').checked){
+    const msgs=[];
+    turns.forEach(t=>{msgs.push({role:'user',content:t.question}); if(t.data&&(t.data.reply||t.data.answer))msgs.push({role:'assistant',content:t.data.reply||t.data.answer});});
+    try{
+      const d=await jpost('/debug/plan',{question:q,user_id:currentUser,messages:msgs});
+      d._plan=true; turns[turns.length-1].data=d;
+      if(d.saved_fact) loadSubjectPanel(currentUser);
+    }catch(e){ turns[turns.length-1].data={_plan:true,answer:'⚠ '+e.message,plan:[],steps:[],evidence:'none'}; }
+    renderThread(); return;
+  }
+  const msgs=[];
+  turns.forEach(t=>{msgs.push({role:'user',content:t.question}); if(t.data&&t.data.reply)msgs.push({role:'assistant',content:t.data.reply});});
+  try{
+    const d=await jpost('/debug/chat',{messages:msgs,user_id:currentUser});
+    turns[turns.length-1].data=d;
+    // if the model saved something to the profile, refresh the sidebar (keep the chat)
+    if((d.trace||[]).some(s=>s.kind==='tool'&&s.name==='remember_about_user'&&(s.result||{}).saved))
+      loadSubjectPanel(currentUser);
+  }catch(e){
+    turns[turns.length-1].data={reply:'⚠ '+e.message,trace:[],evidence:'none',model_inputs:{}};
+  }
+  renderThread();
+}
+
+const TOOL_LABEL={differential_for_symptom:'differential reasoning',estimate_bac:'BAC simulation',
+  project_weight:'weight projection',estimate_cvd_risk:'cardiovascular risk',compute_bmi:'BMI',
+  alcohol_effect_on_sleep:'alcohol→sleep chain',web_search:'web search',
+  simulate_body_systems:'full-body simulation',remember_about_user:'saved to profile',
+  simulate_scenario:'body simulation (timeline)'};
+function spark(ts,ys,col,band){
+  const w=240,h=42,pad=4; if(!ys||!ys.length)return '';
+  // include band extremes in the y-range so the shaded region fits
+  let all=ys.slice(); if(band){all=all.concat(band.lo,band.hi);}
+  const mn=Math.min(...all),mx=Math.max(...all),rng=(mx-mn)||1,tspan=(ts[ts.length-1]-ts[0])||1;
+  const X=i=>pad+(w-2*pad)*(ts[i]-ts[0])/tspan, Y=v=>h-pad-(h-2*pad)*(v-mn)/rng;
+  let svg=`<svg width="${w}" height="${h}" style="display:block;margin-top:2px">`;
+  if(band){
+    const top=band.hi.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1));
+    const bot=band.lo.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).reverse();
+    svg+=`<polygon points="${top.concat(bot).join(' ')}" fill="${col}" fill-opacity="0.16" stroke="none"/>`;
+  }
+  const pts=ys.map((y,i)=>X(i).toFixed(1)+','+Y(y).toFixed(1)).join(' ');
+  svg+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.6"/></svg>`;
+  return svg;
+}
+
+function renderThread(){
+  const t=$('thread');
+  if(!turns.length){t.innerHTML='';t.appendChild(mkEmpty());return;}
+  t.innerHTML=turns.map((tn,i)=>renderTurn(tn,i)).join('');
+  // wire collapsibles
+  t.querySelectorAll('[data-toggle]').forEach(el=>el.onclick=()=>{
+    const tgt=el.nextElementSibling; if(tgt)tgt.classList.toggle('hide');
+    el.querySelector('.caret')&&(el.querySelector('.caret').textContent=tgt.classList.contains('hide')?'▸':'▾');
+  });
+  t.scrollTop=t.scrollHeight;
+}
+function mkEmpty(){const d=document.createElement('div');d.className='empty';
+  d.innerHTML='<h3>Ask anything — watch it think.</h3><p>Pick or generate a subject, then ask a question.</p>';return d;}
+
+function renderTurn(tn,i){
+  let h=`<div class="turn"><div class="msg-user"><div class="b">${esc(tn.question)}</div></div>`;
+  if(!tn.data){h+=`<div class="assistant"><div class="bubble muted dots">thinking<span>.</span><span>.</span><span>.</span></div></div></div>`;return h;}
+  const d=tn.data;
+  if(d._plan){ h+=renderPlan(d)+`</div>`; return h; }
+  h+=`<div class="assistant">`;
+  // ---- reasoning trace ----
+  const trace=d.trace||[];
+  if(trace.length){
+    h+=`<div class="think"><div class="h" data-toggle>🧠 how it reasoned — ${trace.filter(s=>s.kind==='tool').length} simulation(s), ${trace.filter(s=>s.kind==='think').length} thinking step(s) <span class="caret">▾</span></div><div class="body">`;
+    trace.forEach(s=>{
+      if(s.kind==='think'){
+        h+=`<div class="step reason"><div class="sh">🧩 <b>planning</b> <span class="muted">round ${s.round||''}</span></div>
+          <div class="reasontext">${esc(s.text)}</div></div>`;
+      } else if(s.kind==='tool'){
+        const ev=s.evidence||'';
+        h+=`<div class="step tool"><div class="sh">⚙ ran <b>${esc(TOOL_LABEL[s.name]||s.name)}</b>
+          ${ev?`<span class="pill ${ev}">${esc(ev)}</span>`:''}</div>
+          ${renderToolResult(s)}
+          <div data-toggle class="sub" style="cursor:pointer;margin-top:4px">inputs + raw <span class="caret">▸</span></div>
+          <div class="hide"><div class="muted" style="font-size:11px;margin-top:4px">inputs</div><pre>${esc(jn(s.args))}</pre>
+          <div class="muted" style="font-size:11px">result</div><pre>${esc(jn(s.result))}</pre></div></div>`;
+      } else if(s.kind==='answer'){ /* shown as bubble below */ }
+    });
+    h+=`</div></div>`;
+  }
+  // ---- final answer ----
+  const ev=d.evidence||'none';
+  h+=`<div class="bubble md">${mdToHtml(d.reply||'')}</div>`;
+  h+=`<div class="meta"><span class="pill ${ev}">${esc(ev)}</span>`;
+  if(d.tool)h+=`<span>▸ ${esc(d.tool)}</span>`;
+  if(d.timing_ms!=null)h+=`<span>${d.timing_ms} ms</span>`;
+  if(d.backend)h+=`<span>${esc(d.backend)}</span>`;
+  h+=`</div>`;
+  (d.citations||[]).forEach(c=>h+=`<div class="cite">📎 ${esc(c)}</div>`);
+  // ---- decision-factors footer ----
+  h+=factorsFooter(d);
+  // ---- what was sent to the model ----
+  const mi=d.model_inputs||{};
+  h+=`<details class="fold"><summary>what was sent to the model</summary>`;
+  if(mi.system_instruction)h+=`<div class="muted" style="font-size:11px;margin-top:6px">system instruction</div><pre>${esc(mi.system_instruction)}</pre>`;
+  if(mi.user_context_injected)h+=`<div class="muted" style="font-size:11px">user context injected</div><pre>${esc(mi.user_context_injected)}</pre>`;
+  h+=`<div class="muted" style="font-size:11px">profile</div><pre>${esc(jn(mi.profile_sent||{}))}</pre></details>`;
+  h+=`</div></div>`;
+  return h;
+}
+
+// Plan-mode render: the approach (decomposition), each grounded step's result, the answer.
+function renderPlan(d){
+  const ev=d.evidence||'none';
+  let h=`<div class="plan-box"><div class="h" data-toggle><span>🧭 approach — ${(d.plan||[]).length} step(s) · planner: ${esc(d.planner||'?')}${d.timing_ms!=null?' · '+d.timing_ms+' ms':''}</span><span class="caret">▾</span></div><div class="body" style="padding:8px 12px">`;
+  (d.steps||[]).forEach(s=>{
+    const se=s.evidence||'';
+    h+=`<div class="plan-step ran"><div class="sh">⚙ <b>${esc(s.label||s.capability)}</b> ${se?`<span class="pill ${se==='strong'?'strong':se==='moderate'?'moderate':se==='none'?'none':'weak'}">${esc(se)}</span>`:''}</div>`;
+    if(s.why)h+=`<div class="why">${esc(s.why)}</div>`;
+    if(s.summary)h+=`<div class="res">${esc(s.summary)}</div>`;
+    // draw sparklines (+ bands) when a simulation ran
+    const r=s.result||{};
+    if(s.capability==='simulate'&&(r.series||r.bands)){ h+=renderSimResult(r); }
+    h+=`<div data-toggle class="why" style="cursor:pointer;margin-top:3px">raw <span class="caret">▸</span></div><pre class="hide">${esc(jn(s.result))}</pre></div>`;
+  });
+  h+=`</div></div>`;
+  // the composed answer
+  h+=`<div class="bubble md">${mdToHtml(d.answer||'')}</div>`;
+  h+=`<div class="meta"><span class="pill ${ev}">${esc(ev)}</span><span>${esc(d.synthesizer||'')} synthesis</span></div>`;
+  (d.citations||[]).forEach(c=>h+=`<div class="cite">📎 ${esc(c)}</div>`);
+  return h;
+}
+
+// Every factor that drove the answer: personal data used, each simulation's key
+// outputs/drivers, differential reasons, anything saved this turn, and sources.
+function factorsFooter(d){
+  const items=[];
+  (d.trace||[]).forEach(s=>{
+    if(s.kind!=='tool')return;
+    const r=s.result||{};
+    if(s.name==='differential_for_symptom'&&r.causes){
+      (r.causes||[]).slice(0,5).forEach(c=>items.push({src:'cause',
+        t:`${c.label} (${c.evidence})`, d:(c.personal_reasons||[]).join('; ')||'general association'}));
+    }else if(s.name==='remember_about_user'){
+      if(r.saved)items.push({src:'saved',t:'Saved to your profile',
+        d:r.note||JSON.stringify(r.profile||r.medical||{})});
+    }else if(s.name==='simulate_body_systems'&&r.simulated_systems){
+      (r.simulated_systems||[]).forEach(x=>items.push({src:'sim',t:x.system,d:x.headline||''}));
+    }else if(s.name==='simulate_scenario'&&r.summary){
+      const m=r.summary;
+      items.push({src:'sim',t:'body simulation (timeline)',
+        d:`glucose ${m.glucose_mg_dl.min}–${m.glucose_mg_dl.max}, HR ${m.heart_rate_bpm.min}–${m.heart_rate_bpm.max}, cortisol peak ${m.cortisol_ug_dl.max}`+((m.bac_g_dl||{}).max>0.005?`, BAC peak ${m.bac_g_dl.max}`:'')});
+    }else if(s.name==='web_search'){
+      (r.results||[]).forEach(x=>items.push({src:'web',t:x.title||x.url||'result',d:x.url||''}));
+    }else{
+      const drivers=(r.drivers||[]).map(x=>Array.isArray(x)?x[0]:x).slice(0,4);
+      const KEYS=['bmi','category','risk_10yr','heart_age','peak_bac','bac_now','time_to_sober_h','final_weight','delta_kg','over_legal_limit_now','hours_until_under_legal_limit'];
+      const kv=Object.keys(r).filter(k=>KEYS.includes(k)).map(k=>{let v=r[k];if(typeof v==='number')v=(+v).toFixed(v<1?3:1);return `${k}=${v}`;}).join(', ');
+      items.push({src:'sim',t:TOOL_LABEL[s.name]||s.name,
+        d:[kv,drivers.length?('drivers: '+drivers.join(', ')):''].filter(Boolean).join(' · ')});
+    }
+  });
+  const ctx=(d.model_inputs||{}).user_context_injected;
+  let h=`<details class="fold factors" open><summary>⚖ factors behind this answer${items.length?` (${items.length})`:''}</summary>`;
+  if(ctx)h+=`<div class="factor"><span class="ftag data">your data</span> ${esc(ctx)}</div>`;
+  if(!items.length&&!ctx)h+=`<div class="factor muted">Answered from general medical knowledge (no simulation was run) — treat as lower-confidence.</div>`;
+  items.forEach(it=>h+=`<div class="factor"><span class="ftag ${it.src}">${esc(labelFor(it.src))}</span> <b>${esc(it.t)}</b>${it.d?' — '+esc(it.d):''}</div>`);
+  (d.citations||[]).forEach(c=>h+=`<div class="factor"><span class="ftag cite">source</span> ${esc(c)}</div>`);
+  h+=`</details>`;
+  return h;
+}
+function labelFor(src){return {cause:'possible cause',saved:'saved',sim:'simulation',data:'your data',cite:'source',web:'web source'}[src]||src;}
+
+// Renders a simulate_scenario result — deterministic (series) OR uncertainty (bands + CI).
+function renderSimResult(r){
+  const rows=[['glucose_mg_dl','Glucose','#31d0b6','mg/dL'],['heart_rate_bpm','Heart rate','#f2748a','bpm'],
+    ['cortisol_ug_dl','Cortisol','#a78bfa','µg/dL'],['bac_g_dl','BAC','#e0b64a','g/dL'],
+    ['ketones_mmol_l','Ketones','#5bd98a','mmol/L'],['core_temp_c','Core temp','#ff9d5c','°C']];
+  if(r.bands){ // uncertainty mode: median line + 5-95% shaded band + CI text
+    const b=r.bands, ci=r.summary_ci||{};
+    let h=`<div style="font-size:12px;margin-top:4px">Simulated ${Math.round((r.duration_min||0)/60)}h with <b>${r.n_samples}</b>-sample confidence bands${r.personalized?' · <span class="ok">personalized</span>':''}:</div>`;
+    rows.forEach(([k,lab,col,unit])=>{ if(!b[k]||!ci[k])return;
+      const pk=ci[k].peak; if(k==='bac_g_dl'&&pk.hi<0.005)return; if(k==='ketones_mmol_l'&&pk.hi<0.3)return; if(k==='core_temp_c'&&pk.hi<37.4)return;
+      h+=`<div style="margin-top:6px"><div style="font-size:11px;color:var(--dim)">${lab}: peak <b>${pk.median}</b> [${pk.lo}–${pk.hi}] ${unit}</div>${spark(b.t_min,b[k].median,col,{lo:b[k].lo,hi:b[k].hi})}</div>`;});
+    return h;
+  }
+  const sm=r.summary||{},se=r.series||{};
+  let h=`<div style="font-size:12px;margin-top:4px">Simulated ${Math.round((r.duration_min||0)/60)}h — coupled body trajectory:</div>`;
+  rows.forEach(([k,lab,col,unit])=>{ if(!se[k]||!sm[k])return; if(k==='bac_g_dl'&&(sm[k].max||0)<=0.005)return; if(k==='ketones_mmol_l'&&(sm[k].max||0)<0.3)return; if(k==='core_temp_c'&&(sm[k].max||0)<37.4)return;
+    h+=`<div style="margin-top:6px"><div style="font-size:11px;color:var(--dim)">${lab}: ${sm[k].min}–${sm[k].max} ${unit} (end ${sm[k].end})</div>${spark(se.t_min,se[k],col)}</div>`;});
+  return h;
+}
+
+function renderToolResult(s){
+  const r=s.result||{};
+  // body-simulation timeline: show trajectory sparklines (+ confidence bands if present)
+  if(s.name==='simulate_scenario'&&(r.series||r.bands)){
+    return renderSimResult(r);
+  }
+  // web search: show the sources it pulled
+  if(s.name==='web_search'){
+    const res=r.results||[];
+    if(!res.length)return `<div class="muted" style="font-size:12px">no web results</div>`;
+    return res.map(x=>`<div style="font-size:12px;margin-top:3px">🔗 <b>${esc(x.title||x.url)}</b>${x.url?` <span class="muted">${esc(x.url)}</span>`:''}</div>`).join('');
+  }
+  // differential: show the ranked chain
+  if(s.name==='differential_for_symptom'&&r.causes){
+    if(!r.matched)return `<div class="muted" style="font-size:12px">${esc(r.message||'no match')}</div>`;
+    let h=`<div style="font-size:12px;margin-top:4px">Top causes for <b>${esc(r.symptom_label||'')}</b>:</div>`;
+    (r.causes||[]).slice(0,5).forEach((c,idx)=>{
+      h+=`<div style="font-size:12px;margin-top:3px">${idx===0?'★ ':'• '}<b>${esc(c.label)}</b>
+        <span class="pill ${c.evidence}">${esc(c.evidence)}</span>`;
+      if((c.personal_reasons||[]).length)h+=` <span class="muted">— ${esc(c.personal_reasons.join('; '))}</span>`;
+      h+=`</div>`;
+    });
+    return h;
+  }
+  // numeric tools: show a compact set of key fields
+  const keys=Object.keys(r).filter(k=>!['citations','confidence','evidence','drivers','causes'].includes(k));
+  const show=keys.slice(0,6).map(k=>{
+    let v=r[k]; if(Array.isArray(v))v='['+v.map(x=>typeof x==='number'?(+x).toFixed(2):x).join(', ')+']';
+    else if(typeof v==='number')v=(+v).toFixed(v>1?1:3);
+    else if(typeof v==='object'&&v)v=JSON.stringify(v).slice(0,60);
+    return `<span class="muted">${esc(k)}=</span>${esc(v)}`;
+  }).join('  ·  ');
+  return show?`<div style="font-size:12px;margin-top:4px;font-family:var(--mono)">${show}</div>`:'';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+{
+  "analysis_id": "A0_scaling",
+  "unit": "scaling",
+  "commit": "abb426bdda25-dirty",
+  "config": {
+    "workers": [
+      1,
+      4,
+      8,
+      14
+    ]
+  },
+  "config_hash": "ee65cd982209",
+  "seed": null,
+  "timestamp": "2026-09-30T22:14:16-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "cores_logical": 16,
+    "runs": [
+      {
+        "n_workers": 1,
+        "wall_seconds": 40.185001700010616,
+        "completed": 1,
+        "failed": 0,
+        "failures": [],
+        "fits_per_minute": 1.4930943750584476,
+        "seconds_per_fit_wall": 40.185001700010616,
+        "max_theta_spread_across_workers": 0.0,
+        "effective_workers": 1.0
+      },
+      {
+        "n_workers": 4,
+        "wall_seconds": 40.04800740000792,
+        "completed": 4,
+        "failed": 0,
+        "failures": [],
+        "fits_per_minute": 5.992807522302659,
+        "seconds_per_fit_wall": 10.01200185000198,
+        "max_theta_spread_across_workers": 0.0,
+        "effective_workers": 4.013683007859479
+      },
+      {
+        "n_workers": 8,
+        "wall_seconds": 46.868308500008425,
+        "completed": 8,
+        "failed": 0,
+        "failures": [],
+        "fits_per_minute": 10.24146198918004,
+        "seconds_per_fit_wall": 5.858538562501053,
+        "max_theta_spread_across_workers": 0.0,
+        "effective_workers": 6.8592194574299
+      },
+      {
+        "n_workers": 14,
+        "wall_seconds": 71.68221290000656,
+        "completed": 14,
+        "failed": 0,
+        "failures": [],
+        "fits_per_minute": 11.718388230728339,
+        "seconds_per_fit_wall": 5.120158064286183,
+        "max_theta_spread_across_workers": 0.0,
+        "effective_workers": 7.848390849553378
+      }
+    ],
+    "recommended_workers": 14,
+    "effective_workers_at_recommended": 7.848390849553378
+  }
+}

@@ -1,0 +1,19 @@
+2026-10-02 03:04:59 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 5 workers
+2026-10-02 03:17:25 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 5 workers
+2026-10-02 03:24:13 [A5_profile] worker 2 unit CGMacros-002 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:24:14 [A5_profile] worker 1 unit CGMacros-003 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:24:21 [A5_profile] worker 0 exited 3221226505; restarting.   warnings.warn(
+2026-10-02 03:25:17 [A5_profile] worker 0 exited 3221226505; restarting.   warnings.warn(
+2026-10-02 03:25:17 [A5_profile] worker 4 exited 3221226505; restarting.   warnings.warn(
+2026-10-02 03:26:57 [A5_profile] worker 4 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-02 03:28:52 [A5_profile] worker 4 unit CGMacros-009 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:28:52 [A5_profile] worker 0 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-02 03:29:28 [A5_profile] worker 1 finished CGMacros-003 in 288.9s
+2026-10-02 03:29:36 [A5_profile] worker 2 finished CGMacros-002 in 295.3s
+2026-10-02 03:29:45 [A5_profile] worker 4 unit CGMacros-009 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-02 03:29:46 [A5_profile] worker 4 gave up on CGMacros-009 after 2 attempts
+2026-10-02 03:33:01 [A5_profile] worker 3 finished CGMacros-004 in 907.7s
+2026-10-02 03:36:08 [A5_profile] worker 2 finished CGMacros-012 in 391.3s
+2026-10-02 03:38:15 [A5_profile] worker 4 finished CGMacros-013 in 504.8s
+2026-10-02 03:38:16 [A5_profile] worker 1 finished CGMacros-010 in 528.2s
+2026-10-02 03:38:30 [A5_profile] worker 0 finished CGMacros-011 in 533.1s

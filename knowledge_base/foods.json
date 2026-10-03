@@ -1,0 +1,20 @@
+{
+  "schema_note": "Data-driven food database. Each food gives macros per 100 g and a glycemic index (GI). The simulator converts a Food(grams) into the meal's effective GLYCEMIC carbohydrate load = carbs * (GI/70) * fibre-slowing, then feeds it through the gut/glucose model — so the same grams of white rice (high GI) and lentils (low GI, high fibre) produce very different glucose curves. Add a food HERE (no code) so 'what does eating X do to my blood sugar' is answerable for foods the engine was never explicitly built for. GI values from the International GI tables (Atkinson 2021); macros are approximate per-100g.",
+  "foods": {
+    "white_rice_cooked": {"carbs_g": 28, "protein_g": 2.7, "fat_g": 0.3, "fibre_g": 0.4, "gi": 73, "serving_g": 150},
+    "brown_rice_cooked": {"carbs_g": 23, "protein_g": 2.6, "fat_g": 0.9, "fibre_g": 1.8, "gi": 55, "serving_g": 150},
+    "white_bread": {"carbs_g": 49, "protein_g": 9, "fat_g": 3.2, "fibre_g": 2.7, "gi": 75, "serving_g": 60},
+    "oats_cooked": {"carbs_g": 12, "protein_g": 2.5, "fat_g": 1.5, "fibre_g": 1.7, "gi": 55, "serving_g": 200},
+    "banana": {"carbs_g": 23, "protein_g": 1.1, "fat_g": 0.3, "fibre_g": 2.6, "gi": 51, "serving_g": 120},
+    "apple": {"carbs_g": 14, "protein_g": 0.3, "fat_g": 0.2, "fibre_g": 2.4, "gi": 36, "serving_g": 180},
+    "potato_boiled": {"carbs_g": 17, "protein_g": 2, "fat_g": 0.1, "fibre_g": 2.2, "gi": 78, "serving_g": 200},
+    "lentils_cooked": {"carbs_g": 20, "protein_g": 9, "fat_g": 0.4, "fibre_g": 8, "gi": 32, "serving_g": 200},
+    "pasta_cooked": {"carbs_g": 25, "protein_g": 5, "fat_g": 1.1, "fibre_g": 1.8, "gi": 50, "serving_g": 180},
+    "pizza": {"carbs_g": 33, "protein_g": 11, "fat_g": 10, "fibre_g": 2.3, "gi": 60, "serving_g": 300},
+    "chicken_breast": {"carbs_g": 0, "protein_g": 31, "fat_g": 3.6, "fibre_g": 0, "gi": 0, "serving_g": 150},
+    "coca_cola": {"carbs_g": 11, "protein_g": 0, "fat_g": 0, "fibre_g": 0, "gi": 63, "serving_g": 330},
+    "orange_juice": {"carbs_g": 10, "protein_g": 0.7, "fat_g": 0.2, "fibre_g": 0.2, "gi": 50, "serving_g": 250},
+    "ice_cream": {"carbs_g": 24, "protein_g": 3.5, "fat_g": 11, "fibre_g": 0.7, "gi": 62, "serving_g": 100},
+    "chocolate_bar": {"carbs_g": 59, "protein_g": 7.6, "fat_g": 30, "fibre_g": 3.4, "gi": 45, "serving_g": 45}
+  }
+}

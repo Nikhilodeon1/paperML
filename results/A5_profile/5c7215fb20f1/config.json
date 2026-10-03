@@ -1,0 +1,15 @@
+{
+  "bounds_scale": 1.0,
+  "cohort": "cgmacros",
+  "drift_tolerance": 0.05,
+  "extension_points": 6,
+  "fit_learning_rate": 0.02,
+  "fit_steps": 600,
+  "grid_points": 15,
+  "learning_rate": 0.03,
+  "limit": null,
+  "min_meals": 10,
+  "objective": "iauc",
+  "pilot_steps": 300,
+  "steps": 100
+}

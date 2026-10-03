@@ -1,0 +1,180 @@
+{
+  "schema_note": "Qualitative CAUSAL evidence graph — the abductive sibling of pipeline/graph.py. Nodes are symptoms, physiological states, and root causes (nutrient deficiencies, behaviours, lifestyle). Directed edges run cause -> effect, each GRADED (strong|moderate|weak) and CITED. The engine (pipeline/causal.py) walks BACKWARD from a symptom to candidate root causes, then ranks them by how well each fits THIS user's data via `personal_signals`. Overall confidence per cause is the weakest link along its path, downgraded further if nothing personal matched. This is a reasoned differential, never a diagnosis. Grow it by adding nodes/edges here — no code change. Node types: symptom | state | deficiency | behavior | lifestyle.",
+  "disclaimer": "This is a reasoned list of POSSIBLE contributors based on your data and published associations — not a diagnosis. Recurrent or persistent symptoms should be evaluated by a clinician, ideally with blood work.",
+  "nodes": {
+    "recurrent_infection": {"type": "symptom", "label": "Getting sick often / frequent infections",
+      "aliases": ["sick a lot", "getting sick", "keep getting sick", "frequent colds", "always ill", "catch every cold", "frequent infections", "low immunity", "weak immune"]},
+    "persistent_fatigue": {"type": "symptom", "label": "Persistent fatigue / low energy",
+      "aliases": ["tired all the time", "fatigue", "fatigued", "tired", "low energy", "exhausted", "no energy", "always tired", "worn out", "lethargic", "sluggish"]},
+    "brain_fog": {"type": "symptom", "label": "Brain fog / poor concentration",
+      "aliases": ["brain fog", "can't concentrate", "poor focus", "foggy", "forgetful", "poor memory", "mental fog"]},
+    "low_mood": {"type": "symptom", "label": "Low mood / irritability",
+      "aliases": ["low mood", "depressed", "irritable", "down", "moody", "anxious", "sad"]},
+    "poor_sleep": {"type": "symptom", "label": "Trouble sleeping / poor sleep",
+      "aliases": ["can't sleep", "poor sleep", "insomnia", "waking up", "restless sleep", "bad sleep", "trouble sleeping"]},
+    "muscle_cramps": {"type": "symptom", "label": "Muscle cramps / twitching",
+      "aliases": ["cramps", "muscle cramps", "twitching", "spasms", "charley horse", "leg cramps"]},
+    "hair_thinning": {"type": "symptom", "label": "Hair thinning / hair loss",
+      "aliases": ["hair loss", "hair falling out", "hair is falling out", "hair is thinning", "losing hair", "thinning hair", "shedding hair", "balding"]},
+    "constipation_symptom": {"type": "symptom", "label": "Constipation / irregularity",
+      "aliases": ["constipation", "constipated", "can't poop", "irregular", "hard stools", "infrequent bowel"]},
+    "frequent_headaches": {"type": "symptom", "label": "Frequent headaches",
+      "aliases": ["headaches", "headache", "migraines", "head pain"]},
+    "cold_intolerance": {"type": "symptom", "label": "Feeling cold / cold hands & feet",
+      "aliases": ["always cold", "cold hands", "cold feet", "feel cold", "cold intolerance"]},
+    "slow_recovery": {"type": "symptom", "label": "Slow recovery / sore after workouts",
+      "aliases": ["slow recovery", "always sore", "doms", "not recovering", "sore muscles", "poor recovery"]},
+    "brittle_nails": {"type": "symptom", "label": "Brittle nails / poor nail & skin quality",
+      "aliases": ["brittle nails", "weak nails", "nails breaking", "dry skin", "cracking nails"]},
+
+    "impaired_immune_function": {"type": "state", "label": "Weakened immune function"},
+    "anemia": {"type": "state", "label": "Anemia (low oxygen-carrying capacity)"},
+    "dehydration_state": {"type": "state", "label": "Under-hydration", "base_prior": 0.7,
+      "personal_signals": [
+        {"type": "indicator", "value": "hydration_status", "weight": 3, "reason": "your hydration check-in flagged under-hydration"},
+        {"type": "note_contains", "value": ["dehydrat", "don't drink", "little water", "not much water"], "weight": 2, "reason": "you noted low fluid intake"}
+      ]},
+    "chronic_stress_state": {"type": "state", "label": "High chronic stress / arousal", "base_prior": 0.6,
+      "personal_signals": [
+        {"type": "indicator", "value": "perceived_stress", "weight": 3, "reason": "your PSS-4 stress check-in came back elevated"},
+        {"type": "note_contains", "value": ["stress", "overwhelmed", "burnout", "anxious", "pressure"], "weight": 2, "reason": "you mentioned stress in your notes"}
+      ]},
+    "poor_sleep_quality": {"type": "state", "label": "Poor sleep quality", "base_prior": 0.6,
+      "personal_signals": [
+        {"type": "lab_below", "field": "sleep_hours", "value": 6.5, "weight": 2, "reason": "you usually sleep under 6.5 h"},
+        {"type": "note_contains", "value": ["sleep", "insomnia", "waking", "tired"], "weight": 1, "reason": "you noted sleep trouble"}
+      ]},
+
+    "vitamin_d_deficiency": {"type": "deficiency", "label": "Vitamin D deficiency", "category": "nutrient", "base_prior": 1.0,
+      "advice": "Ask for a 25-hydroxy-vitamin-D blood test. Vitamin D3 supplementation and sensible midday sun exposure both raise levels.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "vegetarian", "plant"], "weight": 2, "reason": "a plant-based diet has little dietary vitamin D"},
+        {"type": "note_contains", "value": ["indoor", "rarely outdoors", "no sun", "office", "little sun", "don't go outside"], "weight": 2, "reason": "you noted little sun exposure"},
+        {"type": "lab_missing", "value": "vitamin_d", "weight": 1, "reason": "no vitamin D level on file, so it can't be ruled out"},
+        {"type": "age_over", "value": 65, "weight": 1, "reason": "skin makes less vitamin D with age"}
+      ]},
+    "vitamin_b12_deficiency": {"type": "deficiency", "label": "Vitamin B12 deficiency", "category": "nutrient", "base_prior": 0.7,
+      "advice": "Ask for a B12 (and folate) test. Vegans/vegetarians usually need a B12 supplement or fortified foods.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "plant"], "weight": 3, "reason": "B12 comes almost only from animal foods — vegans are high-risk"},
+        {"type": "diet_in", "value": ["vegetarian"], "weight": 2, "reason": "vegetarian diets are often low in B12"},
+        {"type": "lab_missing", "value": "b12", "weight": 1, "reason": "no B12 level on file"},
+        {"type": "age_over", "value": 60, "weight": 1, "reason": "B12 absorption drops with age"}
+      ]},
+    "iron_deficiency": {"type": "deficiency", "label": "Iron deficiency", "category": "nutrient", "base_prior": 0.8,
+      "advice": "Ask for a ferritin + full blood count. Pair iron-rich foods with vitamin C; menstruating and plant-based individuals are higher risk.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "vegetarian", "plant"], "weight": 2, "reason": "plant (non-heme) iron is absorbed less efficiently"},
+        {"type": "sex_is", "value": "female", "weight": 2, "reason": "menstruation is a common cause of iron loss"},
+        {"type": "lab_missing", "value": "ferritin", "weight": 1, "reason": "no ferritin level on file"}
+      ]},
+    "magnesium_deficiency": {"type": "deficiency", "label": "Low magnesium", "category": "nutrient", "base_prior": 0.5,
+      "advice": "Magnesium-rich foods (leafy greens, nuts, legumes, whole grains) or a supplement; evidence for cramps is mixed but low intake is common.",
+      "personal_signals": [
+        {"type": "note_contains", "value": ["processed", "junk", "fast food", "low veg"], "weight": 2, "reason": "a low-vegetable diet tends to be low in magnesium"},
+        {"type": "alcohol_freq_in", "value": ["daily", "heavy", "often"], "weight": 1, "reason": "regular alcohol depletes magnesium"}
+      ]},
+    "zinc_deficiency": {"type": "deficiency", "label": "Low zinc", "category": "nutrient", "base_prior": 0.4,
+      "advice": "Zinc supports immune function; plant-based eaters absorb less (phytates). Consider dietary zinc or a modest supplement.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "vegetarian", "plant"], "weight": 2, "reason": "plant diets provide less bioavailable zinc"}
+      ]},
+    "omega3_insufficiency": {"type": "deficiency", "label": "Low omega-3 intake", "category": "nutrient", "base_prior": 0.4,
+      "advice": "Oily fish twice weekly, or an algae-based omega-3 if plant-based.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "vegetarian", "plant"], "weight": 2, "reason": "plant diets are typically low in EPA/DHA omega-3"}
+      ]},
+    "low_protein_intake": {"type": "deficiency", "label": "Low protein intake", "category": "nutrient", "base_prior": 0.4,
+      "advice": "Aim for ~1.2-1.6 g protein per kg body weight if active; spread across meals to support recovery.",
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "vegetarian", "plant"], "weight": 1, "reason": "plant diets need deliberate protein planning"},
+        {"type": "note_contains", "value": ["fasted", "skip meal", "skip breakfast", "low protein"], "weight": 1, "reason": "you noted fasted training / skipped meals"}
+      ]},
+    "low_fiber_intake": {"type": "deficiency", "label": "Low dietary fibre", "category": "nutrient", "base_prior": 0.5,
+      "advice": "Gradually increase fibre (fruit, veg, legumes, whole grains) and fluids to improve regularity.",
+      "personal_signals": [
+        {"type": "indicator", "value": "constipation", "weight": 3, "reason": "your gut-health check-in flagged constipation"},
+        {"type": "note_contains", "value": ["low fibre", "low fiber", "processed", "junk", "low veg"], "weight": 2, "reason": "you noted a low-fibre diet"}
+      ]},
+
+    "low_sun_exposure": {"type": "behavior", "label": "Low sun exposure", "base_prior": 0.4,
+      "personal_signals": [
+        {"type": "note_contains", "value": ["indoor", "rarely outdoors", "no sun", "office", "little sun"], "weight": 3, "reason": "you noted spending little time outdoors"}
+      ]},
+    "plant_based_diet_gap": {"type": "lifestyle", "label": "Plant-based diet without supplementation", "base_prior": 0.3,
+      "personal_signals": [
+        {"type": "diet_in", "value": ["vegan", "plant"], "weight": 3, "reason": "a vegan diet needs deliberate B12/D/omega-3 planning"},
+        {"type": "diet_in", "value": ["vegetarian"], "weight": 2, "reason": "a vegetarian diet can miss B12/iron/omega-3"}
+      ]},
+    "excess_alcohol": {"type": "behavior", "label": "Regular alcohol intake", "base_prior": 0.3,
+      "personal_signals": [
+        {"type": "alcohol_freq_in", "value": ["daily", "heavy", "often", "weekly"], "weight": 2, "reason": "your logged alcohol frequency is on the higher side"}
+      ]},
+    "high_caffeine": {"type": "behavior", "label": "High / late caffeine", "base_prior": 0.3,
+      "personal_signals": [
+        {"type": "note_contains", "value": ["caffeine", "coffee", "energy drink", "espresso"], "weight": 2, "reason": "you noted high caffeine intake"}
+      ]},
+    "sedentary_lifestyle": {"type": "lifestyle", "label": "Sedentary lifestyle", "base_prior": 0.4,
+      "personal_signals": [
+        {"type": "activity_in", "value": ["sedentary"], "weight": 2, "reason": "your activity level is set to sedentary"},
+        {"type": "note_contains", "value": ["sit all day", "desk job", "no exercise", "inactive"], "weight": 1, "reason": "you noted being largely inactive"}
+      ]}
+  },
+  "edges": [
+    {"source": "impaired_immune_function", "target": "recurrent_infection", "evidence": "moderate", "citation": "Chandra 1997, Am J Clin Nutr (nutrition & immune function)"},
+    {"source": "vitamin_d_deficiency", "target": "impaired_immune_function", "evidence": "moderate", "citation": "Martineau et al. 2017, BMJ (vitamin D & acute respiratory infection)"},
+    {"source": "zinc_deficiency", "target": "impaired_immune_function", "evidence": "moderate", "citation": "Wessels et al. 2017, Nutrients (zinc & immune function)"},
+    {"source": "vitamin_b12_deficiency", "target": "impaired_immune_function", "evidence": "weak", "citation": "Tamura et al. 1999 (B12 & immune cells)"},
+    {"source": "chronic_stress_state", "target": "impaired_immune_function", "evidence": "moderate", "citation": "Segerstrom & Miller 2004, Psychol Bull (stress & immunity meta-analysis)"},
+    {"source": "poor_sleep_quality", "target": "impaired_immune_function", "evidence": "moderate", "citation": "Besedovsky et al. 2019, Physiol Rev (sleep & immune function)"},
+
+    {"source": "iron_deficiency", "target": "anemia", "evidence": "strong", "citation": "Camaschella 2015, NEJM (iron-deficiency anemia)"},
+    {"source": "vitamin_b12_deficiency", "target": "anemia", "evidence": "strong", "citation": "Stabler 2013, NEJM (B12 deficiency)"},
+    {"source": "anemia", "target": "persistent_fatigue", "evidence": "strong", "citation": "Camaschella 2015, NEJM"},
+    {"source": "anemia", "target": "cold_intolerance", "evidence": "moderate", "citation": "Camaschella 2015, NEJM"},
+    {"source": "anemia", "target": "brain_fog", "evidence": "moderate", "citation": "Murray-Kolb 2007 (iron & cognition)"},
+
+    {"source": "vitamin_d_deficiency", "target": "persistent_fatigue", "evidence": "weak", "citation": "Roy et al. 2014 (vitamin D & fatigue)"},
+    {"source": "vitamin_b12_deficiency", "target": "persistent_fatigue", "evidence": "moderate", "citation": "Stabler 2013, NEJM"},
+    {"source": "vitamin_b12_deficiency", "target": "brain_fog", "evidence": "moderate", "citation": "Stabler 2013, NEJM (B12 & neurocognition)"},
+    {"source": "dehydration_state", "target": "persistent_fatigue", "evidence": "moderate", "citation": "Ganio et al. 2011 (mild dehydration & fatigue/mood)"},
+    {"source": "dehydration_state", "target": "brain_fog", "evidence": "moderate", "citation": "Ganio et al. 2011"},
+    {"source": "dehydration_state", "target": "frequent_headaches", "evidence": "moderate", "citation": "Popkin et al. 2010 (hydration & health)"},
+    {"source": "chronic_stress_state", "target": "frequent_headaches", "evidence": "moderate", "citation": "Nash & Thebarge 2006 (stress & headache)"},
+    {"source": "chronic_stress_state", "target": "low_mood", "evidence": "moderate", "citation": "Cohen et al. 2007 (chronic stress & mood)"},
+    {"source": "chronic_stress_state", "target": "poor_sleep", "evidence": "moderate", "citation": "Kalmbach et al. 2018, J Sleep Res"},
+    {"source": "poor_sleep_quality", "target": "persistent_fatigue", "evidence": "strong", "citation": "Besedovsky et al. 2019, Physiol Rev"},
+    {"source": "poor_sleep_quality", "target": "brain_fog", "evidence": "strong", "citation": "Lim & Dinges 2010 (sleep loss & cognition)"},
+    {"source": "poor_sleep_quality", "target": "low_mood", "evidence": "moderate", "citation": "Baglioni et al. 2011 (insomnia & depression)"},
+
+    {"source": "omega3_insufficiency", "target": "low_mood", "evidence": "weak", "citation": "Grosso et al. 2014 (omega-3 & depression, mixed)"},
+    {"source": "vitamin_d_deficiency", "target": "low_mood", "evidence": "weak", "citation": "Anglin et al. 2013 (vitamin D & depression, observational)"},
+
+    {"source": "magnesium_deficiency", "target": "muscle_cramps", "evidence": "weak", "citation": "Garrison et al. 2012, Cochrane (magnesium for cramps, mixed)"},
+    {"source": "dehydration_state", "target": "muscle_cramps", "evidence": "weak", "citation": "Schwellnus 2009 (cramp aetiology debate)"},
+    {"source": "magnesium_deficiency", "target": "poor_sleep", "evidence": "weak", "citation": "Abbasi et al. 2012 (magnesium & insomnia, small trial)"},
+
+    {"source": "iron_deficiency", "target": "hair_thinning", "evidence": "moderate", "citation": "Trost et al. 2006 (iron & hair loss)"},
+    {"source": "low_protein_intake", "target": "hair_thinning", "evidence": "weak", "citation": "Guo & Katta 2017 (diet & hair loss)"},
+    {"source": "iron_deficiency", "target": "brittle_nails", "evidence": "moderate", "citation": "Cashman & Sloan 2010 (nails & nutrition)"},
+    {"source": "low_protein_intake", "target": "brittle_nails", "evidence": "weak", "citation": "Cashman & Sloan 2010"},
+
+    {"source": "low_fiber_intake", "target": "constipation_symptom", "evidence": "strong", "citation": "Yang et al. 2012 (fibre & constipation meta-analysis)"},
+    {"source": "dehydration_state", "target": "constipation_symptom", "evidence": "moderate", "citation": "Arnaud 2003 (hydration & constipation)"},
+    {"source": "sedentary_lifestyle", "target": "constipation_symptom", "evidence": "weak", "citation": "Huang et al. 2014 (physical activity & constipation)"},
+
+    {"source": "low_protein_intake", "target": "slow_recovery", "evidence": "moderate", "citation": "Morton et al. 2018 (protein & muscle recovery meta-analysis)"},
+    {"source": "poor_sleep_quality", "target": "slow_recovery", "evidence": "moderate", "citation": "Fullagar et al. 2015 (sleep & recovery)"},
+    {"source": "high_caffeine", "target": "poor_sleep", "evidence": "strong", "citation": "Drake et al. 2013 (caffeine & sleep)"},
+    {"source": "excess_alcohol", "target": "poor_sleep", "evidence": "strong", "citation": "Ebrahim et al. 2013, Alcohol Clin Exp Res"},
+
+    {"source": "low_sun_exposure", "target": "vitamin_d_deficiency", "evidence": "strong", "citation": "Holick 2007, NEJM (vitamin D synthesis from sunlight)"},
+    {"source": "plant_based_diet_gap", "target": "vitamin_b12_deficiency", "evidence": "strong", "citation": "Pawlak et al. 2013 (B12 status in vegetarians/vegans)"},
+    {"source": "plant_based_diet_gap", "target": "vitamin_d_deficiency", "evidence": "moderate", "citation": "Bakaloudi et al. 2021, Clin Nutr (vegan nutrient adequacy)"},
+    {"source": "plant_based_diet_gap", "target": "iron_deficiency", "evidence": "moderate", "citation": "Bakaloudi et al. 2021, Clin Nutr"},
+    {"source": "plant_based_diet_gap", "target": "zinc_deficiency", "evidence": "moderate", "citation": "Foster et al. 2013 (zinc in vegetarians)"},
+    {"source": "plant_based_diet_gap", "target": "omega3_insufficiency", "evidence": "moderate", "citation": "Saunders et al. 2013 (omega-3 in vegetarian diets)"},
+    {"source": "excess_alcohol", "target": "magnesium_deficiency", "evidence": "moderate", "citation": "Rylander 2014 (alcohol & magnesium)"},
+    {"source": "sedentary_lifestyle", "target": "poor_sleep_quality", "evidence": "weak", "citation": "Kredlow et al. 2015 (exercise & sleep)"}
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "system": "hepatic",
+  "description": "Alcohol pharmacokinetics (Widmark model, zero-order elimination) and well-established hepatic biomarkers. Organ/system level by default; biomarkers only where clinically validated (brief 1.5).",
+  "parameters": {
+    "standard_drink_grams": {
+      "value": 14.0,
+      "unit": "g ethanol",
+      "population_sd": 0.0,
+      "plausible_range": [10.0, 14.0],
+      "citation": "NIAAA, Rethinking Drinking (US standard drink = 14 g pure ethanol)",
+      "notes": "US definition. UK unit = 8 g, EU often 10 g. Convert at input boundary."
+    },
+    "widmark_r_male": {
+      "value": 0.68,
+      "unit": "dimensionless (body-water distribution ratio)",
+      "population_sd": 0.085,
+      "plausible_range": [0.50, 0.90],
+      "citation": "Watson 1981; Posey & Mozayani 2007 (mean r male ~0.68-0.71, SD ~0.085)",
+      "notes": "Fraction of body mass that distributes ethanol. Higher = more body water."
+    },
+    "widmark_r_female": {
+      "value": 0.55,
+      "unit": "dimensionless (body-water distribution ratio)",
+      "population_sd": 0.055,
+      "plausible_range": [0.40, 0.75],
+      "citation": "Watson 1981; Posey & Mozayani 2007 (mean r female ~0.55, SD ~0.055)",
+      "notes": "Lower than male due to lower average body-water fraction."
+    },
+    "elimination_rate_beta": {
+      "value": 0.016,
+      "unit": "g/100mL per hour (BAC decline per hour)",
+      "population_sd": 0.004,
+      "plausible_range": [0.010, 0.025],
+      "citation": "Jones 2010, 'Evidence-based survey of the elimination rates of ethanol' (mean ~0.015-0.018, range 0.010-0.025)",
+      "notes": "Zero-order kinetics: BAC declines linearly once absorption complete. Higher in habitual drinkers."
+    },
+    "absorption_rate_ka": {
+      "value": 6.5,
+      "unit": "per hour (first-order absorption constant)",
+      "population_sd": 2.0,
+      "plausible_range": [2.0, 12.0],
+      "citation": "Norberg et al. 2003 (absorption half-life ~5-10 min fasting; t_peak ~30-45 min)",
+      "notes": "Used to model the rising limb. Food in stomach slows this substantially (lower ka)."
+    },
+    "blood_water_factor": {
+      "value": 0.806,
+      "unit": "g/mL (whole-blood to ethanol mass conversion)",
+      "population_sd": 0.0,
+      "plausible_range": [0.806, 0.806],
+      "citation": "Widmark formula standard constant (BAC in g/100mL)",
+      "notes": "Embedded in the classic Widmark form; kept explicit for traceability."
+    }
+  },
+  "biomarkers": {
+    "ALT": {
+      "unit": "U/L",
+      "reference_range_male": [7, 55],
+      "reference_range_female": [7, 45],
+      "citation": "Mayo Clinic / AASLD reference intervals",
+      "notes": "Hepatocellular injury marker. Future output of hepatic module under chronic load; NOT modeled in v1 (no validated short-horizon dose-response from BAC alone)."
+    },
+    "AST": {
+      "unit": "U/L",
+      "reference_range_male": [8, 48],
+      "reference_range_female": [8, 43],
+      "citation": "Mayo Clinic / AASLD reference intervals",
+      "notes": "AST:ALT ratio > 2 suggestive of alcoholic liver injury. Future biomarker output; not modeled in v1."
+    }
+  }
+}

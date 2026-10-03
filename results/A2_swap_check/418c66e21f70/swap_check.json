@@ -1,0 +1,73 @@
+{
+  "analysis_id": "A2_swap_check",
+  "unit": "swap_check",
+  "commit": "a363004099ec-dirty",
+  "config": {
+    "pairs": [
+      [
+        0.015,
+        0.045
+      ],
+      [
+        0.02,
+        0.03
+      ],
+      [
+        0.04,
+        0.012
+      ],
+      [
+        0.03,
+        0.03
+      ]
+    ]
+  },
+  "config_hash": "418c66e21f70",
+  "seed": null,
+  "timestamp": "2026-10-02T20:15:15-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "pairs": [
+      {
+        "k_e": 0.015,
+        "k_a": 0.045,
+        "max_abs_glucose_difference_mg_dl": 0.006678869488695227,
+        "max_glucose_swing_mg_dl": 75.390411297181
+      },
+      {
+        "k_e": 0.02,
+        "k_a": 0.03,
+        "max_abs_glucose_difference_mg_dl": 0.008627651105598488,
+        "max_glucose_swing_mg_dl": 76.44791025706964
+      },
+      {
+        "k_e": 0.04,
+        "k_a": 0.012,
+        "max_abs_glucose_difference_mg_dl": 0.004153319445890702,
+        "max_glucose_swing_mg_dl": 63.3057593409161
+      },
+      {
+        "k_e": 0.03,
+        "k_a": 0.03,
+        "max_abs_glucose_difference_mg_dl": 0.0,
+        "max_glucose_swing_mg_dl": 93.66999988187581
+      }
+    ],
+    "solver_rtol": 0.0001,
+    "solver_atol": 0.0001,
+    "max_difference_over_pairs": 0.008627651105598488,
+    "macros": {}
+  }
+}

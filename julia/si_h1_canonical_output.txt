@@ -1,0 +1,38 @@
+[ Info: Summary of the model:
+[ Info: State variables: G, Id, X, x1, x2
+[ Info: Parameters: SI, c, sigma1
+[ Info: Inputs: u
+[ Info: Outputs: y
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 11.2217606 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 11.3895501 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 0.0469792 seconds
+[ Info: Simplifying generating set. Simplification level: standard
+⌜ # Computing specializations..     Time: 0:00:07[K✓ # Computing specializations..     Time: 0:00:08[K
+=== C1: canonical form, gut ICs unconstrained, basal G Id X known ===
+--- assess_identifiability (global)
+  SI => globally
+  c => globally
+  sigma1 => globally
+=== C2: canonical form, every initial condition unknown ===
+--- assess_identifiability (global)
+  SI => globally
+  c => globally
+  sigma1 => globally
+[ Info: Search for polynomial generators concluded in 6.1348175
+[ Info: Selecting generators in 0.0190243
+[ Info: Inclusion checked with probability 0.99875 in 9.9003759 seconds
+[ Info: The search for identifiable functions concluded in 75.4458944 seconds
+[ Info: The search for identifiable functions with known initial conditions concluded in 75.5503579 seconds
+[ Info: Assessing identifiability with known initial conditions concluded in 87.5471696 seconds
+[ Info: Assessing local identifiability
+[ Info: Assessing global identifiability
+[ Info: Computing IO-equations
+[ Info: Computed IO-equations in 0.0203705 seconds
+[ Info: Computing Wronskians
+[ Info: Computed Wronskians in 0.0322796 seconds
+[ Info: Dimensions of the Wronskians [20]
+[ Info: Ranks of the Wronskians computed in 3.73e-5 seconds
+[ Info: Global identifiability assessed in 0.2133772 seconds

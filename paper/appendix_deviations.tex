@@ -1,0 +1,33 @@
+\section{Deviations from the analysis plan}
+\label{app:deviations}
+
+The analysis plan was fixed in version control before the analyses were run. Three amendments followed;
+each is listed here with its reason. No numerical threshold in the plan was changed by any of them.
+
+\paragraph{Amendment One.}
+Before any identifiability analysis was run, two secondary hypotheses were added (the identifiable
+combination of the timing rates, and a tied-rate model), and three method corrections were adopted:
+every identifiability analysis uses the unregularized maximum-likelihood estimate; the per-observable
+weights are inverse residual variances from a pilot fit; and the trace objective is whitened for
+first-order autocorrelation. Reason: a penalty toward the population values, weights taken from the
+spread of the observations, and independent-error treatment of autocorrelated sensor residuals would each
+have made the parameters look better identified than the likelihood supports. Multistart was also moved
+from the cross-validation to the full-data inference-gap analysis, and the grid cells were
+precomputed per meal; neither changes any hypothesis.
+
+\paragraph{Amendment Two.}
+After the first Fisher analysis had been viewed, the definition of an interior subject was changed from
+``no parameter on a bound'' to a per-parameter definition. Reason: parameters that are not identifiable
+are pinned against a bound in any box, so under the original definition the set for the insulin
+sensitivity clause is empty by construction and the clause cannot be evaluated. The original definition is
+still computed and reported, and the clause as written is recorded as unevaluable. The box used for the
+cross-method comparison stays the one the baselines were trained on, and the half-width, original and double-width boxes are
+reported side by side without choosing one.
+
+\paragraph{Amendment Three.}
+After the structural-identifiability tool had been run, the reporting of the structural result was fixed.
+The result depends on the initial gut state given to the tool, so all runs are reported and the verdict is
+labelled formulation-dependent: under the planned formulation the plan's deletion rule was triggered,
+while the empty-gut model that the simulator runs is exactly symmetric under exchange of the two rates.
+A sweep of initial gut content shows how quickly that symmetry breaks. A secondary sensitivity analysis with a larger optimization budget
+of the gradient cells was also declared before any cross-validation result existed.

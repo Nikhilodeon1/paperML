@@ -1,0 +1,50 @@
+{
+  "cgmacros": {
+    "built_at": "2026-10-01T01:21:59-0700",
+    "bytes": 184675,
+    "meals_max": 64,
+    "meals_min": 17,
+    "n_meals": 1640,
+    "n_subjects": 45,
+    "parse_seconds": 30.7,
+    "sha256": "4a7fe7e64a52770466f9137a82b520ee5002dc76fbd2e031e257c5d429b1948e",
+    "source": {
+      "cgmacros/1.0.0/CGMacros_dateshifted365.zip": {
+        "bytes": 657187340,
+        "mtime": 1734022148
+      }
+    }
+  },
+  "hall": {
+    "built_at": "2026-10-01T01:20:07-0700",
+    "bytes": 7070,
+    "meals_max": 6,
+    "meals_min": 3,
+    "n_meals": 114,
+    "n_subjects": 24,
+    "parse_seconds": 0.1,
+    "sha256": "873e2fe7d85e5c4e7994440513867c14bdd34827100b7e118f7aa0f071631b3e",
+    "source": {
+      "hall2018": {
+        "bytes": 6045671,
+        "files": 5
+      }
+    }
+  },
+  "shanghai": {
+    "built_at": "2026-10-01T01:20:17-0700",
+    "bytes": 194650,
+    "meals_max": 56,
+    "meals_min": 3,
+    "n_meals": 2671,
+    "n_subjects": 97,
+    "parse_seconds": 10.2,
+    "sha256": "b0d112d0283083e6ad206d5118a8c2d6896b451d9a012029f70cb732543dec20",
+    "source": {
+      "diabetes_datasets": {
+        "bytes": 13219459,
+        "files": 262
+      }
+    }
+  }
+}

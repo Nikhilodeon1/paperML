@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A4_fisher",
+  "config_hash": "b2cc242a0cd1",
+  "total": 45,
+  "done": 45,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 524.8,
+  "units_per_hour": 308.69,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-02T02:36:28-0700"
+}

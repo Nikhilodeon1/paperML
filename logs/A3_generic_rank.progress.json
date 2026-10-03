@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A3_generic_rank",
+  "config_hash": "db802c43ec8f",
+  "total": 4,
+  "done": 4,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 267.5,
+  "units_per_hour": 53.83,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-02T03:20:01-0700"
+}

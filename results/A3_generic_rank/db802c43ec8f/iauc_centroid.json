@@ -1,0 +1,92 @@
+{
+  "analysis_id": "A3_generic_rank",
+  "unit": "iauc_centroid",
+  "commit": "9cd814e29e2d-dirty",
+  "config": {
+    "beta": 10.0,
+    "bounds_scale": 1.0,
+    "cohort": "cgmacros",
+    "min_meals": 10,
+    "n_meals": 10,
+    "n_theta": 200,
+    "rank_rtol": 1e-06,
+    "seed": 0
+  },
+  "config_hash": "db802c43ec8f",
+  "seed": null,
+  "timestamp": "2026-10-02T03:08:47-0700",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Windows-11-10.0.26340-SP0",
+    "packages": {
+      "jax": "0.11.0",
+      "jaxlib": "0.11.0",
+      "diffrax": "0.7.2",
+      "optax": "0.2.8",
+      "numpy": "2.5.0",
+      "scipy": "1.18.0",
+      "statsmodels": "0.14.6"
+    }
+  },
+  "payload": {
+    "observables": [
+      "iauc",
+      "centroid"
+    ],
+    "n_theta": 200,
+    "n_meals": 10,
+    "meal_sources": [
+      "CGMacros-006",
+      "CGMacros-006",
+      "CGMacros-008",
+      "CGMacros-028",
+      "CGMacros-030",
+      "CGMacros-032",
+      "CGMacros-033",
+      "CGMacros-046",
+      "CGMacros-048",
+      "CGMacros-049"
+    ],
+    "bounds_scale": 1.0,
+    "rank_rtol": 1e-06,
+    "block_scale": {
+      "iauc": 3836.5496981287865,
+      "centroid": 79.59246683324216
+    },
+    "singular_values": {
+      "median": [
+        2.5664789815293236,
+        1.2663469719761733,
+        0.010036946783165648
+      ],
+      "q1": [
+        2.3295360615733367,
+        1.1285460708610748,
+        0.004944228417463335
+      ],
+      "q3": [
+        2.7070146191388442,
+        1.387866129237122,
+        0.022952460403082596
+      ],
+      "min": [
+        1.9402797134711667,
+        0.7462904763293173,
+        0.0001121541125263629
+      ],
+      "max": [
+        3.0507241522470614,
+        1.5237543811283059,
+        0.08018155234681841
+      ]
+    },
+    "rank_counts": {
+      "3": 200
+    },
+    "rank_median": 3.0,
+    "smallest_over_largest_median": 0.00424691658290257,
+    "finite": true,
+    "macros": {},
+    "wall_seconds": 119.63
+  }
+}

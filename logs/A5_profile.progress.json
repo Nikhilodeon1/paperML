@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A5_profile",
+  "config_hash": "4915d4076ea4",
+  "total": 45,
+  "done": 7,
+  "failed": 1,
+  "claimed": 10,
+  "pending": 27,
+  "elapsed_seconds": 1326.8,
+  "units_per_hour": 18.99,
+  "eta_hours": 1.95,
+  "workers_alive": 5,
+  "worker_restarts": 5,
+  "stopping": false,
+  "updated": "2026-10-02T03:39:31-0700"
+}
