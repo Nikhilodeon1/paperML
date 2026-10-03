@@ -64,7 +64,16 @@ def data_root() -> Path:
 def dataset(*parts: str) -> Path:
     """A path inside the dataset root. Existence is not checked here: each loader reports its own
     dataset as missing, which is a more useful message than a generic one from this module."""
-    return data_root().joinpath(*parts)
+    try:
+        root = data_root()
+    except FileNotFoundError:
+        # No raw datasets on this machine, which is the normal state of a compute node: the parsed
+        # cohorts are committed in `cohort_cache/`. Several modules build their file paths at import
+        # time, so raising here would make them unimportable even for code that never opens a raw
+        # file (the amortized estimators import such a module). Return a path that cannot exist
+        # instead; a loader that really needs the file fails on open with a message naming it.
+        root = _ROOT / "data" / "__datasets_not_found__"
+    return root.joinpath(*parts)
 
 
 def available() -> bool:

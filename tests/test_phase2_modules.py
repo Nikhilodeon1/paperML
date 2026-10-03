@@ -176,3 +176,12 @@ def test_inference_gap_reads_fold_losses():
     assert pair["fraction_within_tolerance"] == pytest.approx(2 / 3)
     assert pair["fraction_gradient_better"] == pytest.approx(1 / 3)
     assert pair["max_relative_gap"] == pytest.approx(0.2)
+
+
+def test_dataset_paths_resolve_without_datasets(monkeypatch):
+    """A compute node has no raw datasets; importing modules that name them must still work."""
+    import data_paths
+    monkeypatch.setattr(data_paths, "data_root",
+                        lambda: (_ for _ in ()).throw(FileNotFoundError("none")))
+    path = data_paths.dataset("cgmacros", "1.0.0", "x.zip")
+    assert not path.exists() and "__datasets_not_found__" in str(path)
