@@ -209,7 +209,7 @@ def _inner_optimizer(kind: str, learning_rate: float):
 def profile_likelihood(loss_fn: Callable, theta_hat, index: int, grid,
                        lower=None, upper=None, steps: int = 80,
                        learning_rate: float = 0.02, optimizer: str = "adam",
-                       vmap: bool = True) -> dict:
+                       vmap: bool = True, project=None) -> dict:
     """Profile the loss over parameter `index`, re-optimizing the others at each grid point.
 
     `loss_fn(theta)` is a scalar to be MINIMIZED, on the negative-log-likelihood scale (so a
@@ -244,6 +244,9 @@ def profile_likelihood(loss_fn: Callable, theta_hat, index: int, grid,
                                        grad=grad, value_fn=loss_fn)
             theta = optax.apply_updates(theta, updates)
             theta = jnp.clip(theta, lower, upper)
+            if project is not None:
+                # A constraint that is not a box (the real-pole region of the reparameterized fits).
+                theta = project(theta)
             theta = theta.at[index].set(fixed_value)
             return (theta, state), value
 

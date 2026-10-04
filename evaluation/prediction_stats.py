@@ -37,11 +37,18 @@ H9_MARGIN = 150.0
 METRICS = {"iauc": "iauc_mae", "peak": "peak_mae", "trace": "trace_rmse_mean"}
 
 
-def load_units(analysis_id: str = ANALYSIS_ID) -> list[dict]:
-    """Every completed (subject, repeat) payload of the most complete A9 result set."""
-    from evaluation.results_io import largest_result_set
-    _, documents = largest_result_set(analysis_id)
-    return [doc["payload"] for key, doc in documents.items() if key != "_unreadable"]
+def _primary(payload: dict) -> bool:
+    """The real, unscaled CGMacros run with the primary cell list (not a replica or a Phase 8 pass)."""
+    cells = payload.get("cells", {})
+    return (payload.get("replica") is None and payload.get("carb_scale") in (None, 1, 1.0)
+            and payload.get("cohort", "cgmacros") == "cgmacros" and "grad3" in cells
+            and "grid3" in cells and payload.get("fit_settings", {}).get("steps") == 150)
+
+
+def load_units(analysis_id: str = ANALYSIS_ID, match=None) -> list[dict]:
+    """Every (subject, repeat) payload of the most complete A9 result set satisfying `match`."""
+    from evaluation.results_io import largest_matching
+    return list(largest_matching(analysis_id, match or _primary).values())
 
 
 def subject_scores(units: list[dict], metric: str = "iauc") -> dict:
@@ -170,7 +177,7 @@ def steps_sensitivity(long_run_match=lambda p: p.get("fit_settings", {}).get("st
     """
     from evaluation.results_io import largest_matching
     long_units = largest_matching(ANALYSIS_ID, long_run_match)
-    primary = [p for p in load_units() if p.get("fit_settings", {}).get("steps") == 150]
+    primary = load_units()
     if not long_units or not primary:
         return {"n": 0}
     repeats = sorted({u["repeat"] for u in long_units.values()})

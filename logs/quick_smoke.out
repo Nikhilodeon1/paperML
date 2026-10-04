@@ -1,0 +1,89 @@
+quick mode: results go to /tmp/aistats_quick_nucmrflf
+
+=== 08:04:30 evaluation.generic_rank n_theta=20
+2026-10-04 08:04:31 [A3_generic_rank] start: 4 units, 0 already done, 0 previously failed, 8 workers
+  0/4 done, 0 failed, 4 workers
+==============================================================================
+A3_generic_rank: 4/4 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:04:43 evaluation.prediction_cv repeats=1 limit=3
+2026-10-04 08:04:44 [A9_prediction_cv] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+  0/3 done, 0 failed, 3 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A9_prediction_cv: 3/3 done, 0 failed in 0.02h
+==============================================================================
+
+=== 08:06:00 evaluation.fisher_full objective=iauc steps=60 pilot_steps=30 limit=3
+2026-10-04 08:06:01 [A4_fisher] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A4_fisher: 3/3 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:06:17 evaluation.fisher_full objective=iauc_centroid steps=60 pilot_steps=30 limit=3
+2026-10-04 08:06:18 [A4_fisher] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A4_fisher: 3/3 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:06:34 evaluation.fisher_full objective=trace steps=60 pilot_steps=30 limit=3
+2026-10-04 08:06:35 [A4_fisher] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A4_fisher: 3/3 done, 0 failed in 0.01h
+==============================================================================
+
+=== 08:06:53 evaluation.profile_lik objective=iauc steps=20 grid_points=7 extension_points=2 fit_steps=60 pilot_steps=30 limit=3
+2026-10-04 08:06:54 [A5_profile] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A5_profile: 3/3 done, 0 failed in 0.01h
+==============================================================================
+
+=== 08:07:22 evaluation.profile_lik objective=trace steps=20 grid_points=7 extension_points=2 fit_steps=60 pilot_steps=30 limit=3
+2026-10-04 08:07:23 [A5_profile] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A5_profile: 3/3 done, 0 failed in 0.01h
+==============================================================================
+
+=== 08:07:49 evaluation.profile_lik objective=iauc_centroid steps=20 grid_points=7 extension_points=2 fit_steps=60 pilot_steps=30 limit=3
+2026-10-04 08:07:50 [A5_profile] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A5_profile: 3/3 done, 0 failed in 0.01h
+==============================================================================
+
+=== 08:08:17 evaluation.ladder limit=3
+2026-10-04 08:08:17 [A6_ladder_reference] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A6_ladder_reference: 3/3 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:08:33 evaluation.gradient_diag steps=30 limit=3
+2026-10-04 08:08:34 [A8a_gradient_diag] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A8a_gradient_diag: 3/3 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:08:40 evaluation.optimizer_check maxiter=20 n_random_starts=1 limit=3
+2026-10-04 08:08:41 [A4b_optimizer_check] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A4b_optimizer_check: 3/3 done, 0 failed in 0.00h
+==============================================================================
+
+=== 08:08:49 evaluation.moment_checks max_meals=8 max_meals=2 windows=[180] limit=3
+2026-10-04 08:08:50 [A7_moment_checks] start: 3 units, 0 already done, 0 previously failed, 8 workers
+  0/3 done, 0 failed, 3 workers
+==============================================================================
+A7_moment_checks: 3/3 done, 0 failed in 0.01h
+==============================================================================
+
+quick run: all analyses ran

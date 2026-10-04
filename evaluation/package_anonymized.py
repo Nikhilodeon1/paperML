@@ -28,7 +28,7 @@ INCLUDE_DIRS = ("evaluation", "personalization", "simulation", "cohort_cache", "
 INCLUDE_FILES = ("data_paths.py", "paper_config.py", "pytest.ini", "requirements-aistats.txt",
                  "PREREG.md", "PREREG_AMENDMENT_1.md", "PREREG_AMENDMENT_2.md",
                  "PREREG_AMENDMENT_3.md", "SPEC_EXPORT.md", "docs/POD.md")
-INCLUDE_TESTS = ("test_prediction_cv.py", "test_phase7.py", "test_phase1.py", "test_phase2_modules.py", "test_lint_terms.py",
+INCLUDE_TESTS = ("test_prediction_cv.py", "test_phase7.py", "test_phase8.py", "test_phase1.py", "test_phase2_modules.py", "test_lint_terms.py",
                  "test_runner.py", "test_results_pipeline.py", "test_cv_utils.py", "test_subject_loss.py",
                  "test_identifiability.py", "test_identifiability_toys.py", "test_observables.py",
                  "test_stats_utils.py", "test_determinism.py", "test_spec_and_cohort.py")

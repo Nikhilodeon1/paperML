@@ -19,7 +19,8 @@ changed. Nothing was tuned to rescue a hypothesis.
 | H7 optimizer irrelevance | primary | gradient vs grid, both pairs equivalent at margins 90, 150, 300 | **met**, robust to 500 steps |
 | H8 extra parameters add nothing | secondary | `grad3` - `grad1` = -34 [-68, -12], equivalent at 90 | **met** (but `grad3` is slightly better) |
 | H9 trace lowers held-out iAUC error by more than 150 | primary | trace is *worse* by +32 [+2, +67] | **not met**: ceiling persists |
-| H2, H6, H10, H11, H12 | secondary | not run | **not evaluated** |
+| H2 area nearly blind to timing | secondary | linearized, 6 h: ratio 0.004 (`k_e`), 0.007 (`k_a`); nonlinear, 3 h: median 0.097 and 0.141 | **met** (Phase 3.2, section 10) |
+| H6, H10, H11, H12 | secondary | not run | **not evaluated** |
 
 Primary endpoints: H7 met; H1 formulation-dependent; H3, H5 (`S_I` clause) and H9 not met.
 
@@ -151,8 +152,7 @@ On peak time and trace RMSE the personal mean is as good as any model, so the mo
 
 ## 9. What was not run
 
-The trace and centroid profile likelihoods (H5 trace clause, H11), the tied-rate model (H12), the moment
-checks and window sweep (H2, Phase 3.2), the diagnostic-validation and robustness sweeps (H6, H10, Phase 5),
+The trace and centroid profile likelihoods (H5 trace clause, H11; run on the node, archive not yet merged), the tied-rate model (H12), the diagnostic-validation and robustness sweeps (H6, H10, Phase 5),
 the inference-gap replica with noise (A10, beyond the loss-gap check above), synthetic recovery, replication
 cohorts, design sweep, and Phase 7. None has a result. H2 and H6 in particular are needed before the paper
 can make its diagnostic claims.
@@ -164,5 +164,25 @@ can make its diagnostic claims.
    about half at the widest box, with the caveat in section 5.
 2. The headline conclusion that survives every box is the timing parameters: flat, ill-conditioned, and
    needing the full trace to constrain. The prediction ceiling (H7, H9) is supported.
-3. Before writing, run the trace and centroid profile likelihoods and the moment checks. These are the
-   missing pieces for H5 (trace), H2 and H11, and take under an hour on the node used.
+3. The trace and centroid profile likelihoods (H5 trace clause, H11) are the one missing piece before
+   writing; they were run on the node and need merging.
+
+## 10. Moment checks (Phase 3.2, H2) added after this report was first written
+
+Part (c), exact to 3e-16: for the gut input the zeroth moment is 1 for every pair of rates, the first is
+`1/k_e + 1/k_a`, and the second depends on the pair only through that sum and `1/k_e^2 + 1/k_a^2` (numeric
+and symbolic). Parts (a) and (b), 45 subjects, median over subjects (and over up to eight meals per subject
+in the nonlinear engine):
+
+| window after the meal (min) | 90 | 180 | 240 | 360 |
+| --- | --- | --- | --- | --- |
+| linearized, `k_e` ratio | 1.56 | 0.123 | 0.040 | 0.0037 |
+| linearized, `k_a` ratio | 1.73 | 0.173 | 0.062 | 0.0071 |
+| nonlinear, `k_e` ratio | 1.13 | 0.097 | 0.015 | 0.055 |
+| nonlinear, `k_a` ratio | 1.25 | 0.141 | 0.017 | 0.065 |
+
+H2 is **met**: 0.004 and 0.007 are below 0.02 for the linearized six-hour window, and 0.097 and 0.141 are
+below 0.25 for the nonlinear three-hour window. The result is conditional on the window: at 90 minutes the
+area is *more* sensitive to timing than to `S_I`. The nonlinear ratio is not monotone in the window (it
+rises again at 360 minutes), so the statement is about windows of three hours and longer, not a general
+law. At the regularized fitted points the three-hour medians are 0.087 and 0.154, with a heavier upper tail.

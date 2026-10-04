@@ -39,8 +39,18 @@ def collect() -> dict:
     macros: dict[str, dict] = {}
     collisions: list[str] = []
 
+    # Analyses whose id starts with `P7_` are DERIVED from other results (the paper-number macros), and
+    # are rewritten whenever the sources change. Only the newest file of each is current; an older one
+    # from a previous code version would declare the same macros with stale values.
+    newest: dict[str, Path] = {}
+    for path in RESULTS.glob("P7_*/*/*.json"):
+        key = f"{path.parent.parent.name}/{path.name}"
+        if key not in newest or path.stat().st_mtime > newest[key].stat().st_mtime:
+            newest[key] = path
+    stale = {p for p in RESULTS.glob("P7_*/*/*.json")} - set(newest.values())
+
     for path in sorted(RESULTS.rglob("*.json")):
-        if path == INDEX or path.name.endswith(".partial"):
+        if path == INDEX or path.name.endswith(".partial") or path in stale:
             continue
         try:
             doc = json.loads(path.read_text(encoding="utf-8"))

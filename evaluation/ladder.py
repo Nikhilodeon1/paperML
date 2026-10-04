@@ -47,15 +47,24 @@ def units(config: dict) -> list[str]:
                                               limit=config["limit"])]
 
 
-def a4_results(objective: str, bounds_scale: float) -> dict[str, dict]:
-    """The most complete A4 result set for one objective and box, keyed by subject."""
+def a4_results(objective: str, bounds_scale: float, cohort: str = "cgmacros",
+               carb_scale=None, replica=None) -> dict[str, dict]:
+    """The most complete A4 result set for one objective, box and data source, keyed by subject.
+
+    Fisher results on a scaled-carbohydrate copy or on a replica live in the same analysis, so they
+    are told apart by what the payload records; the default selects the real, unscaled cohort.
+    """
     from evaluation.results_io import load_all
     best: dict[str, dict] = {}
     for documents in load_all("A4_fisher").values():
         rows = {k: d["payload"] for k, d in documents.items() if k != "_unreadable"}
         rows = {k: v for k, v in rows.items()
                 if v.get("objective") == objective
-                and abs(float(v.get("bounds_scale", 1.0)) - bounds_scale) < 1e-12}
+                and abs(float(v.get("bounds_scale", 1.0)) - bounds_scale) < 1e-12
+                and v.get("cohort", "cgmacros") == cohort
+                and v.get("carb_scale") in ((None, 1, 1.0) if carb_scale in (None, 1, 1.0)
+                                            else (carb_scale,))
+                and v.get("replica") == replica}
         if len(rows) > len(best):
             best = rows
     return best

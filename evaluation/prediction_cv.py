@@ -51,6 +51,7 @@ import optax                     # noqa: E402
 
 from evaluation.cohort_data import load_cohort                          # noqa: E402
 from evaluation.cv_utils import make_folds                              # noqa: E402
+from evaluation.subject_source import get_subject, window_for           # noqa: E402
 from personalization.fit_general import _optimizer, _project_gradient   # noqa: E402
 from personalization.objectives import (                                # noqa: E402
     ObjectiveSpec, build_objective, observed_values,
@@ -60,16 +61,24 @@ from simulation.jax_observables import Window, iauc, peak_time, trace   # noqa: 
 
 ANALYSIS_ID = "A9_prediction_cv"
 
+# (objective, free parameters, parameterization). The last two groups are the Amendment 1 cells: the
+# tied-rate model (k_e = k_a = 2 / tau1) and the (log S_I, log tau1, log p) coordinates. They are run
+# as their own pass (`--set 'cells=[...]'`), not as part of the primary list.
 FIT_CELLS = {
-    "grad3": ("iauc", TARGETS),
-    "grad1": ("iauc", ("insulin_sensitivity",)),
-    "grad3_trace": ("trace", TARGETS),
-    "grad1_trace": ("trace", ("insulin_sensitivity",)),
+    "grad3": ("iauc", TARGETS, "rates"),
+    "grad1": ("iauc", ("insulin_sensitivity",), "rates"),
+    "grad3_trace": ("trace", TARGETS, "rates"),
+    "grad1_trace": ("trace", ("insulin_sensitivity",), "rates"),
+    "grad2_tied": ("iauc", TARGETS, "tied"),
+    "grad3_coords": ("iauc", TARGETS, "coords"),
+    "grad2_tied_trace": ("trace", TARGETS, "tied"),
+    "grad3_coords_trace": ("trace", TARGETS, "coords"),
 }
+PRIMARY_FIT_CELLS = ("grad3", "grad1", "grad3_trace", "grad1_trace")
 GRID_CELLS = ("grid3", "grid1", "grid1_legacy")
 AMORTIZED_CELLS = ("rf", "snpe")
 BASELINE_CELLS = ("personal_mean", "population", "persistence")
-ALL_CELLS = (tuple(FIT_CELLS) + GRID_CELLS + AMORTIZED_CELLS + BASELINE_CELLS)
+ALL_CELLS = (PRIMARY_FIT_CELLS + GRID_CELLS + AMORTIZED_CELLS + BASELINE_CELLS)
 
 LEGACY_SI_GRID = np.linspace(0.2, 1.6, 15)
 
@@ -91,6 +100,8 @@ def default_config() -> dict:
         "grid1_points": 41,
         "cells": list(ALL_CELLS),
         "beta": 10.0,
+        "carb_scale": None,
+        "replica": None,
     }
 
 
@@ -122,7 +133,7 @@ class SubjectContext:
         self.config = config
         self.records = list(subject.records)
         self.n = len(self.records)
-        self.window = Window()
+        self.window = window_for(subject)
         self.base = base_params(subject.profile)
         self.arrays = subject_arrays(self.records)
         self.width = self.arrays["width"]
@@ -134,7 +145,8 @@ class SubjectContext:
                             self.window, beta=None)) for r in self.records])
 
         # One objective over all meals supplies the glucose simulator for every prediction.
-        spec3 = ObjectiveSpec(name="iauc", lam=config["lam"], beta=config["beta"], free=TARGETS)
+        spec3 = ObjectiveSpec(name="iauc", lam=config["lam"], beta=config["beta"], free=TARGETS,
+                              window=self.window)
         self.obj3 = build_objective(spec3, self.base, self.arrays, self.observed)
         self.theta_base = np.asarray(self.obj3.theta0, dtype=float)
         self.lower3 = np.asarray(self.obj3.lower, dtype=float)
@@ -172,10 +184,35 @@ class SubjectContext:
         n = self.n
         return {key: np.asarray(out[key])[:n] for key in ("iauc", "peak", "trace_rmse")}
 
+    def prediction_fn(self, simulate):
+        """Held-out predictions for any simulator (the canonical-form engine for the reparameterized
+        cells), in the same three metrics as the rate-space cells."""
+        window = self.window
+        obs_rows = jnp.asarray(np.pad(self.obs_trace, ((0, self.width - self.n), (0, 0))))
+
+        @jax.jit
+        def outputs(theta):
+            glucose = simulate(theta)
+            rows = jax.vmap(lambda g: trace(None, g, window))(glucose)
+            return {"iauc": jax.vmap(lambda g: iauc(None, g, window, None))(glucose),
+                    "peak": jax.vmap(lambda g: peak_time(None, g, window, None))(glucose),
+                    "trace_rmse": jnp.sqrt(jnp.mean((rows - obs_rows) ** 2, axis=1))}
+
+        def predict(theta):
+            out = outputs(jnp.asarray(theta, dtype=jnp.float64))
+            return {k: np.asarray(v)[:self.n] for k, v in out.items()}
+        return predict
+
+    def predict_fitted(self, cell: str, fit: dict) -> dict:
+        fitter = self.fitter(cell)
+        if fitter.parameterization == "rates":
+            return self.predict(fit["theta_full"])
+        return fitter.predict(fit["theta"])
+
     def fitter(self, cell: str):
         if cell not in self._fitters:
-            name, free = FIT_CELLS[cell]
-            self._fitters[cell] = _Fitter(self, name, free)
+            name, free, parameterization = FIT_CELLS[cell]
+            self._fitters[cell] = _Fitter(self, name, free, parameterization)
         return self._fitters[cell]
 
     # -- grid tables ------------------------------------------------------------------------------
@@ -219,9 +256,12 @@ class SubjectContext:
 class _Fitter:
     """Adam on the regularized loss for one cell of one subject, with the training set as a mask."""
 
-    def __init__(self, ctx: SubjectContext, name: str, free: tuple[str, ...]):
+    def __init__(self, ctx: SubjectContext, name: str, free: tuple[str, ...],
+                 parameterization: str = "rates"):
         config = ctx.config
-        spec = ObjectiveSpec(name=name, lam=config["lam"], beta=config["beta"], free=free)
+        spec = ObjectiveSpec(name=name, lam=config["lam"], beta=config["beta"], free=free,
+                             window=ctx.window, parameterization=parameterization)
+        self.parameterization = parameterization
         self.ctx = ctx
         self.objective = build_objective(spec, ctx.base, ctx.arrays, ctx.observed)
         self.lam = config["lam"]
@@ -256,6 +296,7 @@ class _Fitter:
             return final, curve
 
         self._run = run
+        self.predict = (ctx.prediction_fn(obj.simulate) if parameterization != "rates" else None)
         self._grad = jax.jit(jax.grad(loss))
         self._loss = jax.jit(loss)
 
@@ -278,11 +319,19 @@ class _Fitter:
         still_moving = bool(len(curve) > 2 * tail
                             and (curve[-2 * tail:-tail].mean() - curve[-tail:].mean())
                             > 1e-6 * abs(curve[-tail:].mean()))
-        full = np.asarray(obj.expand(theta), dtype=float)
-        return {"theta_full": full.tolist(), "final_loss": float(curve[-1]),
-                "initial_loss": float(curve[0]), "projected_grad_norm": n1,
-                "initial_projected_grad_norm": n0,
-                "converged": bool(n1 <= 1e-3 * max(n0, 1e-300)), "still_moving": still_moving}
+        coordinates = np.asarray(theta, dtype=float)
+        full = (np.asarray(obj.expand(theta), dtype=float) if self.parameterization == "rates"
+                else coordinates)
+        out = {"theta_full": full.tolist(), "theta": coordinates.tolist(),
+               "final_loss": float(curve[-1]),
+               "initial_loss": float(curve[0]), "projected_grad_norm": n1,
+               "initial_projected_grad_norm": n0,
+               "converged": bool(n1 <= 1e-3 * max(n0, 1e-300)), "still_moving": still_moving}
+        if self.parameterization == "coords":
+            # Fits that land on p = tau1^2 / 4 are the tied-rate model; how often is reported.
+            from personalization import coords as co
+            out["on_tied_boundary"] = bool(co.on_tied_boundary(coordinates, tolerance=1e-4))
+        return out
 
 
 _CONTEXTS: dict[tuple, SubjectContext] = {}
@@ -291,13 +340,10 @@ _AMORTIZED: dict[str, object] = {}
 
 def _context(config: dict, subject_id: str) -> SubjectContext:
     key = (subject_id, config["steps"], config["learning_rate"], config["lam"], config["beta"],
-           tuple(config["grid_shape"]), config["grid1_points"])
+           tuple(config["grid_shape"]), config["grid1_points"], config["cohort"],
+           str(config.get("replica")), str(config.get("carb_scale")))
     if key not in _CONTEXTS:
-        subjects = load_cohort(config["cohort"], min_meals=config["min_meals"],
-                               limit=config["limit"])
-        subject = next((s for s in subjects if s.subject_id == subject_id), None)
-        if subject is None:
-            raise KeyError(f"no subject {subject_id!r} in cohort {config['cohort']!r}")
+        subject = get_subject(config, subject_id)
         _CONTEXTS.clear()           # one subject at a time: compiled programs are large
         _CONTEXTS[key] = SubjectContext(subject, config)
     return _CONTEXTS[key]
@@ -393,7 +439,7 @@ def run_unit(unit: str, config: dict) -> dict:
 
             if cell in FIT_CELLS:
                 fit = ctx.fitter(cell).fit(train)
-                pred = ctx.predict(fit["theta_full"])
+                pred = ctx.predict_fitted(cell, fit)
                 record.update(fit)
             elif cell == "grid3":
                 table = ctx.grid3_table()
@@ -470,6 +516,7 @@ def run_unit(unit: str, config: dict) -> dict:
         }
     return {
         "subject_id": subject_id, "repeat": repeat, "cohort": config["cohort"], "n_meals": n,
+        "replica": config.get("replica"), "carb_scale": config.get("carb_scale"),
         "folds": folds.tolist(), "obs_iauc": ctx.obs_iauc.tolist(),
         "obs_peak": ctx.obs_peak.tolist(), "carbs_g": [r["carbs_g"] for r in ctx.records],
         "fit_settings": {k: config[k] for k in ("steps", "learning_rate", "lam", "beta")},

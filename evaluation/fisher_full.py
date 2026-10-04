@@ -36,6 +36,7 @@ import jax                       # noqa: E402
 import jax.numpy as jnp         # noqa: E402
 
 from evaluation.cohort_data import load_cohort                        # noqa: E402
+from evaluation.subject_source import get_subject, window_for         # noqa: E402
 from evaluation.identifiability_tools import numerical_rank, timing_block  # noqa: E402
 from personalization.fit_general import BOUND_TOLERANCE, fit_ml       # noqa: E402
 from personalization.objectives import (                              # noqa: E402
@@ -63,6 +64,8 @@ def default_config() -> dict:
         # a bound in the 1x box and interior in the 2x box was limited by the box, while one pinned in
         # both was limited by the data.
         "bounds_scale": 1.0,
+        "carb_scale": None,
+        "replica": None,
     }
 
 
@@ -70,14 +73,6 @@ def units(config: dict) -> list[str]:
     subjects = load_cohort(config["cohort"], min_meals=config["min_meals"],
                            limit=config["limit"])
     return [s.subject_id for s in subjects]
-
-
-def _subject(config: dict, unit: str):
-    subjects = load_cohort(config["cohort"], min_meals=config["min_meals"], limit=config["limit"])
-    subject = next((s for s in subjects if s.subject_id == unit), None)
-    if subject is None:
-        raise KeyError(f"no subject {unit!r} in cohort {config['cohort']!r}")
-    return subject
 
 
 def design_matrix(objective, theta, log_coords: bool = True) -> np.ndarray:
@@ -117,8 +112,9 @@ def fisher_from_design(jacobian: np.ndarray) -> dict:
 
 
 def run_unit(unit: str, config: dict) -> dict:
-    subject = _subject(config, unit)
-    spec = ObjectiveSpec(name=config["objective"], bounds_scale=config["bounds_scale"])
+    subject = get_subject(config, unit)
+    window = window_for(subject)
+    spec = ObjectiveSpec(name=config["objective"], bounds_scale=config["bounds_scale"], window=window)
 
     # theta_hat_ML, with the frozen noise model the likelihood is weighted by.
     ml = fit_ml(subject, spec, steps=config["steps"], pilot_steps=config["pilot_steps"],
@@ -128,9 +124,9 @@ def run_unit(unit: str, config: dict) -> dict:
     records = list(subject.records)
     objective = build_objective(
         ObjectiveSpec(name=config["objective"], lam=0.0, normalization="nll",
-                      bounds_scale=config["bounds_scale"]),
+                      bounds_scale=config["bounds_scale"], window=window),
         base_params(subject.profile), subject_arrays(records),
-        observed_values(records, Window()), noise=ml.noise)
+        observed_values(records, window), noise=ml.noise)
 
     jacobian = design_matrix(objective, theta, log_coords=True)
     spectrum = fisher_from_design(jacobian)
@@ -153,6 +149,8 @@ def run_unit(unit: str, config: dict) -> dict:
         "objective": config["objective"],
         "bounds_scale": config["bounds_scale"],
         "n_meals": subject.n_meals,
+        "carb_scale": config.get("carb_scale"), "replica": config.get("replica"),
+        "sampling_min": subject.sampling_min,
         "n_residuals": objective.n_residuals,
         "theta_ml": ml.ml.theta,
         "theta_natural": ml.ml.theta_full,

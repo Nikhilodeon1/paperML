@@ -15,13 +15,12 @@ from evaluation.results_io import ROOT
 OUTPUT = ROOT / "REPORTS" / "final.md"
 
 SKIPPED = [
-    ("Phase 4d", "A10 inference gap with multistart and the well-specified noise-floor replica "
-                 "(the loss-gap check on the cross-validation folds IS reported)."),
-    ("Phase 5.1", "A8 diagnostic validation: Spearman agreement, classification AUC, robustness sweeps "
-                  "(H6, H10)."),
-    ("Phase 5.2-5.3", "A13 leakage intervals and A14 clinical correlations."),
-    ("Phase 6", "A11 synthetic recovery, A12 replication on the other cohorts, A15 design sweep."),
-    ("Amendment 1", "H11 (identifiable combination profile) and H12 (tied-rate model)."),
+    ("Phase 5.1", "A8 robustness sweeps (H10): five initializations, three bound settings, log versus "
+                  "linear parameterization, Adam versus L-BFGS."),
+    ("Phase 6", "A11 synthetic recovery (so the synthetic AUC clause of H6), A15 design sweep."),
+    ("H16", "Heteroskedastic-noise sensitivity of the S_I profile."),
+    ("Optional", "Dalla Man full Fisher on the 10-subject subsample: the second model class was only "
+                 "examined in the earlier draft and was not re-run."),
 ]
 
 
