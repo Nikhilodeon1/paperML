@@ -145,7 +145,10 @@ def basal_point(p, clock_hour: float = 8.0, settle_min: float = 2000.0,
         ODETerm(lambda t, y, args: fast_vector_field(y, p, clock_hour, regime=regime)), Tsit5(),
         t0=0.0, t1=float(settle_min), dt0=1.0, y0=y0, saveat=SaveAt(t1=True),
         stepsize_controller=PIDController(rtol=1e-8, atol=1e-10), max_steps=200000)
-    y = solution.ys[-1]
+    # The integration only finds the neighbourhood of the fixed point. Cutting the gradient here and
+    # differentiating the Newton steps instead gives exactly the implicit-function derivative
+    # -J^-1 df/dp, without reverse-mode through a 2000 minute solve.
+    y = jax.lax.stop_gradient(solution.ys[-1])
 
     def field(state):
         return fast_vector_field(state, p, clock_hour, regime=regime)
@@ -158,7 +161,7 @@ def basal_point(p, clock_hour: float = 8.0, settle_min: float = 2000.0,
         except Exception:
             break
         y = y - step
-    return y, float(jnp.linalg.norm(field(y)))
+    return y, jnp.linalg.norm(field(y))
 
 
 def linearize(p, clock_hour: float = 8.0, regime: str = "active") -> LinearModel:
@@ -169,6 +172,7 @@ def linearize(p, clock_hour: float = 8.0, regime: str = "active") -> LinearModel
     the stomach compartment and nothing else.
     """
     basal, residual = basal_point(p, clock_hour, regime=regime)
+    residual = float(residual)
     A = np.asarray(jax.jacfwd(lambda y: fast_vector_field(y, p, clock_hour, regime=regime))(basal),
                    dtype=float)
     B = np.zeros(N_FAST)

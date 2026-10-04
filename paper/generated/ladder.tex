@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lccc}
+\toprule
+Box, evaluated at & iAUC & iAUC+centroid & trace \\
+\midrule
+$0.5\times$, own estimate & 2.3e+05 & 4e+05 & 6.4e+03 \\
+$0.5\times$, common reference & 2.3e+05 & 2.1e+05 & 1.2e+03 \\
+$1\times$, own estimate & 4.3e+05 & 2.8e+07 & 8.8e+07 \\
+$1\times$, common reference & 3.3e+05 & 8.7e+04 & 8.1e+02 \\
+$2\times$, own estimate & 7.8e+03 & 5e+14 & 1.1e+14 \\
+$2\times$, common reference & 7.8e+03 & 1e+05 & 4.1e+02 \\
+\bottomrule
+\end{tabular}
+\caption{Median condition number of the Schur-complement timing block, at each objective's own maximum-likelihood estimate and at one common reference point per subject.}
+\label{tab:ladder}
+\end{table}

@@ -1,0 +1,58 @@
+2026-10-03 22:09:16 [A7_moment_checks] start: 45 units, 0 already done, 0 previously failed, 6 workers
+2026-10-03 22:15:33 [A7_moment_checks] worker 5 finished CGMacros-002 in 371.2s
+2026-10-03 22:15:36 [A7_moment_checks] worker 4 finished CGMacros-005 in 375.6s
+2026-10-03 22:15:37 [A7_moment_checks] worker 1 finished CGMacros-003 in 375.7s
+2026-10-03 22:15:38 [A7_moment_checks] worker 2 finished CGMacros-006 in 376.7s
+2026-10-03 22:16:02 [A7_moment_checks] worker 0 finished CGMacros-004 in 399.9s
+2026-10-03 22:16:10 [A7_moment_checks] worker 3 finished CGMacros-001 in 408.9s
+2026-10-03 22:21:19 [A7_moment_checks] worker 5 finished CGMacros-007 in 346.4s
+2026-10-03 22:21:29 [A7_moment_checks] worker 4 finished CGMacros-008 in 352.2s
+2026-10-03 22:21:41 [A7_moment_checks] worker 1 finished CGMacros-009 in 364.7s
+2026-10-03 22:21:46 [A7_moment_checks] worker 3 finished CGMacros-012 in 335.8s
+2026-10-03 22:21:58 [A7_moment_checks] worker 2 finished CGMacros-010 in 380.1s
+2026-10-03 22:22:13 [A7_moment_checks] worker 5 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:22:14 [A7_moment_checks] worker 3 unit CGMacros-016 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:22:24 [A7_moment_checks] worker 0 finished CGMacros-011 in 381.8s
+2026-10-03 22:25:32 [A7_moment_checks] worker 0 unit CGMacros-019 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:25:32 [A7_moment_checks] worker 2 unit CGMacros-017 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:25:32 [A7_moment_checks] worker 1 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:26:36 [A7_moment_checks] worker 4 finished CGMacros-014 in 306.9s
+2026-10-03 22:27:23 [A7_moment_checks] worker 2 unit CGMacros-017 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:27:23 [A7_moment_checks] worker 2 gave up on CGMacros-017 after 2 attempts
+2026-10-03 22:27:23 [A7_moment_checks] worker 4 unit CGMacros-021 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:27:23 [A7_moment_checks] worker 3 unit CGMacros-016 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:27:23 [A7_moment_checks] worker 3 gave up on CGMacros-016 after 2 attempts
+2026-10-03 22:27:54 [A7_moment_checks] worker 3 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:28:06 [A7_moment_checks] worker 5 finished CGMacros-018 in 344.2s
+2026-10-03 22:29:06 [A7_moment_checks] worker 0 finished CGMacros-019 in 213.9s
+2026-10-03 22:31:04 [A7_moment_checks] worker 1 unit CGMacros-020 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:31:04 [A7_moment_checks] worker 4 unit CGMacros-021 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:31:04 [A7_moment_checks] worker 4 gave up on CGMacros-021 after 2 attempts
+2026-10-03 22:31:04 [A7_moment_checks] worker 1 unit CGMacros-020 attempt 2 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:31:04 [A7_moment_checks] worker 1 gave up on CGMacros-020 after 2 attempts
+2026-10-03 22:31:05 [A7_moment_checks] worker 4 unit CGMacros-029 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:31:06 [A7_moment_checks] worker 3 exited 3221226505; restarting.   warnings.warn(
+2026-10-03 22:31:08 [A7_moment_checks] worker 2 exited 3221226505; restarting.   warnings.warn(
+2026-10-03 22:31:08 [A7_moment_checks] worker 5 exited 3221226505; restarting.   warnings.warn(
+2026-10-03 22:34:05 [A7_moment_checks] worker 0 finished CGMacros-028 in 299.2s
+2026-10-03 22:35:02 [A7_moment_checks] worker 4 finished CGMacros-029 in 237.2s
+2026-10-03 22:35:12 [A7_moment_checks] worker 1 finished CGMacros-030 in 238.8s
+2026-10-03 22:35:42 [A7_moment_checks] worker 2 finished CGMacros-032 in 268.0s
+2026-10-03 22:37:00 [A7_moment_checks] worker 3 finished CGMacros-031 in 346.9s
+2026-10-03 22:37:10 [A7_moment_checks] worker 5 finished CGMacros-033 in 356.7s
+2026-10-03 22:37:19 [A7_moment_checks] worker 3 unit CGMacros-039 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:37:22 [A7_moment_checks] worker 2 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:37:22 [A7_moment_checks] worker 3 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:38:51 [A7_moment_checks] worker 1 finished CGMacros-036 in 218.2s
+2026-10-03 22:39:39 [A7_moment_checks] worker 4 finished CGMacros-035 in 276.7s
+2026-10-03 22:40:31 [A7_moment_checks] worker 5 unit CGMacros-041 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:40:31 [A7_moment_checks] worker 1 unit CGMacros-044 attempt 1 failed: For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.
+2026-10-03 22:41:02 [A7_moment_checks] worker 0 finished CGMacros-034 in 416.9s
+2026-10-03 22:41:50 [A7_moment_checks] worker 0 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:41:50 [A7_moment_checks] worker 4 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:41:52 [A7_moment_checks] worker 1 exited 3221226505; restarting. LLVM ERROR: Unable to allocate section memory!
+2026-10-03 22:42:34 [A7_moment_checks] worker 2 finished CGMacros-042 in 305.1s
+2026-10-03 22:43:53 [A7_moment_checks] worker 5 finished CGMacros-041 in 202.0s
+2026-10-03 22:46:44 [A7_moment_checks] worker 4 finished CGMacros-047 in 287.6s
+2026-10-03 22:46:44 [A7_moment_checks] worker 1 finished CGMacros-049 in 286.7s
+2026-10-03 22:46:52 [A7_moment_checks] worker 0 finished CGMacros-048 in 295.7s

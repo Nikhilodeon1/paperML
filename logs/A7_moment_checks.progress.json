@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A7_moment_checks",
+  "config_hash": "bd9c25b6903d",
+  "total": 45,
+  "done": 29,
+  "failed": 4,
+  "claimed": 12,
+  "pending": 0,
+  "elapsed_seconds": 2277.3,
+  "units_per_hour": 45.84,
+  "eta_hours": 0.26,
+  "workers_alive": 0,
+  "worker_restarts": 11,
+  "stopping": false,
+  "updated": "2026-10-03T22:47:13-0700"
+}

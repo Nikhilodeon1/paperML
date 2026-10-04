@@ -1,0 +1,80 @@
+2026-10-03 22:09:16 [A7_moment_checks] start: 45 units, 0 already done, 0 previously failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  1/45 done, 0 failed, 6 workers, eta 4.6h
+  5/45 done, 0 failed, 6 workers, eta 0.9h
+  6/45 done, 0 failed, 6 workers, eta 0.8h
+  6/45 done, 0 failed, 6 workers, eta 0.9h
+  6/45 done, 0 failed, 6 workers, eta 0.9h
+  6/45 done, 0 failed, 6 workers, eta 1.0h
+  6/45 done, 0 failed, 6 workers, eta 1.0h
+  6/45 done, 0 failed, 6 workers, eta 1.1h
+  6/45 done, 0 failed, 6 workers, eta 1.1h
+  6/45 done, 0 failed, 6 workers, eta 1.2h
+  6/45 done, 0 failed, 6 workers, eta 1.3h
+  7/45 done, 0 failed, 6 workers, eta 1.1h
+  10/45 done, 0 failed, 6 workers, eta 0.7h
+  12/45 done, 0 failed, 6 workers, eta 0.6h
+  12/45 done, 0 failed, 6 workers, eta 0.6h
+  12/45 done, 0 failed, 6 workers, eta 0.6h
+  12/45 done, 0 failed, 6 workers, eta 0.7h
+  12/45 done, 0 failed, 6 workers, eta 0.7h
+  12/45 done, 0 failed, 6 workers, eta 0.7h
+  12/45 done, 0 failed, 6 workers, eta 0.7h
+  12/45 done, 0 failed, 6 workers, eta 0.8h
+  12/45 done, 0 failed, 6 workers, eta 0.8h
+  13/45 done, 0 failed, 6 workers, eta 0.7h
+  13/45 done, 2 failed, 6 workers, eta 0.7h
+  13/45 done, 2 failed, 6 workers, eta 0.7h
+  14/45 done, 2 failed, 6 workers, eta 0.7h
+  15/45 done, 2 failed, 6 workers, eta 0.6h
+  15/45 done, 2 failed, 6 workers, eta 0.6h
+  15/45 done, 2 failed, 6 workers, eta 0.6h
+  15/45 done, 2 failed, 6 workers, eta 0.7h
+  15/45 done, 4 failed, 6 workers, eta 0.6h
+  15/45 done, 4 failed, 6 workers, eta 0.6h
+  15/45 done, 4 failed, 6 workers, eta 0.7h
+  15/45 done, 4 failed, 6 workers, eta 0.7h
+  15/45 done, 4 failed, 6 workers, eta 0.7h
+  15/45 done, 4 failed, 6 workers, eta 0.7h
+  16/45 done, 4 failed, 6 workers, eta 0.7h
+  16/45 done, 4 failed, 6 workers, eta 0.7h
+  18/45 done, 4 failed, 6 workers, eta 0.6h
+  19/45 done, 4 failed, 6 workers, eta 0.5h
+  19/45 done, 4 failed, 6 workers, eta 0.5h
+  19/45 done, 4 failed, 6 workers, eta 0.5h
+  21/45 done, 4 failed, 6 workers, eta 0.4h
+  21/45 done, 4 failed, 6 workers, eta 0.5h
+  21/45 done, 4 failed, 6 workers, eta 0.5h
+  22/45 done, 4 failed, 6 workers, eta 0.4h
+  22/45 done, 4 failed, 6 workers, eta 0.4h
+  23/45 done, 4 failed, 6 workers, eta 0.4h
+  23/45 done, 4 failed, 6 workers, eta 0.4h
+  23/45 done, 4 failed, 5 workers, eta 0.4h
+  24/45 done, 4 failed, 5 workers, eta 0.4h
+  24/45 done, 4 failed, 5 workers, eta 0.4h
+  24/45 done, 4 failed, 5 workers, eta 0.4h
+  25/45 done, 4 failed, 4 workers, eta 0.4h
+  25/45 done, 4 failed, 4 workers, eta 0.4h
+  26/45 done, 4 failed, 4 workers, eta 0.3h
+  26/45 done, 4 failed, 4 workers, eta 0.3h
+  26/45 done, 4 failed, 3 workers, eta 0.3h
+  26/45 done, 4 failed, 3 workers, eta 0.3h
+  26/45 done, 4 failed, 3 workers, eta 0.4h
+  26/45 done, 4 failed, 3 workers, eta 0.4h
+  29/45 done, 4 failed, 3 workers, eta 0.3h
+==============================================================================
+A7_moment_checks: 29/45 done, 4 failed in 0.63h
+  FAILED: CGMacros-016, CGMacros-017, CGMacros-020, CGMacros-021
+  tracebacks in C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\results\A7_moment_checks\bd9c25b6903d
+==============================================================================
