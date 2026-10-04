@@ -30,4 +30,5 @@ user_data/
 results_return/
 results_return.tgz
 results/
-evaluation/
+evaluation/results_return/
+results_return.tgz
