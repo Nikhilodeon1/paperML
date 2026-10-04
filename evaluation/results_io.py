@@ -237,6 +237,22 @@ def largest_result_set(analysis_id: str) -> tuple[str, dict]:
     return name, groups[name]
 
 
+def largest_matching(analysis_id: str, match) -> dict[str, dict]:
+    """Payloads, keyed by unit, from the ONE config directory with the most units that satisfy `match`.
+
+    A box or objective can have several result directories (a stopped run, a rerun on another code
+    version). Merging them would let an older partial run overwrite a complete one depending on
+    directory order, so the summaries take a single directory: the most complete.
+    """
+    best: dict[str, dict] = {}
+    for units in load_all(analysis_id).values():
+        rows = {k: d["payload"] for k, d in units.items() if k != "_unreadable"
+                and match(d["payload"])}
+        if len(rows) > len(best):
+            best = rows
+    return best
+
+
 def log(analysis_id: str, message: str, echo: bool = False) -> None:
     """Append a timestamped line to `logs/<analysis_id>.log`.
 

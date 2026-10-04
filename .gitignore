@@ -27,3 +27,7 @@ data/
 
 # Product user records copied in with the branch. Personal data; never part of the artifact.
 user_data/
+results_return/
+results_return.tgz
+results/
+evaluation/

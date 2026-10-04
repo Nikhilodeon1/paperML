@@ -96,17 +96,11 @@ def run_unit(unit: str, config: dict) -> dict:
 
 
 def summarize(config: dict | None = None) -> dict:
-    from evaluation.results_io import load_all
+    from evaluation.results_io import largest_matching
     config = config or default_config()
-    gaps = {}
-    for documents in load_all(ANALYSIS_ID).values():
-        for key, doc in documents.items():
-            if key == "_unreadable":
-                continue
-            p = doc["payload"]
-            if p["objective"] == config["objective"] and abs(
-                    p["bounds_scale"] - config["bounds_scale"]) < 1e-12:
-                gaps[p["subject_id"]] = p["gap"]
+    rows = largest_matching(ANALYSIS_ID, lambda p: p["objective"] == config["objective"]
+                            and abs(p["bounds_scale"] - config["bounds_scale"]) < 1e-12)
+    gaps = {k: p["gap"] for k, p in rows.items()}
     if not gaps:
         return {"n": 0}
     g = np.array(list(gaps.values()))

@@ -75,16 +75,10 @@ def projected_gradient_check(bounds_scale: float = 1.0) -> dict:
     Compared on the same fits: the raw mean absolute gradient and the projected one, over all subjects
     and over the subjects interior for S_I at their maximum-likelihood estimate (A4, same box).
     """
-    from evaluation.results_io import load_all
+    from evaluation.results_io import largest_matching
 
-    diag = {}
-    for documents in load_all("A8a_gradient_diag").values():
-        for key, doc in documents.items():
-            if key == "_unreadable":
-                continue
-            p = doc["payload"]
-            if abs(p["bounds_scale"] - bounds_scale) < 1e-12:
-                diag[p["subject_id"]] = p
+    diag = largest_matching("A8a_gradient_diag",
+                            lambda p: abs(p["bounds_scale"] - bounds_scale) < 1e-12)
     if not diag:
         return {"n": 0}
     a4 = a4_results("iauc", bounds_scale)

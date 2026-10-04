@@ -143,8 +143,6 @@ def _stats(table: dict[str, dict[str, float]]) -> dict:
 
 def summarize(bounds_scale: float = 1.0) -> dict:
     """H3 and H4 from stored results, at each objective's own estimate and at the common reference."""
-    from evaluation.results_io import load_all
-
     own, ref, cosines = {}, {}, {}
     for objective in LADDER:
         rows = a4_results(objective, bounds_scale)
@@ -154,14 +152,9 @@ def summarize(bounds_scale: float = 1.0) -> dict:
                                 r["theta_ml"]["gastric_emptying"], r["theta_ml"]["carb_absorption"])
             for s, r in rows.items()}
 
-    reference_rows = {}
-    for documents in load_all(ANALYSIS_ID).values():
-        for key, doc in documents.items():
-            if key == "_unreadable":
-                continue
-            payload = doc["payload"]
-            if abs(payload["bounds_scale"] - bounds_scale) < 1e-12:
-                reference_rows[payload["subject_id"]] = payload
+    from evaluation.results_io import largest_matching
+    reference_rows = {p["subject_id"]: p for p in largest_matching(
+        ANALYSIS_ID, lambda p: abs(p["bounds_scale"] - bounds_scale) < 1e-12).values()}
     for objective in LADDER:
         ref[objective] = {s: r["objectives"][objective]["timing_block"]["condition_number"]
                           for s, r in reference_rows.items()

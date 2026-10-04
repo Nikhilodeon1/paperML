@@ -160,6 +160,48 @@ def analyse(units: list[dict] | None = None, metric: str = "iauc") -> dict:
 GAP_TOLERANCE = 0.01
 
 
+def steps_sensitivity(long_run_match=lambda p: p.get("fit_settings", {}).get("steps") == 500) -> dict:
+    """Amendment 3: does a 500-step budget change the H7 / H8 equivalence verdicts?
+
+    The long run holds only `grad3` and `grad1` for the first repeats. They are compared with the
+    exhaustive-grid cells of the primary run on the SAME repeats, and with each other, with the same
+    paired bootstrap, 90% interval and margins as the primary analysis. The primary cells are rescored
+    on those repeats too, so the comparison is like for like.
+    """
+    from evaluation.results_io import largest_matching
+    long_units = largest_matching(ANALYSIS_ID, long_run_match)
+    primary = [p for p in load_units() if p.get("fit_settings", {}).get("steps") == 150]
+    if not long_units or not primary:
+        return {"n": 0}
+    repeats = sorted({u["repeat"] for u in long_units.values()})
+    merged = {}
+    for unit in primary:
+        if unit["repeat"] in repeats:
+            merged[(unit["subject_id"], unit["repeat"])] = {
+                "subject_id": unit["subject_id"], "repeat": unit["repeat"],
+                "cells": {k: v for k, v in unit["cells"].items() if k in ("grad3", "grad1", "grid3", "grid1")}}
+    for unit in long_units.values():
+        key = (unit["subject_id"], unit["repeat"])
+        if key in merged:
+            merged[key]["cells"]["grad3_500"] = unit["cells"]["grad3"]
+            merged[key]["cells"]["grad1_500"] = unit["cells"]["grad1"]
+    units = [u for u in merged.values() if "grad3_500" in u["cells"]]
+    scores = subject_scores(units, "iauc")
+    rows = {}
+    for first, second in (("grad3", "grid3"), ("grad3_500", "grid3"), ("grad1", "grid1"),
+                          ("grad1_500", "grid1"), ("grad3", "grad1"), ("grad3_500", "grad1_500")):
+        c = compare(scores, first, second)
+        rows[f"{first}_vs_{second}"] = {
+            "mean_difference": c.get("mean_difference"), "ci95": c.get("ci95"),
+            "equivalent_at": {m: v["equivalent"] for m, v in c.get("tost", {}).items()},
+            "n": c.get("n")}
+    changed = [k for k in ("grad3_vs_grid3", "grad1_vs_grid1", "grad3_vs_grad1")
+               if rows[k]["equivalent_at"] != rows[k.replace("grad3", "grad3_500").replace(
+                   "grad1", "grad1_500")]["equivalent_at"]]
+    return {"n_units": len(units), "repeats": repeats, "comparisons": rows,
+            "verdict_changed_for": changed, "robust_to_budget": not changed}
+
+
 def inference_gap(units: list[dict] | None = None) -> dict:
     """How close does the gradient fit get to the exhaustive grid minimum of the SAME training loss?
 

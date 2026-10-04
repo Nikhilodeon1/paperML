@@ -1,0 +1,439 @@
+nohup: ignoring input
+=== 2026-10-03 23:22:43 evaluation.prediction_cv
+2026-10-03 23:22:44 [A9_prediction_cv] start: 225 units, 0 already done, 0 previously failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  0/225 done, 0 failed, 30 workers
+  2/225 done, 0 failed, 30 workers, eta 5.9h
+  4/225 done, 0 failed, 30 workers, eta 3.4h
+  11/225 done, 0 failed, 30 workers, eta 1.4h
+  23/225 done, 0 failed, 30 workers, eta 0.7h
+  24/225 done, 0 failed, 30 workers, eta 0.7h
+  26/225 done, 0 failed, 30 workers, eta 0.7h
+  31/225 done, 0 failed, 30 workers, eta 0.7h
+  34/225 done, 0 failed, 30 workers, eta 0.6h
+  37/225 done, 0 failed, 30 workers, eta 0.6h
+  40/225 done, 0 failed, 30 workers, eta 0.6h
+  45/225 done, 0 failed, 30 workers, eta 0.6h
+  48/225 done, 0 failed, 30 workers, eta 0.5h
+  51/225 done, 0 failed, 30 workers, eta 0.5h
+  55/225 done, 0 failed, 30 workers, eta 0.5h
+  58/225 done, 0 failed, 30 workers, eta 0.5h
+  62/225 done, 0 failed, 30 workers, eta 0.5h
+  69/225 done, 0 failed, 30 workers, eta 0.4h
+  77/225 done, 0 failed, 30 workers, eta 0.4h
+  78/225 done, 0 failed, 30 workers, eta 0.4h
+  80/225 done, 0 failed, 30 workers, eta 0.4h
+  81/225 done, 0 failed, 30 workers, eta 0.4h
+  88/225 done, 0 failed, 30 workers, eta 0.4h
+  91/225 done, 0 failed, 30 workers, eta 0.4h
+  96/225 done, 0 failed, 30 workers, eta 0.3h
+  98/225 done, 0 failed, 30 workers, eta 0.3h
+  103/225 done, 0 failed, 30 workers, eta 0.3h
+  106/225 done, 0 failed, 30 workers, eta 0.3h
+  110/225 done, 0 failed, 30 workers, eta 0.3h
+  119/225 done, 0 failed, 30 workers, eta 0.3h
+  122/225 done, 0 failed, 30 workers, eta 0.3h
+  125/225 done, 0 failed, 30 workers, eta 0.2h
+  125/225 done, 0 failed, 30 workers, eta 0.3h
+  132/225 done, 0 failed, 30 workers, eta 0.2h
+  134/225 done, 0 failed, 30 workers, eta 0.2h
+  138/225 done, 0 failed, 30 workers, eta 0.2h
+  141/225 done, 0 failed, 30 workers, eta 0.2h
+  147/225 done, 0 failed, 30 workers, eta 0.2h
+  149/225 done, 0 failed, 30 workers, eta 0.2h
+  153/225 done, 0 failed, 30 workers, eta 0.2h
+  157/225 done, 0 failed, 30 workers, eta 0.2h
+  167/225 done, 0 failed, 30 workers, eta 0.1h
+  168/225 done, 0 failed, 30 workers, eta 0.1h
+  170/225 done, 0 failed, 30 workers, eta 0.1h
+  173/225 done, 0 failed, 30 workers, eta 0.1h
+  179/225 done, 0 failed, 30 workers, eta 0.1h
+  181/225 done, 0 failed, 30 workers, eta 0.1h
+  184/225 done, 0 failed, 30 workers, eta 0.1h
+  187/225 done, 0 failed, 30 workers, eta 0.1h
+  193/225 done, 0 failed, 30 workers, eta 0.1h
+  197/225 done, 0 failed, 29 workers, eta 0.1h
+  199/225 done, 0 failed, 27 workers, eta 0.1h
+  208/225 done, 0 failed, 18 workers, eta 0.0h
+  214/225 done, 0 failed, 12 workers, eta 0.0h
+  219/225 done, 0 failed, 7 workers, eta 0.0h
+  223/225 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 225/225 done, 0 failed in 0.52h
+==============================================================================
+=== 2026-10-03 23:54:05 evaluation.profile_lik
+2026-10-03 23:54:06 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 3.8h
+  1/45 done, 0 failed, 30 workers, eta 4.1h
+  1/45 done, 0 failed, 30 workers, eta 4.5h
+  3/45 done, 0 failed, 30 workers, eta 1.6h
+  3/45 done, 0 failed, 30 workers, eta 1.7h
+  3/45 done, 0 failed, 30 workers, eta 1.8h
+  4/45 done, 0 failed, 30 workers, eta 1.4h
+  4/45 done, 0 failed, 30 workers, eta 1.5h
+  4/45 done, 0 failed, 30 workers, eta 1.6h
+  9/45 done, 0 failed, 30 workers, eta 0.6h
+  11/45 done, 0 failed, 30 workers, eta 0.5h
+  11/45 done, 0 failed, 30 workers, eta 0.6h
+  17/45 done, 0 failed, 28 workers, eta 0.3h
+  20/45 done, 0 failed, 25 workers, eta 0.2h
+  21/45 done, 0 failed, 24 workers, eta 0.2h
+  25/45 done, 0 failed, 21 workers, eta 0.2h
+  29/45 done, 0 failed, 17 workers, eta 0.1h
+  31/45 done, 0 failed, 14 workers, eta 0.1h
+  31/45 done, 0 failed, 14 workers, eta 0.1h
+  31/45 done, 0 failed, 14 workers, eta 0.1h
+  32/45 done, 0 failed, 13 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  38/45 done, 0 failed, 9 workers, eta 0.1h
+  40/45 done, 0 failed, 5 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.33h
+==============================================================================
+=== 2026-10-04 00:13:38 evaluation.profile_lik --set bounds_scale=2.0
+2026-10-04 00:13:39 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 3.8h
+  1/45 done, 0 failed, 30 workers, eta 4.1h
+  1/45 done, 0 failed, 30 workers, eta 4.5h
+  3/45 done, 0 failed, 30 workers, eta 1.6h
+  3/45 done, 0 failed, 30 workers, eta 1.7h
+  3/45 done, 0 failed, 30 workers, eta 1.8h
+  3/45 done, 0 failed, 30 workers, eta 1.9h
+  4/45 done, 0 failed, 30 workers, eta 1.5h
+  4/45 done, 0 failed, 30 workers, eta 1.6h
+  7/45 done, 0 failed, 30 workers, eta 0.9h
+  9/45 done, 0 failed, 30 workers, eta 0.7h
+  13/45 done, 0 failed, 30 workers, eta 0.4h
+  15/45 done, 0 failed, 30 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.3h
+  22/45 done, 0 failed, 24 workers, eta 0.2h
+  24/45 done, 0 failed, 22 workers, eta 0.2h
+  25/45 done, 0 failed, 20 workers, eta 0.2h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  31/45 done, 0 failed, 14 workers, eta 0.1h
+  32/45 done, 0 failed, 13 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.35h
+==============================================================================
+=== 2026-10-04 00:34:44 evaluation.profile_lik --set bounds_scale=0.5
+2026-10-04 00:34:45 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 3.8h
+  1/45 done, 0 failed, 30 workers, eta 4.1h
+  2/45 done, 0 failed, 30 workers, eta 2.2h
+  3/45 done, 0 failed, 30 workers, eta 1.6h
+  3/45 done, 0 failed, 30 workers, eta 1.7h
+  4/45 done, 0 failed, 30 workers, eta 1.3h
+  6/45 done, 0 failed, 30 workers, eta 0.9h
+  7/45 done, 0 failed, 30 workers, eta 0.8h
+  8/45 done, 0 failed, 30 workers, eta 0.7h
+  14/45 done, 0 failed, 30 workers, eta 0.4h
+  16/45 done, 0 failed, 29 workers, eta 0.3h
+  17/45 done, 0 failed, 28 workers, eta 0.3h
+  23/45 done, 0 failed, 26 workers, eta 0.2h
+  27/45 done, 0 failed, 20 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  31/45 done, 0 failed, 15 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  38/45 done, 0 failed, 8 workers, eta 0.0h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+  40/45 done, 0 failed, 5 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.30h
+==============================================================================
+=== 2026-10-04 00:53:03 evaluation.fisher_full --set objective=iauc_centroid --set bounds_scale=1.0
+2026-10-04 00:53:04 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 1.1h
+  13/45 done, 0 failed, 30 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.0h
+  38/45 done, 0 failed, 8 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.06h
+==============================================================================
+=== 2026-10-04 00:56:23 evaluation.fisher_full --set objective=iauc_centroid --set bounds_scale=2.0
+2026-10-04 00:56:24 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  18/45 done, 0 failed, 29 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.05h
+==============================================================================
+=== 2026-10-04 00:59:42 evaluation.fisher_full --set objective=iauc_centroid --set bounds_scale=0.5
+2026-10-04 00:59:43 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  20/45 done, 0 failed, 27 workers, eta 0.0h
+  30/45 done, 0 failed, 15 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.05h
+==============================================================================
+=== 2026-10-04 01:02:56 evaluation.fisher_full --set objective=trace --set bounds_scale=1.0
+2026-10-04 01:02:58 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  4/45 done, 0 failed, 30 workers, eta 0.4h
+  10/45 done, 0 failed, 30 workers, eta 0.2h
+  17/45 done, 0 failed, 29 workers, eta 0.1h
+  27/45 done, 0 failed, 18 workers, eta 0.0h
+  36/45 done, 0 failed, 9 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-10-04 01:07:58 evaluation.fisher_full --set objective=trace --set bounds_scale=2.0
+2026-10-04 01:07:59 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  4/45 done, 0 failed, 30 workers, eta 0.4h
+  12/45 done, 0 failed, 30 workers, eta 0.1h
+  17/45 done, 0 failed, 29 workers, eta 0.1h
+  28/45 done, 0 failed, 19 workers, eta 0.0h
+  36/45 done, 0 failed, 9 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-10-04 01:12:51 evaluation.fisher_full --set objective=trace --set bounds_scale=0.5
+2026-10-04 01:12:52 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  4/45 done, 0 failed, 30 workers, eta 0.4h
+  8/45 done, 0 failed, 30 workers, eta 0.2h
+  16/45 done, 0 failed, 30 workers, eta 0.1h
+  28/45 done, 0 failed, 17 workers, eta 0.0h
+  35/45 done, 0 failed, 10 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-10-04 01:17:56 evaluation.ladder --set bounds_scale=1.0
+2026-10-04 01:17:58 [A6_ladder_reference] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  5/45 done, 0 failed, 30 workers, eta 0.2h
+  17/45 done, 0 failed, 28 workers, eta 0.1h
+  32/45 done, 0 failed, 16 workers, eta 0.0h
+  44/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A6_ladder_reference: 45/45 done, 0 failed in 0.06h
+==============================================================================
+=== 2026-10-04 01:21:16 evaluation.ladder --set bounds_scale=2.0
+2026-10-04 01:21:17 [A6_ladder_reference] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.4h
+  6/45 done, 0 failed, 30 workers, eta 0.2h
+  16/45 done, 0 failed, 30 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.0h
+  41/45 done, 0 failed, 5 workers, eta 0.0h
+==============================================================================
+A6_ladder_reference: 45/45 done, 0 failed in 0.06h
+==============================================================================
+=== 2026-10-04 01:24:37 evaluation.ladder --set bounds_scale=0.5
+2026-10-04 01:24:39 [A6_ladder_reference] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.4h
+  7/45 done, 0 failed, 30 workers, eta 0.1h
+  24/45 done, 0 failed, 25 workers, eta 0.0h
+  38/45 done, 0 failed, 9 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A6_ladder_reference: 45/45 done, 0 failed in 0.05h
+==============================================================================
+=== 2026-10-04 01:27:54 evaluation.gradient_diag --set bounds_scale=1.0
+2026-10-04 01:27:56 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  7/45 done, 0 failed, 30 workers, eta 0.0h
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-04 01:28:49 evaluation.gradient_diag --set bounds_scale=2.0
+2026-10-04 01:28:50 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  9/45 done, 0 failed, 30 workers, eta 0.0h
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-04 01:29:43 evaluation.gradient_diag --set bounds_scale=0.5
+2026-10-04 01:29:45 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  11/45 done, 0 failed, 30 workers, eta 0.0h
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-04 01:30:38 evaluation.optimizer_check --set bounds_scale=1.0
+2026-10-04 01:30:40 [A4b_optimizer_check] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  11/45 done, 0 failed, 30 workers, eta 0.0h
+==============================================================================
+A4b_optimizer_check: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-04 01:31:33 evaluation.optimizer_check --set bounds_scale=2.0
+2026-10-04 01:31:35 [A4b_optimizer_check] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 0.2h
+  31/45 done, 0 failed, 14 workers, eta 0.0h
+==============================================================================
+A4b_optimizer_check: 45/45 done, 0 failed in 0.02h
+==============================================================================
+=== 2026-10-04 01:32:49 evaluation.optimizer_check --set bounds_scale=0.5
+2026-10-04 01:32:50 [A4b_optimizer_check] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  25/45 done, 0 failed, 22 workers, eta 0.0h
+==============================================================================
+A4b_optimizer_check: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-04 01:33:33 evaluation.prediction_cv --set steps=500 --set repeats=3 --set cells=["grad3","grad1"]
+2026-10-04 01:33:35 [A9_prediction_cv] start: 135 units, 0 already done, 0 previously failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  0/135 done, 0 failed, 30 workers
+  2/135 done, 0 failed, 30 workers, eta 4.0h
+  2/135 done, 0 failed, 30 workers, eta 4.6h
+  3/135 done, 0 failed, 30 workers, eta 3.4h
+  7/135 done, 0 failed, 30 workers, eta 1.6h
+  12/135 done, 0 failed, 30 workers, eta 1.0h
+  19/135 done, 0 failed, 30 workers, eta 0.6h
+  24/135 done, 0 failed, 30 workers, eta 0.5h
+  26/135 done, 0 failed, 30 workers, eta 0.5h
+  28/135 done, 0 failed, 30 workers, eta 0.5h
+  31/135 done, 0 failed, 30 workers, eta 0.5h
+  33/135 done, 0 failed, 30 workers, eta 0.5h
+  35/135 done, 0 failed, 30 workers, eta 0.4h
+  36/135 done, 0 failed, 30 workers, eta 0.4h
+  38/135 done, 0 failed, 30 workers, eta 0.4h
+  43/135 done, 0 failed, 30 workers, eta 0.4h
+  48/135 done, 0 failed, 30 workers, eta 0.3h
+  50/135 done, 0 failed, 30 workers, eta 0.3h
+  53/135 done, 0 failed, 30 workers, eta 0.3h
+  56/135 done, 0 failed, 30 workers, eta 0.3h
+  58/135 done, 0 failed, 30 workers, eta 0.3h
+  60/135 done, 0 failed, 30 workers, eta 0.3h
+  62/135 done, 0 failed, 30 workers, eta 0.3h
+  65/135 done, 0 failed, 30 workers, eta 0.3h
+  70/135 done, 0 failed, 30 workers, eta 0.2h
+  76/135 done, 0 failed, 30 workers, eta 0.2h
+  78/135 done, 0 failed, 30 workers, eta 0.2h
+  79/135 done, 0 failed, 30 workers, eta 0.2h
+  82/135 done, 0 failed, 30 workers, eta 0.2h
+  84/135 done, 0 failed, 30 workers, eta 0.2h
+  89/135 done, 0 failed, 30 workers, eta 0.2h
+  91/135 done, 0 failed, 30 workers, eta 0.2h
+  94/135 done, 0 failed, 30 workers, eta 0.1h
+  95/135 done, 0 failed, 30 workers, eta 0.1h
+  98/135 done, 0 failed, 30 workers, eta 0.1h
+  101/135 done, 0 failed, 30 workers, eta 0.1h
+  104/135 done, 0 failed, 30 workers, eta 0.1h
+  105/135 done, 0 failed, 30 workers, eta 0.1h
+  110/135 done, 0 failed, 25 workers, eta 0.1h
+  116/135 done, 0 failed, 19 workers, eta 0.1h
+  123/135 done, 0 failed, 12 workers, eta 0.0h
+  125/135 done, 0 failed, 11 workers, eta 0.0h
+  127/135 done, 0 failed, 8 workers, eta 0.0h
+  132/135 done, 0 failed, 3 workers, eta 0.0h
+  134/135 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 135/135 done, 0 failed in 0.43h
+==============================================================================
+=== 2026-10-04 01:59:06 all queued jobs finished
+{
+  "done": 225,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "total": 225
+}
+{
+  "analysis_id": "A9_prediction_cv",
+  "config_hash": "d9d2e46a83e9",
+  "total": 135,
+  "done": 135,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 1531.1,
+  "units_per_hour": 317.41,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-04T01:59:06+0000"
+}

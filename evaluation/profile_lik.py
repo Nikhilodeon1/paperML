@@ -209,20 +209,15 @@ def run_unit(unit: str, config: dict) -> dict:
 
 def summarize(config: dict | None = None) -> dict:
     """Per-parameter fractions of bounded intervals, with Wilson intervals, for one box and objective."""
-    from evaluation.results_io import load_all
+    from evaluation.results_io import largest_matching
     from evaluation.stats_utils import wilson_ci
 
     config = config or default_config()
-    rows = []
-    for documents in load_all(ANALYSIS_ID).values():
-        for doc in documents.values():
-            payload = doc["payload"]
-            if (payload["objective"] == config["objective"]
-                    and abs(payload["bounds_scale"] - config["bounds_scale"]) < 1e-12):
-                rows.append(payload)
-    if not rows:
+    by_subject = largest_matching(
+        ANALYSIS_ID, lambda p: p["objective"] == config["objective"]
+        and abs(p["bounds_scale"] - config["bounds_scale"]) < 1e-12)
+    if not by_subject:
         return {"n_subjects": 0}
-    by_subject = {r["subject_id"]: r for r in rows}
     rows = list(by_subject.values())
 
     out = {"n_subjects": len(rows), "objective": config["objective"],
