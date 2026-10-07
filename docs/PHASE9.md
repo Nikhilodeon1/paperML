@@ -23,3 +23,14 @@ Anything not finished at the second freeze is dropped and the paper says it was 
 * Replace every `\todo{}` in `paper/sec_results.tex` and `paper/app_register.tex` using the verdicts.
 * Check the claims table in the introduction against the verdicts (H20 and H22 in particular).
 * `python -m evaluation.tmlr_build` lists remaining placeholders and citations to verify.
+
+## Rebuilding the environment on a new node (the venv lives in /tmp and does not survive)
+
+```bash
+cd ~/paperML
+python3 --version                      # needs 3.11 or newer
+python3 -m venv /tmp/venv && . /tmp/venv/bin/activate && pip install -U pip
+pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
+grep -v '^torch==' requirements-aistats.txt > /tmp/req.txt && pip install -r /tmp/req.txt
+python -c "import jax, equinox, diffrax; print('env ok')"
+```

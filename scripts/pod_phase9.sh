@@ -6,6 +6,15 @@
 # archived by the last block if you run `bash scripts/pod_phase9.sh archive`.
 set -u
 N="${N:-30}"
+# Refuse to start without the environment: with the wrong python every job fails at import in a second
+# and the script would still report that everything finished.
+if [ "${1:-}" != "archive" ]; then
+  python -c "import jax, equinox, diffrax, optax, scipy, sklearn" 2>/dev/null || {
+    echo "!!! python cannot import jax/equinox/diffrax/optax/scipy/sklearn. Activate the venv first:"
+    echo "    . /tmp/venv/bin/activate     (rebuild it if /tmp/venv is gone: see docs/PHASE9.md)"
+    exit 1
+  }
+fi
 # 7200 s per unit: the Phase 8 run killed two 2x Shanghai units at the 1800 s default for taking longer.
 run() { echo "=== $(date '+%F %T') $*"; python -m evaluation.runner "$@" --workers "$N" --unit-timeout 7200 || echo "!!! $* exited non-zero; continuing"; }
 
