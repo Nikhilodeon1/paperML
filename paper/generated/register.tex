@@ -1,0 +1,33 @@
+{\small
+\begin{longtable}{llp{0.55\linewidth}l}
+\toprule
+& origin & rule & status \\
+\midrule
+\endhead
+H1 & plan & Report the tool output verbatim; if k\_e and k\_a are globally identifiable, delete all swap framing. & formulation-dependent \\
+H2 & plan & Ratio $\le$ 0.02 (linearized, 6 h window); median ratio $\le$ 0.25 (nonlinear, 3 h window). & met \\
+H3 & plan & Median Schur-complement condition number decreases iAUC $\to$ iAUC+centroid $\to$ trace, paired Wilcoxon per step, Holm, alpha 0.05 (1x box, each objective's own estimate). & not met \\
+H4 & plan & Median |cos| of the weak timing eigenvector with (1/k\_a, -1/k\_e), iAUC+centroid, $\ge$ 0.8. & met \\
+H5 & plan & k\_e and k\_a bounded in $\le$ 25\% of subjects under iAUC and $\ge$ 50\% under the trace; S\_I bounded in $\ge$ 80\% under iAUC among subjects interior for S\_I (1x box). & not met \\
+H6 & plan & Median per-subject Spearman between the gradient diagnostic and the profile-likelihood ranking $\ge$ 0.7; AUC $\ge$ 0.85 for detecting profile-flat parameters in the synthetic study. & partially evaluated \\
+H7 & plan & Paired difference in held-out iAUC MAE, gradient vs exhaustive grid (three parameters and S\_I only), 90\% CI inside (-150, +150) mg/dL*min. & met \\
+H8 & plan & Gradient three parameters vs S\_I only: 90\% CI inside (-150, +150). & met \\
+H9 & plan & A full-trace fit lowers held-out iAUC MAE relative to an iAUC fit by more than 150 mg/dL*min (paired Wilcoxon, Holm). & not met \\
+H10 & plan & Kendall tau $\ge$ 0.8 across 5 inits, 3 bound settings, parameterizations, optimizers; S\_I ranked first in $\ge$ 95\% of interior subjects. & not evaluated \\
+H11 & amendment one & tau1 CI bounded in $\ge$ 70\% (iAUC+centroid and trace); p bounded $\le$ 30\% (iAUC+centroid), $\ge$ 50\% (trace); among subjects interior for the parameter. & not met \\
+H12 & amendment one & Tied-rate model within +/-150 of the three-parameter model (90\% CI); tau1 bounded in $\ge$ 70\% under iAUC+centroid. & not met \\
+H13 & amendment four (post hoc) & Replica with the model true: S\_I interval bounded in $\ge$ 50\% of interior subjects, k\_e and k\_a in $\le$ 25\%. & not met \\
+H14 & amendment four (post hoc) & Replica held-out iAUC MAE / real MAE: $\le$ 0.7 substantial part unexplained by noise or optimization; $\ge$ 0.9 noise accounts for almost all; between, mixed. & reported (no pass/fail) \\
+H15 & amendment four (post hoc) & Shanghai and Hall (iAUC, primary box): k\_e, k\_a bounded in $\le$ 25\%, weak Fisher direction cosine $\ge$ 0.8 with the exchange direction in $\ge$ 80\% of subjects. S\_I: no threshold. & met \\
+H16 & amendment four (post hoc) & Exploratory: S\_I saturation curve; carbohydrate-scale sensitivity; heteroskedastic noise (no thresholds). & reported (exploratory) \\
+H17 & amendment five (post hoc) & Replica seeds 0 to 4 pooled: the H13 rule (S\_I bounded in $\ge$ 50\% of interior subjects, k\_e and k\_a in $\le$ 25\%); reported with the per-seed range and the coverage of the bounded intervals. & not evaluated \\
+H18 & amendment five (post hoc) & Coordinate profiles on the true-model replica (seed 0, polished estimates): under the trace tau1 bounded in $\ge$ 70\% and p in $\ge$ 50\% of interior subjects. & not evaluated \\
+H19 & amendment five (post hoc) & Synthetic recovery with random truths (seeds 0 and 1 pooled): the H6 thresholds on the synthetic data (median Spearman $\ge$ 0.7, AUC $\ge$ 0.85). & not evaluated \\
+H20 & amendment five (post hoc) & Shanghai, A9 protocol: gradient vs grid and three parameters vs S\_I only, 90\% CI inside (-150, +150) on held-out iAUC MAE. & not evaluated \\
+H21 & amendment five (post hoc) & Coordinate fits: the Adam estimate is a likelihood optimum to within 1.92 in $\ge$ 90\% of subjects (iAUC+centroid and trace), against L-BFGS from five random starts. & not evaluated \\
+H22 & amendment five (post hoc) & Dalla Man model, iAUC: kabs, kmax and kmin each bounded in $\le$ 25\% of subjects (profile intervals, primary box). & not evaluated \\
+\bottomrule
+\caption{The hypothesis register: rule as written in the plan or amendment, origin, and the status computed from the stored results.}
+\label{tab:register}
+\end{longtable}
+}

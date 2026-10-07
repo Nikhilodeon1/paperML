@@ -30,6 +30,9 @@ def load_summary() -> dict:
     extra = RESULTS / "phase8_summary.json"
     if extra.exists():
         summary["phase8"] = json.loads(extra.read_text(encoding="utf-8"))
+    later = RESULTS / "phase9_summary.json"
+    if later.exists():
+        summary["phase9"] = json.loads(later.read_text(encoding="utf-8"))
     return summary
 
 
@@ -114,9 +117,18 @@ def h6(summary):
                 block["spearman_vs_fisher_information"].get("median"),
                 "auc_real_data": block["auc_detecting_flat"]}
     real = median is not None and median >= 0.7
-    return _row(rule, "partially evaluated" if real else "not met", observed,
-                note="Real-data part only: the synthetic-study AUC (A11) was not run. With three "
-                     "parameters per subject a Spearman coefficient takes few values.")
+    synthetic = summary.get("phase9", {}).get("h6_synthetic")
+    if not synthetic or not synthetic.get("n"):
+        return _row(rule, "partially evaluated" if real else "not met", observed,
+                    note="Real-data part only: the synthetic study was not run. With three "
+                         "parameters per subject a Spearman coefficient takes few values.")
+    observed["synthetic_median_spearman"] = synthetic["spearman_vs_profile_strength"].get("median")
+    observed["synthetic_auc"] = synthetic["auc_detecting_flat"]
+    met = real and synthetic["status"] == "met"
+    return _row(rule, "met" if met else "not met", observed,
+                note="Real-data Spearman clause from Phase 8; synthetic clause (random-truth replica, "
+                     "Amendment 5, run after the Phase 8 freeze). With three parameters per subject a "
+                     "Spearman coefficient takes few values.")
 
 
 def h7(summary):
@@ -151,9 +163,17 @@ def h9(summary):
 
 
 def h10(summary):
-    return _row("Kendall tau >= 0.8 across 5 inits, 3 bound settings, parameterizations, optimizers; "
-                "S_I ranked first in >= 95% of interior subjects.", "not evaluated",
-                note="Robustness sweeps (Phase 5) not run.")
+    rule = ("Kendall tau >= 0.8 across 5 inits, 3 bound settings, parameterizations, optimizers; "
+            "S_I ranked first in >= 95% of interior subjects.")
+    block = summary.get("phase9", {}).get("h10")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Robustness sweeps not run.")
+    observed = {f: {"median_of_mean_tau": v.get("median_of_mean_tau"), "passes": v.get("passes")}
+                for f, v in block["factors"].items()}
+    observed["S_I_first_interior"] = block["reference_S_I_first_interior"]
+    return _row(rule, block["status"], observed,
+                note="Run in Phase 9 (Amendment 5), after the Phase 8 freeze; operational reading fixed "
+                     "in Amendment 5 before the sweeps were run.")
 
 
 def h11(summary):
@@ -218,8 +238,81 @@ def h16(summary):
                 note="Heteroskedastic-noise sensitivity was not run.")
 
 
+def _phase9(summary, key):
+    return summary.get("phase9", {}).get(key)
+
+
+def h17(summary):
+    rule = ("Replica seeds 0 to 4 pooled: the H13 rule (S_I bounded in >= 50% of interior subjects, k_e and "
+            "k_a in <= 25%); reported with the per-seed range and the coverage of the bounded intervals.")
+    block = _phase9(summary, "h17")
+    if not block or not block.get("n"):
+        return _row(rule, "not evaluated", note="Replica seeds not run.")
+    return _row(rule, block["status"],
+                {"pooled_S_I_interior_bounded": block["pooled_S_I_interior_bounded"],
+                 "timing_max_fraction": block["pooled_timing_max_fraction"],
+                 "seed_range": block["seed_range_S_I_fraction"],
+                 "coverage": block["S_I_truth_coverage"]}, note=block["reading"])
+
+
+def h18(summary):
+    rule = ("Coordinate profiles on the true-model replica (seed 0, polished estimates): under the trace "
+            "tau1 bounded in >= 70% and p in >= 50% of interior subjects.")
+    block = _phase9(summary, "h18")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Coordinate replica not run.")
+    return _row(rule, block["status"], block.get("clauses", {}))
+
+
+def h19(summary):
+    rule = ("Synthetic recovery with random truths (seeds 0 and 1 pooled): the H6 thresholds on the "
+            "synthetic data (median Spearman >= 0.7, AUC >= 0.85).")
+    block = _phase9(summary, "h6_synthetic")
+    if not block or not block.get("n"):
+        return _row(rule, "not evaluated", note="Synthetic study not run.")
+    return _row(rule, block["status"],
+                {"median_spearman": block["spearman_vs_profile_strength"]["median"],
+                 "auc": block["auc_detecting_flat"], "n": block["n"]})
+
+
+def h20(summary):
+    rule = ("Shanghai, A9 protocol: gradient vs grid and three parameters vs S_I only, 90% CI inside "
+            "(-150, +150) on held-out iAUC MAE.")
+    block = _phase9(summary, "h20")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Shanghai cross-validation not run.")
+    comp = block["metrics"]["iauc"]["comparisons"]
+    return _row(rule, block["status"],
+                {k: comp[k]["mean_difference"] for k in ("grad3-grid3", "grad3-grad1")},
+                note=f"Equivalent at 150: {block['equivalent_at_150']}")
+
+
+def h21(summary):
+    rule = ("Coordinate fits: the Adam estimate is a likelihood optimum to within 1.92 in >= 90% of "
+            "subjects (iAUC+centroid and trace), against L-BFGS from five random starts.")
+    block = _phase9(summary, "h21")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Polished coordinate fits not run.")
+    observed = {o: {"fraction_below_threshold": v.get("fraction_below_threshold"), "max_gap": v.get("max_gap")}
+                for o, v in block["objectives"].items() if v.get("n")}
+    return _row(rule, block["status"], observed,
+                note=f"H11 on the polished estimates: {block['h11_on_polished_estimates'].get('status')}")
+
+
+def h22(summary):
+    rule = ("Dalla Man model, iAUC: kabs, kmax and kmin each bounded in <= 25% of subjects (profile "
+            "intervals, primary box).")
+    block = _phase9(summary, "h22")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Second model class not run.")
+    return _row(rule, block["status"],
+                {k: block["parameters"][k]["fraction"] for k in ("Vmx", "kabs", "kmax", "kmin")
+                 if k in block["parameters"]})
+
+
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
-       "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16}
+       "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
+       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22}
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

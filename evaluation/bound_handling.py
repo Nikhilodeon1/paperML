@@ -77,8 +77,8 @@ def projected_gradient_check(bounds_scale: float = 1.0) -> dict:
     """
     from evaluation.results_io import largest_matching
 
-    diag = largest_matching("A8a_gradient_diag",
-                            lambda p: abs(p["bounds_scale"] - bounds_scale) < 1e-12)
+    from evaluation.gradient_diag import is_default
+    diag = largest_matching("A8a_gradient_diag", lambda p: is_default(p, bounds_scale))
     if not diag:
         return {"n": 0}
     a4 = a4_results("iauc", bounds_scale)

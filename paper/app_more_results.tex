@@ -1,0 +1,63 @@
+\section{Additional results}
+\label{app:more}
+
+\subsection{Structural identifiability runs}
+\label{app:structural}
+
+The symbolic analyses used Julia and the package StructuralIdentifiability.jl in the versions
+\texttt{\juliaversion} and \texttt{\siversion}, on the Bergman-type model with the two-compartment gut cascade in its
+active regime and glucose as the output. Seven formulations were run; the four of Table~\ref{tab:structural} are the ones
+that differ in outcome, and the raw output of every run is archived with the code. The tool's local assessment
+reports all three parameters locally identifiable. Where the gut initial conditions were left free or
+unknown the rates were reported locally but not globally identifiable; in canonical coordinates
+$\sigma_1=\ke+\ka$ and $c=\ke\ka$ the two combinations were globally identifiable.
+
+\subsection{Tables of the main analyses}
+
+\input{generated/bounds}
+\input{generated/profiles}
+\input{generated/ladder}
+\input{generated/comparisons}
+\input{generated/levels}
+
+\subsection{Noise budgets on the replica}
+
+\input{generated/noise_budget}
+
+\subsection{Subject-level correlates}
+
+\input{generated/correlates}
+
+\subsection{Further figures}
+
+\begin{figure}[h]
+\centering
+\safefigure[width=\linewidth]{a1_gut_and_boxes}
+\caption{\textbf{(a)} Largest and median change in simulated glucose under the exchange $\ke\leftrightarrow\ka$
+as a function of residual intestinal content, as a percentage of the meal (shaded: $5$ to $10$\,mg\,dL$^{-1}$, for scale).
+\textbf{(b)} Subjects whose estimate lies on a bound, by box width.}
+\label{fig:gutsweep}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\safefigure[width=0.55\linewidth]{a2_generic_rank}
+\caption{Median scaled singular values of the stacked sensitivity matrix, smallest first, by observable.}
+\label{fig:rank}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\safefigure[width=\linewidth]{a3_dalla_man}
+\caption{Second model class (Dalla Man), iAUC objective. \textbf{(a)} Eigenvalues of the Fisher information in
+log coordinates, over subjects. \textbf{(b)} Subjects with a bounded $95\%$ profile interval per parameter.}
+\label{fig:dm}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\safefigure[width=0.6\linewidth]{a4_robustness}
+\caption{Median Kendall's $\tau$ between the reference ordering of the three parameters by the projected
+gradient diagnostic and the ordering under each factor of H10; dotted: the threshold $0.8$.}
+\label{fig:robustness}
+\end{figure}

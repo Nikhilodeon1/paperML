@@ -1,0 +1,106 @@
+\section{Model and estimation specification}
+\label{app:spec}
+
+This appendix is generated from the code that ran: the constants, bounds, solver settings and loss terms are
+read out of the modules that execute during inference (\texttt{evaluation/export\_spec.py}), so it cannot
+disagree with what was computed.
+
+\subsection{State, parameters and constants}
+
+The engine's state vector has twenty-one entries, of which eight are evolved in this stage: glucose,
+insulin, insulin action, stomach and gut glucose, glycogen, ketones and cumulative energy expenditure. The
+postprandial dynamics of glucose are carried by the first five (Section~\ref{sec:model}); the others
+enter the glucose equation only through terms that are numerically negligible for the initial state used
+(a glycogen level far above the threshold of the ketone drive).
+
+\begin{table}[h]
+\centering\small
+\input{spec_table}
+\caption{Left: the free parameters (rows one to three) and the fixed parameters of the model, with
+population values and inference bounds. Right: the fixed constants.}
+\label{tab:spec}
+\end{table}
+
+\paragraph{Meal input.}
+A meal of $c$ grams of carbohydrate, $f$ of fat and $b$ of fibre delivers a glucose mass
+$M=0.9\cdot 1000\,c\,/(1+0.08\,b+0.005\,f)$\,mg as a Gaussian rate pulse of width $2$\,min centred on the
+meal, integrating to $M$. The simulation lasts $210$\,min with the meal at $30$\,min and is saved every
+$5$\,min.
+
+\paragraph{Solver.}
+Tsit5 with a PID step-size controller (relative and absolute tolerance $10^{-4}$, at most $10^{4}$ steps),
+differentiated by reverse mode through the solver, in double precision.
+
+\subsection{Observables and loss}
+
+With the baseline $\bar G_{\mathrm{pre}}$ the mean of the six samples before the meal, and the smooth
+positive part $[x]_+^{\beta}=\beta^{-1}\log(1+e^{\beta x})$ with $\beta=10$,
+\begin{align}
+\iauc&=\int_{0}^{T}[G-\bar G_{\mathrm{pre}}]_+^{\beta}\,dt \quad (\text{trapezoid on the sample grid}),\\
+\text{centroid}&=\int_0^T t\,[G-\bar G_{\mathrm{pre}}]_+^{\beta}\,dt\Big/\iauc,
+\end{align}
+and the trace is the vector of $[G-\bar G_{\mathrm{pre}}]_+^{\beta}$ at the samples of the window, of
+length $T=180$\,min for CGMacros and Shanghai and $145$\,min for the cohort with standardized meals. The
+Shanghai trace uses every third sample, the real $15$-minute measurements.
+
+For the prediction fits the loss is the masked mean squared error of the iAUC over the training meals plus
+$\lambda\sum_j\bigl((\theta_j-\theta_j^{\mathrm{pop}})/\mathrm{range}_j\bigr)^2$ with $\lambda=0.01$,
+minimized by Adam (learning rate $0.02$, $150$ steps) with projection onto the box after each update. For
+every identifiability analysis $\lambda=0$ and the loss is the Gaussian negative log-likelihood
+$\tfrac12\sum_k r_k^2/\sigma_k^2$ over residuals $r_k$ of the stacked, weighted and (for the trace) whitened
+observables, with frozen $\sigma_k$ and, for the trace, frozen autocorrelation $\rho$.
+
+\subsection{Profile likelihood}
+
+For each parameter the grid has $15$ log-spaced points over the box. At every point the other parameters
+are re-optimized with $100$ Adam steps in log coordinates started from the estimate (a warm start that keeps
+the inner optimum on one branch). The reference level is the lower of the loss at the estimate and the lowest
+profile value, so an estimate that is not an optimum is flagged and not silently moved. A grid point whose
+inner loss fell by more than $0.05$ over the last quarter of the steps is counted as unsettled and reported
+(it overstates the profile there, which flatters identifiability). For $\ke$ and $\ka$ six further points
+extend the grid to four times the upper bound; they enter no classification.
+
+\subsection{Coordinates}
+
+In $(\log\SI,\log\tau_1,\log p)$ the box is the rectangular hull of the image of the rate box (a superset,
+deliberately: a tighter box would cut into the likelihood and manufacture identifiability), and the real-pole
+condition $\log p\le2\log\tau_1-\log 4$ is enforced by projection onto the tied-rate boundary $\ke=\ka$. Every
+coordinate fit records whether its implied rates fall inside the original box and whether it is on the
+boundary. The canonical engine integrates directly in $(\ke+\ka,\ke\ka)$ and never takes a square root of
+the rates.
+
+\subsection{Replica and synthetic study}
+
+The replica noise is first-order autoregressive with the lag-one correlation and innovation standard
+deviation of the residual of the real maximum-likelihood fit; when that estimate is unstable (innovation
+standard deviation outside $0.5$ to $60$\,mg\,dL$^{-1}$) the fallback is a marginal standard deviation of
+$10$\,mg\,dL$^{-1}$ and a correlation of $0.7$. Carbohydrate error is $\log$-normal,
+$\exp(\mathcal N(-\sigma^2/2,\sigma^2))$ with $\sigma^2=\log(1+\mathrm{CV}^2)$, so it has unit mean. The
+synthetic study draws $\SI$, $\ke$ and $\ka$ uniformly and independently over the box, at least $5\%$ of its
+width from either bound, with a stream seeded by the subject and the seed.
+
+\subsection{Second model class}
+
+The Dalla Man model (three-compartment gut with a $\tanh$ gastric-emptying law, two glucose and two insulin
+compartments, delayed insulin action on endogenous production, a subcutaneous glucose compartment) is run in
+double precision with relative and absolute tolerance $10^{-6}$. The six fitted parameters and their boxes
+are in Table~\ref{tab:dm}; the basal glucose is the subject's mean pre-meal CGM value and the insulin
+secretion slope is fixed.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{llc}
+\toprule
+parameter & meaning & box \\
+\midrule
+$V_{mx}$ & insulin sensitivity & $[0.005,\,0.150]$ \\
+$k_{abs}$ & intestinal absorption & $[0.020,\,0.200]$ \\
+$k_{max}$ & maximal gastric emptying & $[0.020,\,0.120]$ \\
+$k_{min}$ & minimal gastric emptying & $[0.005,\,0.080]$ \\
+$f$ & fraction absorbed & $[0.60,\,1.00]$ \\
+$T_d$ & sensor lag (min) & $[5,\,25]$ \\
+\bottomrule
+\end{tabular}
+\caption{Parameters fitted in the second model class and their boxes (log scale for fitting).}
+\label{tab:dm}
+\end{table}

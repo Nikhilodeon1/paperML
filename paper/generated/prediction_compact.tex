@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lcccc}
+\toprule
+cell & iAUC, CGMacros & iAUC, Shanghai & peak time, CGMacros & trace, CGMacros \\
+ & (mg\,dL$^{-1}$\,min) & (mg\,dL$^{-1}$\,min) & (min) & (mg\,dL$^{-1}$) \\
+\midrule
+gradient, three parameters & 3025 & -- & 47.5 & 35.9 \\
+grid search, three parameters & 3026 & -- & 48.0 & 36.3 \\
+gradient, $\SI$ only & 3059 & -- & 44.4 & 33.1 \\
+grid search, $\SI$ only & 3059 & -- & 44.4 & 33.1 \\
+gradient, trace objective & 3057 & -- & 41.6 & 31.2 \\
+random forest & 3154 & -- & 45.3 & 33.8 \\
+SNPE & 3420 & -- & 43.0 & 34.8 \\
+personal mean & 3257 & -- & 41.0 & 32.0 \\
+population default & 3359 & -- & 46.8 & 34.8 \\
+persistence & 4507 & -- & 54.6 & 46.5 \\
+\bottomrule
+\end{tabular}
+\caption{Held-out mean absolute error (iAUC, peak time) and root mean squared error (trace) by cell; mean over subjects of the mean over five repeats of five-fold cross-validation. The Shanghai column is empty where the cell was not run.}
+\label{tab:prediction}
+\end{table}

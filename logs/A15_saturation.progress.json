@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A15_saturation",
+  "config_hash": "d1c5a6b35b0a",
+  "total": 45,
+  "done": 45,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 22.4,
+  "units_per_hour": 7223.41,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-04T22:56:32+0000"
+}

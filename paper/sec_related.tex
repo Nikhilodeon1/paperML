@@ -1,0 +1,51 @@
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Identifiability.}
+Structural identifiability asks whether the parameters are determined by an ideal, noise-free observation
+\citep{bellman1970structural,cobelli1980parameter}; practical identifiability asks whether they are
+determined by the finite, noisy data at hand \citep{walter1997identification,raue2009structural}.
+Local identifiability follows from the rank of the sensitivity or information matrix
+\citep{rothenberg1971identification}, and its near-singularity is the mark of ``sloppy'' models whose
+parameters are individually unconstrained while a few combinations are stiff
+\citep{brown2003statistical,gutenkunst2007universally}. Profile likelihood intervals
+\citep{venzon1988method,pawitan2001all} separate a parameter that is bounded by the data from one that is
+bounded only by its prior range, and are the practical-identifiability tool recommended for dynamical
+models \citep{raue2009structural}. Software for structural analysis of ODE models includes SIAN
+\citep{hong2019sian} and StructuralIdentifiability.jl \citep{dong2023differential}; surveys cover
+nonlinear models in systems biology and viral dynamics \citep{miao2011identifiability,
+villaverde2016structural}. Neural inference networks have been used to read identifiability from posterior
+width \citep{tong2025invaert}. We use the classical tools, with definitions fixed in advance, and add two
+controls that are rare in applied work: a replica in which the model is true, and a synthetic study with
+known truth.
+
+\paragraph{Glucose--insulin models and their identifiability.}
+The minimal model \citep{bergman1979,bergman1981} and meal models with detailed gut and insulin
+compartments \citep{dallaman2007,dallaman2014uva} underlie most personalised glucose modelling; reviews
+are given by \citet{cobelli2009diabetes}. Identifiability problems of the minimal model, in particular
+insulin sensitivity estimates that collapse to zero in some subjects, were analysed by
+\citet{pillonetto2002minimal}. What is less examined is the identifiability of the gut parameters when the
+observation is a postprandial summary computed from free-living CGM, which is the case here. Meal-response
+prediction from CGM and meal logs is an active area \citep{zeevi2015personalized,berry2020human,
+sergazinov2024glucobench}.
+
+\paragraph{Differentiable simulation and amortized inference.}
+Differentiable solvers make exact gradients available for simulators of biophysical systems
+\citep{kidger2021diffrax,bradbury2018jax,jaxley2025}, and gradient-based inversion of likelihood-free
+dynamical systems is well established \citep{kersting2020differentiable,beck2024diffusion}. Neural
+surrogates trade a training cost for fast repeated inversion \citep{liu2026ino}. Simulation-based
+inference provides calibrated amortized posteriors \citep{greenberg2019automatic,tejerocantero2020sbi},
+whose reliability under simulator mismatch has been studied \citep{talts2018sbc,ward2022robust,
+schmitt2023detecting}. Recent glucose digital twins use simulation-based inference or hybrid physiological
+and sequence models \citep{hoang2025t1dsbi,tran2026physioseq2seq}, and Bayesian Bergman-family models
+fitted from CGM with plasma insulin were presented by \citet{erdos2024leveraging}. Foundation-model and
+neural-operator approaches to glucose forecasting \verifycite{GlucoFM, HIPNO: add the references the
+reviewers named} predict well without exposing physiological parameters, which is the contrary design
+choice to ours. Medical digital twins from other signals follow the same fit-then-interpret pattern
+\citep{kuang2024medreal2sim}. None of these works asks what the fitted parameters mean; that is the
+question here.
+
+\paragraph{Datasets.}
+We use three public cohorts: CGMacros, free-living CGM with photographed, nutritionist-coded meals
+\citep{das2025cgmacros}; a Shanghai cohort of people with type-two diabetes with dietary records
+\citep{zhao2023shanghai}; and a cohort with standardized meals \citep{hall2018glucotypes}.

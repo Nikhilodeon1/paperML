@@ -22,8 +22,11 @@ PARAMS = ("insulin_sensitivity", "gastric_emptying", "carb_absorption")
 
 
 def profile_quality(scale: float) -> dict:
-    rows = largest_matching("A5_profile", lambda p: p["objective"] == "iauc"
-                            and abs(p["bounds_scale"] - scale) < 1e-12)
+    # The real CGMacros iAUC profiles in rate coordinates only. Phase 8 added Shanghai and Hall profiles at
+    # the same objective and box to the same analysis, and the most complete set is not necessarily the
+    # CGMacros one, so the match is the one profile_lik.summarize uses.
+    config = {**profile_lik.default_config(), "objective": "iauc", "bounds_scale": scale}
+    rows = largest_matching("A5_profile", lambda p: profile_lik._matches(p, config))
     out = {}
     for parameter in PARAMS:
         improvement = [r["profiles"][parameter]["loss_at_theta_hat"]

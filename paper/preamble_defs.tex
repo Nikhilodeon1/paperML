@@ -1,0 +1,29 @@
+% Definitions only (notation, version strings, markers). Excluded from the number lint because it holds
+% no prose; every number the paper reports comes from results_macros.tex.
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% Notation.
+\newcommand{\SI}{S_I}
+\newcommand{\ke}{k_e}
+\newcommand{\ka}{k_a}
+\newcommand{\iauc}{\mathrm{iAUC}}
+\newcommand{\NLL}{\mathrm{NLL}}
+\DeclareMathOperator{\diag}{diag}
+
+% A figure that has not been generated yet shows a visible placeholder instead of stopping the build.
+\newcommand{\safefigure}[2][width=\linewidth]{%
+  \IfFileExists{figures/tmlr/#2.pdf}{\includegraphics[#1]{#2}}{%
+    \fbox{\parbox{0.9\linewidth}{\centering\color{red}\textbf{[figure pending: \detokenize{#2}]}}}}}
+
+% Software versions quoted in the appendix.
+\newcommand{\juliaversion}{1.13.1}
+\newcommand{\siversion}{0.5.34}
+
+% Visible markers for text that must be settled before submission. `python -m evaluation.tmlr_build`
+% counts them; a submission has none.
+\newcommand{\todo}[1]{{\color{red}\textbf{[TODO: #1]}}}
+\newcommand{\verifycite}[1]{{\color{red}\textbf{[verify citation: #1]}}}

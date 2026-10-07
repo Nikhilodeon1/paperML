@@ -14,14 +14,27 @@ from evaluation.results_io import ROOT
 
 OUTPUT = ROOT / "REPORTS" / "final.md"
 
-SKIPPED = [
-    ("Phase 5.1", "A8 robustness sweeps (H10): five initializations, three bound settings, log versus "
-                  "linear parameterization, Adam versus L-BFGS."),
-    ("Phase 6", "A11 synthetic recovery (so the synthetic AUC clause of H6), A15 design sweep."),
-    ("H16", "Heteroskedastic-noise sensitivity of the S_I profile."),
-    ("Optional", "Dalla Man full Fisher on the 10-subject subsample: the second model class was only "
-                 "examined in the earlier draft and was not re-run."),
+ALWAYS_SKIPPED = [
+    ("A15 design sweep", "Sensitivity-guided design sweep over meal size and timing (reviewer suggestion); "
+                         "not run."),
+    ("H16", "Heteroskedastic-noise sensitivity of the S_I profile; not run."),
 ]
+
+
+def skipped(verdicts: dict) -> list[tuple[str, str]]:
+    """What was not run, derived from the verdicts so the list cannot go stale when a job is added."""
+    out = list(ALWAYS_SKIPPED)
+    for name, text in (("H10", "A8 robustness sweeps (five initializations, three box settings, log versus "
+                               "linear parameterization, Adam versus L-BFGS)."),
+                       ("H17", "Replica seeds 1 to 4 (the replica result rests on one seed)."),
+                       ("H18", "Coordinate profiles on the true-model replica."),
+                       ("H19", "Synthetic recovery with random truths (so the synthetic clause of H6)."),
+                       ("H20", "Cross-validation on the Shanghai cohort."),
+                       ("H21", "Likelihood-optimum check of the coordinate fits."),
+                       ("H22", "Second model class (Dalla Man): Fisher matrix and profile intervals.")):
+        if verdicts.get(name, {}).get("status") == "not evaluated":
+            out.append((name, text))
+    return out
 
 
 def _fmt(value) -> str:
@@ -67,7 +80,7 @@ def build() -> str:
     failed = [n for n, r in verdicts.items() if r["status"] == "not met"]
     lines.append(", ".join(failed) if failed else "None.")
     lines += ["", "## Skipped or not evaluated", ""]
-    lines += [f"* **{label}**: {text}" for label, text in SKIPPED]
+    lines += [f"* **{label}**: {text}" for label, text in skipped(verdicts)]
     lines += ["", "No threshold was changed after the first analysis was run, and no hypothesis was "
               "rescued by changing code or thresholds."]
     return "\n".join(lines) + "\n"

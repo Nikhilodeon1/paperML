@@ -1,0 +1,69 @@
+% TMLR manuscript. Every number that an analysis produced is a macro from results_macros.tex;
+% `python -m evaluation.lint_numbers` fails the build on a hand-typed result.
+%
+% Template: drop the official tmlr.sty / tmlr.bst / fancyhdr.sty next to this file. Without them the
+% document falls back to plain article formatting so it still compiles; the content is unchanged.
+\documentclass[10pt]{article}
+\IfFileExists{tmlr.sty}{%
+  \usepackage{tmlr}%
+}{%
+  \usepackage{lmodern}%
+  \usepackage[margin=1in]{geometry}%
+  \usepackage[numbers,sort&compress]{natbib}%
+  \providecommand{\name}{\bfseries}%
+  \providecommand{\email}{\\\ttfamily}%
+  \providecommand{\addr}{\\\itshape}%
+}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage{booktabs,array,multirow,tabularx,longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
+
+\graphicspath{{figures/tmlr/}}
+
+\input{preamble_defs}
+\input{results_macros}
+\input{pending_macros}
+
+\title{Prediction Is Not Identification:\\ Structural and Practical Identifiability of a Glucose\\ Digital Twin from Postprandial Monitoring}
+
+\author{\name Anonymous Authors \email \texttt{anonymous@example.org} \\ \addr Affiliation withheld for review}
+
+% Used by the official template only (it redefines \year); the fallback must keep TeX's own \year.
+\IfFileExists{tmlr.sty}{%
+  \def\month{MM}%
+  \def\year{YYYY}%
+  \def\openreview{\url{https://openreview.net/forum?id=XXXX}}%
+}{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\input{sec_abstract}
+\end{abstract}
+
+\input{sec_intro}
+\input{sec_related}
+\input{sec_setting}
+\input{sec_theory}
+\input{sec_results}
+\input{sec_discussion}
+
+\bibliography{references}
+\IfFileExists{tmlr.bst}{\bibliographystyle{tmlr}}{\bibliographystyle{plainnat}}
+
+\appendix
+\input{app_register}
+\input{app_spec}
+\input{app_proofs}
+\input{app_more_results}
+\input{app_reproducibility}
+
+\end{document}

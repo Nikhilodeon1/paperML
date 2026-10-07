@@ -12,6 +12,12 @@ analysis learning about the other two:
   not find is not explained by noise at that level, optimization, or the observable; whatever the
   replica also shows is.
 
+Phase 9 adds a second truth for the replica, `replica["truth"] == "random"`: instead of each subject's own
+fit, the true parameters are drawn independently and uniformly inside the box (at least 5% of its width
+from either bound), per subject and seed. That is a synthetic recovery study with known truth, so whether
+a parameter is recoverable can be read against where in the box it lies, which the fit-truth replica
+cannot show because its timing truths sit near the upper bound.
+
 The replica's noise is the subject's own: AR(1) residuals from the real trace against the maximum-
 likelihood fit (fallback sigma 10 mg/dL, rho 0.7 when that estimate is unstable). The carbohydrate error
 is lognormal with unit-mean multiplier and coefficient of variation `carb_cv`; the TRUTH uses the true
@@ -91,6 +97,16 @@ def true_parameters(subject: Subject, unit: str, box: float = 1.0) -> dict:
     return dict(zip(TARGETS, theta.tolist()))
 
 
+def random_parameters(unit: str, seed: int, box: float = 1.0) -> dict:
+    """Independent uniform draws inside the box, at least 5% of its width from either bound."""
+    from personalization.objectives import _scaled_bounds
+    from personalization.subject_loss import TARGETS
+    lower, upper = (np.asarray(v, dtype=float) for v in _scaled_bounds(box))
+    margin = INSIDE_FRACTION * (upper - lower)
+    theta = _rng(unit, seed, "truth").uniform(lower + margin, upper - margin)
+    return dict(zip(TARGETS, theta.tolist()))
+
+
 def _simulate(subject: Subject, theta: dict, carbs=None):
     import jax.numpy as jnp
     from personalization.objectives import simulate_meals
@@ -135,10 +151,11 @@ def _ar1_noise(rng, rho: float, innovation_sd: float, shape: tuple[int, int]) ->
 
 @lru_cache(maxsize=256)
 def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool, carb_cv: float,
-                    limit) -> tuple:
+                    limit, truth_mode: str = "fit") -> tuple:
     config = {"cohort": cohort, "min_meals": min_meals, "limit": limit}
     subject = _cohort_subject(config, unit)
-    truth = true_parameters(subject, unit)
+    truth = (random_parameters(unit, seed) if truth_mode == "random"
+             else true_parameters(subject, unit))
     clean = _simulate(subject, truth)                                   # 210 min on a 5 min grid
     n_samples = clean.shape[1]
     glucose = clean.copy()
@@ -169,7 +186,8 @@ def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool
 def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:
     records, _, _, _ = _replica_cached(config["cohort"], config["min_meals"], subject.subject_id,
                                        int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
-                                       float(replica.get("carb_cv", 0.25)), config.get("limit"))
+                                       float(replica.get("carb_cv", 0.25)), config.get("limit"),
+                                       str(replica.get("truth", "fit")))
     # The replica is always simulated on the 5 minute grid with the default window, whatever the
     # cohort it was built from; it is a CGMacros-style replica.
     return dataclasses.replace(subject, records=tuple(records), sampling_min=5.0, window_min=180.0,
@@ -180,5 +198,14 @@ def replica_truth(config: dict, unit: str) -> dict:
     replica = config["replica"]
     _, truth, noise, _ = _replica_cached(config["cohort"], config["min_meals"], unit,
                                          int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
-                                         float(replica.get("carb_cv", 0.25)), config.get("limit"))
+                                         float(replica.get("carb_cv", 0.25)), config.get("limit"),
+                                         str(replica.get("truth", "fit")))
     return {"theta_true": truth, "noise": noise}
+
+
+def truth_in_coordinates(theta_true: dict) -> dict:
+    """The true parameters in the natural units of the coordinate profiles: `S_I`, `tau1`, `p`."""
+    from personalization import coords as co
+    tau1, p = co.rates_to_tau_p(theta_true["gastric_emptying"], theta_true["carb_absorption"])
+    return {"log_insulin_sensitivity": float(theta_true["insulin_sensitivity"]),
+            "log_tau1": float(tau1), "log_p": float(p)}

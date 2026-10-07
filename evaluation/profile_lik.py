@@ -24,6 +24,12 @@ Amendment 2 adds, for `k_e` and `k_a` only, a diagnostic extension of the grid t
 bound. Those points are outside the physiological range and are reported separately: the classification
 that enters H5 uses the in-box points alone.
 
+Phase 9 (Amendment 5) adds `polish`: before profiling, the maximum-likelihood estimate is re-optimized with
+L-BFGS-B in log coordinates from the Adam estimate and from five seeded random starting points, and the
+best of the six replaces it. The Adam estimate is not discarded: its negative log-likelihood and the gap to
+the polished one are stored, so "was the fixed-step Adam estimate a likelihood optimum" is a number per
+subject (H21) and not an assumption.
+
 Run:  python -m evaluation.runner evaluation.profile_lik --gate 3
       python -m evaluation.runner evaluation.profile_lik --workers 6 --set bounds_scale=2.0
 """
@@ -72,6 +78,9 @@ def default_config() -> dict:
         # Within this, a grid point whose inner loss is still falling is "unsettled". The unit is the
         # negative log likelihood, so 0.05 is small against the 1.92 interval threshold.
         "drift_tolerance": 0.05,
+        "polish": False,
+        "polish_starts": 5,
+        "polish_maxiter": 300,
     }
 
 
@@ -107,6 +116,46 @@ def stored_estimate(config: dict, unit: str) -> dict | None:
 
 def _noise_from(payload_noise: dict) -> nm.NoiseModel:
     return nm.NoiseModel(**payload_noise)
+
+
+def polish_estimate(loss_fn, phi_hat, lower, upper, project, key: str, starts: int, maxiter: int) -> dict:
+    """Best of an L-BFGS-B run from `phi_hat` and from `starts` seeded random points in the box.
+
+    Works in the coordinates the profile uses (log coordinates). `project` enforces the real-pole
+    constraint of the canonical parameterization; the rate parameterization has none. The result is never
+    worse than the estimate it started from, because that estimate is one of the starting points.
+    """
+    import jax
+    from scipy.optimize import minimize
+    from evaluation.subject_source import _rng
+
+    def f(phi):
+        return loss_fn(project(phi) if project is not None else phi)
+
+    value_and_grad = jax.jit(jax.value_and_grad(f))
+
+    def fun(x):
+        v, g = value_and_grad(jnp.asarray(x))
+        return float(v), np.asarray(g, dtype=float)
+
+    def feasible(x):
+        return np.asarray(project(jnp.asarray(x)), dtype=float) if project is not None else np.asarray(x)
+
+    rng = _rng("polish", key)
+    points = [np.asarray(phi_hat, dtype=float)] + [rng.uniform(lower, upper) for _ in range(starts)]
+    bounds = list(zip(np.asarray(lower, dtype=float), np.asarray(upper, dtype=float)))
+    results = []
+    for x0 in points:
+        r = minimize(fun, feasible(x0), jac=True, method="L-BFGS-B", bounds=bounds,
+                     options={"maxiter": maxiter})
+        x = feasible(r.x)
+        results.append((float(f(jnp.asarray(x))), x))
+    best_value, best_x = min(results, key=lambda item: item[0])
+    nll_adam = float(loss_fn(jnp.asarray(phi_hat)))
+    if best_value > nll_adam:                       # cannot happen except through projection rounding
+        best_value, best_x = nll_adam, np.asarray(phi_hat, dtype=float)
+    return {"phi": best_x, "nll_adam": nll_adam, "nll_polished": best_value,
+            "gap": nll_adam - best_value, "start_values": [v for v, _ in results]}
 
 
 def log_grid(lower: float, upper: float, points: int, extension: int = 0) -> tuple[np.ndarray, int]:
@@ -162,12 +211,21 @@ def run_unit(unit: str, config: dict) -> dict:
         phi_hat, phi_lower, phi_upper = np.log(theta_hat), np.log(lower), np.log(upper)
         project = None
 
+    polish = None
+    if config.get("polish"):
+        polish = polish_estimate(loss_fn, phi_hat, phi_lower, phi_upper, project, f"{unit}|{name}|{parameterization}",
+                                 int(config["polish_starts"]), int(config["polish_maxiter"]))
+        phi_hat = polish["phi"]
+        theta_hat = phi_hat if log_space else np.exp(phi_hat)
+        polish = {k: v for k, v in polish.items() if k != "phi"}
     loss_at_hat = float(loss_fn(jnp.asarray(phi_hat)))
     tolerance = config["drift_tolerance"]
     truth = None
     if config.get("replica"):
-        from evaluation.subject_source import replica_truth
+        from evaluation.subject_source import replica_truth, truth_in_coordinates
         truth = replica_truth(config, unit)
+        if log_space and parameterization == "coords":
+            truth = {**truth, "theta_true": truth_in_coordinates(truth["theta_true"])}
 
     profiles = {}
     for index, parameter in enumerate(names):
@@ -223,7 +281,7 @@ def run_unit(unit: str, config: dict) -> dict:
     return {
         "subject_id": unit, "cohort": config["cohort"], "objective": name,
         "parameterization": parameterization, "replica": config.get("replica"),
-        "carb_scale": config.get("carb_scale"),
+        "carb_scale": config.get("carb_scale"), "polish": polish,
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
         "sampling_min": subject.sampling_min,
         "theta_ml": dict(zip(names, theta_hat.tolist())),
@@ -242,7 +300,8 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("cohort", "cgmacros") == config.get("cohort", "cgmacros")
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
             and payload.get("replica") == config.get("replica")
-            and payload.get("carb_scale") == config.get("carb_scale"))
+            and payload.get("carb_scale") == config.get("carb_scale")
+            and (payload.get("polish") is not None) == bool(config.get("polish")))
 
 
 def summarize(config: dict | None = None) -> dict:
@@ -254,7 +313,12 @@ def summarize(config: dict | None = None) -> dict:
     by_subject = largest_matching(ANALYSIS_ID, lambda p: _matches(p, config))
     if not by_subject:
         return {"n_subjects": 0}
-    rows = list(by_subject.values())
+    return summarize_rows(list(by_subject.values()), config)
+
+
+def summarize_rows(rows: list[dict], config: dict) -> dict:
+    """The per-parameter summary of any list of profile payloads (a pooled set of replica seeds, say)."""
+    from evaluation.stats_utils import wilson_ci
 
     out = {"n_subjects": len(rows), "objective": config["objective"],
            "bounds_scale": config["bounds_scale"], "cohort": config["cohort"],

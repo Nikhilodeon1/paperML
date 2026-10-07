@@ -1,0 +1,27 @@
+Parameters of a mechanistic model fitted to wearable data are easily read as physiology.
+We ask which parameters of a differentiable Bergman-type glucose--insulin simulator can actually be
+recovered from free-living postprandial continuous glucose monitoring (CGM) when the fitted target is
+the baseline-subtracted incremental area under the curve (iAUC), and whether held-out prediction would
+tell us.
+We combine the full Fisher information matrix, profile likelihood, a generic-rank test, symbolic
+structural-identifiability analysis, a replica experiment in which the model is true, and held-out
+prediction on three cohorts, under an analysis plan fixed in version control before the analyses were run.
+Gastric emptying and carbohydrate absorption cannot be separated: their exchange is an exact symmetry of
+the empty-gut model, the weakest Fisher direction lies along it in every subject of every cohort, and no
+profile interval for either rate is bounded under iAUC at any parameter range we tried.
+Insulin sensitivity is not reliably recovered either: among subjects whose estimate is interior, its
+interval is bounded for only \resProfileIaucSIInteriorFracOne\% at the primary parameter range, and for
+\resSeedsSIBounded\% when the model is exactly true.
+What can be recovered is a combination of the two rates: the sum and the product of their reciprocals are
+bounded in \resCoordsBoundedTauTrace\% and \resCoordsBoundedPTrace\% of subjects under the full glucose
+trace, but in only \resCoordsBoundedTauCentroid\% and \resCoordsBoundedPCentroid\% when the area is
+supplemented by its timing centroid.
+None of this is visible to prediction.
+Gradient fitting and exhaustive grid search differ in held-out iAUC error by
+\resDiffGradThreeVsGridThree\ mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow\ to
+\resDiffGradThreeVsGridThreeHigh) on a mean error of \resMaeGradThree, three fitted parameters match
+insulin sensitivity alone, and a full-trace objective does not lower held-out iAUC error.
+Of the \resCountGraded\ hypotheses with a pass-or-fail rule that we evaluated, \resCountMet\ were met and \resCountNotMet\ were not; we report all of them.
+A good fit to postprandial CGM is therefore not evidence that the fitted physiological parameters mean what
+their names say, and an identifiability analysis should accompany any digital twin whose parameters are
+interpreted.

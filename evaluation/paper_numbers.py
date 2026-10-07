@@ -17,7 +17,8 @@ BOX_WORD = {"0.5x": "Half", "1x": "One", "2x": "Two"}
 PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absorption": "Ka"}
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
-               14: "Fourteen", 15: "Fifteen", 16: "Sixteen"}
+               14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -125,6 +126,10 @@ def build(summary: dict, verdicts: dict) -> dict:
             if h2.get(key) is not None:
                 m[name] = {"value": h2[key], "fmt": ".3f"}
     m.update(_phase8_macros(summary.get("phase8", {})))
+    m.update(_phase9_macros(summary.get("phase9", {})))
+    m.update(_cohort_macros())
+    m.update(_extra_macros(summary, verdicts))
+    m.update(_stored_macros(summary.get("phase8", {})))
     return m
 
 
@@ -205,6 +210,283 @@ def _phase8_macros(p8: dict) -> dict:
     if h6:
         m["resSixMedianSpearman"] = {"value": h6["spearman_vs_profile_strength"].get("median"), "fmt": ".2f"}
         m["resSixAuc"] = {"value": h6["auc_detecting_flat"], "fmt": ".2f"}
+    return m
+
+
+def _pct(d, key="fraction"):
+    return None if d is None or d.get(key) is None else 100 * d[key]
+
+
+def _phase9_macros(p9: dict) -> dict:
+    """Macros for the Phase 9 results (Amendment 5); absent sections contribute nothing."""
+    m: dict = {}
+    # H17: replica seeds pooled
+    h17 = p9.get("h17", {})
+    if h17.get("n"):
+        si = h17["pooled_S_I_interior_bounded"] or {}
+        if si:
+            m["resSeedsSIBounded"] = _ci(100 * si["fraction"], 100 * si["wilson"][0], 100 * si["wilson"][1])
+            m["resSeedsSIBoundedCount"] = {"value": si["bounded"], "fmt": ".0f"}
+            m["resSeedsSIInterior"] = {"value": si["n"], "fmt": ".0f"}
+        m["resSeedsTimingMax"] = {"value": 100 * h17["pooled_timing_max_fraction"], "fmt": ".0f"}
+        m["resSeedsCount"] = {"value": h17["n_seeds"], "fmt": ".0f"}
+        m["resSeedsMeetingClause"] = {"value": h17["seeds_meeting_S_I_clause"], "fmt": ".0f"}
+        if h17.get("seed_range_S_I_fraction"):
+            lo, hi = h17["seed_range_S_I_fraction"]
+            m["resSeedsRangeLow"] = {"value": 100 * lo, "fmt": ".0f"}
+            m["resSeedsRangeHigh"] = {"value": 100 * hi, "fmt": ".0f"}
+        cov = h17.get("S_I_truth_coverage")
+        if cov:
+            m["resSeedsCoverSI"] = {"value": 100 * cov["fraction"], "fmt": ".0f"}
+            m["resSeedsCoverCount"] = {"value": cov["covered"], "fmt": ".0f"}
+            m["resSeedsCoverN"] = {"value": cov["n"], "fmt": ".0f"}
+    # H18: coordinate profiles on the true-model replica (polished)
+    for objective, word in (("iauc", "Iauc"), ("iauc_centroid", "Centroid"), ("trace", "Trace")):
+        d = p9.get("h18", {}).get(objective, {})
+        if d.get("n"):
+            for key, tag in (("tau1", "Tau"), ("p", "P"), ("S_I", "SI")):
+                v = _pct(d.get(key))
+                if v is not None:
+                    m[f"resReplicaCoords{tag}{word}"] = {"value": v, "fmt": ".0f"}
+            if objective == "trace":
+                for key, tag in (("log_tau1", "Tau"), ("log_p", "P")):
+                    cov = (d.get("truth_coverage") or {}).get(key)
+                    if cov:
+                        m[f"resReplicaCoordsCover{tag}Trace"] = {"value": 100 * cov["fraction"], "fmt": ".0f"}
+    # H21: polished estimates
+    h21 = p9.get("h21", {})
+    for objective, word in (("iauc", "Iauc"), ("iauc_centroid", "Centroid"), ("trace", "Trace")):
+        d = h21.get("objectives", {}).get(objective, {})
+        if d.get("n"):
+            m[f"resPolishMaxGap{word}"] = {"value": d["max_gap"], "fmt": ".2f"}
+            m[f"resPolishMedianGap{word}"] = {"value": d["median_gap"], "fmt": ".3f"}
+            m[f"resPolishWithin{word}"] = {"value": 100 * d["fraction_below_threshold"], "fmt": ".0f"}
+        e = h21.get("h11_on_polished_estimates", {}).get(objective, {})
+        if e.get("n"):
+            for key, tag in (("tau1", "Tau"), ("p", "P")):
+                inner = e[key]["interior"] or e[key]["all"]
+                if inner and "fraction" in inner:
+                    m[f"resPolishedBounded{tag}{word}"] = {"value": 100 * inner["fraction"], "fmt": ".0f"}
+    # H20: prediction on Shanghai
+    h20 = p9.get("h20", {})
+    if h20.get("n_units"):
+        m["resShCvSubjects"] = {"value": h20["n_subjects"], "fmt": ".0f"}
+        m["resShCvRepeats"] = {"value": len(h20["repeats"]), "fmt": ".0f"}
+        for cell, value in h20["metrics"]["iauc"]["cell_means"].items():
+            m[f"resShCvMae{cell_word(cell)}"] = {"value": value, "fmt": ".0f"}
+        for key, c in h20["metrics"]["iauc"]["comparisons"].items():
+            first, second = key.split("-")
+            name = cell_word(first) + "Vs" + cell_word(second)
+            if c.get("ci95"):
+                m[f"resShCvDiff{name}"] = _ci(c["mean_difference"], c["ci95"]["low"], c["ci95"]["high"])
+                m[f"resShCvWins{name}"] = {"value": c["wins_first"], "fmt": ".0f"}
+        for key, c in h20["metrics"]["peak"]["comparisons"].items():
+            first, second = key.split("-")
+            if c.get("ci95") and second == "personal_mean":
+                m[f"resShCvPeakDiff{cell_word(first)}"] = _ci(c["mean_difference"], c["ci95"]["low"],
+                                                                c["ci95"]["high"], ".1f")
+        if h20.get("margin_over_personal_mean_mae") is not None:
+            m["resShCvMarginShare"] = {"value": 100 * h20["margin_over_personal_mean_mae"], "fmt": ".1f"}
+    # H6 synthetic (H19) and the recovery curve
+    syn = p9.get("h6_synthetic", {})
+    if syn.get("n"):
+        m["resSynthN"] = {"value": syn["n"], "fmt": ".0f"}
+        m["resSynthSpearman"] = {"value": syn["spearman_vs_profile_strength"]["median"], "fmt": ".2f"}
+        m["resSynthAuc"] = {"value": syn["auc_detecting_flat"], "fmt": ".2f"}
+        for parameter, word in (("insulin_sensitivity", "SI"), ("gastric_emptying", "Ke"),
+                                ("carb_absorption", "Ka")):
+            r = syn.get("recovery", {}).get(parameter)
+            if not r:
+                continue
+            m[f"resSynthBounded{word}"] = {"value": 100 * r["all_bounded"]["fraction"], "fmt": ".0f"}
+            m[f"resSynthInteriorBounded{word}"] = {"value": 100 * r["interior"]["fraction"], "fmt": ".0f"}
+            m[f"resSynthErrorLog{word}"] = {"value": r["median_abs_log_error_of_estimate"], "fmt": ".2f"}
+            cov = r["coverage_of_bounded"]
+            if cov.get("fraction") is not None:
+                m[f"resSynthCover{word}"] = {"value": 100 * cov["fraction"], "fmt": ".0f"}
+            for tercile, tw in (("low", "Low"), ("middle", "Mid"), ("high", "High")):
+                t = r["terciles"][tercile]
+                if t["fraction"] is not None:
+                    m[f"resSynthTercile{word}{tw}"] = {"value": 100 * t["fraction"], "fmt": ".0f"}
+    # H10
+    h10 = p9.get("h10", {})
+    if h10.get("factors"):
+        for factor, word in (("initialization", "Init"), ("bounds", "Bounds"),
+                             ("parameterization", "Param"), ("optimizer", "Optimizer")):
+            f = h10["factors"].get(factor, {})
+            if f.get("median_of_mean_tau") is not None:
+                m[f"resTenTau{word}"] = {"value": f["median_of_mean_tau"], "fmt": ".2f"}
+        si = h10.get("reference_S_I_first_interior", {})
+        if si.get("n"):
+            m["resTenSIFirst"] = {"value": 100 * si["fraction"], "fmt": ".0f"}
+            m["resTenSIFirstN"] = {"value": si["n"], "fmt": ".0f"}
+    # H22: second model class
+    h22 = p9.get("h22", {})
+    if h22.get("n_subjects"):
+        m["resDmN"] = {"value": h22["n_subjects"], "fmt": ".0f"}
+        for parameter, word in (("Vmx", "Vmx"), ("kabs", "Kabs"), ("kmax", "Kmax"), ("kmin", "Kmin")):
+            d = h22["parameters"].get(parameter)
+            if d:
+                m[f"resDmBounded{word}"] = _ci(100 * d["fraction"], 100 * d["wilson"][0], 100 * d["wilson"][1])
+                m[f"resDmPinned{word}"] = {"value": d["pinned"], "fmt": ".0f"}
+        m["resDmRankMedian"] = {"value": h22["fisher"]["effective_rank_median"], "fmt": ".0f"}
+        if h22["fisher"].get("condition_number_median"):
+            m["resDmCondMedian"] = {"value": sci(h22["fisher"]["condition_number_median"])}
+        m["resDmPolishGap"] = {"value": h22["polish_gap_median"], "fmt": ".2f"}
+    # report-only
+    d = p9.get("hall_trace", {}).get("1x", {})
+    if d.get("n_subjects"):
+        m["resHallTraceN"] = {"value": d["n_subjects"], "fmt": ".0f"}
+        for pk, pw in (("insulin_sensitivity", "SI"), ("gastric_emptying", "Ke"), ("carb_absorption", "Ka")):
+            x = d["parameters"][pk]
+            m[f"resHallTraceBounded{pw}"] = _ci(100 * x["fraction"], 100 * x["wilson"][0], 100 * x["wilson"][1])
+    level_word = {"90": "Ninety", "95": "NinetyFive", "99": "NinetyNine"}
+    box_word = {"0.5x": "Half", "1x": "One", "2x": "Two"}
+    for box, block in p9.get("delta_sensitivity", {}).items():
+        for level, d in block.get("levels", {}).items():
+            lw, bw = level_word[level], box_word[box]
+            par = d["parameters"]
+            if par["insulin_sensitivity"]["interior_fraction"] is not None:
+                m[f"resLevel{lw}SIInterior{bw}"] = {"value": 100 * par["insulin_sensitivity"]["interior_fraction"],
+                                                    "fmt": ".0f"}
+            m[f"resLevel{lw}KeBounded{bw}"] = {"value": 100 * par["gastric_emptying"]["fraction"], "fmt": ".0f"}
+            m[f"resLevel{lw}KaBounded{bw}"] = {"value": 100 * par["carb_absorption"]["fraction"], "fmt": ".0f"}
+    sh = p9.get("shanghai_profile_subjects", {})
+    if sh.get("2x"):
+        m["resShanghaiTwoProfileN"] = {"value": sh["2x"], "fmt": ".0f"}
+    for scale, word in (("0.75", "Low"), ("1.33", "High")):
+        d = p9.get("carb_scale", {}).get(scale, {})
+        if d.get("n"):
+            m[f"resCarbScale{word}Expected"] = {
+                "value": d["expected_log_ratio_if_S_I_absorbs_the_scale"], "fmt": ".2f"}
+    return m
+
+
+def _cohort_macros() -> dict:
+    """Counts the paper reports for each cohort, computed from the cache rather than remembered."""
+    from evaluation.cohort_data import cohort_summary, load_cohort
+    m: dict = {}
+    for cohort, minimum, word in (("cgmacros", 10, "Cgm"), ("shanghai", 10, "Shanghai"), ("hall", 5, "Hall")):
+        try:
+            s = cohort_summary(load_cohort(cohort, min_meals=minimum))
+        except Exception:
+            continue
+        if not s.get("n_subjects"):
+            continue
+        m[f"resCohort{word}Subjects"] = {"value": s["n_subjects"], "fmt": ".0f"}
+        m[f"resCohort{word}Meals"] = {"value": s["n_meals_total"], "fmt": ".0f"}
+        m[f"resCohort{word}MealsMedian"] = {"value": s["meals_per_subject"]["median"], "fmt": ".0f"}
+        m[f"resCohort{word}MealsMin"] = {"value": s["meals_per_subject"]["min"], "fmt": ".0f"}
+        m[f"resCohort{word}MealsMax"] = {"value": s["meals_per_subject"]["max"], "fmt": ".0f"}
+        m[f"resCohort{word}CarbMedian"] = {"value": s["carbs_g"]["median"], "fmt": ".0f"}
+        m[f"resCohort{word}Window"] = {"value": s["window_min"], "fmt": ".0f"}
+    return m
+
+
+def _extra_macros(summary: dict, verdicts: dict) -> dict:
+    """Numbers the manuscript quotes that no other block declares: spectra, rank, bias, extensions, counts."""
+    from pathlib import Path
+
+    from evaluation.identifiability_tools import CHI2_DELTA
+    from evaluation.results_io import ROOT
+    from evaluation.stats_utils import N_RESAMPLES
+
+    m: dict = {}
+    m["resDeltaThreshold"] = {"value": CHI2_DELTA, "fmt": ".2f"}
+    m["resBootstrapResamples"] = {"value": N_RESAMPLES, "fmt": ".0f"}
+    m["resAmendmentCount"] = {"value": NUMBER_WORD.get(len(list(Path(ROOT).glob("PREREG_AMENDMENT_*.md"))), "several").lower()}
+    statuses = [row["status"] for row in verdicts.values()]
+    m["resCountMet"] = {"value": statuses.count("met"), "fmt": ".0f"}
+    m["resCountNotMet"] = {"value": statuses.count("not met"), "fmt": ".0f"}
+    m["resCountGraded"] = {"value": statuses.count("met") + statuses.count("not met"), "fmt": ".0f"}
+    m["resCountTotal"] = {"value": len(statuses), "fmt": ".0f"}
+    # spectra at the primary box
+    for key, word in (("lambda1", "One"), ("lambda2", "Two"), ("lambda3", "Three")):
+        d = summary.get("eigenvalues", {}).get("1x", {}).get(key)
+        if d:
+            m[f"resEigMedian{word}"] = {"value": sci(d["median"])}
+    # generic rank
+    for obs, word in (("iauc", "Iauc"), ("iauc_centroid", "Centroid"), ("trace", "Trace")):
+        d = summary.get("generic_rank", {}).get(obs)
+        if d:
+            counts = {int(k): v for k, v in d["rank_counts"].items()}
+            m[f"resRankFull{word}"] = {"value": counts.get(3, 0), "fmt": ".0f"}
+            m[f"resRankDraws{word}"] = {"value": sum(counts.values()), "fmt": ".0f"}
+    # pinned subjects: how many on the upper bound, and the area deficit
+    bias = summary.get("pinned_bias", {}).get("1x", {}).get("groups", {})
+    for key, word in (("gastric_emptying", "Ke"), ("carb_absorption", "Ka")):
+        g = bias.get(key)
+        if not g:
+            continue
+        m[f"resPinnedUpper{word}One"] = {"value": g["n_pinned_upper"], "fmt": ".0f"}
+        m[f"resBiasObsPinned{word}"] = {"value": g["obs"]["mean_pinned"], "fmt": ".0f"}
+        m[f"resBiasObsOther{word}"] = {"value": g["obs"]["mean_other"], "fmt": ".0f"}
+        ci = g["signed"].get("signed_mean_ci95_pinned")
+        if ci:
+            m[f"resBiasSigned{word}"] = _ci(ci["estimate"], ci["low"], ci["high"])
+        m[f"resBiasSignedOther{word}"] = {"value": g["signed"]["mean_other"], "fmt": ".0f"}
+    # the four-times extension of the timing profiles, and the profile improvement over the estimate
+    for box, word in (("0.5x", "Half"), ("1x", "One"), ("2x", "Two")):
+        q = summary.get("profile_quality", {}).get(box, {})
+        for key, w in (("gastric_emptying", "Ke"), ("carb_absorption", "Ka")):
+            ext = (q.get(key) or {}).get("four_times_extension")
+            if ext:
+                m[f"resExtFlat{w}{word}"] = {"value": ext.get("flat", 0), "fmt": ".0f"}
+                m[f"resExtOneSided{w}{word}"] = {"value": ext.get("one-sided", 0), "fmt": ".0f"}
+        if q.get("insulin_sensitivity"):
+            m[f"resProfImproveMax{word}"] = {"value": max(v["improvement_over_theta_hat_max"] for v in q.values()),
+                                              "fmt": ".2f"}
+    # window sensitivity (H2)
+    mc = summary.get("moment_checks", {})
+    for window in (90, 180, 240, 360):
+        word = NUMBER_WORD_BIG[window]
+        for engine, ew in (("linear", "Lin"), ("nonlinear_default", "Nl")):
+            block = mc.get(engine, {}).get(str(window))
+            if block:
+                for p, pw in (("ke", "Ke"), ("ka", "Ka")):
+                    m[f"resWin{word}{ew}{pw}"] = {"value": block[p]["median"], "fmt": ".2f"}
+    # peak-time and trace error of the cells (the trace objective improves what it targets)
+    for key, tag in (("prediction_peak_time", "Peak"), ("prediction_trace_rmse", "TraceRmse")):
+        for cell, d in summary.get(key, {}).get("cells", {}).items():
+            if cell in ("grad3", "grad3_trace", "personal_mean", "grid3", "grad1", "snpe", "rf"):
+                m[f"res{tag}{cell_word(cell)}"] = {"value": d["mean"], "fmt": ".1f"}
+    # the gradient diagnostic with and without bound projection
+    gd = summary.get("gradient_diagnostic", {}).get("1x", {}).get("all")
+    if gd:
+        m["resGradProjSIFirst"] = {"value": 100 * gd["projected_norm"]["S_I_largest_fraction"], "fmt": ".0f"}
+        m["resGradRawSIFirst"] = {"value": 100 * gd["raw_norm"]["S_I_largest_fraction"], "fmt": ".0f"}
+        m["resGradProjRatio"] = {"value": gd["projected_norm"]["median_timing_over_S_I"], "fmt": ".3f"}
+        m["resGradRawRatio"] = {"value": gd["raw_norm"]["median_timing_over_S_I"], "fmt": ".2f"}
+    # the 500-step check
+    steps = summary.get("steps_sensitivity", {}).get("comparisons", {})
+    for key, word in (("grad3_500_vs_grid3", "GradThreeFiveHundredVsGridThree"),
+                      ("grad3_500_vs_grad1_500", "GradThreeFiveHundredVsGradOneFiveHundred")):
+        d = steps.get(key)
+        if d and d.get("ci95"):
+            m[f"resSteps{word}"] = _ci(d["mean_difference"], d["ci95"]["low"], d["ci95"]["high"])
+    return m
+
+
+NUMBER_WORD_BIG = {90: "Ninety", 180: "OneEighty", 240: "TwoForty", 360: "ThreeSixty"}
+
+
+def _stored_macros(p8: dict) -> dict:
+    """The subject-level correlates (Spearman and Holm-adjusted p) and the tied-model interval fraction."""
+    m: dict = {}
+    corr = p8.get("stored", {}).get("correlates", {}).get("1x", {}).get("covariates", {})
+    names = {"n_meals": "Meals", "carb_range": "CarbRange", "mean_iauc": "MeanIauc", "si_estimate": "Estimate"}
+    outcomes = {"si_bounded": "SIBounded", "timing_pinned_upper": "Pinned", "si_max_rise": "SIRise"}
+    for cov, cw in names.items():
+        for out, ow in outcomes.items():
+            d = corr.get(cov, {}).get(out)
+            if d and "spearman" in d:
+                m[f"resCorr{cw}{ow}"] = {"value": d["spearman"], "fmt": ".2f"}
+                m[f"resCorrP{cw}{ow}"] = {"value": d.get("p_holm", d["p"]), "fmt": ".3f"}
+    tied = p8.get("h12", {}).get("tau1_tied_interior")
+    if tied:
+        m["resTiedTauBounded"] = {"value": 100 * tied["fraction"], "fmt": ".0f"}
+        m["resTiedTauCount"] = {"value": tied["bounded"], "fmt": ".0f"}
+        m["resTiedTauInterior"] = {"value": tied["n"], "fmt": ".0f"}
     return m
 
 

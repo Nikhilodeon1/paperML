@@ -34,7 +34,8 @@ PARAMS = ("insulin_sensitivity", "gastric_emptying", "carb_absorption")
 
 
 def _diagnostic(scale: float) -> dict:
-    return largest_matching("A8a_gradient_diag", lambda p: abs(p["bounds_scale"] - scale) < 1e-12)
+    from evaluation.gradient_diag import is_default
+    return largest_matching("A8a_gradient_diag", lambda p: is_default(p, scale))
 
 
 def _profiles(scale: float) -> dict:
@@ -123,6 +124,12 @@ def correlates(scale: float = 1.0) -> dict:
             rho = stats.spearmanr(x, y)
             entry[outcome] = {"spearman": float(rho.statistic), "p": float(rho.pvalue)}
         out["covariates"][covariate] = entry
+    # Twelve exploratory tests per box: report the Holm-adjusted p-value next to the raw one.
+    from evaluation.stats_utils import holm
+    keys = [(c, o) for c, e in out["covariates"].items() for o, v in e.items() if "p" in v]
+    adjusted = holm([out["covariates"][c][o]["p"] for c, o in keys])["p_adjusted"]
+    for (c, o), value in zip(keys, adjusted):
+        out["covariates"][c][o]["p_holm"] = value
     out["n_si_bounded"] = int(sum(r["si_bounded"] for r in rows))
     out["n_timing_pinned_upper"] = int(sum(r["timing_pinned_upper"] for r in rows))
     return out

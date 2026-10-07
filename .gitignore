@@ -32,3 +32,14 @@ results_return.tgz
 results/
 evaluation/results_return/
 results_return.tgz
+final_extra/
+# LaTeX build artefacts
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.toc
+paper/main.pdf

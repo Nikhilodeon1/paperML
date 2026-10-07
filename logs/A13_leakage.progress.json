@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A13_leakage",
+  "config_hash": "d009ade08c0a",
+  "total": 97,
+  "done": 97,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 135.4,
+  "units_per_hour": 2579.63,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-04T23:05:41+0000"
+}

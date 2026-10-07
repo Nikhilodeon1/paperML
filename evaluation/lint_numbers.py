@@ -36,7 +36,7 @@ _MATH_ENVIRONMENTS = ("equation", "equation*", "align", "align*", "gather", "gat
 
 # Commands whose arguments are identifiers or options, never quantities.
 _OPAQUE_COMMANDS = re.compile(
-    r"\\(?:cite[a-zA-Z]*|ref|eqref|autoref|pageref|label|input|include(?:graphics)?|"
+    r"\\(?:cite[a-zA-Z]*|ref|eqref|autoref|pageref|label|input|include(?:graphics)?|safefigure|"
     r"usepackage|documentclass|bibliography(?:style)?|newcommand|renewcommand|def|"
     r"hspace|vspace|setlength|addtolength|columnwidth|textwidth|linewidth|arraystretch|"
     r"url|href|caption\s*\*?\s*\[|begin|end|color|rowcolor|cmidrule|midrule|toprule|bottomrule|"
@@ -47,6 +47,10 @@ _OPAQUE_COMMANDS = re.compile(
     r"\s*(?:\[[^\]]*\]\s*)*(?:\{[^{}]*\}\s*){0,2}")
 
 _YEAR = re.compile(r"\b(?:19|20)\d{2}\b")
+# Names that embed a digit (Tsit5, HbA1c, SHA-256) are identifiers, not quantities.
+_IDENTIFIER = re.compile(r"\b[A-Za-z]{2,}-?\d+[A-Za-z]*\b")
+# Hypothesis labels (H5, H13, H1--H10, H13--H22) name a rule in the register; they are not results.
+_HYPOTHESIS = re.compile(r"\bH\d{1,2}(?:\s*(?:--|-|,|and)\s*H\d{1,2})*\b")
 _DIGITS = re.compile(r"\d")
 # A run of digits with optional sign, decimals, thousands separators, percent or exponent.
 _NUMBER = re.compile(r"[-+]?\d[\d,]*(?:\.\d+)?(?:[eE][-+]?\d+)?%?")
@@ -76,9 +80,19 @@ def _blank_commands(line: str) -> str:
     return _OPAQUE_COMMANDS.sub(" ", line)
 
 
+_CITATION = re.compile(r"\\cite[a-zA-Z]*\s*(?:\[[^\]]*\]\s*)*\{[^{}]*\}")
+
+
+def _blank_citations(text: str) -> str:
+    """Blank every citation, keeping its newlines, so a key split over two lines (which carries a year)
+    does not look like a number on the second line."""
+    return _CITATION.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+
+
 def scan_text(text: str, allow: set[str], name: str = "<text>") -> list[dict]:
     """Every hand-typed number in `text`, as `{file, line, number, context}` records."""
     findings: list[dict] = []
+    text = _blank_citations(text)
     in_math_env = 0
     in_verbatim = False
     open_dollar = False
@@ -104,7 +118,8 @@ def scan_text(text: str, allow: set[str], name: str = "<text>") -> list[dict]:
             in_math_env = max(0, in_math_env - ends)
             continue
 
-        line = line.split("%")[0] if not line.lstrip().startswith("%") else ""
+        # A comment starts at an UNESCAPED percent sign; `\%` is a literal percent in the prose.
+        line = re.split(r"(?<!\\)%", line)[0] if not line.lstrip().startswith("%") else ""
         if not line.strip():
             continue
 
@@ -118,6 +133,8 @@ def scan_text(text: str, allow: set[str], name: str = "<text>") -> list[dict]:
             continue
 
         cleaned = _blank_commands(_strip_math(line))
+        cleaned = _HYPOTHESIS.sub(" ", cleaned)
+        cleaned = _IDENTIFIER.sub(" ", cleaned)
         cleaned = _YEAR.sub(" ", cleaned)
         if not _DIGITS.search(cleaned):
             continue

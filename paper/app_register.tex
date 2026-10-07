@@ -1,0 +1,62 @@
+\section{Hypothesis register, amendments and deviations}
+\label{app:register}
+
+The analysis plan was fixed in version control before the analyses were run, with ten hypotheses (H1--H10)
+and their thresholds. It was amended \resAmendmentCount{} times. This appendix gives every hypothesis with its
+rule, its origin and the status computed from the stored results, and then each amendment with its reason.
+No numerical threshold of any earlier document was changed by any amendment, and no earlier verdict was edited;
+later analyses add rows.
+
+\input{generated/register}
+
+\paragraph{Amendment one (before any identifiability analysis).}
+Two secondary hypotheses were added (the identifiable combination $\tau_1$ and the tied-rate model, H11
+and H12) and three method corrections adopted: every identifiability analysis uses the unregularized
+maximum-likelihood estimate; the per-observable weights are inverse residual variances from a pilot fit; and
+the trace objective is whitened for first-order autocorrelation. Reason: a penalty toward the population values,
+weights taken from the spread of the observations, and independent-error treatment of autocorrelated sensor
+residuals would each have made the parameters look better identified than the likelihood supports. The
+multistart analysis was moved from the cross-validation to the full-data analysis of the inference gap, and
+the grid cells were precomputed per meal; neither changes a hypothesis.
+
+\paragraph{Amendment two (after the first Fisher results were viewed).}
+The definition of an interior subject was changed from ``no parameter on a bound'' to a per-parameter
+definition. Reason: parameters that are not identified sit on a bound in any box, so under the original
+definition the set for the $\SI$ clause is empty by construction. The original definition is still
+computed and reported, and the clause as written is recorded as unevaluable. The box used for the cross-method
+comparison stays the one the baselines were trained on; the half-width, original and double-width boxes are
+reported side by side without choosing one.
+
+\paragraph{Amendment three (after the structural-identifiability tool had been run).}
+The reporting of the structural result was fixed. It depends on the initial gut state given to the tool, so all
+runs are reported and the verdict is labelled formulation-dependent. A sweep of initial gut content and a
+check of the optimizer budget of the gradient cells were declared before any cross-validation result existed.
+
+\paragraph{Amendment four (after the CGMacros results; post hoc).}
+Hypotheses H13--H16 were declared after the $\SI$ clause of H5 had failed, in response to the question of
+whether the weakness is inherent to the observable. They add the true-model replica (H13, H14), replication on
+two cohorts (H15) and exploratory checks (H16).
+
+\paragraph{Amendment five (after the first freeze of the results; post hoc).}
+Hypotheses H17--H22 and the operational reading of H10 were declared after the first freeze of the results,
+with their thresholds, before the corresponding analyses were run: replica stability over seeds (H17), the
+combinations under a true model (H18), a synthetic study with random truths, which completes the synthetic
+clause of H6 (H19), prediction on a second cohort (H20), whether the coordinate estimates are likelihood optima
+(H21), and a second model class (H22). The amendment also records four corrections to the earlier record, none
+of which changed a verdict: the sign of a descriptive field in the carbohydrate-scale analysis; a per-unit time
+limit that left two units of one profile run unfinished (the run was repeated with a longer limit); the
+stated cohort sizes, which are those the selection rule produces; and a summary section that read the most
+complete result set without checking the cohort.
+
+\paragraph{Where the plan and the record differ.}
+The plan stated H5 as a rule over subjects ``interior-converged'', which is empty here (amendment two). The
+plan's H1 rule fired under the planned formulation (amendment three). The error decomposition of an earlier
+analysis, which had no definition under which its terms added, was not carried forward; the replica of H13--H14
+replaces it with what-if noise budgets that make no additive claim.
+
+\section{Analyses planned and not run}
+\label{app:notrun}
+
+The sensitivity of the $\SI$ profile to heteroskedastic observation noise, and the design sweep over meal size
+and timing, were planned and not run. An analysis of clinical correlations of $\SI$ across cohorts was
+not repeated; only the Shanghai check of Section~\ref{sec:leakage} is reported. \todo{List here any analysis of amendment five that did not finish before the second freeze.}

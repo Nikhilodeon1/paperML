@@ -39,6 +39,16 @@ JOBS: list[tuple[str, list[str]]] = [
     *[("evaluation.optimizer_check", [f"bounds_scale={b}"]) for b in BOXES],
     ("evaluation.moment_checks", ["max_meals=8"]),
     ("evaluation.prediction_cv", ["steps=500", "repeats=3", 'cells=["grad3","grad1"]']),
+    # Phases 8 and 9 (the full queues are `scripts/pod_phase8.sh` and `scripts/pod_phase9.sh`): one
+    # representative of each analysis, so the smoke test exercises every code path.
+    ("evaluation.saturation", []),
+    ("evaluation.leakage_ci", []),
+    ("evaluation.gradient_diag", ["init_seed=0"]),
+    ("evaluation.gradient_diag", ['optimizer="lbfgs"']),
+    ("evaluation.profile_lik", ['objective="trace"', 'parameterization="coords"', "polish=true"]),
+    ("evaluation.profile_lik", ['objective="iauc"', 'replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}']),
+    ("evaluation.prediction_cv", ['cohort="shanghai"', 'cells=["grad3","grid3","personal_mean"]']),
+    ("evaluation.dalla_man_identifiability", []),
 ]
 
 # Cheap overrides for the smoke test only.
@@ -46,7 +56,10 @@ QUICK_SETS = {
     "evaluation.generic_rank": ["n_theta=20"],
     "evaluation.prediction_cv": ["repeats=1"],
     "evaluation.profile_lik": ["steps=20", "grid_points=7", "extension_points=2", "fit_steps=60",
-                               "pilot_steps=30"],
+                               "pilot_steps=30", "polish_starts=1", "polish_maxiter=20"],
+    "evaluation.dalla_man_identifiability": ["fit_steps=30", "grid_points=5", "profile_steps=8",
+                                             "polish_starts=1", "polish_maxiter=15",
+                                             'profile_parameters=["kabs"]'],
     "evaluation.fisher_full": ["steps=60", "pilot_steps=30"],
     "evaluation.gradient_diag": ["steps=30"],
     "evaluation.moment_checks": ["max_meals=2", "windows=[180]"],
@@ -87,7 +100,7 @@ def main(argv=None) -> int:
             if module in ("evaluation.fisher_full", "evaluation.profile_lik") and key in seen:
                 continue
             if module in ("evaluation.ladder", "evaluation.gradient_diag", "evaluation.optimizer_check") \
-                    and (module,) in seen:
+                    and (module,) in seen and any(item.startswith("bounds_scale") for item in sets):
                 continue
             if "steps=500" in sets:
                 continue

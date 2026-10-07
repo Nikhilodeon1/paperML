@@ -1,0 +1,76 @@
+\section{Why an area is nearly blind to the split between $\ke$ and $\ka$}
+\label{sec:theory}
+
+This section states, with proofs in Appendix~\ref{app:proofs}, the three facts that the empirical results
+of Section~\ref{sec:results} are measuring. Let the gut be Eq.~\eqref{eq:gut} with initial contents
+$Q_1(0)=D_0$ and $Q_2(0)=Q_0$, let $R_a(t)=\ka Q_2(t)$ be the rate at which glucose enters the plasma, and
+note that $\ke$ and $\ka$ enter the remaining equations only through $R_a$.
+
+\begin{proposition}[Exchange symmetry]
+\label{prop:exchange}
+If the intestine is empty at the start ($Q_0=0$), whatever the stomach content $D_0$, then the Laplace
+transform of $R_a$ is
+\begin{equation}
+\hat R_a(s)=\frac{\ke\,\ka\,\bigl(D_0+\hat m(s)\bigr)}{(s+\ke)(s+\ka)},
+\end{equation}
+which is symmetric in $(\ke,\ka)$. Hence exchanging the two rates leaves $R_a$, the trajectory of
+$(G,I,X)$ and every observable computed from it unchanged.
+\end{proposition}
+
+The exchange is a discrete symmetry, so it does not by itself make the information matrix singular at a
+point with $\ke\ne\ka$, and indeed the sensitivity matrix has full generic rank (Section~\ref{sec:structural}).
+What it does is make the likelihood a function of the unordered pair $\{\ke,\ka\}$, so that a profile over
+$\ke$ with $\ka$ re-optimized has two equal minima unless the swapped point lies outside the box. The
+natural coordinates are the symmetric functions
+\begin{equation}
+\tau_1=\frac1{\ke}+\frac1{\ka},\qquad p=\frac1{\ke\ka},
+\end{equation}
+the mean transit time through the gut and its companion, which determine the pair and which are the
+coordinates in which the real-pole condition is $p\le\tau_1^2/4$ (equality is $\ke=\ka$).
+
+\begin{proposition}[Breaking by residual intestinal content]
+\label{prop:breaking}
+If $Q_0>0$, the appearance rates under the two orderings differ by
+\begin{equation}
+R_a^{(\ke,\ka)}(t)-R_a^{(\ka,\ke)}(t)=Q_0\bigl(\ka e^{-\ka t}-\ke e^{-\ke t}\bigr),
+\end{equation}
+which has zero integral. The exchange then changes the timing of glucose entry, linearly in $Q_0$, and
+not the total.
+\end{proposition}
+
+The convention of the simulator, and of every analysis here, is an empty intestine at the start of a meal.
+Free-living meals are not isolated: a snack or a long previous meal leaves a residue. Proposition~\ref{prop:breaking}
+says the symmetry is partly broken in practice, and by how much: the largest glucose change under the
+exchange grows linearly in the residual content, from $\resGutSweepMaxHalf$\,mg\,dL$^{-1}$ at one half of one
+percent of the meal to $\resGutSweepMaxFive$ at five percent and $\resGutSweepMaxTen$ at ten percent
+(Appendix, Figure~\ref{fig:gutsweep}); numerically, with an empty gut, exchanging rates changes the
+simulated glucose by at most $\resGutSweepMaxZero$\,mg\,dL$^{-1}$, the solver tolerance.
+
+\begin{proposition}[What the moments of the gut input determine]
+\label{prop:moments}
+For a unit instantaneous meal and an empty intestine, the density $\phi$ of the gut appearance has
+$m_0=1$, $m_1=\tau_1$ and $m_2=2\tau_1^2-2p$. Hence $(m_1,m_2)$ determine the unordered pair
+$\{\ke,\ka\}$, while $m_1$ alone determines only $\tau_1$. For the linearized model with impulse response
+$h$ from $R_a$ to glucose and $H(t)=\int_0^t h$,
+\begin{equation}
+\int_0^T y\,dt=K\!\int_0^T R_a(s)\,ds-\int_0^T R_a(s)\,\bigl(K-H(T-s)\bigr)\,ds,
+\qquad K=\lim_{t\to\infty}H(t),
+\end{equation}
+so the area over a window $T$ depends on the rates only through the second term, the part of the
+response that falls beyond the end of the window, and that dependence vanishes as $T\to\infty$.
+\end{proposition}
+
+Proposition~\ref{prop:moments} explains the ordering of the observables. An area over a long window sees
+the total mass delivered (the zeroth moment), which is the same for every pair of rates; at a finite window
+it sees timing only through what leaks past the window's end. The centroid adds the first moment, and so
+$\tau_1$. Only the shape of the trace, which carries the rise, the peak and the decay, can carry the second
+moment and hence $p$. Our empirical results quantify each statement: the sensitivity of the area to timing
+relative to its sensitivity to $\SI$ falls with the window (Figure~\ref{fig:window}); the weakest Fisher
+direction is the $\tau_1$-preserving direction, which is the exchange direction to first order
+(Figure~\ref{fig:symmetry}); and $\tau_1$ and $p$ become identifiable only as the observable is enriched
+(Section~\ref{sec:more}).
+
+The three propositions are properties of a two-compartment gut cascade, not of this particular simulator:
+any linear series cascade with an empty downstream compartment has a transfer function that is symmetric in
+its rate constants. A model with a different gut (Section~\ref{sec:dm}) does not inherit an exact symmetry,
+and what survives there is an empirical question.

@@ -73,6 +73,16 @@ def _subject_means(units: list[dict], cell: str, repeats=None) -> dict[str, floa
     return {s: float(np.mean(v)) for s, v in per.items()}
 
 
+def _ratio_ci(a: np.ndarray, b: np.ndarray, resamples: int = 2000, seed: int = 0):
+    """Percentile interval of mean(a) / mean(b), resampling subjects (pairs) together."""
+    from types import SimpleNamespace
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(a), size=(resamples, len(a)))
+    ratios = a[idx].mean(axis=1) / b[idx].mean(axis=1)
+    low, high = np.percentile(ratios, [2.5, 97.5])
+    return SimpleNamespace(low=float(low), high=float(high))
+
+
 def h14() -> dict:
     real_units = ps.load_units()
     real = _subject_means(real_units, "grad3", repeats={0, 1, 2})
@@ -86,7 +96,7 @@ def h14() -> dict:
         common = sorted(set(rep["grad3"]) & set(real))
         a = np.array([rep["grad3"][s] for s in common])
         b = np.array([real[s] for s in common])
-        ci = bootstrap_ci(np.stack([a, b], axis=1), statistic=lambda x: float(np.mean(x[:, 0]) / np.mean(x[:, 1])))
+        ci = _ratio_ci(a, b)
         out["settings"][name] = {
             "n": len(common), "replica_grad3_mae": float(a.mean()), "real_grad3_mae": float(b.mean()),
             "ratio": float(a.mean() / b.mean()), "ratio_ci95": [ci.low, ci.high],
@@ -106,10 +116,12 @@ def h14() -> dict:
 
 # --- H11 and H12 ------------------------------------------------------------------------------------
 
-def h11() -> dict:
+def h11(polish: bool = False, **extra) -> dict:
+    """H11 from the coordinate profiles. `polish=True` reads the Phase 9 re-runs with L-BFGS-polished
+    maximum-likelihood estimates (Amendment 5, H21); `extra` selects a replica (H18)."""
     out = {}
     for objective in ("iauc", "iauc_centroid", "trace"):
-        block = _profile(objective, 1.0, parameterization="coords")
+        block = _profile(objective, 1.0, parameterization="coords", polish=polish, **extra)
         if not block.get("n_subjects"):
             out[objective] = {"n": 0}
             continue
@@ -249,7 +261,10 @@ def h16() -> dict:
             "n": len(common), "median_log_ratio_S_I": float(np.median(ratio)),
             "q1": float(np.percentile(ratio, 25)), "q3": float(np.percentile(ratio, 75)),
             "timing_on_upper_bound_scaled": upper(rows), "timing_on_upper_bound_unscaled": upper(base),
-            "expected_log_ratio_if_S_I_absorbs_the_scale": float(-np.log(scale))}
+            # Meals scaled by s deliver s times the carbohydrate; the same observed response then needs
+            # insulin action scaled by s as well, so the full-absorption value is +ln(s). (Phase 8 coded
+            # -ln(s) by mistake; the stored summary is regenerated, the result files are untouched.)
+            "expected_log_ratio_if_S_I_absorbs_the_scale": float(np.log(scale))}
     out["carbohydrate_scale"] = scale_out
     out["heteroskedastic_noise"] = {"status": "not run", "reason": "lowest priority; cut for time"}
     return out

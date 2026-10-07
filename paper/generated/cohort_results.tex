@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llrcccc}
+\toprule
+cohort & box & subjects & estimate on a bound (\%) & bounded interval (\%) & interior for $\ke$ / $\ka$ & $|\cos|\ge0.8$ (\%) \\
+ & & & $\SI$ / $\ke$ / $\ka$ & $\SI$ / $\ke$ / $\ka$ & & \\
+\midrule
+CGMacros & $1\times$ & 45 & 51 / 89 / 87 & 7 / 0 / 0 & 5 / 6 & 100 \\
+CGMacros & $2\times$ & 45 & 11 / 58 / 76 & 53 / 0 / 0 & 19 / 11 & 100 \\
+Shanghai & $1\times$ & 87 & 45 / 95 / 97 & 7 / 0 / 0 & 4 / 2 & 100 \\
+Shanghai & $2\times$ & 87 & 10 / 68 / 72 & 45 / 0 / 0 & 24 / 24 & 100 \\
+Standardized meals & $1\times$ & 15 & 73 / 80 / 67 & 0 / 0 / 0 & 3 / 5 & 100 \\
+Standardized meals & $2\times$ & 15 & 7 / 60 / 40 & 0 / 0 / 0 & 6 / 9 & 100 \\
+\bottomrule
+\end{tabular}
+\caption{Replication of the identifiability result on three cohorts, iAUC objective. The last column is the share of subjects whose weakest timing Fisher direction has an absolute cosine of at least $0.8$ with the exchange direction. Interior counts are subjects whose estimate of the parameter is more than one percent of the box width from both bounds.}
+\label{tab:cohortresults}
+\end{table}

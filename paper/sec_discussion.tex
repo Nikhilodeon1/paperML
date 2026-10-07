@@ -1,0 +1,83 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Prediction is not identification.}
+The three layers of evidence agree. The data determine, at best, a combination of the two gut rates, and under
+the area they determine it for few subjects (Sections~\ref{sec:timing} and~\ref{sec:more}); insulin
+sensitivity is constrained from one side for most subjects and bounded for a minority, even when the model
+is true (Section~\ref{sec:si}); and none of this changes how well the fitted model predicts held-out meals
+(Section~\ref{sec:prediction}). A model whose $\ke$ and $\ka$ are held at their population values predicts
+the held-out area as well as one whose values were fitted (H8), as Proposition~\ref{prop:moments} would lead
+one to expect of an area. Predictive validation is therefore silent on whether a fitted parameter means
+anything, and a twin whose parameters are shown to a person should carry an identifiability analysis with it.
+
+\paragraph{What to report.}
+The results suggest a short list for anyone fitting a mechanistic twin to a summary of free-living data.
+\begin{enumerate}
+\item Report profile intervals, not point estimates, and say whether each is bounded, one-sided or flat; a
+  one-sided interval is the prior range speaking, so report it at more than one range.
+\item Define the set of subjects over which a fraction is taken. Parameters that are not identified sit on
+  bounds, so ``no parameter on a bound'' selects an empty set.
+\item Report the identifiable combinations (here $\tau_1$ and $p$, under the trace) rather than the
+  individual parameters they hide behind.
+\item Run a replica in which the model is true. If the data do not bound a parameter there, they will not
+  bound it in the real data for the same reason, and the interval is not evidence of misspecification.
+\item Test the optimizer against a better-conditioned one; a fixed-step estimate that is not an optimum
+  produces profile minima below the estimate, as we found for the coordinate fits (Section~\ref{sec:more}).
+\item Treat clinical correlations of a fitted parameter with care: a correlation that survives only
+  until the fasting level is partialled out is a statement about the fasting level.
+\end{enumerate}
+
+\paragraph{Design.}
+Proposition~\ref{prop:moments} says what an observable must carry to identify the timing parameters: the
+first moment for $\tau_1$ and the second for $p$. An area over a long window carries neither. A short window
+carries some timing in the area but removes information about $\SI$; the trace carries both and is the only
+observable in our ladder that bounds the combination for most subjects. The proposition also suggests, though
+we did not test it, that an intervention which changes the gastric step without changing absorption (a liquid
+in place of a solid meal, say) is the way to break the exchange symmetry by design rather than by assumption.
+A design sweep over meal size and timing, which would quantify how much of the weakness a better protocol
+could remove, was planned and not run.
+
+\subsection{Limitations}
+\label{sec:limits}
+
+\begin{itemize}
+\item \emph{One model family and one observable.} The analysis is of a Bergman-type model with a
+  two-compartment gut, fitted to the iAUC and two richer observables of postprandial windows. The exchange
+  symmetry is a property of any such cascade, but the second model class (Section~\ref{sec:dm}) was examined
+  only for the iAUC and only on one cohort; models with other gut dynamics, other observables or other
+  feedbacks may differ.
+\item \emph{Cohorts.} The cohorts are of modest size (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and
+  \resCohortHallSubjects{} subjects) and differ in sensor, window and how carbohydrate was obtained; prediction
+  results are from two of them, and the replica and synthetic studies are built on CGMacros meal schedules.
+  In the other two cohorts most estimates sit on a bound at the primary box, which limits how much the
+  interior fractions can say.
+\item \emph{The replica is an idealization.} Its truths are fitted values, which sit near the upper bound
+  of the timing rates; its noise scale comes from the residuals of the real fit and so includes misfit; and its
+  carbohydrate error is lognormal with a fixed coefficient of variation. The synthetic study with random
+  truths removes the first limitation and not the others.
+\item \emph{Noise model.} A single variance per subject and observable, frozen at a pilot fit, with
+  first-order autocorrelation for the trace. We did not test heteroskedastic or non-Gaussian noise.
+\item \emph{The criterion.} A bounded interval at a rise of $\delta$ is an asymptotic criterion; with a few
+  tens of meals per subject and a hard box it is approximate, which is why the results are reported at
+  three box widths and with a replica for calibration. Coverage of bounded intervals in the replica was
+  below nominal.
+\item \emph{Meals are treated as isolated.} Every meal starts with an empty gut. Residual gut content breaks
+  the symmetry in proportion to its size (Proposition~\ref{prop:breaking}); we have not estimated how large it
+  is in free-living data.
+\item \emph{Post hoc hypotheses.} Hypotheses H13 to H22 were declared after earlier results were seen. Their
+  thresholds were fixed before the corresponding analyses were run, but they were chosen knowing the
+  direction of the earlier results.
+\item \emph{Not run.} The sensitivity of the $\SI$ profile to heteroskedastic noise and a design sweep over
+  meal size and timing were planned and not run (Appendix~\ref{app:notrun}).
+\end{itemize}
+
+\subsection{Conclusion}
+
+A digital twin whose parameters are fitted to a postprandial summary of free-living CGM can predict
+held-out meals as well as the data allow while leaving two of its three personalised parameters
+unidentified and the third identified for a minority of people. The gut rates are separable only as a
+combination and only from the trace; insulin sensitivity is only conditionally recoverable and is
+sensitive to the carbohydrate log in proportion; and prediction, optimizer comparison and parameter
+count are all blind to these facts. We report the analyses as an operational protocol and the failures as
+findings, because the failures are the point: a good fit is not a measurement.

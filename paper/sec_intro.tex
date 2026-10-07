@@ -1,0 +1,86 @@
+\section{Introduction}
+\label{sec:intro}
+
+A personalised physiological model, a \emph{digital twin}, is a simulator whose parameters are fitted to one
+person's sensor data. The fitted values are then read as physiology: an insulin sensitivity, a gastric
+emptying rate, a carbohydrate absorption rate. They are shown to the person, compared across people, and
+used to explain or to advise. The evidence usually offered that such a twin is trustworthy is that it
+predicts held-out data. This paper is about why that evidence is not enough.
+
+A parameter can be fitted without being identified. If two parameters enter the observation only through
+a combination, the data fix the combination and leave the split arbitrary; an optimizer then returns a
+split anyway, it predicts held-out data perfectly well, and the number reported as physiology is an
+accident of the starting point and the parameter range. Identifiability analysis exists to separate what
+the data determine from what the fitting procedure supplies
+\citep{bellman1970structural,cobelli1980parameter,walter1997identification}. For glucose--insulin models
+it has been known to be delicate since the minimal model \citep{bergman1979,pillonetto2002minimal}. What is
+new is the setting: free-living postprandial continuous glucose monitoring (CGM) with logged meals, and
+simulators that are differentiable end to end, so that exact gradients, Fisher information and profile
+likelihoods are available for every person rather than for a population \citep{kidger2021diffrax,
+bradbury2018jax}.
+
+We study one concrete and widely used observation, the baseline-subtracted incremental area under the
+glucose curve (iAUC) of a meal, and a Bergman-type simulator with a two-compartment gut. The questions are
+specific. Which of the three personalised parameters, insulin sensitivity $\SI$, gastric emptying rate
+$\ke$ and carbohydrate absorption rate $\ka$, do the data determine? Is the answer a property of the
+observable, of the optimizer, of the noise, or of the model being wrong? And would held-out prediction have
+told us?
+
+\paragraph{What we do.}
+We combine the full (not diagonal) Fisher information matrix with its eigenvectors and the Schur
+complement of the timing block, profile likelihood intervals with explicit definitions of bounded,
+one-sided and flat, a generic-rank test of the stacked sensitivity matrix, and symbolic structural
+identifiability. We add two instruments that a real dataset cannot provide: a \emph{replica}, in which the
+model is true and the noise and carbohydrate-logging error are the subject's own, and a synthetic study
+with randomly drawn true parameters, so that recovery can be read against where in the parameter range the
+truth lies. We replicate on three cohorts, run the same questions on a second model class, repeat the
+prediction comparison on a second cohort, and check the optimizer that produced every estimate. The
+analysis plan was fixed in version control before the analyses were run; it was amended
+\resAmendmentCount\ times, each amendment is listed with its reason (Appendix~\ref{app:register}), and
+hypotheses declared after results were seen are marked as such. Failures are reported as failures.
+
+\paragraph{What we find.}
+\begin{enumerate}
+\item \emph{$\ke$ and $\ka$ are not separable from the area, and the reason is exact.} Their exchange is
+  an exact symmetry of the empty-gut model (Section~\ref{sec:theory}); the weakest Fisher direction lies
+  along the exchange direction in every subject of three cohorts; and no profile interval for either
+  rate is bounded under iAUC, at any of three parameter ranges and out to four times the upper bound
+  (Section~\ref{sec:timing}).
+\item \emph{$\SI$ is only conditionally recoverable.} Its interval is bounded for a minority of subjects at
+  the primary range, the fraction rises with the range, and in a replica where the model is exactly true
+  it remains low (Section~\ref{sec:si}). The weakness is largely a property of the observable and the
+  design, not only of model error.
+\item \emph{What is recoverable is a combination.} The sum $\tau_1=1/\ke+1/\ka$ and the product
+  $p=1/(\ke\ka)$ of reciprocal rates are bounded for most subjects under the full glucose trace, and
+  mostly not under the area, with or without its timing centroid (Section~\ref{sec:more}).
+\item \emph{Prediction does not see any of this.} Gradient fitting and exhaustive grid search, and
+  three parameters and one, give the same held-out iAUC error in two cohorts; a full-trace objective does
+  not lower it (Section~\ref{sec:prediction}).
+\item \emph{The same questions on another model class, and the optimizer, do not change the picture}
+  (Sections~\ref{sec:dm} and~\ref{sec:more}).
+\end{enumerate}
+
+\begin{table}[t]
+\centering\small
+\begin{tabularx}{\linewidth}{Xll}
+\toprule
+claim & evidence & scope \\
+\midrule
+$\ke$ and $\ka$ are not separable from the area & Prop.~\ref{prop:exchange}; Sec.~\ref{sec:timing}; H4, H5, H15 & three cohorts; iAUC \\
+$\SI$ is only conditionally recoverable & Sec.~\ref{sec:si}; H5, H13, H17, H19 & CGMacros; replica and synthetic \\
+The combination $(\tau_1,p)$ is recoverable from the trace & Sec.~\ref{sec:more}; H11, H18, H21 & CGMacros; one model family \\
+Prediction does not see any of this & Sec.~\ref{sec:prediction}; H7--H9, H20 & CGMacros and Shanghai \\
+The picture holds for a second gut model & Sec.~\ref{sec:dm}; H22 & CGMacros; iAUC only \\
+Clinical correlations of a fitted parameter need controls & Sec.~\ref{sec:leakage} & Shanghai \\
+\bottomrule
+\end{tabularx}
+\caption{The claims of this paper, the evidence for each, and the data it covers. Hypotheses are defined in
+Appendix~\ref{app:register}.}
+\label{tab:claims}
+\end{table}
+
+\paragraph{Scope.}
+This is not a new fitting method. Its contributions are a protocol (definitions, instruments and controls
+for an identifiability claim about a fitted twin), a body of evidence on one model family and observable
+under that protocol, and an honest account of what failed. The claims are limited to what the three
+cohorts, the observation windows and the model family used here support (Section~\ref{sec:limits}).

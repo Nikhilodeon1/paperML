@@ -1,0 +1,42 @@
+\section{Proofs}
+\label{app:proofs}
+
+\begin{proof}[Proof of Proposition~\ref{prop:exchange}]
+Take Laplace transforms of Eq.~\eqref{eq:gut} with $Q_1(0)=D_0$ and $Q_2(0)=Q_0$:
+$(s+\ke)\hat Q_1=D_0+\hat m$ and $(s+\ka)\hat Q_2=Q_0+\ke\hat Q_1$. Hence
+\begin{equation}
+\hat Q_2=\frac{Q_0}{s+\ka}+\frac{\ke\,(D_0+\hat m)}{(s+\ke)(s+\ka)},\qquad \hat R_a=\ka\hat Q_2.
+\label{eq:laplace}
+\end{equation}
+With $Q_0=0$, $\hat R_a=\ke\ka(D_0+\hat m)/((s+\ke)(s+\ka))$, which is unchanged under $\ke\leftrightarrow\ka$.
+The parameters $\ke$ and $\ka$ appear in Eqs.~\eqref{eq:glucose}--\eqref{eq:action} only through $R_a$, so
+the solution $(G,I,X)$, which is unique for given $R_a$, and every observable computed from it, are unchanged.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:breaking}]
+In Eq.~\eqref{eq:laplace}, multiplied by $\ka$, the second term of $\hat Q_2$ is the symmetric expression of
+Proposition~\ref{prop:exchange} and the first term is not: $\hat R_a^{(\ke,\ka)}-\hat R_a^{(\ka,\ke)}=Q_0\bigl(\ka/(s+\ka)-\ke/(s+\ke)\bigr)$.
+The inverse transform is $Q_0(\ka e^{-\ka t}-\ke e^{-\ke t})$, whose integral over $(0,\infty)$ is $Q_0-Q_0=0$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:moments}]
+For a unit instantaneous meal into an empty gut the time of arrival is the sum of two independent
+exponential waiting times with means $a=1/\ke$ and $b=1/\ka$. Its density $\phi$ has $m_0=1$ and
+$m_1=a+b=\tau_1$; its variance is $a^2+b^2=\tau_1^2-2p$, so the second raw moment is
+$m_2=(\tau_1^2-2p)+\tau_1^2=2\tau_1^2-2p$. Therefore $\tau_1=m_1$ and $p=(2m_1^2-m_2)/2$, and $a,b$ are the roots of
+$z^2-\tau_1z+p$, that is, the unordered pair. For the linearized model, $y=h*R_a$ with $h$ causal, so
+\begin{equation}
+\int_0^Ty\,dt=\int_0^T R_a(s)\int_s^T h(t-s)\,dt\,ds=\int_0^T R_a(s)H(T-s)\,ds,
+\end{equation}
+and writing $H=K-(K-H)$ gives the stated identity. As $T\to\infty$ the first term tends to
+$K\!\int_0^\infty R_a=KM$ (the zeroth moment, which equals the delivered mass for every pair of rates) and
+the second to zero.
+\end{proof}
+
+\begin{remark}
+The weakest Fisher direction is the $\tau_1$-preserving direction. Differentiating
+$\tau_1=1/\ke+1/\ka$ gives $d\tau_1=-d\!\log\ke/\ke-d\!\log\ka/\ka$, which vanishes along
+$(d\!\log\ke,d\!\log\ka)\propto(1/\ka,-1/\ke)$, the exchange direction used in Section~\ref{sec:instruments}.
+It is the direction in which $p$ changes at fixed $\tau_1$, and an observable that is a function of the
+first moment alone is flat along it.
+\end{remark}

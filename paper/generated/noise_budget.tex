@@ -1,0 +1,16 @@
+\begin{table}[h]
+\centering\small
+\begin{tabular}{llcccc}
+\toprule
+CGM noise & carbohydrate error & gradient & grid & personal mean & ratio to real \\
+\midrule
+none & none & 2 & 15 & 1800 & 0.00 (0.00--0.00) \\
+none & 25\% & 710 & 707 & 1800 & 0.23 (0.21--0.26) \\
+on & none & 2394 & 2391 & 2874 & 0.79 (0.72--0.89) \\
+on & 25\% & 2528 & 2531 & 2874 & 0.84 (0.76--0.94) \\
+on & 50\% & 2829 & 2829 & 2874 & 0.94 (0.85--1.04) \\
+\bottomrule
+\end{tabular}
+\caption{What-if noise budgets: held-out iAUC error of the replica (mg\,dL$^{-1}$\,min) under each noise setting. The real-data error of the gradient fit is 3025. The ratio carries a bootstrap interval over subjects. The settings are not additive shares of the real error.}
+\label{tab:noise}
+\end{table}
