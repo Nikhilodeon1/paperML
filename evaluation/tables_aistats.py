@@ -65,7 +65,7 @@ def bounds_table(summary: dict) -> None:
         str(sweep[b]["interior_converged_original"]) for b in BOXES) + r" \\")
     _write("bounds.tex", "lccc", rows,
            "Subjects whose maximum-likelihood estimate lies on a bound (iAUC objective, 45 subjects), "
-           "for three box widths. The $1\\times$ box is the primary one.", "tab:bounds")
+           "for three box widths. The $1\\times$ box is the primary one.", "tab:pinned")
 
 
 def profiles_table(summary: dict) -> None:

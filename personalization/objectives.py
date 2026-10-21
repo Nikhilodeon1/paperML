@@ -85,8 +85,13 @@ class ObjectiveSpec:
     whiten_trace: bool = True
     legacy_full_window: bool = False
     parameterization: str = "rates"
+    noise_structure: str = "homoskedastic"     # Amendment 6: "root" and "proportional": iAUC sensitivity models
 
     def __post_init__(self):
+        if self.noise_structure not in ("homoskedastic", "root", "proportional"):
+            raise ValueError(f"unknown noise structure {self.noise_structure!r}")
+        if self.noise_structure != "homoskedastic" and self.name != "iauc":
+            raise ValueError("a heteroskedastic noise model is defined for the iAUC objective only")
         if self.parameterization not in PARAMETERIZATIONS:
             raise ValueError(f"unknown parameterization {self.parameterization!r}; "
                              f"known: {', '.join(PARAMETERIZATIONS)}")
@@ -137,6 +142,7 @@ class ObjectiveSpec:
                 "parameterization": self.parameterization,
                 "theta_names": list(self.theta_names),
                 "whiten_trace": self.whiten_trace,
+                "noise_structure": self.noise_structure,
                 "legacy_full_window": self.legacy_full_window,
                 "window": {"meal_time_min": self.window.meal_time_min,
                            "pre_min": self.window.pre_min, "post_min": self.window.post_min,
@@ -254,6 +260,10 @@ def build_objective(spec: ObjectiveSpec, base, arrays: dict, observed: dict,
     n_centroid = max(float(np.sum(observed["centroid_defined"])), 1.0)
 
     sigma_iauc = noise.for_observable("iauc")
+    if getattr(noise, "structure", "homoskedastic") != "homoskedastic":
+        padded_scale = np.ones(width)
+        padded_scale[:len(noise.meal_scale)] = np.asarray(noise.meal_scale, dtype=float)
+        sigma_iauc = sigma_iauc * jnp.asarray(padded_scale)
     sigma_centroid = noise.for_observable("centroid")
     sigma_trace = noise.for_observable("trace")
     rho = float(noise.rho) if (spec.whiten_trace and noise.whitened) else 0.0

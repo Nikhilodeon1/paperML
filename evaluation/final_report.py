@@ -17,7 +17,6 @@ OUTPUT = ROOT / "REPORTS" / "final.md"
 ALWAYS_SKIPPED = [
     ("A15 design sweep", "Sensitivity-guided design sweep over meal size and timing (reviewer suggestion); "
                          "not run."),
-    ("H16", "Heteroskedastic-noise sensitivity of the S_I profile; not run."),
 ]
 
 
@@ -31,7 +30,8 @@ def skipped(verdicts: dict) -> list[tuple[str, str]]:
                        ("H19", "Synthetic recovery with random truths (so the synthetic clause of H6)."),
                        ("H20", "Cross-validation on the Shanghai cohort."),
                        ("H21", "Likelihood-optimum check of the coordinate fits."),
-                       ("H22", "Second model class (Dalla Man): Fisher matrix and profile intervals.")):
+                       ("H22", "Second model class (Dalla Man): Fisher matrix and profile intervals."),
+                       ("H23", "Recalibrated profile cutoff (Amendment 6).")):
         if verdicts.get(name, {}).get("status") == "not evaluated":
             out.append((name, text))
     return out

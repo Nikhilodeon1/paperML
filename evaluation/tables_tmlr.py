@@ -51,6 +51,7 @@ TOPIC = {
     "H20": "Prediction equivalence on the Shanghai cohort",
     "H21": "The coordinate estimates are likelihood optima",
     "H22": "A second model class (Dalla Man)",
+    "H23": "The real-data results at a cutoff calibrated on the replica",
 }
 
 
@@ -62,7 +63,9 @@ def origin(name: str) -> str:
         return "amendment one"
     if n <= 16:
         return "amendment four (post hoc)"
-    return "amendment five (post hoc)"
+    if n <= 22:
+        return "amendment five (post hoc)"
+    return "amendment six (post hoc)"
 
 
 def _esc(text) -> str:

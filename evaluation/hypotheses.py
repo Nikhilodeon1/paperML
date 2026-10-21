@@ -33,6 +33,9 @@ def load_summary() -> dict:
     later = RESULTS / "phase9_summary.json"
     if later.exists():
         summary["phase9"] = json.loads(later.read_text(encoding="utf-8"))
+    last = RESULTS / "phase10_summary.json"
+    if last.exists():
+        summary["phase10"] = json.loads(last.read_text(encoding="utf-8"))
     return summary
 
 
@@ -232,10 +235,20 @@ def h15(summary):
 
 
 def h16(summary):
-    return _row("Exploratory: S_I saturation curve; carbohydrate-scale sensitivity; heteroskedastic noise "
-                "(no thresholds).", "reported (exploratory)" if summary.get("phase8", {}).get("h16", {})
-                .get("saturation", {}).get("n") else "not evaluated",
-                note="Heteroskedastic-noise sensitivity was not run.")
+    rule = ("Exploratory: S_I saturation curve; carbohydrate-scale sensitivity; heteroskedastic noise "
+            "(no thresholds).")
+    status = ("reported (exploratory)" if summary.get("phase8", {}).get("h16", {}).get("saturation", {}).get("n")
+              else "not evaluated")
+    block = summary.get("phase10", {}).get("heteroskedastic")
+    if block and block.get("status") == "reported (exploratory)":
+        observed = {"baseline": (block["baseline"] or {}).get("S_I_interior", {}).get("fraction")}
+        for name, v in block["structures"].items():
+            observed[name] = (v.get("S_I_interior") or {}).get("fraction")
+        return _row(rule, status, observed,
+                    note="Heteroskedastic sensitivity run in Phase 10 (Amendment 6): S_I clause of H5 "
+                         + ("unmet under every structure." if block.get("clause_unmet_under_all")
+                            else "met under at least one structure."))
+    return _row(rule, status, note="Heteroskedastic-noise sensitivity was not run.")
 
 
 def _phase9(summary, key):
@@ -310,9 +323,23 @@ def h22(summary):
                  if k in block["parameters"]})
 
 
+def h23(summary):
+    rule = ("Recalibrated cutoff (95th percentile of the profile excess at the true value on the replica): "
+            "S_I bounded in < 50% (iAUC, primary box) and, under the trace, tau1 >= 70% and p >= 50%, "
+            "among subjects interior for the parameter.")
+    block = summary.get("phase10", {}).get("h23")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Recalibration not run.")
+    parts = block["trace_coordinates"]
+    return _row(rule, block["status"], {
+        "S_I_calibrated": block["S_I_iauc"]["real"]["calibrated"]["fraction"],
+        "tau1_calibrated": parts["log_tau1"]["real"]["calibrated"]["fraction"],
+        "p_calibrated": parts["log_p"]["real"]["calibrated"]["fraction"]})
+
+
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
        "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
-       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22}
+       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23}
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

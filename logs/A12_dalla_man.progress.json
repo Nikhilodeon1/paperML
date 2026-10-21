@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A12_dalla_man",
+  "config_hash": "4554066ababb",
+  "total": 45,
+  "done": 45,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 5.9,
+  "units_per_hour": 27325.09,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-10-10T01:39:42+0000"
+}

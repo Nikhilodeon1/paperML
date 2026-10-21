@@ -294,8 +294,14 @@ def fit_ml(subject, spec: ObjectiveSpec | None = None, records=None, steps: int 
                 optimizer=optimizer, init="base")
 
     theta_pilot = jnp.asarray([pilot.theta[name] for name in spec.theta_names])
-    noise = nm.build(objective_pilot.residuals(theta_pilot), n_parameters=len(spec.free),
-                     whiten_trace=spec.whiten_trace)
+    if spec.noise_structure != "homoskedastic":
+        from personalization.objectives import observed_values
+        scale = nm.proportional_scale(observed_values(records, spec.window)["iauc"], spec.noise_structure)
+        noise = nm.build(objective_pilot.residuals(theta_pilot), n_parameters=len(spec.free),
+                         whiten_trace=spec.whiten_trace, structure=spec.noise_structure, meal_scale=scale)
+    else:
+        noise = nm.build(objective_pilot.residuals(theta_pilot), n_parameters=len(spec.free),
+                         whiten_trace=spec.whiten_trace)
 
     spec_ml = replace(spec, lam=0.0, normalization="nll")
     objective_ml, _ = _build_for(subject, spec_ml, records, noise)

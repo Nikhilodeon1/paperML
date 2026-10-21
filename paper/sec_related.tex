@@ -38,10 +38,13 @@ inference provides calibrated amortized posteriors \citep{greenberg2019automatic
 whose reliability under simulator mismatch has been studied \citep{talts2018sbc,ward2022robust,
 schmitt2023detecting}. Recent glucose digital twins use simulation-based inference or hybrid physiological
 and sequence models \citep{hoang2025t1dsbi,tran2026physioseq2seq}, and Bayesian Bergman-family models
-fitted from CGM with plasma insulin were presented by \citet{erdos2024leveraging}. Foundation-model and
-neural-operator approaches to glucose forecasting \verifycite{GlucoFM, HIPNO: add the references the
-reviewers named} predict well without exposing physiological parameters, which is the contrary design
-choice to ours. Medical digital twins from other signals follow the same fit-then-interpret pattern
+fitted from CGM with plasma insulin were presented by \citet{erdos2024leveraging}. Foundation models of
+CGM learn reusable representations for metabolic phenotyping and postprandial-response prediction
+\citep{li2026glucofm} without exposing physiological parameters, which is the contrary design choice to
+ours. Closest in spirit outside glucose is HIPNO \citep{pan2026hipno}, which handles a scale symmetry of
+a hemodynamic observation model by parameterizing a neural operator in the quotient space of the symmetry; our
+symmetry is a discrete exchange of two rates in a mechanistic simulator, and we ask what the data determine
+about the parameters rather than design an estimator that avoids the ambiguity. Medical digital twins from other signals follow the same fit-then-interpret pattern
 \citep{kuang2024medreal2sim}. None of these works asks what the fitted parameters mean; that is the
 question here.
 

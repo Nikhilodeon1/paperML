@@ -2,8 +2,9 @@
 \label{sec:discussion}
 
 \paragraph{Prediction is not identification.}
-The three layers of evidence agree. The data determine, at best, a combination of the two gut rates, and under
-the area they determine it for few subjects (Sections~\ref{sec:timing} and~\ref{sec:more}); insulin
+The three layers of evidence agree. The data do not separate the two gut rates; whether they determine a
+combination of the two is not established, and under the area they do not for most subjects
+(Sections~\ref{sec:timing} and~\ref{sec:more}); insulin
 sensitivity is constrained from one side for most subjects and bounded for a minority, even when the model
 is true (Section~\ref{sec:si}); and none of this changes how well the fitted model predicts held-out meals
 (Section~\ref{sec:prediction}). A model whose $\ke$ and $\ka$ are held at their population values predicts
@@ -18,10 +19,13 @@ The results suggest a short list for anyone fitting a mechanistic twin to a summ
   one-sided interval is the prior range speaking, so report it at more than one range.
 \item Define the set of subjects over which a fraction is taken. Parameters that are not identified sit on
   bounds, so ``no parameter on a bound'' selects an empty set.
-\item Report the identifiable combinations (here $\tau_1$ and $p$, under the trace) rather than the
-  individual parameters they hide behind.
+\item Report the combinations the symmetry leaves free (here $\tau_1$ and $p$) rather than the individual
+  parameters they hide behind, and check them like any other claim: under the trace our real-data fractions
+  looked good and the replica did not reproduce them.
 \item Run a replica in which the model is true. If the data do not bound a parameter there, they will not
-  bound it in the real data for the same reason, and the interval is not evidence of misspecification.
+  bound it in the real data for the same reason, and the interval is not evidence of misspecification; and
+  if a real-data result exceeds what the replica gives, as the trace fractions did here, it should not be
+  taken at face value.
 \item Test the optimizer against a better-conditioned one; a fixed-step estimate that is not an optimum
   produces profile minima below the estimate, as we found for the coordinate fits (Section~\ref{sec:more}).
 \item Treat clinical correlations of a fitted parameter with care: a correlation that survives only
@@ -31,8 +35,9 @@ The results suggest a short list for anyone fitting a mechanistic twin to a summ
 \paragraph{Design.}
 Proposition~\ref{prop:moments} says what an observable must carry to identify the timing parameters: the
 first moment for $\tau_1$ and the second for $p$. An area over a long window carries neither. A short window
-carries some timing in the area but removes information about $\SI$; the trace carries both and is the only
-observable in our ladder that bounds the combination for most subjects. The proposition also suggests, though
+carries some timing in the area but removes information about $\SI$; the trace carries both, and
+its Fisher information about timing is far larger, but our controls do not let us say that it identifies the
+combination (Section~\ref{sec:more}). The proposition also suggests, though
 we did not test it, that an intervention which changes the gastric step without changing absorption (a liquid
 in place of a solid meal, say) is the way to break the exchange symmetry by design rather than by assumption.
 A design sweep over meal size and timing, which would quantify how much of the weakness a better protocol
@@ -60,8 +65,10 @@ could remove, was planned and not run.
   first-order autocorrelation for the trace. We did not test heteroskedastic or non-Gaussian noise.
 \item \emph{The criterion.} A bounded interval at a rise of $\delta$ is an asymptotic criterion; with a few
   tens of meals per subject and a hard box it is approximate, which is why the results are reported at
-  three box widths and with a replica for calibration. Coverage of bounded intervals in the replica was
-  below nominal.
+  three box widths and with a replica for calibration. Coverage of bounded $\SI$ intervals in the replica
+  was below nominal in one seed and just above the rule pooled, and for the coordinate profiles under the trace
+  it was far below nominal, which is why we do not claim that $(\tau_1,p)$ is recovered. The optimizer does
+  not reach an optimum for four trace fits in ten, and we did not run the profile from a global optimizer.
 \item \emph{Meals are treated as isolated.} Every meal starts with an empty gut. Residual gut content breaks
   the symmetry in proportion to its size (Proposition~\ref{prop:breaking}); we have not estimated how large it
   is in free-living data.
@@ -76,8 +83,9 @@ could remove, was planned and not run.
 
 A digital twin whose parameters are fitted to a postprandial summary of free-living CGM can predict
 held-out meals as well as the data allow while leaving two of its three personalised parameters
-unidentified and the third identified for a minority of people. The gut rates are separable only as a
-combination and only from the trace; insulin sensitivity is only conditionally recoverable and is
+unidentified and the third identified for a minority of people. The gut rates are not separable, and whether
+even a combination of them is recoverable, from the full trace, is not established by our controls; insulin
+sensitivity is only conditionally recoverable and is
 sensitive to the carbohydrate log in proportion; and prediction, optimizer comparison and parameter
 count are all blind to these facts. We report the analyses as an operational protocol and the failures as
 findings, because the failures are the point: a good fit is not a measurement.

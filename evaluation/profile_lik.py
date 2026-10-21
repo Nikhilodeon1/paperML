@@ -81,6 +81,10 @@ def default_config() -> dict:
         "polish": False,
         "polish_starts": 5,
         "polish_maxiter": 300,
+        # Amendment 6: "root" and "proportional" are the heteroskedastic iAUC noise models; profile_only restricts the
+        # profiled parameters to a list of names (the S_I sensitivity profiles only that one).
+        "noise_structure": "homoskedastic",
+        "profile_only": None,
     }
 
 
@@ -96,7 +100,8 @@ def stored_estimate(config: dict, unit: str) -> dict | None:
     """
     from evaluation.results_io import load_all
     transformed = (config.get("replica") or config.get("carb_scale") not in (None, 1, 1.0)
-                   or config.get("parameterization", "rates") != "rates")
+                   or config.get("parameterization", "rates") != "rates"
+                   or config.get("noise_structure", "homoskedastic") != "homoskedastic")
     if transformed or config["cohort"] != "cgmacros":
         return None          # the stored fits are for the real CGMacros subjects in rate coordinates
     best = None
@@ -177,8 +182,9 @@ def run_unit(unit: str, config: dict) -> dict:
     name = config["objective"]
     parameterization = config.get("parameterization", "rates")
     log_space = parameterization != "rates"        # the fitted vector is already in log coordinates
+    structure = config.get("noise_structure", "homoskedastic")
     spec = ObjectiveSpec(name=name, lam=0.0, normalization="nll", bounds_scale=scale, window=window,
-                         parameterization=parameterization)
+                         parameterization=parameterization, noise_structure=structure)
     names = list(spec.theta_names)
 
     stored = stored_estimate(config, unit)
@@ -188,7 +194,7 @@ def run_unit(unit: str, config: dict) -> dict:
         source = "A4"
     else:
         ml = fit_ml(subject, ObjectiveSpec(name=name, bounds_scale=scale, window=window,
-                                           parameterization=parameterization),
+                                           parameterization=parameterization, noise_structure=structure),
                     steps=config["fit_steps"], pilot_steps=config["pilot_steps"],
                     learning_rate=config["fit_learning_rate"])
         theta_hat = np.array([ml.ml.theta[n] for n in names], dtype=float)
@@ -228,7 +234,10 @@ def run_unit(unit: str, config: dict) -> dict:
             truth = {**truth, "theta_true": truth_in_coordinates(truth["theta_true"])}
 
     profiles = {}
+    only = config.get("profile_only")
     for index, parameter in enumerate(names):
+        if only and parameter not in only:
+            continue
         extension = (config["extension_points"] if (parameter in EXTENDED and not log_space) else 0)
         if log_space:
             phi_grid = np.linspace(phi_lower[index], phi_upper[index], config["grid_points"])
@@ -282,6 +291,8 @@ def run_unit(unit: str, config: dict) -> dict:
         "subject_id": unit, "cohort": config["cohort"], "objective": name,
         "parameterization": parameterization, "replica": config.get("replica"),
         "carb_scale": config.get("carb_scale"), "polish": polish,
+        "noise_structure": structure, "profile_only": list(only) if only else None,
+        "noise": noise.as_dict(),
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
         "sampling_min": subject.sampling_min,
         "theta_ml": dict(zip(names, theta_hat.tolist())),
@@ -301,7 +312,9 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")
-            and (payload.get("polish") is not None) == bool(config.get("polish")))
+            and (payload.get("polish") is not None) == bool(config.get("polish"))
+            and payload.get("noise_structure", "homoskedastic") == config.get("noise_structure", "homoskedastic")
+            and (payload.get("profile_only") or None) == (config.get("profile_only") or None))
 
 
 def summarize(config: dict | None = None) -> dict:

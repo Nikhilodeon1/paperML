@@ -1,0 +1,1442 @@
+nohup: ignoring input
+=== 2026-10-08 07:47:55 evaluation.gradient_diag --set init_seed=0
+2026-10-08 07:48:02 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:02 evaluation.gradient_diag --set init_seed=1
+2026-10-08 07:48:08 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:09 evaluation.gradient_diag --set init_seed=2
+2026-10-08 07:48:14 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:15 evaluation.gradient_diag --set init_seed=3
+2026-10-08 07:48:21 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:22 evaluation.gradient_diag --set init_seed=4
+2026-10-08 07:48:27 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:27 evaluation.gradient_diag --set log_param=true
+2026-10-08 07:48:31 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:32 evaluation.gradient_diag --set optimizer="lbfgs"
+2026-10-08 07:48:37 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:37 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+2026-10-08 07:48:44 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:45 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+2026-10-08 07:48:51 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:52 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+2026-10-08 07:48:57 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:48:58 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+2026-10-08 07:49:07 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-08 07:49:07 evaluation.profile_lik --set objective="iauc" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+2026-10-08 07:49:09 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+2026-10-08 07:49:11 [A5_profile] killing worker 0: no heartbeat for 84546s
+2026-10-08 07:49:11 [A5_profile] killing worker 1: no heartbeat for 84544s
+2026-10-08 07:49:11 [A5_profile] killing worker 2: no heartbeat for 84543s
+2026-10-08 07:49:11 [A5_profile] killing worker 3: no heartbeat for 84545s
+2026-10-08 07:49:11 [A5_profile] killing worker 4: no heartbeat for 84546s
+2026-10-08 07:49:11 [A5_profile] killing worker 5: no heartbeat for 84543s
+2026-10-08 07:49:11 [A5_profile] killing worker 6: no heartbeat for 84542s
+2026-10-08 07:49:11 [A5_profile] killing worker 7: no heartbeat for 84546s
+2026-10-08 07:49:12 [A5_profile] killing worker 8: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 9: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 10: no heartbeat for 84544s
+2026-10-08 07:49:12 [A5_profile] killing worker 11: no heartbeat for 84547s
+2026-10-08 07:49:12 [A5_profile] killing worker 12: no heartbeat for 84546s
+2026-10-08 07:49:12 [A5_profile] killing worker 13: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 14: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 15: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 17: no heartbeat for 84546s
+2026-10-08 07:49:12 [A5_profile] killing worker 20: no heartbeat for 84543s
+2026-10-08 07:49:12 [A5_profile] killing worker 26: no heartbeat for 84544s
+2026-10-08 07:49:12 [A5_profile] killing worker 27: no heartbeat for 84545s
+2026-10-08 07:49:12 [A5_profile] killing worker 29: no heartbeat for 84545s
+  0/45 done, 0 failed, 30 workers
+2026-10-08 07:49:14 [A5_profile] killing worker 0: no heartbeat for 84548s
+2026-10-08 07:49:14 [A5_profile] killing worker 1: no heartbeat for 84547s
+2026-10-08 07:49:14 [A5_profile] killing worker 2: no heartbeat for 84546s
+2026-10-08 07:49:14 [A5_profile] killing worker 3: no heartbeat for 84548s
+2026-10-08 07:49:14 [A5_profile] killing worker 4: no heartbeat for 84548s
+2026-10-08 07:49:14 [A5_profile] killing worker 5: no heartbeat for 84546s
+2026-10-08 07:49:14 [A5_profile] killing worker 6: no heartbeat for 84545s
+2026-10-08 07:49:14 [A5_profile] killing worker 7: no heartbeat for 84549s
+2026-10-08 07:49:14 [A5_profile] killing worker 8: no heartbeat for 84548s
+2026-10-08 07:49:14 [A5_profile] killing worker 9: no heartbeat for 84548s
+2026-10-08 07:49:14 [A5_profile] killing worker 10: no heartbeat for 84547s
+2026-10-08 07:49:14 [A5_profile] killing worker 11: no heartbeat for 84550s
+2026-10-08 07:49:14 [A5_profile] killing worker 12: no heartbeat for 84549s
+2026-10-08 07:49:14 [A5_profile] killing worker 13: no heartbeat for 84548s
+2026-10-08 07:49:15 [A5_profile] killing worker 14: no heartbeat for 84548s
+2026-10-08 07:49:15 [A5_profile] killing worker 15: no heartbeat for 84548s
+2026-10-08 07:49:15 [A5_profile] killing worker 17: no heartbeat for 84549s
+2026-10-08 07:49:15 [A5_profile] killing worker 20: no heartbeat for 84546s
+2026-10-08 07:49:15 [A5_profile] killing worker 27: no heartbeat for 84548s
+2026-10-08 07:49:17 [A5_profile] killing worker 0: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 1: no heartbeat for 84550s
+2026-10-08 07:49:17 [A5_profile] killing worker 2: no heartbeat for 84548s
+2026-10-08 07:49:17 [A5_profile] killing worker 3: no heartbeat for 84550s
+2026-10-08 07:49:17 [A5_profile] killing worker 4: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 5: no heartbeat for 84549s
+2026-10-08 07:49:17 [A5_profile] killing worker 6: no heartbeat for 84548s
+2026-10-08 07:49:17 [A5_profile] killing worker 7: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 8: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 9: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 10: no heartbeat for 84549s
+2026-10-08 07:49:17 [A5_profile] killing worker 11: no heartbeat for 84552s
+2026-10-08 07:49:17 [A5_profile] killing worker 12: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 13: no heartbeat for 84550s
+2026-10-08 07:49:17 [A5_profile] killing worker 14: no heartbeat for 84550s
+2026-10-08 07:49:17 [A5_profile] killing worker 15: no heartbeat for 84551s
+2026-10-08 07:49:17 [A5_profile] killing worker 17: no heartbeat for 84552s
+2026-10-08 07:49:17 [A5_profile] killing worker 27: no heartbeat for 84550s
+2026-10-08 07:49:19 [A5_profile] killing worker 0: no heartbeat for 84554s
+2026-10-08 07:49:19 [A5_profile] killing worker 1: no heartbeat for 84552s
+2026-10-08 07:49:20 [A5_profile] killing worker 2: no heartbeat for 84551s
+2026-10-08 07:49:20 [A5_profile] killing worker 3: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 4: no heartbeat for 84554s
+2026-10-08 07:49:20 [A5_profile] killing worker 5: no heartbeat for 84551s
+2026-10-08 07:49:20 [A5_profile] killing worker 6: no heartbeat for 84550s
+2026-10-08 07:49:20 [A5_profile] killing worker 7: no heartbeat for 84554s
+2026-10-08 07:49:20 [A5_profile] killing worker 8: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 9: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 10: no heartbeat for 84552s
+2026-10-08 07:49:20 [A5_profile] killing worker 11: no heartbeat for 84555s
+2026-10-08 07:49:20 [A5_profile] killing worker 12: no heartbeat for 84554s
+2026-10-08 07:49:20 [A5_profile] killing worker 13: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 14: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 15: no heartbeat for 84553s
+2026-10-08 07:49:20 [A5_profile] killing worker 17: no heartbeat for 84554s
+2026-10-08 07:49:20 [A5_profile] killing worker 27: no heartbeat for 84553s
+  0/45 done, 0 failed, 12 workers
+  0/45 done, 0 failed, 12 workers
+  1/45 done, 0 failed, 12 workers, eta 1.1h
+  5/45 done, 0 failed, 12 workers, eta 0.3h
+  10/45 done, 0 failed, 12 workers, eta 0.2h
+  11/45 done, 0 failed, 12 workers, eta 0.2h
+  12/45 done, 0 failed, 12 workers, eta 0.2h
+  18/45 done, 0 failed, 12 workers, eta 0.1h
+  22/45 done, 0 failed, 12 workers, eta 0.1h
+  24/45 done, 0 failed, 12 workers, eta 0.1h
+  28/45 done, 0 failed, 12 workers, eta 0.1h
+  30/45 done, 0 failed, 12 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.0h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.14h
+==============================================================================
+=== 2026-10-08 07:57:42 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-10-08 07:57:48 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 1.9h
+  2/45 done, 0 failed, 30 workers, eta 2.1h
+  5/45 done, 0 failed, 30 workers, eta 0.8h
+  12/45 done, 0 failed, 30 workers, eta 0.3h
+  23/45 done, 0 failed, 23 workers, eta 0.1h
+  28/45 done, 0 failed, 17 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  34/45 done, 0 failed, 12 workers, eta 0.1h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.19h
+==============================================================================
+=== 2026-10-08 08:09:05 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-10-08 08:09:07 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  2/45 done, 0 failed, 30 workers, eta 1.7h
+  4/45 done, 0 failed, 30 workers, eta 0.9h
+  11/45 done, 0 failed, 30 workers, eta 0.3h
+  19/45 done, 0 failed, 27 workers, eta 0.1h
+  27/45 done, 0 failed, 21 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  32/45 done, 0 failed, 13 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  45/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.17h
+==============================================================================
+=== 2026-10-08 08:19:26 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-10-08 08:19:28 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  2/45 done, 0 failed, 30 workers, eta 1.7h
+  5/45 done, 0 failed, 30 workers, eta 0.7h
+  12/45 done, 0 failed, 30 workers, eta 0.3h
+  21/45 done, 0 failed, 25 workers, eta 0.1h
+  25/45 done, 0 failed, 20 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.0h
+  39/45 done, 0 failed, 7 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  45/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.17h
+==============================================================================
+=== 2026-10-08 08:29:47 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-10-08 08:29:49 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+  2/45 done, 0 failed, 30 workers, eta 4.1h
+  2/45 done, 0 failed, 30 workers, eta 4.3h
+  2/45 done, 0 failed, 30 workers, eta 4.5h
+  2/45 done, 0 failed, 30 workers, eta 4.7h
+  3/45 done, 0 failed, 30 workers, eta 3.2h
+  4/45 done, 0 failed, 30 workers, eta 2.4h
+  6/45 done, 0 failed, 30 workers, eta 1.6h
+  6/45 done, 0 failed, 30 workers, eta 1.6h
+  10/45 done, 0 failed, 30 workers, eta 0.9h
+  11/45 done, 0 failed, 30 workers, eta 0.8h
+  13/45 done, 0 failed, 30 workers, eta 0.7h
+  15/45 done, 0 failed, 30 workers, eta 0.6h
+  17/45 done, 0 failed, 29 workers, eta 0.5h
+  21/45 done, 0 failed, 25 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  25/45 done, 0 failed, 21 workers, eta 0.3h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  26/45 done, 0 failed, 19 workers, eta 0.3h
+  28/45 done, 0 failed, 17 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  32/45 done, 0 failed, 13 workers, eta 0.2h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.1h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.46h
+==============================================================================
+=== 2026-10-08 08:57:21 evaluation.gradient_diag --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-10-08 08:57:25 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  30/45 done, 0 failed, 15 workers, eta 0.0h
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.02h
+==============================================================================
+=== 2026-10-08 08:58:47 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-10-08 08:58:49 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 7.3h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+  2/45 done, 0 failed, 30 workers, eta 4.1h
+  3/45 done, 0 failed, 30 workers, eta 2.8h
+  3/45 done, 0 failed, 30 workers, eta 2.9h
+  4/45 done, 0 failed, 30 workers, eta 2.2h
+  5/45 done, 0 failed, 30 workers, eta 1.8h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  9/45 done, 0 failed, 30 workers, eta 1.0h
+  12/45 done, 0 failed, 30 workers, eta 0.7h
+  12/45 done, 0 failed, 30 workers, eta 0.7h
+  14/45 done, 0 failed, 30 workers, eta 0.6h
+  16/45 done, 0 failed, 29 workers, eta 0.5h
+  21/45 done, 0 failed, 25 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  25/45 done, 0 failed, 20 workers, eta 0.3h
+  26/45 done, 0 failed, 20 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  30/45 done, 0 failed, 15 workers, eta 0.2h
+  30/45 done, 0 failed, 15 workers, eta 0.2h
+  32/45 done, 0 failed, 15 workers, eta 0.2h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  36/45 done, 0 failed, 9 workers, eta 0.1h
+  39/45 done, 0 failed, 6 workers, eta 0.1h
+  42/45 done, 0 failed, 4 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.46h
+==============================================================================
+=== 2026-10-08 09:26:14 evaluation.gradient_diag --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-10-08 09:26:16 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  30/45 done, 0 failed, 15 workers, eta 0.0h
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.02h
+==============================================================================
+=== 2026-10-08 09:27:39 evaluation.prediction_cv --set cohort="shanghai" --set min_meals=10 --set cells=["grad3","grad1","grid3","grid1","personal_mean","population","persistence"]
+2026-10-08 09:27:42 [A9_prediction_cv] start: 435 units, 0 already done, 0 previously failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  0/435 done, 0 failed, 30 workers
+  10/435 done, 0 failed, 30 workers, eta 2.6h
+  12/435 done, 0 failed, 30 workers, eta 2.5h
+  20/435 done, 0 failed, 30 workers, eta 1.6h
+  24/435 done, 0 failed, 30 workers, eta 1.5h
+  26/435 done, 0 failed, 30 workers, eta 1.5h
+  31/435 done, 0 failed, 30 workers, eta 1.4h
+  34/435 done, 0 failed, 30 workers, eta 1.3h
+  37/435 done, 0 failed, 30 workers, eta 1.3h
+  40/435 done, 0 failed, 30 workers, eta 1.3h
+  42/435 done, 0 failed, 30 workers, eta 1.3h
+  46/435 done, 0 failed, 30 workers, eta 1.2h
+  50/435 done, 0 failed, 30 workers, eta 1.2h
+  52/435 done, 0 failed, 30 workers, eta 1.2h
+  58/435 done, 0 failed, 30 workers, eta 1.1h
+  62/435 done, 0 failed, 30 workers, eta 1.1h
+  68/435 done, 0 failed, 30 workers, eta 1.0h
+  71/435 done, 0 failed, 30 workers, eta 1.0h
+  72/435 done, 0 failed, 30 workers, eta 1.1h
+  74/435 done, 0 failed, 30 workers, eta 1.1h
+  80/435 done, 0 failed, 30 workers, eta 1.0h
+  89/435 done, 0 failed, 30 workers, eta 0.9h
+  91/435 done, 0 failed, 30 workers, eta 0.9h
+  96/435 done, 0 failed, 30 workers, eta 0.9h
+  100/435 done, 0 failed, 30 workers, eta 0.9h
+  106/435 done, 0 failed, 30 workers, eta 0.8h
+  117/435 done, 0 failed, 30 workers, eta 0.8h
+  121/435 done, 0 failed, 30 workers, eta 0.7h
+  123/435 done, 0 failed, 30 workers, eta 0.8h
+  127/435 done, 0 failed, 30 workers, eta 0.7h
+  131/435 done, 0 failed, 30 workers, eta 0.7h
+  136/435 done, 0 failed, 30 workers, eta 0.7h
+  141/435 done, 0 failed, 30 workers, eta 0.7h
+  150/435 done, 0 failed, 30 workers, eta 0.6h
+  153/435 done, 0 failed, 30 workers, eta 0.6h
+  157/435 done, 0 failed, 30 workers, eta 0.6h
+  158/435 done, 0 failed, 30 workers, eta 0.6h
+  163/435 done, 0 failed, 30 workers, eta 0.6h
+  168/435 done, 0 failed, 30 workers, eta 0.6h
+  176/435 done, 0 failed, 30 workers, eta 0.6h
+  177/435 done, 0 failed, 30 workers, eta 0.6h
+  184/435 done, 0 failed, 30 workers, eta 0.6h
+  188/435 done, 0 failed, 30 workers, eta 0.5h
+  195/435 done, 0 failed, 30 workers, eta 0.5h
+  202/435 done, 0 failed, 30 workers, eta 0.5h
+  207/435 done, 0 failed, 30 workers, eta 0.5h
+  212/435 done, 0 failed, 30 workers, eta 0.5h
+  213/435 done, 0 failed, 30 workers, eta 0.5h
+  220/435 done, 0 failed, 30 workers, eta 0.5h
+  223/435 done, 0 failed, 30 workers, eta 0.5h
+  227/435 done, 0 failed, 30 workers, eta 0.4h
+  231/435 done, 0 failed, 30 workers, eta 0.4h
+  239/435 done, 0 failed, 30 workers, eta 0.4h
+  243/435 done, 0 failed, 30 workers, eta 0.4h
+  247/435 done, 0 failed, 30 workers, eta 0.4h
+  248/435 done, 0 failed, 30 workers, eta 0.4h
+  252/435 done, 0 failed, 30 workers, eta 0.4h
+  260/435 done, 0 failed, 30 workers, eta 0.4h
+  264/435 done, 0 failed, 30 workers, eta 0.4h
+  269/435 done, 0 failed, 30 workers, eta 0.3h
+  273/435 done, 0 failed, 30 workers, eta 0.3h
+  279/435 done, 0 failed, 30 workers, eta 0.3h
+  286/435 done, 0 failed, 30 workers, eta 0.3h
+  296/435 done, 0 failed, 30 workers, eta 0.3h
+  300/435 done, 0 failed, 30 workers, eta 0.3h
+  301/435 done, 0 failed, 30 workers, eta 0.3h
+  307/435 done, 0 failed, 30 workers, eta 0.3h
+  309/435 done, 0 failed, 30 workers, eta 0.3h
+  316/435 done, 0 failed, 30 workers, eta 0.2h
+  322/435 done, 0 failed, 30 workers, eta 0.2h
+  327/435 done, 0 failed, 30 workers, eta 0.2h
+  332/435 done, 0 failed, 30 workers, eta 0.2h
+  334/435 done, 0 failed, 30 workers, eta 0.2h
+  335/435 done, 0 failed, 30 workers, eta 0.2h
+  342/435 done, 0 failed, 30 workers, eta 0.2h
+  349/435 done, 0 failed, 30 workers, eta 0.2h
+  355/435 done, 0 failed, 30 workers, eta 0.2h
+  357/435 done, 0 failed, 30 workers, eta 0.2h
+  361/435 done, 0 failed, 30 workers, eta 0.1h
+  367/435 done, 0 failed, 30 workers, eta 0.1h
+  380/435 done, 0 failed, 30 workers, eta 0.1h
+  385/435 done, 0 failed, 30 workers, eta 0.1h
+  388/435 done, 0 failed, 30 workers, eta 0.1h
+  388/435 done, 0 failed, 30 workers, eta 0.1h
+  391/435 done, 0 failed, 30 workers, eta 0.1h
+  398/435 done, 0 failed, 30 workers, eta 0.1h
+  404/435 done, 0 failed, 30 workers, eta 0.1h
+  409/435 done, 0 failed, 26 workers, eta 0.1h
+  418/435 done, 0 failed, 17 workers, eta 0.0h
+  420/435 done, 0 failed, 15 workers, eta 0.0h
+  421/435 done, 0 failed, 14 workers, eta 0.0h
+  429/435 done, 0 failed, 6 workers, eta 0.0h
+  434/435 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 435/435 done, 0 failed in 0.85h
+==============================================================================
+=== 2026-10-08 10:18:34 evaluation.dalla_man_identifiability
+2026-10-08 10:18:37 [A12_dalla_man] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 5.3h
+  2/45 done, 0 failed, 30 workers, eta 2.8h
+  2/45 done, 0 failed, 30 workers, eta 3.0h
+  2/45 done, 0 failed, 30 workers, eta 3.2h
+  2/45 done, 0 failed, 30 workers, eta 3.3h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  6/45 done, 0 failed, 30 workers, eta 1.2h
+  9/45 done, 0 failed, 30 workers, eta 0.8h
+  14/45 done, 0 failed, 30 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.3h
+  22/45 done, 0 failed, 24 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.1h
+  28/45 done, 0 failed, 17 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  32/45 done, 0 failed, 14 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  36/45 done, 0 failed, 9 workers, eta 0.1h
+  38/45 done, 0 failed, 8 workers, eta 0.1h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A12_dalla_man: 45/45 done, 0 failed in 0.35h
+==============================================================================
+=== 2026-10-08 10:39:27 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25}
+2026-10-08 10:39:30 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 6.5h
+  1/45 done, 0 failed, 30 workers, eta 6.9h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+  3/45 done, 0 failed, 30 workers, eta 2.7h
+  3/45 done, 0 failed, 30 workers, eta 2.8h
+  4/45 done, 0 failed, 30 workers, eta 2.1h
+  4/45 done, 0 failed, 30 workers, eta 2.2h
+  5/45 done, 0 failed, 30 workers, eta 1.8h
+  5/45 done, 0 failed, 30 workers, eta 1.9h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  11/45 done, 0 failed, 30 workers, eta 0.8h
+  12/45 done, 0 failed, 30 workers, eta 0.7h
+  13/45 done, 0 failed, 30 workers, eta 0.7h
+  16/45 done, 0 failed, 30 workers, eta 0.5h
+  17/45 done, 0 failed, 28 workers, eta 0.5h
+  20/45 done, 0 failed, 25 workers, eta 0.4h
+  24/45 done, 0 failed, 22 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  25/45 done, 0 failed, 20 workers, eta 0.3h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  28/45 done, 0 failed, 18 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  31/45 done, 0 failed, 15 workers, eta 0.2h
+  31/45 done, 0 failed, 14 workers, eta 0.2h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  39/45 done, 0 failed, 6 workers, eta 0.1h
+  41/45 done, 0 failed, 4 workers, eta 0.0h
+  43/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.45h
+==============================================================================
+=== 2026-10-08 11:06:37 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":2,"cgm":true,"carb_cv":0.25}
+2026-10-08 11:06:39 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 6.9h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+  2/45 done, 0 failed, 30 workers, eta 4.1h
+  2/45 done, 0 failed, 30 workers, eta 4.3h
+  4/45 done, 0 failed, 30 workers, eta 2.1h
+  4/45 done, 0 failed, 30 workers, eta 2.2h
+  4/45 done, 0 failed, 30 workers, eta 2.3h
+  6/45 done, 0 failed, 30 workers, eta 1.5h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  9/45 done, 0 failed, 30 workers, eta 1.0h
+  12/45 done, 0 failed, 30 workers, eta 0.7h
+  14/45 done, 0 failed, 30 workers, eta 0.6h
+  14/45 done, 0 failed, 30 workers, eta 0.6h
+  18/45 done, 0 failed, 27 workers, eta 0.4h
+  23/45 done, 0 failed, 22 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  27/45 done, 0 failed, 19 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  30/45 done, 0 failed, 15 workers, eta 0.2h
+  32/45 done, 0 failed, 13 workers, eta 0.2h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  36/45 done, 0 failed, 9 workers, eta 0.1h
+  38/45 done, 0 failed, 7 workers, eta 0.1h
+  42/45 done, 0 failed, 5 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.45h
+==============================================================================
+=== 2026-10-08 11:33:29 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":3,"cgm":true,"carb_cv":0.25}
+2026-10-08 11:33:31 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 6.5h
+  2/45 done, 0 failed, 30 workers, eta 3.4h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+nohup: ignoring input
+=== 2026-10-09 19:03:33 evaluation.gradient_diag --set init_seed=0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:03:56 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:03:57 evaluation.gradient_diag --set init_seed=1
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:04 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:04 evaluation.gradient_diag --set init_seed=2
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:10 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:10 evaluation.gradient_diag --set init_seed=3
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:16 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:16 evaluation.gradient_diag --set init_seed=4
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:21 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:21 evaluation.gradient_diag --set log_param=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:26 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:27 evaluation.gradient_diag --set optimizer="lbfgs"
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:34 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:34 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:41 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:42 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:50 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:50 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:04:59 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:04:59 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:10 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:10 evaluation.profile_lik --set objective="iauc" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:18 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:18 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:25 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:25 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:33 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:33 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:42 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:43 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:48 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:48 evaluation.gradient_diag --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:05:54 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:05:55 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:06:01 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:06:02 evaluation.gradient_diag --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:06:07 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:06:07 evaluation.prediction_cv --set cohort="shanghai" --set min_meals=10 --set cells=["grad3","grad1","grid3","grid1","personal_mean","population","persistence"]
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:06:58 [A9_prediction_cv] start: 435 units, 435 already done, 0 previously failed, 30 workers
+==============================================================================
+A9_prediction_cv: 435/435 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-09 19:06:58 evaluation.dalla_man_identifiability
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:07:05 [A12_dalla_man] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A12_dalla_man: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:07:05 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:07:13 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:07:14 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":2,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:07:19 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 19:07:19 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":3,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:07:21 [A5_profile] start: 45 units, 2 already done, 0 previously failed, 30 workers
+2026-10-09 19:07:23 [A5_profile] killing worker 0: no heartbeat for 113630s
+2026-10-09 19:07:23 [A5_profile] killing worker 1: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 2: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 3: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 6: no heartbeat for 113085s
+2026-10-09 19:07:23 [A5_profile] killing worker 7: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 8: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 9: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 11: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 13: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 15: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 17: no heartbeat for 113629s
+2026-10-09 19:07:23 [A5_profile] killing worker 20: no heartbeat for 113630s
+  2/45 done, 0 failed, 30 workers, eta 0.0h
+  2/45 done, 0 failed, 30 workers, eta 0.2h
+  2/45 done, 0 failed, 30 workers, eta 0.4h
+  2/45 done, 0 failed, 30 workers, eta 0.6h
+  2/45 done, 0 failed, 30 workers, eta 0.7h
+  2/45 done, 0 failed, 30 workers, eta 0.9h
+  2/45 done, 0 failed, 30 workers, eta 1.1h
+  2/45 done, 0 failed, 30 workers, eta 1.3h
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  2/45 done, 0 failed, 30 workers, eta 1.7h
+  2/45 done, 0 failed, 30 workers, eta 1.8h
+  2/45 done, 0 failed, 30 workers, eta 2.0h
+  2/45 done, 0 failed, 30 workers, eta 2.2h
+  2/45 done, 0 failed, 30 workers, eta 2.4h
+  2/45 done, 0 failed, 30 workers, eta 2.6h
+  2/45 done, 0 failed, 30 workers, eta 2.8h
+  2/45 done, 0 failed, 30 workers, eta 2.9h
+  2/45 done, 0 failed, 30 workers, eta 3.1h
+  2/45 done, 0 failed, 30 workers, eta 3.3h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  2/45 done, 0 failed, 30 workers, eta 3.7h
+  2/45 done, 0 failed, 30 workers, eta 3.9h
+  2/45 done, 0 failed, 30 workers, eta 4.0h
+  2/45 done, 0 failed, 30 workers, eta 4.2h
+  3/45 done, 0 failed, 30 workers, eta 2.9h
+  4/45 done, 0 failed, 30 workers, eta 2.2h
+  5/45 done, 0 failed, 30 workers, eta 1.8h
+  9/45 done, 0 failed, 30 workers, eta 0.9h
+  15/45 done, 0 failed, 30 workers, eta 0.5h
+  17/45 done, 0 failed, 28 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.4h
+  19/45 done, 0 failed, 26 workers, eta 0.4h
+  21/45 done, 0 failed, 25 workers, eta 0.3h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  31/45 done, 0 failed, 14 workers, eta 0.1h
+  32/45 done, 0 failed, 14 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.1h
+  40/45 done, 0 failed, 6 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.45h
+==============================================================================
+=== 2026-10-09 19:34:04 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":4,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 19:34:05 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 3.0h
+  2/45 done, 0 failed, 30 workers, eta 3.1h
+  2/45 done, 0 failed, 30 workers, eta 3.3h
+  2/45 done, 0 failed, 30 workers, eta 3.5h
+  4/45 done, 0 failed, 30 workers, eta 1.8h
+  5/45 done, 0 failed, 30 workers, eta 1.4h
+  6/45 done, 0 failed, 30 workers, eta 1.2h
+  7/45 done, 0 failed, 30 workers, eta 1.1h
+  9/45 done, 0 failed, 30 workers, eta 0.8h
+  15/45 done, 0 failed, 30 workers, eta 0.4h
+  17/45 done, 0 failed, 28 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.3h
+  18/45 done, 0 failed, 27 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.4h
+  20/45 done, 0 failed, 26 workers, eta 0.3h
+  22/45 done, 0 failed, 24 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.2h
+  24/45 done, 0 failed, 21 workers, eta 0.2h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  26/45 done, 0 failed, 21 workers, eta 0.2h
+  28/45 done, 0 failed, 17 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  30/45 done, 0 failed, 15 workers, eta 0.2h
+  30/45 done, 0 failed, 15 workers, eta 0.2h
+  33/45 done, 0 failed, 12 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  38/45 done, 0 failed, 8 workers, eta 0.1h
+  38/45 done, 0 failed, 7 workers, eta 0.1h
+  41/45 done, 0 failed, 5 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+nohup: ignoring input
+=== 2026-10-09 22:43:51 evaluation.gradient_diag --set init_seed=0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:43:59 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:43:59 evaluation.gradient_diag --set init_seed=1
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:02 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:02 evaluation.gradient_diag --set init_seed=2
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:06 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:06 evaluation.gradient_diag --set init_seed=3
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:09 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:09 evaluation.gradient_diag --set init_seed=4
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:12 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:12 evaluation.gradient_diag --set log_param=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:15 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:15 evaluation.gradient_diag --set optimizer="lbfgs"
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:19 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:19 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:23 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:23 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:27 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:27 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:32 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:32 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:37 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:37 evaluation.profile_lik --set objective="iauc" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:41 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:41 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:44 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:45 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:48 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:49 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:52 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:52 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:44:56 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:44:57 evaluation.gradient_diag --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:00 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:00 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:03 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:03 evaluation.gradient_diag --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:07 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:07 evaluation.prediction_cv --set cohort="shanghai" --set min_meals=10 --set cells=["grad3","grad1","grid3","grid1","personal_mean","population","persistence"]
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:20 [A9_prediction_cv] start: 435 units, 435 already done, 0 previously failed, 30 workers
+==============================================================================
+A9_prediction_cv: 435/435 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:21 evaluation.dalla_man_identifiability
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:24 [A12_dalla_man] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A12_dalla_man: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:24 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:27 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:27 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":2,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:30 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:30 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":3,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:33 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-09 22:45:33 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":4,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:45:36 [A5_profile] start: 45 units, 43 already done, 0 previously failed, 30 workers
+2026-10-09 22:45:38 [A5_profile] killing worker 0: no heartbeat for 10221s
+2026-10-09 22:45:38 [A5_profile] killing worker 1: no heartbeat for 10418s
+2026-10-09 22:45:38 [A5_profile] killing worker 2: no heartbeat for 10140s
+2026-10-09 22:45:38 [A5_profile] killing worker 3: no heartbeat for 10061s
+2026-10-09 22:45:38 [A5_profile] killing worker 4: no heartbeat for 10247s
+2026-10-09 22:45:38 [A5_profile] killing worker 5: no heartbeat for 10351s
+2026-10-09 22:45:38 [A5_profile] killing worker 6: no heartbeat for 10765s
+2026-10-09 22:45:38 [A5_profile] killing worker 7: no heartbeat for 10212s
+2026-10-09 22:45:38 [A5_profile] killing worker 8: no heartbeat for 10146s
+2026-10-09 22:45:38 [A5_profile] killing worker 9: no heartbeat for 10539s
+2026-10-09 22:45:38 [A5_profile] killing worker 10: no heartbeat for 10721s
+2026-10-09 22:45:38 [A5_profile] killing worker 12: no heartbeat for 10149s
+2026-10-09 22:45:38 [A5_profile] killing worker 14: no heartbeat for 10683s
+2026-10-09 22:45:38 [A5_profile] killing worker 15: no heartbeat for 10407s
+2026-10-09 22:45:38 [A5_profile] killing worker 16: no heartbeat for 10572s
+2026-10-09 22:45:38 [A5_profile] killing worker 17: no heartbeat for 10233s
+2026-10-09 22:45:38 [A5_profile] killing worker 18: no heartbeat for 10528s
+2026-10-09 22:45:38 [A5_profile] killing worker 19: no heartbeat for 10290s
+2026-10-09 22:45:38 [A5_profile] killing worker 20: no heartbeat for 10381s
+2026-10-09 22:45:38 [A5_profile] killing worker 21: no heartbeat for 10518s
+2026-10-09 22:45:38 [A5_profile] killing worker 22: no heartbeat for 10419s
+2026-10-09 22:45:38 [A5_profile] killing worker 23: no heartbeat for 10207s
+2026-10-09 22:45:38 [A5_profile] killing worker 24: no heartbeat for 10395s
+2026-10-09 22:45:38 [A5_profile] killing worker 25: no heartbeat for 10569s
+2026-10-09 22:45:38 [A5_profile] killing worker 26: no heartbeat for 11001s
+2026-10-09 22:45:38 [A5_profile] killing worker 27: no heartbeat for 10283s
+2026-10-09 22:45:38 [A5_profile] killing worker 28: no heartbeat for 10291s
+2026-10-09 22:45:39 [A5_profile] killing worker 29: no heartbeat for 10707s
+  43/45 done, 0 failed, 30 workers, eta 0.0h
+2026-10-09 22:45:41 [A5_profile] killing worker 0: no heartbeat for 10224s
+2026-10-09 22:45:41 [A5_profile] killing worker 1: no heartbeat for 10421s
+2026-10-09 22:45:41 [A5_profile] killing worker 2: no heartbeat for 10143s
+2026-10-09 22:45:41 [A5_profile] killing worker 3: no heartbeat for 10064s
+2026-10-09 22:45:41 [A5_profile] killing worker 4: no heartbeat for 10249s
+2026-10-09 22:45:41 [A5_profile] killing worker 5: no heartbeat for 10354s
+2026-10-09 22:45:41 [A5_profile] killing worker 7: no heartbeat for 10214s
+2026-10-09 22:45:41 [A5_profile] killing worker 8: no heartbeat for 10149s
+2026-10-09 22:45:41 [A5_profile] killing worker 9: no heartbeat for 10542s
+2026-10-09 22:45:41 [A5_profile] killing worker 10: no heartbeat for 10724s
+2026-10-09 22:45:41 [A5_profile] killing worker 12: no heartbeat for 10152s
+2026-10-09 22:45:41 [A5_profile] killing worker 14: no heartbeat for 10686s
+2026-10-09 22:45:41 [A5_profile] killing worker 15: no heartbeat for 10410s
+2026-10-09 22:45:41 [A5_profile] killing worker 16: no heartbeat for 10575s
+2026-10-09 22:45:41 [A5_profile] killing worker 17: no heartbeat for 10236s
+2026-10-09 22:45:41 [A5_profile] killing worker 18: no heartbeat for 10531s
+2026-10-09 22:45:41 [A5_profile] killing worker 19: no heartbeat for 10293s
+2026-10-09 22:45:41 [A5_profile] killing worker 21: no heartbeat for 10521s
+2026-10-09 22:45:41 [A5_profile] killing worker 22: no heartbeat for 10422s
+2026-10-09 22:45:41 [A5_profile] killing worker 24: no heartbeat for 10398s
+2026-10-09 22:45:41 [A5_profile] killing worker 25: no heartbeat for 10571s
+2026-10-09 22:45:41 [A5_profile] killing worker 26: no heartbeat for 11004s
+2026-10-09 22:45:41 [A5_profile] killing worker 27: no heartbeat for 10286s
+2026-10-09 22:45:41 [A5_profile] killing worker 28: no heartbeat for 10294s
+2026-10-09 22:45:41 [A5_profile] killing worker 29: no heartbeat for 10710s
+2026-10-09 22:45:43 [A5_profile] killing worker 0: no heartbeat for 10227s
+2026-10-09 22:45:43 [A5_profile] killing worker 1: no heartbeat for 10424s
+2026-10-09 22:45:44 [A5_profile] killing worker 2: no heartbeat for 10146s
+2026-10-09 22:45:44 [A5_profile] killing worker 3: no heartbeat for 10067s
+2026-10-09 22:45:44 [A5_profile] killing worker 4: no heartbeat for 10252s
+2026-10-09 22:45:44 [A5_profile] killing worker 5: no heartbeat for 10357s
+2026-10-09 22:45:44 [A5_profile] killing worker 7: no heartbeat for 10217s
+2026-10-09 22:45:44 [A5_profile] killing worker 8: no heartbeat for 10152s
+2026-10-09 22:45:44 [A5_profile] killing worker 9: no heartbeat for 10545s
+2026-10-09 22:45:44 [A5_profile] killing worker 10: no heartbeat for 10727s
+2026-10-09 22:45:44 [A5_profile] killing worker 12: no heartbeat for 10155s
+2026-10-09 22:45:44 [A5_profile] killing worker 14: no heartbeat for 10689s
+2026-10-09 22:45:44 [A5_profile] killing worker 15: no heartbeat for 10413s
+2026-10-09 22:45:44 [A5_profile] killing worker 16: no heartbeat for 10578s
+2026-10-09 22:45:44 [A5_profile] killing worker 17: no heartbeat for 10238s
+2026-10-09 22:45:44 [A5_profile] killing worker 19: no heartbeat for 10296s
+2026-10-09 22:45:44 [A5_profile] killing worker 21: no heartbeat for 10523s
+2026-10-09 22:45:44 [A5_profile] killing worker 22: no heartbeat for 10424s
+2026-10-09 22:45:44 [A5_profile] killing worker 24: no heartbeat for 10401s
+2026-10-09 22:45:46 [A5_profile] killing worker 0: no heartbeat for 10230s
+2026-10-09 22:45:46 [A5_profile] killing worker 1: no heartbeat for 10426s
+2026-10-09 22:45:46 [A5_profile] killing worker 2: no heartbeat for 10149s
+2026-10-09 22:45:46 [A5_profile] killing worker 3: no heartbeat for 10069s
+2026-10-09 22:45:46 [A5_profile] killing worker 4: no heartbeat for 10255s
+2026-10-09 22:45:46 [A5_profile] killing worker 5: no heartbeat for 10359s
+2026-10-09 22:45:46 [A5_profile] killing worker 7: no heartbeat for 10220s
+2026-10-09 22:45:46 [A5_profile] killing worker 8: no heartbeat for 10154s
+2026-10-09 22:45:46 [A5_profile] killing worker 9: no heartbeat for 10547s
+2026-10-09 22:45:46 [A5_profile] killing worker 10: no heartbeat for 10730s
+2026-10-09 22:45:46 [A5_profile] killing worker 22: no heartbeat for 10427s
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  45/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.14h
+==============================================================================
+=== 2026-10-09 22:53:42 evaluation.profile_lik --set cohort="hall" --set min_meals=5 --set objective="trace" --set bounds_scale=1.0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:53:44 [A5_profile] start: 15 units, 0 already done, 0 previously failed, 30 workers
+  0/15 done, 0 failed, 30 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+  0/15 done, 0 failed, 15 workers
+==============================================================================
+A5_profile: 15/15 done, 0 failed in 0.07h
+==============================================================================
+=== 2026-10-09 22:58:07 evaluation.profile_lik --set cohort="shanghai" --set min_meals=10 --set bounds_scale=2.0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-09 22:58:09 [A5_profile] start: 87 units, 0 already done, 0 previously failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  0/87 done, 0 failed, 30 workers
+  2/87 done, 0 failed, 30 workers, eta 6.7h
+  8/87 done, 0 failed, 30 workers, eta 1.6h
+  10/87 done, 0 failed, 30 workers, eta 1.3h
+  10/87 done, 0 failed, 30 workers, eta 1.4h
+  12/87 done, 0 failed, 30 workers, eta 1.2h
+  13/87 done, 0 failed, 30 workers, eta 1.1h
+  16/87 done, 0 failed, 30 workers, eta 0.9h
+  17/87 done, 0 failed, 30 workers, eta 0.9h
+  18/87 done, 0 failed, 30 workers, eta 0.9h
+  21/87 done, 0 failed, 30 workers, eta 0.7h
+  22/87 done, 0 failed, 30 workers, eta 0.7h
+  23/87 done, 0 failed, 30 workers, eta 0.7h
+  23/87 done, 0 failed, 30 workers, eta 0.7h
+  25/87 done, 0 failed, 30 workers, eta 0.7h
+  26/87 done, 0 failed, 30 workers, eta 0.7h
+  26/87 done, 0 failed, 30 workers, eta 0.7h
+  27/87 done, 0 failed, 30 workers, eta 0.7h
+  30/87 done, 0 failed, 30 workers, eta 0.6h
+  31/87 done, 0 failed, 30 workers, eta 0.6h
+  33/87 done, 0 failed, 30 workers, eta 0.5h
+  33/87 done, 0 failed, 30 workers, eta 0.5h
+  35/87 done, 0 failed, 30 workers, eta 0.5h
+  36/87 done, 0 failed, 30 workers, eta 0.5h
+  39/87 done, 0 failed, 30 workers, eta 0.4h
+  39/87 done, 0 failed, 30 workers, eta 0.5h
+  39/87 done, 0 failed, 30 workers, eta 0.5h
+  40/87 done, 0 failed, 30 workers, eta 0.5h
+  41/87 done, 0 failed, 30 workers, eta 0.4h
+  42/87 done, 0 failed, 30 workers, eta 0.4h
+  42/87 done, 0 failed, 30 workers, eta 0.4h
+  43/87 done, 0 failed, 30 workers, eta 0.4h
+  45/87 done, 0 failed, 30 workers, eta 0.4h
+  45/87 done, 0 failed, 30 workers, eta 0.4h
+  47/87 done, 0 failed, 30 workers, eta 0.4h
+  48/87 done, 0 failed, 30 workers, eta 0.4h
+  49/87 done, 0 failed, 30 workers, eta 0.4h
+  49/87 done, 0 failed, 30 workers, eta 0.4h
+  49/87 done, 0 failed, 30 workers, eta 0.4h
+  49/87 done, 0 failed, 30 workers, eta 0.4h
+  51/87 done, 0 failed, 30 workers, eta 0.4h
+  51/87 done, 0 failed, 30 workers, eta 0.4h
+  53/87 done, 0 failed, 30 workers, eta 0.3h
+  56/87 done, 0 failed, 30 workers, eta 0.3h
+  57/87 done, 0 failed, 30 workers, eta 0.3h
+  58/87 done, 0 failed, 29 workers, eta 0.3h
+  59/87 done, 0 failed, 29 workers, eta 0.3h
+  60/87 done, 0 failed, 27 workers, eta 0.3h
+  62/87 done, 0 failed, 25 workers, eta 0.2h
+  66/87 done, 0 failed, 21 workers, eta 0.2h
+  67/87 done, 0 failed, 20 workers, eta 0.2h
+  68/87 done, 0 failed, 19 workers, eta 0.2h
+  70/87 done, 0 failed, 17 workers, eta 0.1h
+  71/87 done, 0 failed, 16 workers, eta 0.1h
+  71/87 done, 0 failed, 16 workers, eta 0.1h
+  72/87 done, 0 failed, 15 workers, eta 0.1h
+  73/87 done, 0 failed, 14 workers, eta 0.1h
+  73/87 done, 0 failed, 14 workers, eta 0.1h
+  73/87 done, 0 failed, 14 workers, eta 0.1h
+  73/87 done, 0 failed, 14 workers, eta 0.1h
+  76/87 done, 0 failed, 13 workers, eta 0.1h
+  77/87 done, 0 failed, 10 workers, eta 0.1h
+  79/87 done, 0 failed, 9 workers, eta 0.1h
+  84/87 done, 0 failed, 3 workers, eta 0.0h
+  85/87 done, 0 failed, 2 workers, eta 0.0h
+  86/87 done, 0 failed, 1 workers, eta 0.0h
+  86/87 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 87/87 done, 0 failed in 0.72h
+==============================================================================
+=== 2026-10-09 23:41:22 all queued Phase 9 jobs finished
+wrote phase9_results.tgz
+Download phase9_results.tgz, then STOP THE POD in the console.
+nohup: ignoring input
+=== 2026-10-10 01:36:05 evaluation.gradient_diag --set init_seed=0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:28 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:28 evaluation.gradient_diag --set init_seed=1
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:36 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:36 evaluation.gradient_diag --set init_seed=2
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:42 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:43 evaluation.gradient_diag --set init_seed=3
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:48 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:48 evaluation.gradient_diag --set init_seed=4
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:53 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:54 evaluation.gradient_diag --set log_param=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:36:59 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:36:59 evaluation.gradient_diag --set optimizer="lbfgs"
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:06 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:06 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:14 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:15 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:24 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:25 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:33 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:33 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:45 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:45 evaluation.profile_lik --set objective="iauc" --set parameterization="tied" --set bounds_scale=1.0 --set polish=true
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:37:53 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:37:54 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:00 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:01 evaluation.profile_lik --set objective="iauc_centroid" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:08 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:08 evaluation.profile_lik --set objective="iauc" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:17 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:17 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:23 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:23 evaluation.gradient_diag --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:29 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:29 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:37 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:37 evaluation.gradient_diag --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:38:43 [A8a_gradient_diag] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A8a_gradient_diag: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:38:43 evaluation.prediction_cv --set cohort="shanghai" --set min_meals=10 --set cells=["grad3","grad1","grid3","grid1","personal_mean","population","persistence"]
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:39:34 [A9_prediction_cv] start: 435 units, 435 already done, 0 previously failed, 30 workers
+==============================================================================
+A9_prediction_cv: 435/435 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-10-10 01:39:34 evaluation.dalla_man_identifiability
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:39:41 [A12_dalla_man] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A12_dalla_man: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:39:42 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":1,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:39:50 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:39:50 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":2,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:39:56 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:39:56 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":3,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:40:02 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:40:02 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":4,"cgm":true,"carb_cv":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:40:09 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:40:09 evaluation.profile_lik --set cohort="hall" --set min_meals=5 --set objective="trace" --set bounds_scale=1.0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:40:13 [A5_profile] start: 15 units, 15 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 15/15 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:40:13 evaluation.profile_lik --set cohort="shanghai" --set min_meals=10 --set bounds_scale=2.0
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-10 01:40:22 [A5_profile] start: 87 units, 87 already done, 0 previously failed, 30 workers
+==============================================================================
+A5_profile: 87/87 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-10-10 01:40:23 all queued Phase 9 jobs finished

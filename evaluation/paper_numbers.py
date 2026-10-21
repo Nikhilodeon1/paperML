@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -127,6 +127,7 @@ def build(summary: dict, verdicts: dict) -> dict:
                 m[name] = {"value": h2[key], "fmt": ".3f"}
     m.update(_phase8_macros(summary.get("phase8", {})))
     m.update(_phase9_macros(summary.get("phase9", {})))
+    m.update(_phase10_macros(summary.get("phase10", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -188,11 +189,16 @@ def _phase8_macros(p8: dict) -> dict:
                     d = e["profile"]["parameters"][pk]
                     m[f"resRep{word}{bword}Bounded{pw}"] = _ci(100 * d["fraction"], 100 * d["wilson"][0],
                                                                100 * d["wilson"][1])
+                    interior = e["profile"].get("interior_for_parameter", {}).get(pk)
+                    if interior is not None:
+                        m[f"resRep{word}{bword}Interior{pw}"] = {"value": interior, "fmt": ".0f"}
     for scale, word in (("0.75", "Low"), ("1.33", "High")):
         d = p8.get("h16", {}).get("carbohydrate_scale", {}).get(scale, {})
         if d.get("n"):
             m[f"resCarbScale{word}LogRatio"] = {"value": d["median_log_ratio_S_I"], "fmt": ".2f"}
             m[f"resCarbScale{word}Upper"] = {"value": 100 * d["timing_on_upper_bound_scaled"], "fmt": ".0f"}
+            if d.get("timing_on_upper_bound_unscaled") is not None:
+                m["resCarbScaleUnscaledUpper"] = {"value": 100 * d["timing_on_upper_bound_unscaled"], "fmt": ".0f"}
     sat = p8.get("h16", {}).get("saturation", {})
     if sat.get("n"):
         m["resSatTopToBottom"] = {"value": sat["slope_ratio_top_to_bottom_of_primary_box"], "fmt": ".2f"}
@@ -215,6 +221,58 @@ def _phase8_macros(p8: dict) -> dict:
 
 def _pct(d, key="fraction"):
     return None if d is None or d.get(key) is None else 100 * d[key]
+
+
+def _phase10_macros(p10: dict) -> dict:
+    """Amendment 6: the recalibrated cutoff (H23) and the heteroskedastic noise sensitivity (H16)."""
+    m: dict = {}
+    h23 = p10.get("h23", {})
+    parts = (("SI", h23.get("S_I_iauc", {})),
+             ("Tau", h23.get("trace_coordinates", {}).get("log_tau1", {})),
+             ("P", h23.get("trace_coordinates", {}).get("log_p", {})))
+    for word, part in parts:
+        if not part.get("n"):
+            continue
+        cut = part["cutoff"]
+        m[f"resRecalCutoff{word}"] = {"value": cut["cutoff"], "low": cut["ci95"][0], "high": cut["ci95"][1],
+                                      "fmt": ".1f"}
+        m[f"resRecalN{word}"] = {"value": cut["n"], "fmt": ".0f"}
+        m[f"resRecalExcluded{word}"] = {"value": cut["excluded"], "fmt": ".0f"}
+        m[f"resRecalWithinNominal{word}"] = {"value": 100 * cut["fraction_within_nominal"], "fmt": ".0f"}
+        for level in ("nominal", "calibrated"):
+            real = part["real"][level]
+            if real.get("fraction") is not None:
+                tag = level.capitalize()
+                m[f"resRecalReal{tag}{word}"] = {"value": 100 * real["fraction"], "fmt": ".0f"}
+                m[f"resRecalReal{tag}Count{word}"] = {"value": real["bounded"], "fmt": ".0f"}
+                m[f"resRecalReal{tag}N{word}"] = {"value": real["n"], "fmt": ".0f"}
+            rep_block = part["replica"][level]
+            if rep_block.get("fraction") is not None:
+                m[f"resRecalReplica{level.capitalize()}{word}"] = {"value": 100 * rep_block["fraction"], "fmt": ".0f"}
+        cover = part["replica"]["coverage_nominal"]
+        if cover.get("fraction") is not None:
+            m[f"resRecalCoverNominal{word}"] = {"value": 100 * cover["fraction"], "fmt": ".0f"}
+    het = p10.get("heteroskedastic", {})
+    if het.get("baseline"):
+        base = het["baseline"].get("S_I_interior") or {}
+        if base:
+            m["resHeteroBaseline"] = {"value": 100 * base["fraction"], "fmt": ".0f"}
+            m["resHeteroBaselineCount"] = {"value": base["bounded"], "fmt": ".0f"}
+            m["resHeteroBaselineN"] = {"value": base["n"], "fmt": ".0f"}
+    for structure, word in (("root", "Root"), ("proportional", "Prop")):
+        block = het.get("structures", {}).get(structure, {})
+        interior = block.get("S_I_interior")
+        if block.get("n") and interior:
+            m[f"resHetero{word}"] = {"value": 100 * interior["fraction"], "fmt": ".0f"}
+            m[f"resHetero{word}Count"] = {"value": interior["bounded"], "fmt": ".0f"}
+            m[f"resHetero{word}N"] = {"value": interior["n"], "fmt": ".0f"}
+            m[f"resHetero{word}Low"] = {"value": 100 * interior["wilson"][0], "fmt": ".0f"}
+            m[f"resHetero{word}High"] = {"value": 100 * interior["wilson"][1], "fmt": ".0f"}
+            ch = block["changes_vs_baseline"]
+            m[f"resHetero{word}More"] = {"value": ch["more_bounded"], "fmt": ".0f"}
+            m[f"resHetero{word}Less"] = {"value": ch["less_bounded"], "fmt": ".0f"}
+            m[f"resHetero{word}Same"] = {"value": ch["same"], "fmt": ".0f"}
+    return m
 
 
 def _phase9_macros(p9: dict) -> dict:
@@ -249,7 +307,7 @@ def _phase9_macros(p9: dict) -> dict:
                 if v is not None:
                     m[f"resReplicaCoords{tag}{word}"] = {"value": v, "fmt": ".0f"}
             if objective == "trace":
-                for key, tag in (("log_tau1", "Tau"), ("log_p", "P")):
+                for key, tag in (("log_tau1", "Tau"), ("log_p", "P"), ("log_insulin_sensitivity", "SI")):
                     cov = (d.get("truth_coverage") or {}).get(key)
                     if cov:
                         m[f"resReplicaCoordsCover{tag}Trace"] = {"value": 100 * cov["fraction"], "fmt": ".0f"}
@@ -261,6 +319,7 @@ def _phase9_macros(p9: dict) -> dict:
             m[f"resPolishMaxGap{word}"] = {"value": d["max_gap"], "fmt": ".2f"}
             m[f"resPolishMedianGap{word}"] = {"value": d["median_gap"], "fmt": ".3f"}
             m[f"resPolishWithin{word}"] = {"value": 100 * d["fraction_below_threshold"], "fmt": ".0f"}
+            m[f"resPolishNotWithin{word}"] = {"value": 100 * (1 - d["fraction_below_threshold"]), "fmt": ".0f"}
         e = h21.get("h11_on_polished_estimates", {}).get(objective, {})
         if e.get("n"):
             for key, tag in (("tau1", "Tau"), ("p", "P")):

@@ -8,6 +8,14 @@ here is the one computed from the stored results. Fractions are over subjects wi
 paired differences are over subjects with bootstrap intervals; ``interior'' is defined in
 Section~\ref{sec:estimation}.
 
+The section is organized by what the evidence supports. Three findings carry the paper and come first:
+the exchange symmetry of the gut rates (Sections~\ref{sec:structural} and~\ref{sec:timing}), the conditional
+recoverability of $\SI$ (Section~\ref{sec:si}) and the insensitivity of held-out prediction to both
+(Section~\ref{sec:prediction}). The analyses that qualify or extend them follow: what a richer observable buys,
+including the result that did not survive its controls (Section~\ref{sec:more}), the gradient diagnostic, a second model
+class and an external-generalization check. The scorecard of every pre-specified hypothesis is in
+Appendix~\ref{app:scorecard}.
+
 \subsection{Structural identifiability depends on the gut's initial state, and the rank is full}
 \label{sec:structural}
 
@@ -91,7 +99,8 @@ No profile interval for $\ke$ or $\ka$ is bounded under iAUC: \resProfileIaucKeO
 upper bound leaves \resExtFlatKeOne{} and \resExtFlatKaOne{} of \resSubjectsOne{} profiles flat and the
 rest one-sided (Figure~\ref{fig:profiles}). The clause of H5 for the timing parameters under iAUC, at most
 a quarter of subjects bounded, therefore holds. This is not a statement that the data are uninformative: the
-information is in a combination of the two rates (Section~\ref{sec:more}), and in the area deficit below.
+exchange symmetry leaves a combination of the two rates free (Section~\ref{sec:theory}), whether the data
+determine it is examined in Section~\ref{sec:more}, and the area deficit below is information of another kind.
 
 \begin{figure}[t]
 \centering
@@ -167,17 +176,29 @@ subjects. Of the bounded $\SI$ intervals, \resReplicaCoverSI\% contain the true 
 $95\%$ (a small count: the coverage is not estimated precisely). Verdict on H13: \resVerdictHThirteen.
 Repeated over five seeds the pooled fraction is \resSeedsSIBounded\% (\resSeedsSIBoundedCount{} of
 \resSeedsSIInterior{}), the fraction ranges over \resSeedsRangeLow--\resSeedsRangeHigh\% across seeds, and the
-coverage of the bounded intervals is \resSeedsCoverSI\% (H17, \resVerdictHSeventeen).
-\todo{Settle the wording of this paragraph from the H17 verdict: if the pooled fraction is below a quarter, say the weakness is inherent to the observable at this noise; if between a quarter and a half, say mixed.}
+coverage of the bounded intervals is \resSeedsCoverSI\% (\resSeedsCoverCount{} of \resSeedsCoverN) (H17,
+\resVerdictHSeventeen). No seed reaches the $50\%$ of the rule (\resSeedsMeetingClause{} of
+\resSeedsCount{}), and the fraction for the timing rates is \resSeedsTimingMax\% in every seed. The pooled
+fraction is below a quarter, and its interval lies far below one half, so a model that is exactly true,
+observed with the subject's own noise and meal schedule, would also leave $\SI$ unbounded for four subjects
+in five. The bounded intervals that do occur are calibrated in the pooled replica (coverage above the
+$90\%$ of the rule) and not in seed zero alone, where the count is small.
 
-The replica attributes the shortfall of $\SI$ identifiability in the real data to the observable and the
-design rather than to unmodelled variability, with one qualification: it is a replica of the \emph{fitted}
-truths, which sit near the upper bound of the timing parameters. The synthetic study, in which the true
-parameters are drawn across the box, shows where in the box recovery is possible: the $\SI$ interval is
-bounded for \resSynthTercileSILow\%, \resSynthTercileSIMid\% and \resSynthTercileSIHigh\% of interior
-synthetic subjects in the lower, middle and upper third of the true $\SI$ (Figure~\ref{fig:replica}b), with
-coverage \resSynthCoverSI\% and a median absolute log error of the estimate of \resSynthErrorLogSI{}
-($n=\resSynthN$ synthetic subjects). \todo{Interpret the tercile pattern once H19 has run.}
+The replica therefore attributes most of the shortfall of $\SI$ identifiability in the real data to the
+observable and the design rather than to unmodelled variability: the real-data fraction at the primary box
+(\resProfileIaucSIInteriorFracOne\%) is within the range of the replica seeds. One qualification remains: it is
+a replica of the \emph{fitted} truths, which sit near the upper bound of the timing parameters. The synthetic
+study, in which the true parameters are drawn across the box, removes that qualification (H19,
+\resVerdictHNineteen; $n=\resSynthN$ synthetic subjects from two seeds). The $\SI$ interval is bounded for
+\resSynthTercileSILow\%, \resSynthTercileSIMid\% and \resSynthTercileSIHigh\% of interior synthetic subjects
+in the lower, middle and upper third of the true $\SI$ (Figure~\ref{fig:replica}b), \resSynthInteriorBoundedSI\%
+over all thirds, with coverage \resSynthCoverSI\% and a median absolute log error of the estimate of
+\resSynthErrorLogSI. So even with truths spread across the box, recovery is possible for roughly a third of
+subjects and falls as the true sensitivity rises, in line with the saturation of the response noted above
+(H16, exploratory); the coverage of the bounded intervals is below nominal. No interval for $\ke$ or $\ka$ is
+bounded in any of the \resSynthN{} synthetic subjects, their estimates are interior for only a handful, and the
+median absolute log errors are \resSynthErrorLogKe{} and \resSynthErrorLogKa: when the truth is known and
+inside the box, the optimizer still returns a rate on a bound.
 
 \begin{figure}[t]
 \centering
@@ -206,6 +227,77 @@ Whether a subject's $\SI$ interval is bounded is unrelated to the number of meal
 ($\resCorrEstimateSIBounded$). Whether a timing rate is pinned on its upper bound, by contrast, tracks the
 mean observed iAUC ($\rho=\resCorrMeanIaucPinned$) and a low $\SI$ estimate ($\resCorrEstimatePinned$), the
 area deficit above (exploratory; Appendix, Table~\ref{tab:correlates}).
+
+\subsection{Held-out prediction cannot tell}
+\label{sec:prediction}
+
+Table~\ref{tab:prediction} and Figure~\ref{fig:prediction} give the held-out iAUC error of every cell and
+the pre-specified paired differences (CGMacros, $\resCohortCgmSubjects$ subjects, five repeats of five-fold
+cross-validation). Gradient fitting and exhaustive grid search of the same loss differ by
+\resDiffGradThreeVsGridThree{} mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow{} to
+\resDiffGradThreeVsGridThreeHigh) with three parameters and by \resDiffGradOneVsGridOne{}
+(\resDiffGradOneVsGridOneLow{} to \resDiffGradOneVsGridOneHigh) with $\SI$ only: the $90\%$ intervals lie
+inside the margin of $150$ and of $90$, and H7 is met (\resVerdictHSeven). The training loss of the gradient
+fit is within one percent of the grid minimum in \resGapWithinTolerance\% of folds, and a budget of five
+hundred steps changes no verdict (difference \resStepsGradThreeFiveHundredVsGridThree{} with an interval of
+\resStepsGradThreeFiveHundredVsGridThreeLow{} to \resStepsGradThreeFiveHundredVsGridThreeHigh). Three parameters
+and $\SI$ alone differ by \resDiffGradThreeVsGradOne{} (\resDiffGradThreeVsGradOneLow{} to
+\resDiffGradThreeVsGradOneHigh), equivalent at the same margins (H8, \resVerdictHEight): the two timing
+parameters add less to held-out iAUC error than the margin. A full-trace objective does not lower it by more than the
+margin: the trace objective is \resDiffGradThreeTraceVsGradThree{} (\resDiffGradThreeTraceVsGradThreeLow{} to
+\resDiffGradThreeTraceVsGradThreeHigh) worse (H9, \resVerdictHNine).
+What the trace objective improves is what it targets: the held-out trace error falls from
+\resTraceRmseGradThree{} to \resTraceRmseGradThreeTrace{} mg\,dL$^{-1}$ and the peak-time error from
+\resPeakGradThree{} to \resPeakGradThreeTrace{} min, but the personal mean, which uses no model, is at
+\resTraceRmsePersonalMean{} and \resPeakPersonalMean{}, so the model adds little there either.
+Against the baselines the gradient fit has lower iAUC error than the personal mean
+(\resDiffGradThreeVsPersonalMean{}, \resDiffGradThreeVsPersonalMeanLow{} to \resDiffGradThreeVsPersonalMeanHigh,
+better in \resWinsGradThreeVsPersonalMean{} of \resSubjectsOne{} subjects, Holm-adjusted
+$p=\resPHolmGradThreeVsPersonalMean$), than a random forest (\resDiffGradThreeVsRf) and than SNPE
+(\resDiffGradThreeVsSnpe); the differences from the amortized methods are differences, not equivalences, and
+we do not call them equivalent.
+
+\input{generated/prediction_compact}
+
+\begin{figure}[t]
+\centering
+\safefigure[width=\linewidth]{f7_prediction}
+\caption{Paired differences in held-out iAUC error between cells (first minus second; negative favours
+the first), with $95\%$ bootstrap intervals over subjects. Shaded: the equivalence margin of $150$.
+Blue: CGMacros; green: Shanghai.}
+\label{fig:prediction}
+\end{figure}
+
+\paragraph{The same on another cohort.}
+In the Shanghai cohort (\resShCvSubjects{} subjects, \resShCvRepeats{} repeats) gradient fitting and grid search
+differ by \resShCvDiffGradThreeVsGridThree{} (\resShCvDiffGradThreeVsGridThreeLow{} to
+\resShCvDiffGradThreeVsGridThreeHigh) and three parameters and $\SI$ alone by
+\resShCvDiffGradThreeVsGradOne{} (\resShCvDiffGradThreeVsGradOneLow{} to \resShCvDiffGradThreeVsGradOneHigh),
+on a personal-mean error of \resShCvMaePersonalMean{} (H20, \resVerdictHTwenty{}; post hoc). Both $90\%$
+intervals lie inside the margin of $150$, which is \resShCvMarginShare\% of the personal-mean error, so H7
+and H8 replicate in a second cohort with a different sensor, sampling interval and diet record. Two details
+matter for how far the replication goes. The gradient fit and the grid search agree, as in CGMacros. But the
+three-parameter fit has \emph{lower} error than the one-parameter fit (difference
+\resShCvDiffGradThreeVsGradOne{}, an interval that excludes zero, lower in \resShCvWinsGradThreeVsGradOne{}
+of \resShCvSubjects{} subjects), inside the margin and small against the error, yet not nothing: in this
+cohort the timing parameters carry a small amount of predictive information, so we do not say that they
+carry none. And against the personal mean the difference is \resShCvDiffGradThreeVsPersonalMean{}
+(\resShCvDiffGradThreeVsPersonalMeanLow{} to \resShCvDiffGradThreeVsPersonalMeanHigh), an interval that
+includes zero and differences larger than the margin, so the data do not settle whether the model beats a
+model-free baseline here.
+
+\paragraph{What the remaining error is.}
+A natural question is how much of the held-out error is due to noise, to optimization and to the
+observable. We do not report additive shares, because no definition of the decomposition makes the terms
+add. We report instead what-if noise budgets on the replica (Figure~\ref{fig:replica}c): the ratio of
+the replica's held-out iAUC error to the real data's is \resReplicaRatioCgmOffCarbZero{} with no noise,
+\resReplicaRatioCgmOffCarbQuarter{} with $25\%$ carbohydrate error alone, \resReplicaRatioCgmOnCarbZero{} with
+CGM noise alone, \resReplicaRatioCgmOnCarbQuarter{} (\resReplicaRatioCgmOnCarbQuarterLow--\resReplicaRatioCgmOnCarbQuarterHigh)
+with both, and \resReplicaRatioCgmOnCarbHalf{} with $50\%$ carbohydrate error. The primary ratio is between
+the thresholds of $0.7$ and $0.9$, which the plan labelled mixed (H14). Grid search and gradient fitting give
+the same error on the replica, so the optimizer is not the source. The CGM noise scale is estimated from the
+residuals of the real fit, which contain model misfit as well as sensor noise, so the noise settings are an
+upper bound on what sensor noise alone would explain.
 
 \subsection{What a richer observable buys}
 \label{sec:more}
@@ -253,16 +345,18 @@ and box.}
 \label{fig:fisher}
 \end{figure}
 
-\paragraph{What is recoverable is a combination.}
+\paragraph{Is a combination of the rates recoverable?}
 Fitting in coordinates $(\log\SI,\log\tau_1,\log p)$ asks directly for the symmetric functions. The interval
 for $\tau_1$ is bounded in \resCoordsBoundedTauIauc\%, \resCoordsBoundedTauCentroid\% and
 \resCoordsBoundedTauTrace\% of subjects interior for it under iAUC, iAUC with the centroid and the trace;
 that for $p$ in \resCoordsBoundedPIauc\%, \resCoordsBoundedPCentroid\% and \resCoordsBoundedPTrace\%
 (Figure~\ref{fig:coords}). H11 required $\tau_1$ bounded in at least $70\%$ under both the centroid and
 the trace, $p$ in at most $30\%$ under the centroid and at least $50\%$ under the trace; three of the four
-clauses hold and the centroid clause for $\tau_1$ does not (H11, \resVerdictHEleven). In words: the
-mean transit time and its companion are recoverable from the full trace, the area with its centroid gives a
-minority of subjects $\tau_1$ and almost none $p$, and the area alone gives neither. A tied-rate model
+clauses hold and the centroid clause for $\tau_1$ does not (H11, \resVerdictHEleven). On the real data,
+then, the full trace gives most subjects a bounded interval for the mean transit time and its companion, the area
+with its centroid gives a minority of subjects $\tau_1$ and almost none $p$, and the area alone gives neither.
+The next paragraph shows that the trace result does not survive the controls we ran, and we do not claim it as
+an identifiability result. A tied-rate model
 $\ke=\ka$, which has only $\tau_1$ and $\SI$, predicts as well as the three-parameter model (difference in
 held-out iAUC error \resTiedDiff{} mg\,dL$^{-1}$\,min, interval \resTiedDiffLow{} to \resTiedDiffHigh) but
 its $\tau_1$ is bounded in only \resTiedTauBounded\% of interior subjects under iAUC with the centroid
@@ -270,16 +364,35 @@ its $\tau_1$ is bounded in only \resTiedTauBounded\% of interior subjects under 
 \resBoundaryCoords\% of cross-validation folds under iAUC and \resBoundaryCoordsTrace\% under the trace: for
 many subjects the data are consistent with equal rates, not with a particular split.
 
-\paragraph{Is the coordinate result an optimizer artefact?}
-In the coordinate fits, the profile found a lower negative log-likelihood than the Adam estimate for a
-large share of subjects, so the estimate was not an optimum. Replacing it with the best of six L-BFGS runs, the
-gap between the two is at most \resPolishMaxGapCentroid{} (centroid) and \resPolishMaxGapTrace{} (trace) in
-negative log-likelihood, below $\delta$ for \resPolishWithinCentroid\% and \resPolishWithinTrace\% of
-subjects (H21, \resVerdictHTwentyOne), and on the polished estimates the bounded fractions for $\tau_1$ and
-$p$ under the trace are \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\%. On the true-model
-replica the same fits bound $\tau_1$ and $p$ under the trace in \resReplicaCoordsTauTrace\% and
-\resReplicaCoordsPTrace\% of interior subjects (H18, \resVerdictHEighteen).
-\todo{Interpret H18 and H21 together: whether the real-data coordinate result is reproduced by a true model with this noise.}
+\paragraph{Does the coordinate result survive the controls?}
+In the coordinate fits the profile found a lower negative log-likelihood than the Adam estimate for a
+large share of subjects, so the estimate was not an optimum. We replaced it by the best of six L-BFGS runs.
+The gap between the two is below $\delta$ for all subjects under iAUC and under the centroid
+(\resPolishWithinCentroid\%; largest gap \resPolishMaxGapCentroid), but only for \resPolishWithinTrace\% under the
+trace, where the median gap is \resPolishMedianGapTrace{} and the largest \resPolishMaxGapTrace{} in negative
+log-likelihood (H21, \resVerdictHTwentyOne). The trace fits of the main analysis are therefore limited by the
+optimizer for four subjects in ten, and we do not know how far the polished estimates are from the global
+optimum. On the polished estimates the bounded fractions under the trace are \resPolishedBoundedTauTrace\% for
+$\tau_1$ and \resPolishedBoundedPTrace\% for $p$ (centroid: \resPolishedBoundedTauCentroid\% and
+\resPolishedBoundedPCentroid\%).
+
+The control that matters more is the true-model replica. With the model exactly true and the subject's own
+noise, the same polished fits bound $\tau_1$ in \resReplicaCoordsTauTrace\% and $p$ in
+\resReplicaCoordsPTrace\% of interior subjects under the trace, below the real-data fractions and below the
+$70\%$ and $50\%$ of the rule (H18, \resVerdictHEighteen); under the centroid they are \resReplicaCoordsTauCentroid\%
+and \resReplicaCoordsPCentroid\%, and under iAUC none. Of the bounded trace intervals, only
+\resReplicaCoordsCoverTauTrace\% for $\tau_1$ and \resReplicaCoordsCoverPTrace\% for $p$ contain the true
+value, against \resReplicaCoordsCoverSITrace\% for $\SI$ under the same objective. Real data therefore show
+\emph{more} bounded coordinate intervals under the trace than a true model with this noise would, and the
+bounded intervals of a true model miss the true value for most subjects in the case of $\tau_1$ and for half
+in the case of $p$. We read this as follows. The ordering of
+the observables, trace above centroid above area, is reproduced by the replica and so is not an artefact of
+the data. The absolute fractions of the trace are not a reliable measure of identifiability: they exceed what
+a true model produces, the optimizer does not reach an optimum for many subjects, and the intervals
+undercover. We did not test why. Candidates are that the $\chi^2$ calibration of the profile threshold fails
+near the tied boundary $p=\tau_1^2/4$, where the fits sit in many folds, and that the noise model is
+misspecified for the trace. Until that is settled the claim that the pair $(\tau_1,p)$ is recoverable
+remains a hypothesis (Section~\ref{sec:limits}).
 
 \begin{figure}[t]
 \centering
@@ -289,67 +402,6 @@ parameter, by observable. Grey: the Adam estimate (real data); blue: polished by
 true-model replica, polished.}
 \label{fig:coords}
 \end{figure}
-
-\subsection{Held-out prediction cannot tell}
-\label{sec:prediction}
-
-Table~\ref{tab:prediction} and Figure~\ref{fig:prediction} give the held-out iAUC error of every cell and
-the pre-specified paired differences (CGMacros, $\resCohortCgmSubjects$ subjects, five repeats of five-fold
-cross-validation). Gradient fitting and exhaustive grid search of the same loss differ by
-\resDiffGradThreeVsGridThree{} mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow{} to
-\resDiffGradThreeVsGridThreeHigh) with three parameters and by \resDiffGradOneVsGridOne{}
-(\resDiffGradOneVsGridOneLow{} to \resDiffGradOneVsGridOneHigh) with $\SI$ only: the $90\%$ intervals lie
-inside the margin of $150$ and of $90$, and H7 is met (\resVerdictHSeven). The training loss of the gradient
-fit is within one percent of the grid minimum in \resGapWithinTolerance\% of folds, and a budget of five
-hundred steps changes no verdict (difference \resStepsGradThreeFiveHundredVsGridThree{} with an interval of
-\resStepsGradThreeFiveHundredVsGridThreeLow{} to \resStepsGradThreeFiveHundredVsGridThreeHigh). Three parameters
-and $\SI$ alone differ by \resDiffGradThreeVsGradOne{} (\resDiffGradThreeVsGradOneLow{} to
-\resDiffGradThreeVsGradOneHigh), equivalent at the same margins (H8, \resVerdictHEight): the two timing
-parameters add nothing to held-out iAUC error. A full-trace objective does not lower it by more than the
-margin: the trace objective is \resDiffGradThreeTraceVsGradThree{} (\resDiffGradThreeTraceVsGradThreeLow{} to
-\resDiffGradThreeTraceVsGradThreeHigh) worse (H9, \resVerdictHNine).
-What the trace objective improves is what it targets: the held-out trace error falls from
-\resTraceRmseGradThree{} to \resTraceRmseGradThreeTrace{} mg\,dL$^{-1}$ and the peak-time error from
-\resPeakGradThree{} to \resPeakGradThreeTrace{} min, but the personal mean, which uses no model, is at
-\resTraceRmsePersonalMean{} and \resPeakPersonalMean{}, so the model adds little there either.
-Against the baselines the gradient fit has lower iAUC error than the personal mean
-(\resDiffGradThreeVsPersonalMean{}, \resDiffGradThreeVsPersonalMeanLow{} to \resDiffGradThreeVsPersonalMeanHigh,
-better in \resWinsGradThreeVsPersonalMean{} of \resSubjectsOne{} subjects, Holm-adjusted
-$p=\resPHolmGradThreeVsPersonalMean$), than a random forest (\resDiffGradThreeVsRf) and than SNPE
-(\resDiffGradThreeVsSnpe); the differences from the amortized methods are differences, not equivalences, and
-we do not call them equivalent.
-
-\input{generated/prediction_compact}
-
-\begin{figure}[t]
-\centering
-\safefigure[width=\linewidth]{f7_prediction}
-\caption{Paired differences in held-out iAUC error between cells (first minus second; negative favours
-the first), with $95\%$ bootstrap intervals over subjects. Shaded: the equivalence margin of $150$.
-Blue: CGMacros; green: Shanghai.}
-\label{fig:prediction}
-\end{figure}
-
-\paragraph{The same on another cohort.}
-In the Shanghai cohort (\resShCvSubjects{} subjects, \resShCvRepeats{} repeats) gradient fitting and grid search
-differ by \resShCvDiffGradThreeVsGridThree{} (\resShCvDiffGradThreeVsGridThreeLow{} to
-\resShCvDiffGradThreeVsGridThreeHigh) and three parameters and $\SI$ alone by
-\resShCvDiffGradThreeVsGradOne{} (\resShCvDiffGradThreeVsGradOneLow{} to \resShCvDiffGradThreeVsGradOneHigh),
-on a personal-mean error of \resShCvMaePersonalMean{} (H20, \resVerdictHTwenty{}; post hoc).
-\todo{State whether equivalence held in Shanghai and what it says about the generality of H7 and H8; if not, report the difference and say prediction is not cohort-invariant.}
-
-\paragraph{What the remaining error is.}
-A natural question is how much of the held-out error is due to noise, to optimization and to the
-observable. We do not report additive shares, because no definition of the decomposition makes the terms
-add. We report instead what-if noise budgets on the replica (Figure~\ref{fig:replica}c): the ratio of
-the replica's held-out iAUC error to the real data's is \resReplicaRatioCgmOffCarbZero{} with no noise,
-\resReplicaRatioCgmOffCarbQuarter{} with $25\%$ carbohydrate error alone, \resReplicaRatioCgmOnCarbZero{} with
-CGM noise alone, \resReplicaRatioCgmOnCarbQuarter{} (\resReplicaRatioCgmOnCarbQuarterLow--\resReplicaRatioCgmOnCarbQuarterHigh)
-with both, and \resReplicaRatioCgmOnCarbHalf{} with $50\%$ carbohydrate error. The primary ratio is between
-the thresholds of $0.7$ and $0.9$, which the plan labelled mixed (H14). Grid search and gradient fitting give
-the same error on the replica, so the optimizer is not the source. The CGM noise scale is estimated from the
-residuals of the real fit, which contain model misfit as well as sensor noise, so the noise settings are an
-upper bound on what sensor noise alone would explain.
 
 \subsection{The gradient diagnostic}
 \label{sec:diagnostic}
@@ -362,13 +414,15 @@ the projection), and the median ratio of the timing gradient to the $\SI$ gradie
 ranking by profile strength and by Fisher information (median Spearman \resSixMedianSpearman, with
 \resSixAuc{} AUC for detecting a flat profile; H6 real-data clause). The synthetic clause, on
 \resSynthN{} synthetic subjects with known truth, gives a median Spearman of \resSynthSpearman{} and an AUC of
-\resSynthAuc{} (H6, \resVerdictHSix). The ordering is stable under five random initializations
-($\tau=\resTenTauInit$), the two other box widths ($\resTenTauBounds$), the log parameterization
-($\resTenTauParam$) and L-BFGS ($\resTenTauOptimizer$), and $\SI$ is first in \resTenSIFirst\% of the
-\resTenSIFirstN{} interior subjects (H10, \resVerdictHTen). With three parameters a Spearman coefficient
-takes few values, so these agreements are weaker evidence than the numbers suggest; and a diagnostic that
-agrees with the profile does not make the profile unnecessary.
-\todo{Rewrite this paragraph to match the H6 and H10 verdicts once the synthetic and robustness runs are in.}
+\resSynthAuc{} (H6, \resVerdictHSix). The ordering is not fully stable. Across the two other box widths, the log
+parameterization and L-BFGS the median over subjects of the mean Kendall coefficient with the reference ordering
+is \resTenTauBounds{}, \resTenTauParam{} and \resTenTauOptimizer{}, but across five random initializations it is
+\resTenTauInit, below the $0.8$ of the rule, so H10 is \resVerdictHTen: only the initialization factor fails.
+In every case $\SI$ is first in \resTenSIFirst\% of the \resTenSIFirstN{} subjects interior for it. With
+three parameters, and $\SI$ always first, the only ordering that can change is that of the two timing rates,
+which is what the exchange symmetry predicts for a pair the data cannot tell apart. With three parameters a
+Spearman coefficient also takes few values, so these agreements are weaker evidence than the numbers suggest;
+and a diagnostic that agrees with the profile does not make the profile unnecessary.
 
 \subsection{A second model class}
 \label{sec:dm}
@@ -379,7 +433,16 @@ of the same \resDmN{} subjects, with a single-variance Gaussian noise model, its
 effective rank \resDmRankMedian{} of six parameters and condition number \resDmCondMedian, and the profile
 interval is bounded for $k_{abs}$, $k_{max}$ and $k_{min}$ in \resDmBoundedKabs\%, \resDmBoundedKmax\% and
 \resDmBoundedKmin\% of subjects, against \resDmBoundedVmx\% for its insulin-sensitivity parameter (Appendix,
-Figure~\ref{fig:dm}; H22, \resVerdictHTwentyTwo). \todo{State whether the gut parameters of the second model class are also unbounded and what that says about the claim of two model classes.}
+Figure~\ref{fig:dm}; H22, \resVerdictHTwentyTwo). The gut parameters are not identified in this model
+either, and for a plainer reason than exchange: the estimates of $k_{abs}$, $k_{max}$ and $k_{min}$ lie on a
+bound of their range in \resDmPinnedKabs, \resDmPinnedKmax{} and \resDmPinnedKmin{} of \resDmN{} subjects, and in
+the others no interval is bounded. Nor is the insulin-sensitivity parameter secure (\resDmBoundedVmx\% bounded,
+interval \resDmBoundedVmxLow--\resDmBoundedVmxHigh\%). The claim this supports is narrow: under the iAUC
+target, in two model classes that differ in the structure of the gut, the parameters of the gut are
+not recovered from the data of these subjects. It does not say that the exchange explanation carries over
+(this model has no such symmetry), and the Fisher rank of \resDmRankMedian{} of six shows only that most
+directions are poorly determined. We did not run the replica or the synthetic study for this model, so we
+cannot say how much of its non-identifiability is the observable and how much is misfit.
 
 \subsection{An external-generalization check}
 \label{sec:leakage}
@@ -405,8 +468,3 @@ bootstrap intervals over subjects, for the amortized (SNPE) and gradient estimat
 glucose partialled out, and the correlation of the SNPE estimate with its own baseline feature.}
 \label{fig:leakage}
 \end{figure}
-
-\subsection{Scorecard}
-\label{sec:scorecard}
-
-\input{generated/scorecard}

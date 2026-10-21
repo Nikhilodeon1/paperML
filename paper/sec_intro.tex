@@ -40,6 +40,7 @@ analysis plan was fixed in version control before the analyses were run; it was 
 hypotheses declared after results were seen are marked as such. Failures are reported as failures.
 
 \paragraph{What we find.}
+Three findings carry the paper; two further results qualify or extend them and are labelled as such.
 \begin{enumerate}
 \item \emph{$\ke$ and $\ka$ are not separable from the area, and the reason is exact.} Their exchange is
   an exact symmetry of the empty-gut model (Section~\ref{sec:theory}); the weakest Fisher direction lies
@@ -50,14 +51,17 @@ hypotheses declared after results were seen are marked as such. Failures are rep
   the primary range, the fraction rises with the range, and in a replica where the model is exactly true
   it remains low (Section~\ref{sec:si}). The weakness is largely a property of the observable and the
   design, not only of model error.
-\item \emph{What is recoverable is a combination.} The sum $\tau_1=1/\ke+1/\ka$ and the product
-  $p=1/(\ke\ka)$ of reciprocal rates are bounded for most subjects under the full glucose trace, and
-  mostly not under the area, with or without its timing centroid (Section~\ref{sec:more}).
 \item \emph{Prediction does not see any of this.} Gradient fitting and exhaustive grid search, and
-  three parameters and one, give the same held-out iAUC error in two cohorts; a full-trace objective does
-  not lower it (Section~\ref{sec:prediction}).
-\item \emph{The same questions on another model class, and the optimizer, do not change the picture}
-  (Sections~\ref{sec:dm} and~\ref{sec:more}).
+  three parameters and one, differ in held-out iAUC error by less than a pre-set margin in two cohorts; a
+  full-trace objective does not lower it (Section~\ref{sec:prediction}).
+\item \emph{Whether a combination of the rates is recoverable is not established.} The sum
+  $\tau_1=1/\ke+1/\ka$ and the product $p=1/(\ke\ka)$ of reciprocal rates are bounded for most real subjects
+  under the full glucose trace, and mostly not under the area, with or without its timing centroid. But a
+  replica in which the model is true gives fewer bounded intervals than the real data, its bounded intervals
+  mostly miss the truth, and the trace fits are not optima for four subjects in ten
+  (Section~\ref{sec:more}). We report this as a control that our own earlier result failed.
+\item \emph{A second model class shows the same for its gut parameters under the iAUC} (Section~\ref{sec:dm}),
+  for a different reason: its estimates sit on bounds of the range and no interval is bounded.
 \end{enumerate}
 
 \begin{table}[t]
@@ -68,9 +72,9 @@ claim & evidence & scope \\
 \midrule
 $\ke$ and $\ka$ are not separable from the area & Prop.~\ref{prop:exchange}; Sec.~\ref{sec:timing}; H4, H5, H15 & three cohorts; iAUC \\
 $\SI$ is only conditionally recoverable & Sec.~\ref{sec:si}; H5, H13, H17, H19 & CGMacros; replica and synthetic \\
-The combination $(\tau_1,p)$ is recoverable from the trace & Sec.~\ref{sec:more}; H11, H18, H21 & CGMacros; one model family \\
 Prediction does not see any of this & Sec.~\ref{sec:prediction}; H7--H9, H20 & CGMacros and Shanghai \\
-The picture holds for a second gut model & Sec.~\ref{sec:dm}; H22 & CGMacros; iAUC only \\
+Recovery of the combination $(\tau_1,p)$ from the trace is not established & Sec.~\ref{sec:more}; H11, H18, H21 (not met) & CGMacros; one model family \\
+The gut parameters of a second model are also not identified & Sec.~\ref{sec:dm}; H22 & CGMacros; iAUC only \\
 Clinical correlations of a fitted parameter need controls & Sec.~\ref{sec:leakage} & Shanghai \\
 \bottomrule
 \end{tabularx}

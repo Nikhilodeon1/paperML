@@ -52,6 +52,11 @@ class NoiseModel:
     n_samples: dict = field(default_factory=dict)
     whitened: bool = False
     note: str = ""
+    # Amendment 6: for the structures in HETEROSKEDASTIC the iAUC residual of meal i has standard deviation
+    # sigma['iauc'] * meal_scale[i], with meal_scale frozen from the observed areas. "homoskedastic" is the
+    # plan's model.
+    structure: str = "homoskedastic"
+    meal_scale: tuple = ()
 
     def for_observable(self, name: str) -> float:
         return float(self.sigma.get(name, 1.0))
@@ -122,7 +127,25 @@ def whiten_rows(rows, rho: float) -> np.ndarray:
     return out
 
 
-def build(residuals: dict, n_parameters: int, whiten_trace: bool = True) -> NoiseModel:
+PROPORTIONAL_FLOOR = 0.1     # share of the subject's mean observed iAUC below which a meal's scale is held
+# Exponent of the observed area in the standard deviation: "root" is a variance linear in the area,
+# "proportional" an error proportional to it.
+HETEROSKEDASTIC = {"root": 0.5, "proportional": 1.0}
+
+
+def proportional_scale(observed_iauc, structure: str = "proportional") -> np.ndarray:
+    """Per-meal scale of a heteroskedastic iAUC noise model: the observed area, held above a floor, to a power.
+
+    A meal whose glucose never rose has an observed area of zero; its scale is held at a tenth of the
+    subject's mean observed area so that it is neither given an infinite weight nor ignored.
+    """
+    area = np.asarray(observed_iauc, dtype=float)
+    floor = PROPORTIONAL_FLOOR * max(float(np.mean(area)) if area.size else 0.0, 1e-9)
+    return np.maximum(area, floor) ** HETEROSKEDASTIC[structure]
+
+
+def build(residuals: dict, n_parameters: int, whiten_trace: bool = True,
+          structure: str = "homoskedastic", meal_scale=None) -> NoiseModel:
     """A frozen noise model from pilot residuals.
 
     `residuals` maps an observable name to its residual array: a vector for `iauc` and `centroid`, a
@@ -131,6 +154,19 @@ def build(residuals: dict, n_parameters: int, whiten_trace: bool = True) -> Nois
     sigma, dof, counts = {}, {}, {}
     rho, innovation = 0.0, 1.0
     whitened = False
+    if structure != "homoskedastic" and structure not in HETEROSKEDASTIC:
+        raise ValueError(f"unknown noise structure {structure!r}")
+    if structure in HETEROSKEDASTIC:
+        if set(residuals) != {"iauc"} or meal_scale is None:
+            raise ValueError("a heteroskedastic noise model exists for the iAUC objective and needs meal_scale")
+        scale = np.asarray(meal_scale, dtype=float)
+        scaled = np.asarray(residuals["iauc"], dtype=float) / scale
+        dof_value = max(scaled.size - n_parameters, 1)
+        relative = float(np.sqrt(np.sum(scaled ** 2) / dof_value))
+        return NoiseModel(sigma={"iauc": max(relative, 1e-3)}, rho=0.0, innovation_sigma=1.0,
+                          dof={"iauc": dof_value}, n_samples={"iauc": int(scaled.size)}, whitened=False,
+                          note=f"{structure} iAUC noise: sd = sigma * max(observed iAUC, floor)^exponent",
+                          structure=structure, meal_scale=tuple(float(v) for v in scale))
 
     for name, values in residuals.items():
         array = np.asarray(values, dtype=float)
