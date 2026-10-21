@@ -114,7 +114,7 @@ def fig2_window():
 def fig3_profiles(box: float = 1.0):
     plt = _plt()
     rows = largest_matching("A5_profile", lambda p: p["objective"] == "iauc"
-                            and abs(p["bounds_scale"] - box) < 1e-12)
+                            and abs(p["bounds_scale"] - box) < 1e-12 and p.get("noise_structure", "homoskedastic") == "homoskedastic" and not p.get("profile_only"))
     if not rows:
         return None
     ids = sorted(rows)

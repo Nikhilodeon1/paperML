@@ -174,7 +174,8 @@ def heteroskedastic() -> dict:
     out = {"baseline": None, "structures": {}}
     if baseline:
         block = profile_lik.summarize_rows(list(baseline.values()), base)
-        out["baseline"] = {"n": len(baseline), "S_I_interior": block.get("S_I_bounded_among_interior_for_S_I")}
+        out["baseline"] = {"n": len(baseline), "S_I_interior": block.get("S_I_bounded_among_interior_for_S_I"),
+                           "all_bounded": block["parameters"]["insulin_sensitivity"]["bounded"]}
     for structure in ("root", "proportional"):
         config = {**base, "noise_structure": structure, "profile_only": ["insulin_sensitivity"]}
         rows = _rows(config)

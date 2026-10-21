@@ -1,0 +1,48 @@
+nohup: ignoring input
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-21 04:54:10 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  2/45 done, 0 failed, 30 workers, eta 1.7h
+  4/45 done, 0 failed, 30 workers, eta 0.9h
+  9/45 done, 0 failed, 30 workers, eta 0.4h
+  12/45 done, 0 failed, 30 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.1h
+  27/45 done, 0 failed, 21 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.0h
+  38/45 done, 0 failed, 7 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.16h
+==============================================================================
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-21 05:03:44 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 1.1h
+  2/45 done, 0 failed, 30 workers, eta 1.3h
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  4/45 done, 0 failed, 30 workers, eta 0.8h
+  12/45 done, 0 failed, 30 workers, eta 0.2h
+  20/45 done, 0 failed, 27 workers, eta 0.1h
+  24/45 done, 0 failed, 21 workers, eta 0.1h
+  30/45 done, 0 failed, 15 workers, eta 0.1h
+  34/45 done, 0 failed, 12 workers, eta 0.0h
+  38/45 done, 0 failed, 7 workers, eta 0.0h
+  43/45 done, 0 failed, 3 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.14h
+==============================================================================
+ALL_DONE

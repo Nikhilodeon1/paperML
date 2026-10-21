@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -128,6 +128,7 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase8_macros(summary.get("phase8", {})))
     m.update(_phase9_macros(summary.get("phase9", {})))
     m.update(_phase10_macros(summary.get("phase10", {})))
+    m.update(_phase11_macros(summary.get("phase11", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -223,6 +224,51 @@ def _pct(d, key="fraction"):
     return None if d is None or d.get(key) is None else 100 * d[key]
 
 
+def _phase11_macros(p11: dict) -> dict:
+    """Amendment 7: the noise-scaled replica (H24) and the pooled coordinate calibration."""
+    m: dict = {}
+    h24 = p11.get("h24", {})
+    words = {"1": "One", "0.5": "Half", "0.25": "Quarter"}
+    for scale, content in h24.get("scales", {}).items():
+        word = words.get(scale)
+        trace = content.get("trace", {})
+        if word and trace.get("n"):
+            for name, tag in (("tau1", "Tau"), ("p", "P"), ("S_I", "SI")):
+                block = trace[name]
+                if block["bounded_interior"].get("fraction") is not None:
+                    m[f"resNoise{word}Trace{tag}"] = {"value": 100 * block["bounded_interior"]["fraction"],
+                                                      "fmt": ".0f"}
+                if block["nominal_coverage"].get("fraction") is not None:
+                    m[f"resNoise{word}Cover{tag}"] = {"value": 100 * block["nominal_coverage"]["fraction"],
+                                                      "fmt": ".0f"}
+                cut = block.get("cutoff", {})
+                if cut.get("n") and name != "S_I":
+                    m[f"resNoise{word}Cutoff{tag}"] = {"value": cut["cutoff"], "fmt": ".1f"}
+        iauc = content.get("iauc", {})
+        if word and iauc.get("n") and iauc.get("S_I_interior"):
+            m[f"resNoise{word}IaucSI"] = {"value": 100 * iauc["S_I_interior"]["fraction"], "fmt": ".0f"}
+            m[f"resNoise{word}IaucSICount"] = {"value": iauc["S_I_interior"]["bounded"], "fmt": ".0f"}
+            m[f"resNoise{word}IaucSIN"] = {"value": iauc["S_I_interior"]["n"], "fmt": ".0f"}
+            m[f"resNoise{word}IaucTimingMax"] = {"value": 100 * max(iauc["timing_bounded"].values()),
+                                                 "fmt": ".0f"}
+    pooled = p11.get("pooled_calibration", {})
+    if pooled.get("n"):
+        m["resPooledN"] = {"value": pooled["n"], "fmt": ".0f"}
+        for name, tag in (("tau1", "Tau"), ("p", "P")):
+            block = pooled.get(name)
+            if not block:
+                continue
+            cut = block["cutoff"]
+            m[f"resPooledCutoff{tag}"] = {"value": cut["cutoff"], "low": cut["ci95"][0], "high": cut["ci95"][1],
+                                          "fmt": ".1f"}
+            if block["real_calibrated"].get("fraction") is not None:
+                m[f"resPooledReal{tag}"] = {"value": 100 * block["real_calibrated"]["fraction"], "fmt": ".0f"}
+            if block["replica_nominal_coverage"].get("fraction") is not None:
+                m[f"resPooledCover{tag}"] = {"value": 100 * block["replica_nominal_coverage"]["fraction"],
+                                             "fmt": ".0f"}
+    return m
+
+
 def _phase10_macros(p10: dict) -> dict:
     """Amendment 6: the recalibrated cutoff (H23) and the heteroskedastic noise sensitivity (H16)."""
     m: dict = {}
@@ -259,6 +305,8 @@ def _phase10_macros(p10: dict) -> dict:
             m["resHeteroBaseline"] = {"value": 100 * base["fraction"], "fmt": ".0f"}
             m["resHeteroBaselineCount"] = {"value": base["bounded"], "fmt": ".0f"}
             m["resHeteroBaselineN"] = {"value": base["n"], "fmt": ".0f"}
+        if het["baseline"].get("all_bounded") is not None:
+            m["resHeteroBaselineAll"] = {"value": het["baseline"]["all_bounded"], "fmt": ".0f"}
     for structure, word in (("root", "Root"), ("proportional", "Prop")):
         block = het.get("structures", {}).get(structure, {})
         interior = block.get("S_I_interior")
@@ -272,6 +320,8 @@ def _phase10_macros(p10: dict) -> dict:
             m[f"resHetero{word}More"] = {"value": ch["more_bounded"], "fmt": ".0f"}
             m[f"resHetero{word}Less"] = {"value": ch["less_bounded"], "fmt": ".0f"}
             m[f"resHetero{word}Same"] = {"value": ch["same"], "fmt": ".0f"}
+            m[f"resHetero{word}All"] = {"value": block["all_bounded"], "fmt": ".0f"}
+            m[f"resHetero{word}Sigma"] = {"value": block["median_sigma"], "fmt": ".1f"}
     return m
 
 

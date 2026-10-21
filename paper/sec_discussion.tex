@@ -8,7 +8,8 @@ combination of the two is not established, and under the area they do not for mo
 sensitivity is constrained from one side for most subjects and bounded for a minority, even when the model
 is true (Section~\ref{sec:si}); and none of this changes how well the fitted model predicts held-out meals
 (Section~\ref{sec:prediction}). A model whose $\ke$ and $\ka$ are held at their population values predicts
-the held-out area as well as one whose values were fitted (H8), as Proposition~\ref{prop:moments} would lead
+the held-out area about as well as one whose values were fitted, within the margin and with a small advantage
+for the fitted values (H8, and H20 in a second cohort), as Proposition~\ref{prop:moments} would lead
 one to expect of an area. Predictive validation is therefore silent on whether a fitted parameter means
 anything, and a twin whose parameters are shown to a person should carry an identifiability analysis with it.
 
@@ -23,9 +24,9 @@ The results suggest a short list for anyone fitting a mechanistic twin to a summ
   parameters they hide behind, and check them like any other claim: under the trace our real-data fractions
   looked good and the replica did not reproduce them.
 \item Run a replica in which the model is true. If the data do not bound a parameter there, they will not
-  bound it in the real data for the same reason, and the interval is not evidence of misspecification; and
-  if a real-data result exceeds what the replica gives, as the trace fractions did here, it should not be
-  taken at face value.
+  bound it in the real data for the same reason, and the interval is not evidence of misspecification; if a
+  real-data result exceeds what the replica gives, as the trace fractions did here, it should not be taken at
+  face value; and the replica is where to check that the nominal interval cutoff covers the truth.
 \item Test the optimizer against a better-conditioned one; a fixed-step estimate that is not an optimum
   produces profile minima below the estimate, as we found for the coordinate fits (Section~\ref{sec:more}).
 \item Treat clinical correlations of a fitted parameter with care: a correlation that survives only
@@ -62,7 +63,9 @@ could remove, was planned and not run.
   carbohydrate error is lognormal with a fixed coefficient of variation. The synthetic study with random
   truths removes the first limitation and not the others.
 \item \emph{Noise model.} A single variance per subject and observable, frozen at a pilot fit, with
-  first-order autocorrelation for the trace. We did not test heteroskedastic or non-Gaussian noise.
+  first-order autocorrelation for the trace. Two heteroskedastic variants for the iAUC objective did not change
+  the conclusion about $\SI$ (Section~\ref{sec:si}); we did not test heteroskedastic noise for the trace or
+  non-Gaussian noise.
 \item \emph{The criterion.} A bounded interval at a rise of $\delta$ is an asymptotic criterion; with a few
   tens of meals per subject and a hard box it is approximate, which is why the results are reported at
   three box widths and with a replica for calibration. Coverage of bounded $\SI$ intervals in the replica
@@ -72,11 +75,11 @@ could remove, was planned and not run.
 \item \emph{Meals are treated as isolated.} Every meal starts with an empty gut. Residual gut content breaks
   the symmetry in proportion to its size (Proposition~\ref{prop:breaking}); we have not estimated how large it
   is in free-living data.
-\item \emph{Post hoc hypotheses.} Hypotheses H13 to H22 were declared after earlier results were seen. Their
+\item \emph{Post hoc hypotheses.} Hypotheses H13 to H23 were declared after earlier results were seen. Their
   thresholds were fixed before the corresponding analyses were run, but they were chosen knowing the
   direction of the earlier results.
-\item \emph{Not run.} The sensitivity of the $\SI$ profile to heteroskedastic noise and a design sweep over
-  meal size and timing were planned and not run (Appendix~\ref{app:notrun}).
+\item \emph{Not run.} A design sweep over meal size and timing, and a replica or synthetic study for the
+  second model class, were not run (Appendix~\ref{app:notrun}).
 \end{itemize}
 
 \subsection{Conclusion}

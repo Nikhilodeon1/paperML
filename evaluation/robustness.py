@@ -142,7 +142,7 @@ def synthetic_rows(seeds=SYNTHETIC_SEEDS) -> list[dict]:
         profile = largest_matching(
             "A5_profile", lambda p: p["objective"] == "iauc" and abs(p["bounds_scale"] - 1.0) < 1e-12
             and p.get("cohort", "cgmacros") == "cgmacros" and p.get("replica") == replica
-            and p.get("parameterization", "rates") == "rates" and p.get("polish") is None)
+            and p.get("parameterization", "rates") == "rates" and p.get("polish") is None and p.get("noise_structure", "homoskedastic") == "homoskedastic" and not p.get("profile_only"))
         diag = largest_matching("A8a_gradient_diag", lambda p: _variant(p, replica=replica))
         for subject in sorted(set(profile) & set(diag)):
             rows.append({"seed": seed, "subject": subject, "profile": profile[subject],

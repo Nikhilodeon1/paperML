@@ -151,7 +151,7 @@ def _ar1_noise(rng, rho: float, innovation_sd: float, shape: tuple[int, int]) ->
 
 @lru_cache(maxsize=256)
 def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool, carb_cv: float,
-                    limit, truth_mode: str = "fit") -> tuple:
+                    limit, truth_mode: str = "fit", cgm_scale: float = 1.0) -> tuple:
     config = {"cohort": cohort, "min_meals": min_meals, "limit": limit}
     subject = _cohort_subject(config, unit)
     truth = (random_parameters(unit, seed) if truth_mode == "random"
@@ -162,8 +162,11 @@ def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool
     noise = {"rho": None, "innovation_sd": None, "fallback": None}
     if cgm:
         noise = real_residual_noise(subject, unit)
-        glucose = glucose + _ar1_noise(_rng(unit, seed, "cgm"), noise["rho"], noise["innovation_sd"],
-                                       glucose.shape)
+        # Amendment 7: the CGM noise of the replica can be scaled down. The stream is the same, so a smaller
+        # scale is the same draws shrunk (common random numbers across scales).
+        noise = {**noise, "scale": float(cgm_scale)}
+        glucose = glucose + _ar1_noise(_rng(unit, seed, "cgm"), noise["rho"],
+                                       noise["innovation_sd"] * float(cgm_scale), glucose.shape)
     carbs = np.array([r["carbs_g"] for r in subject.records], dtype=float)
     if carb_cv > 0:
         sigma2 = np.log1p(carb_cv ** 2)
@@ -187,7 +190,7 @@ def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:
     records, _, _, _ = _replica_cached(config["cohort"], config["min_meals"], subject.subject_id,
                                        int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
                                        float(replica.get("carb_cv", 0.25)), config.get("limit"),
-                                       str(replica.get("truth", "fit")))
+                                       str(replica.get("truth", "fit")), float(replica.get("cgm_scale", 1.0)))
     # The replica is always simulated on the 5 minute grid with the default window, whatever the
     # cohort it was built from; it is a CGMacros-style replica.
     return dataclasses.replace(subject, records=tuple(records), sampling_min=5.0, window_min=180.0,
@@ -199,7 +202,7 @@ def replica_truth(config: dict, unit: str) -> dict:
     _, truth, noise, _ = _replica_cached(config["cohort"], config["min_meals"], unit,
                                          int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
                                          float(replica.get("carb_cv", 0.25)), config.get("limit"),
-                                         str(replica.get("truth", "fit")))
+                                         str(replica.get("truth", "fit")), float(replica.get("cgm_scale", 1.0)))
     return {"theta_true": truth, "noise": noise}
 
 

@@ -47,8 +47,7 @@ intestinal content makes the rates globally identifiable; an unconstrained one l
 \end{table}
 
 The plan's rule was to delete the exchange framing if the rates were globally identifiable. It fired for
-the planned formulation, so H1 is reported as \emph{formulation-dependent}, not as met
-(\resVerdictHOne). We keep the exchange framing because the empty-gut model that the simulator runs, and
+the planned formulation, so H1 is reported as \emph{formulation-dependent}, not as met. We keep the exchange framing because the empty-gut model that the simulator runs, and
 that free-living data approximate to the extent that meals are isolated, is exactly symmetric.
 
 The stacked sensitivity matrix has generic rank three at relative tolerance $10^{-6}$ in
@@ -211,6 +210,22 @@ real data under the noise settings named on the axis; dashed: the $0.7$ and $0.9
 \label{fig:replica}
 \end{figure}
 
+\paragraph{Is the $\SI$ result an artefact of the noise model?}
+The plan gave every meal of a subject the same variance. In two heteroskedastic variants of the iAUC
+likelihood the standard deviation of a meal grows as the square root of its observed area (\emph{root}) or in
+proportion to it (\emph{proportional}), with the scale re-estimated from a pilot fit and then frozen (H16,
+exploratory). Neither bounds the $\SI$ interval more often. Among subjects interior for $\SI$ it is bounded in
+\resHeteroRoot\% (\resHeteroRootCount{} of \resHeteroRootN) under the root model and in
+\resHeteroProp\% (\resHeteroPropCount{} of \resHeteroPropN) under the proportional model, against
+\resHeteroBaseline\% (\resHeteroBaselineCount{} of \resHeteroBaselineN) under the model of the plan; over all
+\resCohortCgmSubjects{} subjects the counts are \resHeteroRootAll{}, \resHeteroPropAll{} and
+\resHeteroBaselineAll. No subject becomes bounded that was not before, and each variant loses all
+\resHeteroBaselineAll{} subjects that were bounded under the model of the plan. The clause of H5 (at least $80\%$) is unmet under every variant. One variant
+is weakly informative: under the proportional model the estimate of $\SI$ is interior for only
+\resHeteroPropN{} subjects, so its interior fraction says little, and its fitted relative scale is large (median
+\resHeteroPropSigma), which means that errors proportional to the area describe the residuals poorly. We tested
+two structures for the iAUC objective only.
+
 \paragraph{Systematic carbohydrate error is absorbed by $\SI$.}
 Scaling every logged carbohydrate by $0.75$ and by $1.33$ and refitting moves the median $\SI$ estimate by
 a log ratio of \resCarbScaleLowLogRatio{} and \resCarbScaleHighLogRatio{}, against \resCarbScaleLowExpected{}
@@ -237,7 +252,7 @@ cross-validation). Gradient fitting and exhaustive grid search of the same loss 
 \resDiffGradThreeVsGridThree{} mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow{} to
 \resDiffGradThreeVsGridThreeHigh) with three parameters and by \resDiffGradOneVsGridOne{}
 (\resDiffGradOneVsGridOneLow{} to \resDiffGradOneVsGridOneHigh) with $\SI$ only: the $90\%$ intervals lie
-inside the margin of $150$ and of $90$, and H7 is met (\resVerdictHSeven). The training loss of the gradient
+inside the margin of $150$ and of $90$ (H7, \resVerdictHSeven). The training loss of the gradient
 fit is within one percent of the grid minimum in \resGapWithinTolerance\% of folds, and a budget of five
 hundred steps changes no verdict (difference \resStepsGradThreeFiveHundredVsGridThree{} with an interval of
 \resStepsGradThreeFiveHundredVsGridThreeLow{} to \resStepsGradThreeFiveHundredVsGridThreeHigh). Three parameters
@@ -394,6 +409,24 @@ near the tied boundary $p=\tau_1^2/4$, where the fits sit in many folds, and tha
 misspecified for the trace. Until that is settled the claim that the pair $(\tau_1,p)$ is recoverable
 remains a hypothesis (Section~\ref{sec:limits}).
 
+A recalibrated cutoff does not rescue it (H23, \resVerdictHTwentyThree). The nominal interval uses a rise of
+\resDeltaThreshold{} in the negative log-likelihood. On the replica the true value lies inside that interval for
+\resRecalCoverNominalSI\% of subjects for $\SI$ under iAUC, \resRecalCoverNominalTau\% for $\tau_1$ and
+\resRecalCoverNominalP\% for $p$ under the trace. Replacing the cutoff by the empirical quantile of the
+rise of the profile at the true value that covers it at the nominal level of the interval gives \resRecalCutoffSI{} (interval \resRecalCutoffSILow{} to
+\resRecalCutoffSIHigh) for $\SI$, \resRecalCutoffTau{} (\resRecalCutoffTauLow{} to \resRecalCutoffTauHigh) for
+$\tau_1$ and \resRecalCutoffP{} (\resRecalCutoffPLow{} to \resRecalCutoffPHigh) for $p$. Applied to the real-data
+profiles, among subjects interior for the parameter, the bounded fractions fall from \resRecalRealNominalTau\% to
+\resRecalRealCalibratedTau\% for $\tau_1$ and from \resRecalRealNominalP\% to \resRecalRealCalibratedP\% for
+$p$: the clause of $70\%$ for $\tau_1$ fails and that of $50\%$ for $p$ holds. For $\SI$ the fraction under iAUC
+falls from \resRecalRealNominalSI\% to \resRecalRealCalibratedSI\%, so the conclusion about $\SI$ is unchanged.
+Two limits apply. The real-data fractions at the calibrated cutoffs are still above those of the replica
+(\resRecalReplicaCalibratedTau\% and \resRecalReplicaCalibratedP\%), so the real data remain more informative
+about the pair than a true model with this noise would give, and we cannot explain why. And the cutoffs for
+the coordinates rest on \resRecalNTau{} replica subjects and are poorly determined, as the intervals show, so the
+calibrated fractions are themselves uncertain; the calibration is for replica-like truths and is not a general
+correction.
+
 \begin{figure}[t]
 \centering
 \safefigure[width=\linewidth]{f5_coordinates}
@@ -448,7 +481,8 @@ cannot say how much of its non-identifiability is the observable and how much is
 \label{sec:leakage}
 
 A model that predicts well should also, one might hope, produce an $\SI$ that tracks clinical insulin
-resistance. In the Shanghai cohort (\resLeakN{} subjects with HbA1c), the Spearman correlation of the
+resistance. In the Shanghai cohort (\resLeakN{} subjects with HbA1c and at least three meals; this check does not use the
+rule of ten meals), the Pearson correlation of the
 SNPE estimate of $\SI$ with HbA1c is \resLeakRawSnpe{} (\resLeakRawSnpeLow{} to \resLeakRawSnpeHigh) and that
 of the gradient estimate is \resLeakRawGradient{} (\resLeakRawGradientLow{} to \resLeakRawGradientHigh);
 the difference is \resLeakRawDiff{} (\resLeakRawDiffLow{} to \resLeakRawDiffHigh). With fasting glucose
@@ -463,7 +497,7 @@ fitted parameters through clinical correlations, not as a result about either me
 \begin{figure}[t]
 \centering
 \safefigure[width=0.7\linewidth]{f9_leakage}
-\caption{Spearman correlation of the estimate of $\SI$ with HbA1c in the Shanghai cohort, with $95\%$
+\caption{Pearson correlation of the estimate of $\SI$ with HbA1c in the Shanghai cohort, with $95\%$
 bootstrap intervals over subjects, for the amortized (SNPE) and gradient estimates, raw and with fasting
 glucose partialled out, and the correlation of the SNPE estimate with its own baseline feature.}
 \label{fig:leakage}

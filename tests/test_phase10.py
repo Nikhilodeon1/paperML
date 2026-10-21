@@ -93,3 +93,24 @@ def test_result_sets_for_different_noise_structures_do_not_mix():
     assert profile_lik._matches({**payload, "noise_structure": "root",
                                  "profile_only": ["insulin_sensitivity"]}, config)
     assert profile_lik._matches(payload, profile_lik.default_config())
+
+
+# --- Phase 11 (Amendment 7): the noise-scaled replica and the H24 rule --------------------------------------
+
+def test_replica_noise_scale_shrinks_the_same_draws():
+    import numpy as np
+    from evaluation import subject_source as ss
+    ss._replica_cached.cache_clear()
+    args = ("cgmacros", 10, "CGMacros-001", 0, True, 0.0, None, "fit")
+    clean = np.array([r["glucose"]["values"] for r in ss._replica_cached(*args[:4], False, *args[5:])[0]])
+    full = np.array([r["glucose"]["values"] for r in ss._replica_cached(*args, 1.0)[0]])
+    half = np.array([r["glucose"]["values"] for r in ss._replica_cached(*args, 0.5)[0]])
+    assert np.allclose(half - clean, 0.5 * (full - clean), atol=1e-8)
+    assert np.abs(full - clean).max() > 0
+    ss._replica_cached.cache_clear()
+
+
+def test_noise_scale_replica_keys_are_distinct_and_backward_compatible():
+    from evaluation import noise_scale
+    assert noise_scale.replica(0) == {"seed": 0, "cgm": True, "carb_cv": 0.25}
+    assert noise_scale.replica(0, 0.5)["cgm_scale"] == 0.5

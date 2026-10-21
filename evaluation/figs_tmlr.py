@@ -199,7 +199,7 @@ def fig3_profiles():
     rows = largest_matching("A5_profile", lambda p: p["objective"] == "iauc" and abs(p["bounds_scale"] - 1.0) < 1e-12
                             and p.get("cohort", "cgmacros") == "cgmacros" and p.get("replica") is None
                             and p.get("carb_scale") in (None, 1, 1.0) and p.get("polish") is None
-                            and p.get("parameterization", "rates") == "rates")
+                            and p.get("parameterization", "rates") == "rates" and p.get("noise_structure", "homoskedastic") == "homoskedastic" and not p.get("profile_only"))
     if not rows:
         return None
     ids = sorted(rows)
@@ -528,7 +528,7 @@ def fig9_leakage():
     ax.axvline(0, color="black", lw=0.8)
     ax.set_yticks(range(len(rows)))
     ax.set_yticklabels([r[1] for r in rows[::-1]])
-    ax.set_xlabel("Spearman correlation (95% bootstrap interval)")
+    ax.set_xlabel("Pearson correlation (95% bootstrap interval)")
     fig.tight_layout()
     return _save(fig, "f9_leakage")
 

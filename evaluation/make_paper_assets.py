@@ -50,7 +50,7 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     from evaluation import (figs_tmlr, freeze_results, lint_numbers, lint_terms, make_macros, paper_numbers,
-                            phase2_summary, phase8_summary, phase9_summary, recalibration, tables_tmlr, tmlr_build)
+                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, tables_tmlr, tmlr_build)
 
     def freeze():
         if args.no_freeze:
@@ -88,7 +88,7 @@ def main(argv=None) -> int:
         return 0
 
     steps = [("summary 2", phase2_summary.main), ("summary 8", phase8_summary.main),
-             ("summary 9", phase9_summary.main), ("summary 10", recalibration.main),
+             ("summary 9", phase9_summary.main), ("summary 10", recalibration.main), ("summary 11", noise_scale.main),
              ("numbers", paper_numbers.main), ("freeze", freeze),
              ("macros", macros), ("figures", figs_tmlr.main), ("tables", tables_tmlr.main)]
     if not args.skip_lint:

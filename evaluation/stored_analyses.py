@@ -43,7 +43,7 @@ def _profiles(scale: float) -> dict:
                             and abs(p["bounds_scale"] - scale) < 1e-12
                             and p.get("cohort", "cgmacros") == "cgmacros"
                             and p.get("replica") is None and p.get("carb_scale") in (None, 1, 1.0)
-                            and p.get("parameterization", "rates") == "rates")
+                            and p.get("parameterization", "rates") == "rates" and p.get("noise_structure", "homoskedastic") == "homoskedastic" and not p.get("profile_only"))
 
 
 def _auc(scores_positive: np.ndarray, scores_negative: np.ndarray) -> float:
