@@ -53,6 +53,7 @@ TOPIC = {
     "H22": "A second model class (Dalla Man)",
     "H23": "The real-data results at a cutoff calibrated on the replica",
     "H24": "Replica with a smaller CGM noise scale",
+    "H25": "Replica with exact carbohydrate",
 }
 
 
@@ -68,7 +69,9 @@ def origin(name: str) -> str:
         return "amendment five (post hoc)"
     if n == 23:
         return "amendment six (post hoc)"
-    return "amendment seven (post hoc)"
+    if n == 24:
+        return "amendment seven (post hoc)"
+    return "amendment eight (post hoc)"
 
 
 def _esc(text) -> str:

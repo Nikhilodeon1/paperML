@@ -12,7 +12,8 @@ the empty-gut model, the weakest Fisher direction lies along it in every subject
 profile interval for either rate is bounded under iAUC at any parameter range we tried.
 Second, insulin sensitivity is not reliably recovered either: among subjects whose estimate is interior, its
 interval is bounded for only \resProfileIaucSIInteriorFracOne\% at the primary parameter range, and for
-\resSeedsSIBounded\% when the model is exactly true.
+\resSeedsSIBounded\% when the model is exactly true (\resNoiseQuarterIaucSI\% when its estimated noise is also cut
+to a quarter).
 Third, none of this is visible to prediction.
 Gradient fitting and exhaustive grid search differ in held-out iAUC error by
 \resDiffGradThreeVsGridThree\ mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow\ to

@@ -404,10 +404,11 @@ in the case of $p$. We read this as follows. The ordering of
 the observables, trace above centroid above area, is reproduced by the replica and so is not an artefact of
 the data. The absolute fractions of the trace are not a reliable measure of identifiability: they exceed what
 a true model produces, the optimizer does not reach an optimum for many subjects, and the intervals
-undercover. We did not test why. Candidates are that the $\chi^2$ calibration of the profile threshold fails
-near the tied boundary $p=\tau_1^2/4$, where the fits sit in many folds, and that the noise model is
-misspecified for the trace. Until that is settled the claim that the pair $(\tau_1,p)$ is recoverable
-remains a hypothesis (Section~\ref{sec:limits}).
+undercover. Candidate reasons are that the $\chi^2$ calibration of the profile threshold fails
+near the tied boundary $p=\tau_1^2/4$, where the fits sit in many folds, that the noise of the replica is too large,
+and that the noise model is misspecified for the trace; the first two are examined below, the last was not
+tested. Until that is settled the claim that the pair $(\tau_1,p)$ is recoverable remains a hypothesis
+(Section~\ref{sec:limits}).
 
 A recalibrated cutoff does not rescue it (H23, \resVerdictHTwentyThree). The nominal interval uses a rise of
 \resDeltaThreshold{} in the negative log-likelihood. On the replica the true value lies inside that interval for
@@ -425,7 +426,32 @@ Two limits apply. The real-data fractions at the calibrated cutoffs are still ab
 about the pair than a true model with this noise would give, and we cannot explain why. And the cutoffs for
 the coordinates rest on \resRecalNTau{} replica subjects and are poorly determined, as the intervals show, so the
 calibrated fractions are themselves uncertain; the calibration is for replica-like truths and is not a general
-correction.
+correction. Pooling replica seeds zero to two (\resPooledN{} replica subjects) narrows the cutoffs to
+\resPooledCutoffTau{} (\resPooledCutoffTauLow{} to \resPooledCutoffTauHigh) for $\tau_1$ and \resPooledCutoffP{}
+(\resPooledCutoffPLow{} to \resPooledCutoffPHigh) for $p$; at them the real-data fractions are \resPooledRealTau\%
+and \resPooledRealP\%, so the verdict does not change.
+
+\paragraph{Is the replica noise too large?}
+The CGM noise of the replica is estimated from the residuals of the real fit, which contain model misfit as
+well as sensor noise, so it overstates the sensor noise. If that were why the replica falls short of the real data,
+a smaller noise would raise its fractions and the nominal interval would then cover the truth. We scaled the CGM
+noise of replica seed zero to one half and to one quarter, with the same random draws and the same carbohydrate
+error (H24, \resVerdictHTwentyFour). Under the trace the bounded fraction of $\tau_1$ goes from
+\resNoiseOneTraceTau\% to \resNoiseHalfTraceTau\% and \resNoiseQuarterTraceTau\%, and that of $p$ from
+\resNoiseOneTraceP\% to \resNoiseHalfTraceP\% and \resNoiseQuarterTraceP\%, against \resPolishedBoundedTauTrace\% and
+\resPolishedBoundedPTrace\% on the real data. A smaller noise therefore does raise the fractions. But the nominal
+interval covers the true value less and less often as the noise falls: for $\tau_1$ in \resNoiseOneCoverTau\%,
+\resNoiseHalfCoverTau\% and \resNoiseQuarterCoverTau\% of subjects, for $p$ in \resNoiseOneCoverP\%,
+\resNoiseHalfCoverP\% and \resNoiseQuarterCoverP\%, and the cutoff that would cover rises for $\tau_1$ from
+\resNoiseOneCutoffTau{} to \resNoiseHalfCutoffTau{} and \resNoiseQuarterCutoffTau. The rule asked for both
+conditions at the same scale and is not met. The intervals shrink with the noise faster than the estimates approach
+the truth, which is what an error that the noise does not remove would produce; the one such error left in the
+replica is the carbohydrate logging error, and we have not shown that it is the cause. Under iAUC the same scales
+raise the fraction of bounded $\SI$ intervals among interior subjects from \resNoiseOneIaucSI\% to
+\resNoiseHalfIaucSI\% and \resNoiseQuarterIaucSI\% (\resNoiseQuarterIaucSICount{} of \resNoiseQuarterIaucSIN{} at a
+quarter), with no bounded interval for $\ke$ or $\ka$. The weakness of $\SI$ is therefore conditional on the noise
+level: at a quarter of the estimated noise about half of the subjects would have a bounded interval, still below
+the $80\%$ the plan asked for.
 
 \begin{figure}[t]
 \centering

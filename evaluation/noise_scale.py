@@ -24,8 +24,8 @@ TAU1_MIN, P_MIN, COVERAGE_MIN = 0.73, 0.78, 0.90
 POOLED_SEEDS = (0, 1, 2)
 
 
-def replica(seed: int, scale: float = 1.0) -> dict:
-    out = {"seed": seed, "cgm": True, "carb_cv": 0.25}
+def replica(seed: int, scale: float = 1.0, carb_cv: float = 0.25) -> dict:
+    out = {"seed": seed, "cgm": True, "carb_cv": carb_cv}
     if scale != 1.0:
         out["cgm_scale"] = scale
     return out
@@ -92,6 +92,32 @@ def h24() -> dict:
     return out
 
 
+def h25() -> dict:
+    """H25 (Amendment 8): is the undercoverage of the nominal interval caused by the carbohydrate logging error?
+
+    Replica seed 0 with exact carbohydrate (CV 0) at CGM noise scales 1 and 0.25. The verdict is read at scale 1:
+    under the trace the nominal interval must contain the true value for at least COVERAGE_MIN of the subjects,
+    for both tau1 and p. The other cell and the iAUC results are reported.
+    """
+    base = {**profile_lik.default_config(), "bounds_scale": 1.0}
+    out = {"scales": {}, "rule": {"nominal_coverage_min": COVERAGE_MIN, "read_at_scale": 1.0}}
+    for scale in (1.0, 0.25):
+        trace = _trace_block(_rows(_coords({"replica": replica(0, scale, 0.0)})))
+        iauc = _iauc_block(_rows({**base, "objective": "iauc", "replica": replica(0, scale, 0.0)}))
+        out["scales"][f"{scale:g}"] = {"trace": trace, "iauc": iauc}
+    first = out["scales"]["1"]["trace"]
+    if not first.get("n") or not out["scales"]["0.25"]["trace"].get("n"):
+        out["status"] = "not evaluated"
+        return out
+    try:
+        ok = (first["tau1"]["nominal_coverage"]["fraction"] >= COVERAGE_MIN
+              and first["p"]["nominal_coverage"]["fraction"] >= COVERAGE_MIN)
+    except (KeyError, TypeError):
+        ok = False
+    out["status"] = "met" if ok else "not met"
+    return out
+
+
 def pooled_calibration() -> dict:
     """The coordinate cutoffs of H23 recomputed with replica seeds 0 to 2 pooled; report only."""
     rows = []
@@ -114,7 +140,7 @@ def pooled_calibration() -> dict:
 
 
 def main() -> None:
-    summary = {"h24": h24(), "pooled_calibration": pooled_calibration()}
+    summary = {"h24": h24(), "h25": h25(), "pooled_calibration": pooled_calibration()}
     path = RESULTS / "phase11_summary.json"
     path.write_text(json.dumps(summary, indent=2, default=float), encoding="utf-8")
     print(f"wrote {path}")

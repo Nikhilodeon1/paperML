@@ -32,7 +32,8 @@ def skipped(verdicts: dict) -> list[tuple[str, str]]:
                        ("H21", "Likelihood-optimum check of the coordinate fits."),
                        ("H22", "Second model class (Dalla Man): Fisher matrix and profile intervals."),
                        ("H23", "Recalibrated profile cutoff (Amendment 6)."),
-                       ("H24", "Replica with a smaller CGM noise scale (Amendment 7).")):
+                       ("H24", "Replica with a smaller CGM noise scale (Amendment 7)."),
+                       ("H25", "Replica with exact carbohydrate (Amendment 8).")):
         if verdicts.get(name, {}).get("status") == "not evaluated":
             out.append((name, text))
     return out

@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -251,6 +251,33 @@ def _phase11_macros(p11: dict) -> dict:
             m[f"resNoise{word}IaucSIN"] = {"value": iauc["S_I_interior"]["n"], "fmt": ".0f"}
             m[f"resNoise{word}IaucTimingMax"] = {"value": 100 * max(iauc["timing_bounded"].values()),
                                                  "fmt": ".0f"}
+            m[f"resNoise{word}IaucCoverSI"] = {"value": 100 * iauc["S_I_nominal_coverage"]["fraction"],
+                                               "fmt": ".0f"}
+    h25 = p11.get("h25", {})
+    for scale, word in (("1", "One"), ("0.25", "Quarter")):
+        content = h25.get("scales", {}).get(scale)
+        if not content:
+            continue
+        trace = content.get("trace", {})
+        if trace.get("n"):
+            for name, tag in (("tau1", "Tau"), ("p", "P"), ("S_I", "SI")):
+                block = trace[name]
+                if block["bounded_interior"].get("fraction") is not None:
+                    m[f"resExact{word}TraceBounded{tag}"] = {"value": 100 * block["bounded_interior"]["fraction"],
+                                                             "fmt": ".0f"}
+                if block["nominal_coverage"].get("fraction") is not None:
+                    m[f"resExact{word}Cover{tag}"] = {"value": 100 * block["nominal_coverage"]["fraction"],
+                                                      "fmt": ".0f"}
+                cut = block.get("cutoff", {})
+                if cut.get("n") and name != "S_I":
+                    m[f"resExact{word}Cutoff{tag}"] = {"value": cut["cutoff"], "fmt": ".1f"}
+        iauc = content.get("iauc", {})
+        if iauc.get("n") and iauc.get("S_I_interior"):
+            m[f"resExact{word}IaucSI"] = {"value": 100 * iauc["S_I_interior"]["fraction"], "fmt": ".0f"}
+            m[f"resExact{word}IaucSICount"] = {"value": iauc["S_I_interior"]["bounded"], "fmt": ".0f"}
+            m[f"resExact{word}IaucSIN"] = {"value": iauc["S_I_interior"]["n"], "fmt": ".0f"}
+            m[f"resExact{word}IaucCoverSI"] = {"value": 100 * iauc["S_I_nominal_coverage"]["fraction"],
+                                               "fmt": ".0f"}
     pooled = p11.get("pooled_calibration", {})
     if pooled.get("n"):
         m["resPooledN"] = {"value": pooled["n"], "fmt": ".0f"}

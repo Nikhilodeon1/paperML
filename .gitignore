@@ -43,3 +43,4 @@ paper/*.fls
 paper/*.fdb_latexmk
 paper/*.toc
 paper/main.pdf
+phase*_results/

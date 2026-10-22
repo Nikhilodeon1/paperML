@@ -356,9 +356,21 @@ def h24(summary):
     return _row(rule, block["status"], observed)
 
 
+def h25(summary):
+    rule = ("Replica with exact carbohydrate (CV 0) at the estimated CGM noise: under the trace the nominal interval "
+            "contains the true value for >= 90% of subjects, for tau1 and for p.")
+    block = summary.get("phase11", {}).get("h25")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Exact-carbohydrate replica not run.")
+    first = block["scales"]["1"]["trace"]
+    return _row(rule, block["status"], {
+        "tau1_nominal_coverage": first["tau1"]["nominal_coverage"]["fraction"],
+        "p_nominal_coverage": first["p"]["nominal_coverage"]["fraction"]})
+
+
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
        "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
-       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24}
+       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24, "H25": h25}
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

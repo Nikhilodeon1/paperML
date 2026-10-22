@@ -49,7 +49,7 @@ _OPAQUE_COMMANDS = re.compile(
 _YEAR = re.compile(r"\b(?:19|20)\d{2}\b")
 # Names that embed a digit (Tsit5, HbA1c, SHA-256) are identifiers, not quantities.
 _IDENTIFIER = re.compile(r"\b[A-Za-z]{2,}-?\d+[A-Za-z]*\b")
-# Hypothesis labels (H5, H13, H1--H10, H13--H24) name a rule in the register; they are not results.
+# Hypothesis labels (H5, H13, H1--H10, H13--H25) name a rule in the register; they are not results.
 _HYPOTHESIS = re.compile(r"\bH\d{1,2}(?:\s*(?:--|-|,|and)\s*H\d{1,2})*\b")
 _DIGITS = re.compile(r"\d")
 # A run of digits with optional sign, decimals, thousands separators, percent or exponent.
