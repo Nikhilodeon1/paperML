@@ -305,6 +305,19 @@ def run_unit(unit: str, config: dict) -> dict:
     }
 
 
+def _polish_starts(payload: dict) -> int | None:
+    """Random starts used by the L-BFGS-B polish that produced this payload (None: no polish).
+
+    `start_values` holds one value for the Adam estimate and one per random start, so Phase 9 payloads (five
+    random starts) and Phase 13 payloads (thirty) land in different result sets.
+    """
+    polish = payload.get("polish")
+    if polish is None:
+        return None
+    values = polish.get("start_values")
+    return len(values) - 1 if values else 5
+
+
 def _matches(payload: dict, config: dict) -> bool:
     return (payload["objective"] == config["objective"]
             and abs(payload["bounds_scale"] - config["bounds_scale"]) < 1e-12
@@ -313,6 +326,7 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")
             and (payload.get("polish") is not None) == bool(config.get("polish"))
+            and _polish_starts(payload) == (int(config.get("polish_starts", 5)) if config.get("polish") else None)
             and payload.get("noise_structure", "homoskedastic") == config.get("noise_structure", "homoskedastic")
             and (payload.get("profile_only") or None) == (config.get("profile_only") or None))
 

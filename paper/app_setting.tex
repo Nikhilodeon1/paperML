@@ -1,0 +1,59 @@
+\section{Cohorts, prediction protocol and statistics}
+\label{app:setting}
+
+\subsection{Cohorts}
+\label{sec:cohorts}
+
+Table~\ref{tab:cohorts} lists the cohorts. They differ in three ways that matter: the sensor interval, the observation
+window and the source of the carbohydrate values. We keep subjects with at least ten meals, or five in the cohort with
+standardized meals. The Shanghai sensor samples every $15$ minutes and the stored $5$-minute grid was filled by
+interpolation, so every trace objective reads only the real samples.
+
+\input{generated/cohorts}
+
+CGMacros records carbohydrate in a photographed, nutritionist-coded log. The Shanghai cohort has a free-text dietary
+record, and we estimate carbohydrate from the food name and weight by keyword. That estimate has its own error, which is
+one reason for the carbohydrate-error experiments of Section~\ref{sec:si}. In the standardized-meal cohort the meals are
+known by construction. The window is the observation window of the iAUC, and it is shorter in the last cohort.
+
+\subsection{Prediction protocol}
+\label{sec:cv}
+
+Held-out prediction uses $5$-fold cross-validation within subject, repeated $5$ times. Fold assignments are seeded by
+SHA-256 and identical for every method, so no method benefits from a favourable split. One unit is a subject and a
+repeat, every meal is held out once, a subject's score is its mean over repeats, and every interval resamples
+\emph{subjects}. We compare gradient fitting with three parameters or with $\SI$ only, exhaustive grid search of the same
+loss (a $20\times8\times8$ grid, or a $41$-point grid), and the same under the full-trace objective. The baselines are a
+random forest, a simulation-based-inference estimate trained on simulated data, the personal mean, the population
+default and persistence. Two methods are called equivalent when the $90\%$ bootstrap interval of their paired difference
+lies inside $(-150,+150)$ mg\,dL$^{-1}$\,min. Margins of $90$ and $300$ are also reported. A difference is not called an
+equivalence unless that test was run.
+
+\paragraph{The margin.}
+The value $150$ is a choice made before the analyses, not a clinical threshold. It is smaller than the gain of the
+gradient fit over a subject's own mean on CGMacros (\resDiffGradThreeVsPersonalMean{}), so a margin of that size does
+not call a method that beats the personal mean equivalent to one that does not. It is a small share of the mean
+error (\resMaeGradThree{}). The smaller margin of $90$ is the stricter test and $300$ the looser one, and the
+conclusions of H7 and H8 for the primary comparisons are those reported in Appendix~\ref{app:results}. A margin
+tied to a clinical decision would need an outcome that the iAUC does not supply.
+
+\paragraph{The learned baselines.}
+Both are trained once on simulated meals, with parameters drawn from a prior over a box, and then applied to each
+subject's training meals. The input is five summaries of a postprandial window (iAUC, peak, time of peak, baseline and
+early slope), the carbohydrate load and the subject's body profile. The random forest is an amortized point estimator;
+for a subject it returns the median over training meals of its estimate of $\SI$. The simulation-based-inference
+estimate (SNPE) is a posterior fitted with a normalizing flow, and for a subject it returns the median over meals of the
+posterior mean of $\SI$. Either value of $\SI$ is then run through the simulator, with the other parameters at their
+population values, to predict the held-out meals. These baselines estimate $\SI$ only and are not tuned to the held-out folds, so we read their
+differences from the twin as differences and not as a ranking of methods.
+
+\subsection{Statistics and the analysis plan}
+\label{sec:plan}
+
+Fractions of subjects carry Wilson intervals. Paired differences carry subject-level BCa bootstrap intervals
+($\resBootstrapResamples$ resamples), Wilcoxon tests with Holm correction within families, and two one-sided tests for
+equivalence. The analysis plan, with thresholds, was fixed in version control before the analyses were run
+(hypotheses H1--H10). Amendments were committed before the analyses they concern or, where stated, after results had been
+seen. H11 and H12 were declared before their analyses. \textbf{H13--H26 were declared after earlier results were seen}
+and are marked post hoc throughout. Appendix~\ref{app:register} lists every hypothesis with its rule, status and
+deviations. No threshold was changed, so none of the conclusions depends on a changed threshold.

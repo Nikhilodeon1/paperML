@@ -39,6 +39,9 @@ def load_summary() -> dict:
     final = RESULTS / "phase11_summary.json"
     if final.exists():
         summary["phase11"] = json.loads(final.read_text(encoding="utf-8"))
+    review = RESULTS / "phase13_summary.json"
+    if review.exists():
+        summary["phase13"] = json.loads(review.read_text(encoding="utf-8"))
     return summary
 
 
@@ -368,9 +371,21 @@ def h25(summary):
         "p_nominal_coverage": first["p"]["nominal_coverage"]["fraction"]})
 
 
+def h26(summary):
+    rule = ("Trace coordinate profiles with 30 random starts for the polish: the negative log-likelihood of the "
+            "5-start polished estimate exceeds that of the 30-start estimate by less than delta in >= 90% of subjects "
+            "(real data).")
+    block = summary.get("phase13", {}).get("h26")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="30-start polish not run.")
+    gap = block["real"]["gap"]
+    return _row(rule, block["status"], {"fraction_within_delta": gap["fraction"], "median_gap": gap["median_gap"],
+                                        "max_gap": gap["max_gap"]})
+
+
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
        "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
-       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24, "H25": h25}
+       "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24, "H25": h25, "H26": h26}
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

@@ -19,6 +19,11 @@ import jax.numpy as jnp
 import equinox as eqx
 from diffrax import diffeqsolve, ODETerm, SaveAt, Tsit5, PIDController
 
+# Solver tolerances. The defaults are the ones every published number used; `evaluation.numerics_check` sets these
+# module globals to compare the Fisher information at a tighter tolerance (Amendment 9, R4).
+SOLVER_RTOL = 1e-4
+SOLVER_ATOL = 1e-4
+
 # --- state index map (full 21-var vector; this stage evolves the glucose subset, rest constant) -
 STATE_VARS = [
     "glucose_mg_dl", "insulin_uU_ml", "x_insulin_action", "stomach_glucose_mg",
@@ -185,7 +190,7 @@ def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_
         ODETerm(vector_field), Tsit5(), t0=0.0, t1=float(duration_min), dt0=1.0,
         y0=initial_state(), args=(params, meal_time, mass_mg, clock_hour),
         saveat=SaveAt(ts=ts),
-        stepsize_controller=PIDController(rtol=1e-4, atol=1e-4), max_steps=10000,
+        stepsize_controller=PIDController(rtol=SOLVER_RTOL, atol=SOLVER_ATOL), max_steps=10000,
     )
     glucose = sol.ys[:, IDX["glucose_mg_dl"]]
     return ts, glucose

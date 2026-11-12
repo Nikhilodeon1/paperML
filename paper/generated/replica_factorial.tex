@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llccccc}
+\toprule
+carbohydrate & CGM & \multicolumn{2}{c}{bounded, trace} & \multicolumn{2}{c}{nominal coverage, trace} & bounded $\SI$, iAUC \\
+error & noise & $\tau_1$ & $p$ & $\tau_1$ & $p$ & \\
+\midrule
+25\% & $\times1$ & 65\% & 48\% & 62\% & 82\% & 26\% \\
+25\% & $\times0.5$ & 73\% & 71\% & 33\% & 51\% & 37\% \\
+25\% & $\times0.25$ & 69\% & 81\% & 11\% & 22\% & 49\% \\
+none & $\times1$ & 17\% & 23\% & 93\% & 96\% & 15\% \\
+none & $\times0.25$ & 61\% & 60\% & 16\% & 20\% & 27\% \\
+\bottomrule
+\end{tabular}
+\caption{Replica seed zero under the estimated CGM noise scaled by the factor shown and with or without carbohydrate logging error. Bounded: share of interior subjects with a bounded 95\% interval (trace: polished coordinate profiles; iAUC: $\SI$). Nominal coverage: share of replica subjects whose true value lies inside the interval at a rise of 1.92. The first row is the replica of H13 and H18.}
+\label{tab:factorial}
+\end{table}

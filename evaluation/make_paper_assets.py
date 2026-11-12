@@ -45,12 +45,15 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--skip-lint", action="store_true")
     ap.add_argument("--latex", action="store_true")
+    ap.add_argument("--phase13", action="store_true",
+                    help="also build results/phase13_summary.json (Amendment 9; only after the amendment is committed)")
     ap.add_argument("--no-freeze", action="store_true",
                     help="do not rewrite results/index.json (the macros are then read from the existing index)")
     args = ap.parse_args(argv)
 
     from evaluation import (figs_tmlr, freeze_results, lint_numbers, lint_terms, make_macros, paper_numbers,
-                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, tables_tmlr, tmlr_build)
+                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, phase13_summary, tables_tmlr,
+                            tmlr_build)
 
     def freeze():
         if args.no_freeze:
@@ -87,12 +90,16 @@ def main(argv=None) -> int:
         print(f"    {len(found['todo'])} to-do markers, {len(found['verifycite'])} citations to verify")
         return 0
 
+    from evaluation import audit_citations, evidence_ledger, lint_prose
+
     steps = [("summary 2", phase2_summary.main), ("summary 8", phase8_summary.main),
-             ("summary 9", phase9_summary.main), ("summary 10", recalibration.main), ("summary 11", noise_scale.main),
+             ("summary 9", phase9_summary.main), ("summary 10", recalibration.main), ("summary 11", noise_scale.main)] + (
+                [("summary 13", phase13_summary.main)] if args.phase13 else []) + [
              ("numbers", paper_numbers.main), ("freeze", freeze),
              ("macros", macros), ("figures", figs_tmlr.main), ("tables", tables_tmlr.main)]
     if not args.skip_lint:
-        steps += [("lint numbers", numbers_lint), ("lint terms", terms_lint)]
+        steps += [("lint numbers", numbers_lint), ("lint terms", terms_lint), ("lint prose", lint_prose.main),
+                  ("citation audit", audit_citations.main), ("evidence ledger", evidence_ledger.main)]
     steps.append(("to-dos", todos))
     if args.latex:
         steps.append(("latex", tmlr_build.compile_latex))

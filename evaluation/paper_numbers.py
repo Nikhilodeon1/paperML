@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -129,6 +129,7 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase9_macros(summary.get("phase9", {})))
     m.update(_phase10_macros(summary.get("phase10", {})))
     m.update(_phase11_macros(summary.get("phase11", {})))
+    m.update(_phase13_macros(summary.get("phase13", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -383,6 +384,12 @@ def _phase9_macros(p9: dict) -> dict:
                 v = _pct(d.get(key))
                 if v is not None:
                     m[f"resReplicaCoords{tag}{word}"] = {"value": v, "fmt": ".0f"}
+                    c = d.get(key) or {}
+                    if "bounded" in c and "n" in c and "wilson" in c:
+                        m[f"resReplicaCoords{tag}{word}Count"] = {"value": c["bounded"], "fmt": ".0f"}
+                        m[f"resReplicaCoords{tag}{word}N"] = {"value": c["n"], "fmt": ".0f"}
+                        m[f"resReplicaCoords{tag}{word}Low"] = {"value": 100 * c["wilson"][0], "fmt": ".0f"}
+                        m[f"resReplicaCoords{tag}{word}High"] = {"value": 100 * c["wilson"][1], "fmt": ".0f"}
             if objective == "trace":
                 for key, tag in (("log_tau1", "Tau"), ("log_p", "P"), ("log_insulin_sensitivity", "SI")):
                     cov = (d.get("truth_coverage") or {}).get(key)
@@ -403,6 +410,11 @@ def _phase9_macros(p9: dict) -> dict:
                 inner = e[key]["interior"] or e[key]["all"]
                 if inner and "fraction" in inner:
                     m[f"resPolishedBounded{tag}{word}"] = {"value": 100 * inner["fraction"], "fmt": ".0f"}
+                    if "bounded" in inner and "n" in inner and "wilson" in inner:
+                        m[f"resPolishedBounded{tag}{word}Count"] = {"value": inner["bounded"], "fmt": ".0f"}
+                        m[f"resPolishedBounded{tag}{word}N"] = {"value": inner["n"], "fmt": ".0f"}
+                        m[f"resPolishedBounded{tag}{word}Low"] = {"value": 100 * inner["wilson"][0], "fmt": ".0f"}
+                        m[f"resPolishedBounded{tag}{word}High"] = {"value": 100 * inner["wilson"][1], "fmt": ".0f"}
     # H20: prediction on Shanghai
     h20 = p9.get("h20", {})
     if h20.get("n_units"):
@@ -519,6 +531,98 @@ def _cohort_macros() -> dict:
     return m
 
 
+def _phase13_macros(p13: dict) -> dict:
+    """Amendment 9: prediction against parameter error, clustered intervals, overlap, proxy, CV sweep, H26, R4."""
+    m: dict = {}
+    if not p13:
+        return m
+
+    def pct(name, block, key="fraction"):
+        if block and block.get(key) is not None:
+            m[name] = {"value": 100 * block[key], "fmt": ".0f"}
+
+    for key, tag in (("fit_truth_seed0", "FitTruth"), ("random_truth_seed0", "RandomZero"),
+                     ("random_truth_seed1", "RandomOne")):
+        d = p13.get("r1", {}).get(key, {})
+        if not d.get("n"):
+            continue
+        m[f"resPvp{tag}N"] = {"value": d["n"], "fmt": ".0f"}
+        for field, name, fmt in (("median_grad3_mae", "Mae", ".0f"), ("median_floor", "Floor", ".0f"),
+                                 ("median_ratio_to_floor", "Ratio", ".2f"), ("median_personal_mean_mae", "Mean", ".0f"),
+                                 ("median_rms_log_error", "Rms", ".2f"), ("median_timing_rms_log_error", "Timing", ".2f"),
+                                 ("median_si_log_error", "SI", ".2f"), ("median_ke_log_error", "Ke", ".2f"),
+                                 ("median_ka_log_error", "Ka", ".2f"), ("floor_exact_median", "FloorExact", ".0f")):
+            if d.get(field) is not None:
+                m[f"resPvp{tag}{name}"] = {"value": d[field], "fmt": fmt}
+        for x, xname in (("rms", "Rms"), ("timing", "Timing"), ("si", "SI")):
+            for y, yname in (("mae", "Mae"), ("ratio", "Ratio")):
+                c = d.get(f"spearman_{x}_{y}")
+                if c:
+                    m[f"resPvp{tag}Rho{xname}{yname}"] = _ci(c["estimate"], c["ci95"][0], c["ci95"][1], ".2f")
+    for key, tag in (("S_I_pooled_iauc", "SI"), ("tau1_pooled_trace_seeds012", "Tau"), ("p_pooled_trace_seeds012", "P")):
+        d = p13.get("r2", {}).get(key, {})
+        if d.get("n_pairs"):
+            m[f"resClust{tag}"] = _ci(100 * d["fraction"], 100 * d["clustered_ci95"][0], 100 * d["clustered_ci95"][1])
+            m[f"resClust{tag}Count"] = {"value": d["bounded"], "fmt": ".0f"}
+            m[f"resClust{tag}Pairs"] = {"value": d["n_pairs"], "fmt": ".0f"}
+            m[f"resClust{tag}Subjects"] = {"value": d["n_subjects"], "fmt": ".0f"}
+            if d.get("wilson_naive"):
+                m[f"resClust{tag}NaiveLow"] = {"value": 100 * d["wilson_naive"][0], "fmt": ".0f"}
+                m[f"resClust{tag}NaiveHigh"] = {"value": 100 * d["wilson_naive"][1], "fmt": ".0f"}
+    r3 = p13.get("r3", {})
+    if r3.get("n_gaps"):
+        m["resOverlapGaps"] = {"value": r3["n_gaps"], "fmt": ".0f"}
+        m["resOverlapMedianGap"] = {"value": r3["median_gap_hours"], "fmt": ".1f"}
+        for hours, word in ((3, "Three"), (4, "Four"), (6, "Six")):
+            b = r3.get(f"share_within_{hours}h")
+            if b:
+                m[f"resOverlapWithin{word}"] = _ci(100 * b["fraction"], 100 * b["wilson"][0], 100 * b["wilson"][1])
+                m[f"resOverlapWithin{word}Count"] = {"value": b["count"], "fmt": ".0f"}
+    r5 = p13.get("r5", {})
+    if r5.get("n"):
+        m["resProxyN"] = {"value": r5["n"], "fmt": ".0f"}
+        for k, tag in (("raw", "Raw"), ("partial", "Partial")):
+            c = r5["statistics"][k]
+            m[f"resProxy{tag}"] = _ci(c["estimate"], c["low"], c["high"], ".2f")
+    words = {"0": "Zero", "0.1": "Tenth", "0.25": "Quarter", "0.5": "Half", "0.75": "ThreeQuarter"}
+    for cv, word in words.items():
+        b = p13.get("r6", {}).get(cv, {})
+        if not b.get("n"):
+            continue
+        for name, tag in (("tau1", "Tau"), ("p", "P")):
+            pct(f"resCv{word}Bounded{tag}", b[name]["bounded_interior"])
+            pct(f"resCv{word}Cover{tag}", b[name]["nominal_coverage"])
+            pct(f"resCv{word}Covbd{tag}", b[name].get("bounded_coverage"))
+    h26 = p13.get("h26", {})
+    gap = h26.get("real", {}).get("gap", {})
+    if gap.get("n"):
+        m["resGlobalN"] = {"value": gap["n"], "fmt": ".0f"}
+        m["resGlobalWithin"] = _ci(100 * gap["fraction"], 100 * gap["wilson"][0], 100 * gap["wilson"][1])
+        m["resGlobalWithinCount"] = {"value": gap["within"], "fmt": ".0f"}
+        m["resGlobalMedianGap"] = {"value": gap["median_gap"], "fmt": ".2f"}
+        m["resGlobalMaxGap"] = {"value": gap["max_gap"], "fmt": ".2f"}
+    for src, tag in (("real", "Real"), ("replica_seed0", "Replica")):
+        at30 = h26.get(src, {}).get("at_30", {})
+        if at30.get("n"):
+            for name, word in (("tau1", "Tau"), ("p", "P")):
+                pct(f"resGlobal{tag}{word}", at30[name]["bounded_interior"])
+    g2 = h26.get("replica_seed0", {}).get("gap", {})
+    if g2.get("n"):
+        m["resGlobalReplicaMedianGap"] = {"value": g2["median_gap"], "fmt": ".2f"}
+        m["resGlobalReplicaMaxGap"] = {"value": g2["max_gap"], "fmt": ".2f"}
+    r4 = p13.get("r4", {})
+    if r4.get("n"):
+        m["resTolSubjects"] = {"value": r4["n"], "fmt": ".0f"}
+        m["resTolMaxRel"] = {"value": 100 * r4["max_relative_eigenvalue_change_tight"], "fmt": ".1f"}
+        m["resTolMedianRel"] = {"value": 100 * r4["median_relative_eigenvalue_change_tight"], "fmt": ".1f"}
+        m["resTolMinCos"] = {"value": r4["min_abs_cosine_tight"], "fmt": ".3f"}
+        steps = r4.get("profile_steps", {})
+        if steps.get("n_profiles"):
+            m["resStepsProfiles"] = {"value": steps["n_profiles"], "fmt": ".0f"}
+            m["resStepsChanged"] = {"value": steps["changed"], "fmt": ".0f"}
+    return m
+
+
 def _extra_macros(summary: dict, verdicts: dict) -> dict:
     """Numbers the manuscript quotes that no other block declares: spectra, rank, bias, extensions, counts."""
     from pathlib import Path
@@ -536,6 +640,15 @@ def _extra_macros(summary: dict, verdicts: dict) -> dict:
     m["resCountNotMet"] = {"value": statuses.count("not met"), "fmt": ".0f"}
     m["resCountGraded"] = {"value": statuses.count("met") + statuses.count("not met"), "fmt": ".0f"}
     m["resCountTotal"] = {"value": len(statuses), "fmt": ".0f"}
+    # planned (H1-H10) against declared later (H11-H25), and the primary endpoints
+    def _tally(names, prefix):
+        st = [verdicts[n]["status"] for n in names if n in verdicts]
+        m[f"res{prefix}Met"] = {"value": st.count("met"), "fmt": ".0f"}
+        m[f"res{prefix}NotMet"] = {"value": st.count("not met"), "fmt": ".0f"}
+        m[f"res{prefix}Graded"] = {"value": st.count("met") + st.count("not met"), "fmt": ".0f"}
+    _tally([f"H{i}" for i in range(1, 11)], "Planned")
+    _tally([f"H{i}" for i in range(11, 100)], "Later")
+    _tally([n for n, row in verdicts.items() if row.get("primary")], "Primary")
     # spectra at the primary box
     for key, word in (("lambda1", "One"), ("lambda2", "Two"), ("lambda3", "Three")):
         d = summary.get("eigenvalues", {}).get("1x", {}).get(key)

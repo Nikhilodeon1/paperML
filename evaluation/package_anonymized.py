@@ -39,7 +39,8 @@ EXCLUDE_PARTS = {"__pycache__", ".git", ".venv", ".jax_cache", ".cache", "node_m
                  "user_data", "logs", "sbi-logs"}
 # Product code that lives beside the analyses in this repository and that no analysis imports.
 # Working notes of the authors: the reports that describe results stay, the planning documents do not.
-EXCLUDE_FILES = ("REPORTS/claims_ledger.md", "REPORTS/strategy_report_phase9.md", "REPORTS/revision_writeup.md",
+EXCLUDE_FILES = ("REPORTS/claims_ledger.md", "REPORTS/strategy_report_phase9.md", "REPORTS/strategy_report_final.md",
+                 "REPORTS/tmlr_cover_note.md", "REPORTS/revision_writeup.md",
                  "personalization/auth.py", "personalization/user_store.py", "personalization/mailer.py",
                  "personalization/dexcom.py", "personalization/store.py", "personalization/time_machine.py")
 EXCLUDE_SUFFIXES = (".pyc", ".claim", ".heartbeat", ".partial", ".tgz", ".zip", ".failed.json", ".log")

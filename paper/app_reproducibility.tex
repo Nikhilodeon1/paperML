@@ -2,37 +2,38 @@
 \label{app:reproducibility}
 
 \paragraph{Code.}
-All analyses are modules of one repository, each writing one result file per work unit (a subject, or a
-subject and repeat) under a directory named by a hash of the code version and the configuration, so a result
-can be traced to the code and settings that produced it and an interrupted run resumes instead of restarting.
-Nothing in the paper is typed by hand: every quantity that an analysis produced reaches the text through a
-macro generated from a frozen index of result files, each with its own SHA-256 and one hash over all of them
-(recorded in the header of the macro file), and a lint fails the build on a hand-typed number or on wording
-that the analyses do not support. An anonymized package containing the code, the tests and the cohort
-cache is supplied; it contains no raw data and no identifier of the authors.
+All analyses are modules of one repository. Each writes one result file per work unit, a subject or a subject and a
+repeat, under a directory named by a hash of the code version and the configuration. A result can therefore be traced to
+the code and settings that produced it, and an interrupted run resumes instead of restarting. Nothing in the paper is
+typed by hand. Every quantity reaches the text through a macro generated from a frozen index of result files, each with
+its own SHA-256 and one hash over all of them, recorded in the header of the macro file. A lint fails the build on a
+hand-typed number or on wording that the analyses do not support. The supplement holds an anonymized package with the
+code, the tests and the cohort cache. It contains no raw data and no identifier of the authors.
 
 \paragraph{Data.}
-The three cohorts are public \citep{das2025cgmacros,zhao2023shanghai,hall2018glucotypes}; the licences are
-those of the original releases and the raw files are not redistributed. The code reads a content-hashed cache
-of the parsed cohorts, whose manifest records the source, the selection rule and a checksum, so that a machine
-without the raw files reproduces the same subjects.
+The three cohorts are public \citep{das2025cgmacros,zhao2023shanghai,hall2018glucotypes}. Their licences are those of
+the original releases, and we do not redistribute the raw files. The code reads a content-hashed cache of the parsed
+cohorts. Its manifest records the source, the selection rule and a checksum, so a machine without the raw files
+reproduces the same subjects.
 
 \paragraph{Compute.}
-The identifiability analyses and the cross-validation were run on one CPU node with thirty workers; a
-three-subject smoke test of the whole pipeline runs on a laptop. The package pins the versions of every
-dependency. Random number streams are seeded from SHA-256 hashes of the unit, so results do not depend on the
-number of workers or their order.
+The identifiability analyses and the cross-validation ran on one CPU node with thirty workers, and a three-subject smoke
+test of the whole pipeline runs on a laptop. The package pins the version of every dependency. Random streams are seeded
+from SHA-256 hashes of the unit, so results do not depend on the number of workers or their order.
 
 \paragraph{Reproducing the results.}
 \begin{verbatim}
-python -m evaluation.reproduce_all_aistats --quick     # smoke test, temporary results
-bash scripts/pod_run_all.sh                            # compute queue of the main analyses
-bash scripts/pod_phase8.sh                             # replica, replication, leakage
-bash scripts/pod_phase9.sh                             # synthetic, second cohort, second model class
-python -m evaluation.make_paper_assets                 # summaries, macros, figures, tables, lint
+python -m evaluation.reproduce_all_aistats --quick   # smoke test
+bash scripts/pod_run_all.sh      # main analyses
+bash scripts/pod_phase8.sh       # replica, replication, leakage
+bash scripts/pod_phase9.sh       # synthetic, 2nd cohort, 2nd model
+bash scripts/pod_phase11.sh      # smaller CGM noise (Amendment 7)
+bash scripts/pod_phase12.sh      # exact carbohydrate (Amendment 8)
+bash scripts/pod_phase13.sh      # referee-driven checks (Amendment 9)
+python -m evaluation.make_paper_assets   # macros, figures, tables
 \end{verbatim}
 
 \paragraph{The analysis plan.}
-The plan and its amendments are text files in the repository with their commit identifiers; each amendment
-states what had been seen when it was written. The summary of verdicts in Appendix~\ref{app:scorecard} and
-the register in Appendix~\ref{app:register} are computed from the stored results by one function per hypothesis.
+The plan and its amendments are text files in the repository with their commit identifiers, and each amendment states
+what had been seen when it was written. One function per hypothesis computes the verdicts in Appendix~\ref{app:scorecard}
+and the register in Appendix~\ref{app:register} from the stored results.

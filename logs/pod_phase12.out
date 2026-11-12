@@ -1,0 +1,167 @@
+nohup: ignoring input
+=== 2026-10-22 06:20:02 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-22 06:20:04 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 2.7h
+  2/45 done, 0 failed, 30 workers, eta 1.5h
+  6/45 done, 0 failed, 30 workers, eta 0.5h
+  8/45 done, 0 failed, 30 workers, eta 0.4h
+  15/45 done, 0 failed, 30 workers, eta 0.2h
+  25/45 done, 0 failed, 20 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.0h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.16h
+==============================================================================
+=== 2026-10-22 06:29:26 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"cgm_scale":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-22 06:29:28 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 2.7h
+  3/45 done, 0 failed, 30 workers, eta 1.0h
+  4/45 done, 0 failed, 30 workers, eta 0.8h
+  5/45 done, 0 failed, 30 workers, eta 0.7h
+  15/45 done, 0 failed, 30 workers, eta 0.2h
+  26/45 done, 0 failed, 20 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.1h
+  32/45 done, 0 failed, 13 workers, eta 0.0h
+  33/45 done, 0 failed, 12 workers, eta 0.0h
+  40/45 done, 0 failed, 6 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.16h
+==============================================================================
+=== 2026-10-22 06:38:57 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-22 06:38:58 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  1/45 done, 0 failed, 30 workers, eta 6.8h
+  3/45 done, 0 failed, 30 workers, eta 2.3h
+  3/45 done, 0 failed, 30 workers, eta 2.4h
+  3/45 done, 0 failed, 30 workers, eta 2.5h
+  3/45 done, 0 failed, 30 workers, eta 2.6h
+  4/45 done, 0 failed, 30 workers, eta 2.0h
+  4/45 done, 0 failed, 30 workers, eta 2.1h
+  5/45 done, 0 failed, 30 workers, eta 1.7h
+  6/45 done, 0 failed, 30 workers, eta 1.4h
+  6/45 done, 0 failed, 30 workers, eta 1.5h
+  6/45 done, 0 failed, 30 workers, eta 1.6h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  12/45 done, 0 failed, 30 workers, eta 0.7h
+  14/45 done, 0 failed, 30 workers, eta 0.6h
+  15/45 done, 0 failed, 30 workers, eta 0.5h
+  16/45 done, 0 failed, 29 workers, eta 0.5h
+  18/45 done, 0 failed, 28 workers, eta 0.4h
+  22/45 done, 0 failed, 25 workers, eta 0.3h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  28/45 done, 0 failed, 17 workers, eta 0.2h
+  28/45 done, 0 failed, 17 workers, eta 0.2h
+  28/45 done, 0 failed, 17 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  32/45 done, 0 failed, 13 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  38/45 done, 0 failed, 7 workers, eta 0.1h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.43h
+==============================================================================
+=== 2026-10-22 07:04:46 evaluation.profile_lik --set bounds_scale=1.0 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"cgm_scale":0.25}
+An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+2026-10-22 07:04:47 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  0/45 done, 0 failed, 30 workers
+  2/45 done, 0 failed, 30 workers, eta 3.3h
+  3/45 done, 0 failed, 30 workers, eta 2.3h
+  3/45 done, 0 failed, 30 workers, eta 2.4h
+  4/45 done, 0 failed, 30 workers, eta 1.8h
+  4/45 done, 0 failed, 30 workers, eta 1.9h
+  5/45 done, 0 failed, 30 workers, eta 1.6h
+  6/45 done, 0 failed, 30 workers, eta 1.3h
+  7/45 done, 0 failed, 30 workers, eta 1.2h
+  7/45 done, 0 failed, 30 workers, eta 1.2h
+  7/45 done, 0 failed, 30 workers, eta 1.3h
+  8/45 done, 0 failed, 30 workers, eta 1.1h
+  8/45 done, 0 failed, 30 workers, eta 1.1h
+  10/45 done, 0 failed, 30 workers, eta 0.9h
+  13/45 done, 0 failed, 30 workers, eta 0.7h
+  15/45 done, 0 failed, 30 workers, eta 0.5h
+  18/45 done, 0 failed, 28 workers, eta 0.4h
+  20/45 done, 0 failed, 25 workers, eta 0.4h
+  22/45 done, 0 failed, 23 workers, eta 0.3h
+  24/45 done, 0 failed, 21 workers, eta 0.3h
+  25/45 done, 0 failed, 20 workers, eta 0.3h
+  26/45 done, 0 failed, 19 workers, eta 0.2h
+  27/45 done, 0 failed, 18 workers, eta 0.2h
+  29/45 done, 0 failed, 16 workers, eta 0.2h
+  34/45 done, 0 failed, 11 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.1h
+  37/45 done, 0 failed, 9 workers, eta 0.1h
+  38/45 done, 0 failed, 7 workers, eta 0.1h
+  42/45 done, 0 failed, 3 workers, eta 0.0h
+  43/45 done, 0 failed, 2 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.44h
+==============================================================================
+=== 2026-10-22 07:31:07 all queued Phase 12 jobs finished

@@ -1,6 +1,6 @@
 \begin{table}[t]
 \centering\small
-\begin{tabularx}{\linewidth}{llXl}
+\begin{tabularx}{\linewidth}{lXp{0.2\linewidth}p{0.17\linewidth}}
 \toprule
 & question & origin & status \\
 \midrule
@@ -11,7 +11,7 @@ H4 & The weakest Fisher direction is the exchange direction & plan & met \\
 H5 & Bounded profile intervals: timing under iAUC and trace, $\SI$ under iAUC & plan & not met \\
 H6 & The gradient diagnostic agrees with the profile likelihood & plan & met \\
 H7 & Gradient fitting and grid search predict equally well & plan & met \\
-H8 & The timing parameters add nothing to held-out iAUC error & plan & met \\
+H8 & The timing parameters add less than a margin to held-out iAUC error & plan & met \\
 H9 & A full-trace objective lowers held-out iAUC error & plan & not met \\
 H10 & The diagnostic is robust to initialization, box, scale and optimizer & plan & not met \\
 H11 & $\tau_1$ and $p$ are identifiable under richer observables & amendment one & not met \\
@@ -28,6 +28,8 @@ H21 & The coordinate estimates are likelihood optima & amendment five (post hoc)
 H22 & A second model class (Dalla Man) & amendment five (post hoc) & met \\
 H23 & The real-data results at a cutoff calibrated on the replica & amendment six (post hoc) & not met \\
 H24 & Replica with a smaller CGM noise scale & amendment seven (post hoc) & not met \\
+H25 & Replica with exact carbohydrate & amendment eight (post hoc) & met \\
+H26 & Polished trace estimates are global optima (30 starts) & amendment eight (post hoc) & not evaluated \\
 \bottomrule
 \end{tabularx}
 \caption{Every hypothesis and its status, computed from the stored results by the rule written in the plan or the amendment (Appendix~\ref{app:register}). Primary endpoints of the plan: H1, H3, H5, H7, H9.}

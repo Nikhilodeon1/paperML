@@ -67,6 +67,35 @@ scaled to one half and one quarter, under iAUC and under the trace with polished
 gap between the replica and the real data is a noise-level effect. The amendment also adds replica seeds one and two
 for the coordinate calibration, report only.
 
+\paragraph{Amendment eight (after the fourth freeze; post hoc).}
+H25 was declared after the fourth freeze, with its rule, before it was run: replica seed zero with exact
+carbohydrate, at the estimated CGM noise and at a quarter of it, to test whether the undercoverage of the nominal
+interval seen under H18 and H24 is caused by the carbohydrate logging error.
+
+\paragraph{Amendment nine (after the fifth freeze and an internal referee read; post hoc).}
+The amendment was written after an internal read of the manuscript by a referee, and it records that read. It adds
+H26, with its rule, before it was run: the trace coordinate profiles with polished estimates are rerun with $30$
+random starting points in place of five, on the real data and on replica seed zero, to ask whether the earlier polish
+reached a global optimum. It also adds report-only analyses with no rule: held-out error against parameter error and
+against the error of the true model on the replicas (including random truths), clustered intervals for the pooled
+replica fractions, the spacing of logged meals, a numerical check of the Fisher spectrum at a tighter solver tolerance
+and of the profile classes at more inner steps, a trivial insulin-sensitivity proxy against HbA1c, and a sweep of the
+carbohydrate error. A day-continuous replica, a perturbation of the fixed parameters and a real-data test of
+carbohydrate error are not run and are listed as limitations. Changes of framing and reporting asked for by the read
+(leading with the information content of the iAUC, the three box widths, polished against polished fits, scoping the
+prediction claim to the iAUC, splitting the tally into planned and later hypotheses) changed no hypothesis, rule or
+verdict.
+
+\paragraph{Corrections to the text and the bibliography.}
+These changed no result, rule or verdict. The text described the Shanghai leakage statistic as a Spearman
+correlation; the code computes a Pearson correlation, and the text, caption and figure label were corrected (the
+analysis was not re-run). That analysis uses subjects with at least three meals, not the rule of ten, which the text
+now states. The hypothesis range declared after earlier results was updated as hypotheses were added. A section
+title that said the weakness of $\SI$ is not mainly due to noise was changed after the noise-scaled replica showed
+that it depends on the noise level. Every bibliography entry was checked against Crossref or arXiv; this corrected
+the title of one entry (Cobelli and DiStefano, 1980) and the author lists of two (Erd\H{o}s et al., 2024; Das et al.,
+2025), and replaced a textbook citation for flip-flop kinetics by the two articles now cited.
+
 \paragraph{Where the plan and the record differ.}
 The plan stated H5 as a rule over subjects ``interior-converged'', which is empty here (amendment two). The
 plan's H1 rule fired under the planned formulation (amendment three). The error decomposition of an earlier
@@ -77,6 +106,6 @@ replaces it with what-if noise budgets that make no additive claim.
 \label{app:notrun}
 
 The design sweep over meal size and timing, a replica or synthetic study for the second model class, and
-heteroskedastic noise models for the trace objective were not run. An analysis of clinical correlations of
-$\SI$ across cohorts was not repeated; only the Shanghai check of Section~\ref{sec:leakage} is reported. Every
+heteroskedastic noise models for the trace objective were not run, and neither were the three analyses named at the end of amendment nine. An analysis of clinical correlations of
+$\SI$ across cohorts was not repeated; only the Shanghai check of Appendix~\ref{apx:leakage} is reported. Every
 analysis declared in amendments five and six was run to completion.

@@ -36,7 +36,7 @@ TOPIC = {
     "H5": "Bounded profile intervals: timing under iAUC and trace, $\\SI$ under iAUC",
     "H6": "The gradient diagnostic agrees with the profile likelihood",
     "H7": "Gradient fitting and grid search predict equally well",
-    "H8": "The timing parameters add nothing to held-out iAUC error",
+    "H8": "The timing parameters add less than a margin to held-out iAUC error",
     "H9": "A full-trace objective lowers held-out iAUC error",
     "H10": "The diagnostic is robust to initialization, box, scale and optimizer",
     "H11": "$\\tau_1$ and $p$ are identifiable under richer observables",
@@ -54,6 +54,7 @@ TOPIC = {
     "H23": "The real-data results at a cutoff calibrated on the replica",
     "H24": "Replica with a smaller CGM noise scale",
     "H25": "Replica with exact carbohydrate",
+    "H26": "Polished trace estimates are global optima (30 starts)",
 }
 
 
@@ -144,7 +145,7 @@ def cohort_results_table() -> None:
                 f"{interior['carb_absorption']} & {_pct(np.mean(cos >= 0.8))} \\\\")
     if not rows:
         return
-    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabular}{llrcccc}\n\\toprule\n"
+    tex = ("\\begin{table}[t]\n\\centering\\footnotesize\\setlength{\\tabcolsep}{4pt}\n\\begin{tabular}{llrcccc}\n\\toprule\n"
            "cohort & box & subjects & estimate on a bound (\\%) & bounded interval (\\%) & interior for $\\ke$ / $\\ka$ & "
            "$|\\cos|\\ge0.8$ (\\%) \\\\\n"
            " & & & $\\SI$ / $\\ke$ / $\\ka$ & $\\SI$ / $\\ke$ / $\\ka$ & & \\\\\n\\midrule\n" + "\n".join(rows) +
@@ -189,7 +190,7 @@ def prediction_compact_table(summary: dict) -> None:
 def scorecard_table(verdicts: dict) -> None:
     rows = [f"{name} & {TOPIC[name]} & {origin(name)} & {_esc(row['status'])} \\\\"
             for name, row in verdicts.items()]
-    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabularx}{\\linewidth}{llXl}\n\\toprule\n"
+    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabularx}{\\linewidth}{lXp{0.2\\linewidth}p{0.17\\linewidth}}\n\\toprule\n"
            "& question & origin & status \\\\\n\\midrule\n" + "\n".join(rows) +
            "\n\\bottomrule\n\\end{tabularx}\n\\caption{Every hypothesis and its status, computed from the stored "
            "results by the rule written in the plan or the amendment (Appendix~\\ref{app:register}). "
@@ -200,7 +201,7 @@ def scorecard_table(verdicts: dict) -> None:
 def register_table(verdicts: dict) -> None:
     rows = [f"{name} & {origin(name)} & {_esc(row['rule'])} & {_esc(row['status'])} \\\\"
             for name, row in verdicts.items()]
-    tex = ("{\\small\n\\begin{longtable}{llp{0.55\\linewidth}l}\n\\toprule\n& origin & rule & status \\\\\n\\midrule\n"
+    tex = ("{\\small\n\\begin{longtable}{lp{0.17\\linewidth}p{0.45\\linewidth}p{0.17\\linewidth}}\n\\toprule\n& origin & rule & status \\\\\n\\midrule\n"
            "\\endhead\n" + "\n".join(rows) + "\n\\bottomrule\n\\caption{The hypothesis register: rule as written "
            "in the plan or amendment, origin, and the status computed from the stored results.}\n"
            "\\label{tab:register}\n\\end{longtable}\n}\n")
@@ -223,13 +224,49 @@ def noise_budget_table(summary: dict) -> None:
     if not rows:
         return
     real = next(iter(settings.values()), {}).get("real_grad3_mae")
-    tex = ("\\begin{table}[h]\n\\centering\\small\n\\begin{tabular}{llcccc}\n\\toprule\n"
+    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabular}{llcccc}\n\\toprule\n"
            "CGM noise & carbohydrate error & gradient & grid & personal mean & ratio to real \\\\\n\\midrule\n"
            + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\caption{What-if noise budgets: held-out iAUC "
            f"error of the replica (mg\\,dL$^{{-1}}$\\,min) under each noise setting. The real-data error of the "
            f"gradient fit is {real:.0f}. The ratio carries a bootstrap interval over subjects. The settings are not "
            "additive shares of the real error.}\n\\label{tab:noise}\n\\end{table}\n")
     _write("noise_budget.tex", tex)
+
+
+def replica_factorial_table(summary: dict) -> None:
+    """Replica seed 0 under CGM noise scales and carbohydrate error: coordinate profiles under the trace and iAUC."""
+    p11 = summary.get("phase11", {})
+    cells = [("25\\%", "1", p11.get("h24", {}).get("scales", {}).get("1")),
+             ("25\\%", "0.5", p11.get("h24", {}).get("scales", {}).get("0.5")),
+             ("25\\%", "0.25", p11.get("h24", {}).get("scales", {}).get("0.25")),
+             ("none", "1", p11.get("h25", {}).get("scales", {}).get("1")),
+             ("none", "0.25", p11.get("h25", {}).get("scales", {}).get("0.25"))]
+    rows = []
+
+    def pct(block, key):
+        value = block.get(key, {}).get("fraction") if isinstance(block.get(key), dict) else None
+        return "--" if value is None else f"{100 * value:.0f}\\%"
+
+    for carb, scale, content in cells:
+        if not content or not content.get("trace", {}).get("n"):
+            continue
+        t, i = content["trace"], content["iauc"]
+        si = (i.get("S_I_interior") or {}).get("fraction")
+        rows.append(f"{carb} & $\\times{scale}$ & {pct(t['tau1'], 'bounded_interior')} & "
+                    f"{pct(t['p'], 'bounded_interior')} & {pct(t['tau1'], 'nominal_coverage')} & "
+                    f"{pct(t['p'], 'nominal_coverage')} & {'--' if si is None else f'{100 * si:.0f}' + chr(92) + '%'} \\\\")
+    if not rows:
+        return
+    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabular}{llccccc}\n\\toprule\n"
+           "carbohydrate & CGM & \\multicolumn{2}{c}{bounded, trace} & \\multicolumn{2}{c}{nominal coverage, trace} "
+           "& bounded $\\SI$, iAUC \\\\\n"
+           "error & noise & $\\tau_1$ & $p$ & $\\tau_1$ & $p$ & \\\\\n\\midrule\n"
+           + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n\\caption{Replica seed zero under the estimated CGM noise "
+           "scaled by the factor shown and with or without carbohydrate logging error. Bounded: share of interior subjects with "
+           "a bounded 95\\% interval (trace: polished coordinate profiles; iAUC: $\\SI$). Nominal coverage: share of "
+           "replica subjects whose true value lies inside the interval at a rise of 1.92. The first row is the replica of "
+           "H13 and H18.}\n\\label{tab:factorial}\n\\end{table}\n")
+    _write("replica_factorial.tex", tex)
 
 
 def levels_table(summary: dict) -> None:
@@ -245,7 +282,7 @@ def levels_table(summary: dict) -> None:
                         f"{_pct(par['carb_absorption']['fraction'])} \\\\")
     if not rows:
         return
-    tex = ("\\begin{table}[h]\n\\centering\\small\n\\begin{tabular}{lcccrr}\n\\toprule\n"
+    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabular}{lcccrr}\n\\toprule\n"
            "box & level (\\%) & rise $\\delta$ & $\\SI$ bounded, interior (\\%) & $\\ke$ bounded (\\%) & "
            "$\\ka$ bounded (\\%) \\\\\n\\midrule\n" + "\n".join(rows) +
            "\n\\bottomrule\n\\end{tabular}\n\\caption{Bounded profile intervals under iAUC at three interval "
@@ -270,7 +307,7 @@ def correlates_table(summary: dict) -> None:
             cells.append("--" if "spearman" not in d else
                          f"{d['spearman']:.2f} ({d['p']:.3f}; {d.get('p_holm', d['p']):.3f})")
         rows.append(f"{cl} & " + " & ".join(cells) + " \\\\")
-    tex = ("\\begin{table}[h]\n\\centering\\small\n\\begin{tabular}{lccc}\n\\toprule\n covariate & "
+    tex = ("\\begin{table}[t]\n\\centering\\small\n\\begin{tabular}{lccc}\n\\toprule\n covariate & "
            + " & ".join(out.values()) + " \\\\\n\\midrule\n" + "\n".join(rows) +
            "\n\\bottomrule\n\\end{tabular}\n\\caption{Spearman correlation across subjects at the primary box, "
            "with the raw and the Holm-adjusted $p$-values in parentheses. Exploratory.}\n"
@@ -283,13 +320,21 @@ def main() -> int:
     verdicts = evaluate_all(summary)
     for fn in (lambda: cohorts_table(), lambda: cohort_results_table(),
                lambda: prediction_compact_table(summary), lambda: scorecard_table(verdicts),
-               lambda: register_table(verdicts), lambda: noise_budget_table(summary), lambda: levels_table(summary),
+               lambda: register_table(verdicts), lambda: noise_budget_table(summary), lambda: replica_factorial_table(summary),
+               lambda: levels_table(summary),
                lambda: correlates_table(summary)):
         fn()
     # the tables of the earlier asset set that the appendix reuses (bounds, profiles, ladder, comparisons)
     for fn in (tables_aistats.bounds_table, tables_aistats.profiles_table, tables_aistats.ladder_table,
                tables_aistats.prediction_table):
         fn(summary)
+    # the caption of the reused comparison table says "pre-specified", but it also holds post hoc contrasts
+    comparisons = OUT / "comparisons.tex"
+    if comparisons.exists():
+        comparisons.write_text(comparisons.read_text(encoding="utf-8").replace(
+            "Pre-specified paired comparisons (negative: the first cell predicts better).",
+            "Paired comparisons of held-out iAUC error on CGMacros, planned and post hoc (negative: the first cell "
+            "predicts better; wins count subjects; Holm correction within the family)."), encoding="utf-8")
     print("tables:", ", ".join(sorted(p.name for p in OUT.glob("*.tex"))))
     return 0
 

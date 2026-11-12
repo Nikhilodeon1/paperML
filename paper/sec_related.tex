@@ -2,53 +2,57 @@
 \label{sec:related}
 
 \paragraph{Identifiability.}
-Structural identifiability asks whether the parameters are determined by an ideal, noise-free observation
-\citep{bellman1970structural,cobelli1980parameter}; practical identifiability asks whether they are
-determined by the finite, noisy data at hand \citep{walter1997identification,raue2009structural}.
-Local identifiability follows from the rank of the sensitivity or information matrix
-\citep{rothenberg1971identification}, and its near-singularity is the mark of ``sloppy'' models whose
-parameters are individually unconstrained while a few combinations are stiff
-\citep{brown2003statistical,gutenkunst2007universally}. Profile likelihood intervals
-\citep{venzon1988method,pawitan2001all} separate a parameter that is bounded by the data from one that is
-bounded only by its prior range, and are the practical-identifiability tool recommended for dynamical
-models \citep{raue2009structural}. Software for structural analysis of ODE models includes SIAN
-\citep{hong2019sian} and StructuralIdentifiability.jl \citep{dong2023differential}; surveys cover
-nonlinear models in systems biology and viral dynamics \citep{miao2011identifiability,
-villaverde2016structural}. Neural inference networks have been used to read identifiability from posterior
-width \citep{tong2025invaert}. We use the classical tools, with definitions fixed in advance, and add two
-controls that are rare in applied work: a replica in which the model is true, and a synthetic study with
-known truth.
+Structural identifiability asks whether the parameters of a model can be determined from ideal outputs. Practical
+identifiability asks the same of finite, noisy data
+\citep[reviews in][]{cobelli1980parameter,miao2011identifiability,villaverde2016structural}; see also
+\citet{bellman1970structural} and \citet{rothenberg1971identification}. \citet{chis2011structural} compare methods for
+structural identifiability, and \citet{wieland2021structural} argue that practical identifiability is the harder
+question. \citet{eisenberg2014determining} combine Fisher-information subset selection with the profile likelihood to
+find identifiable parameter combinations, which is the question we ask of $\tau_1$ and $p$. \citet{raue2009structural} use the profile
+likelihood to detect structural and practical non-identifiabilities and to derive confidence intervals. We use the
+same instrument with fixed definitions of bounded, one-sided and flat intervals. Sloppy-model analyses find that the
+sensitivity spectra of systems-biology models spread over many decades and that collective fits leave many
+parameters poorly constrained \citep{brown2003statistical,gutenkunst2007universally}. The Fisher spectra of
+Section~\ref{sec:timing} look the same. SIAN \citep{hong2019sian} and StructuralIdentifiability.jl
+\citep{dong2023differential} implement structural analysis, and we run the second. \citet{tong2025invaert} use a
+neural network to invert a lumped-parameter haemodynamic model whose parameters are structurally and practically
+non-identifiable. These works supply instruments. We add controls that say whether a bounded or an unbounded interval
+can be believed: a replica in which the model is true and a synthetic study with known truths.
 
-\paragraph{Glucose--insulin models and their identifiability.}
-The minimal model \citep{bergman1979,bergman1981} and meal models with detailed gut and insulin
-compartments \citep{dallaman2007,dallaman2014uva} underlie most personalised glucose modelling; reviews
-are given by \citet{cobelli2009diabetes}. Identifiability problems of the minimal model, in particular
-insulin sensitivity estimates that collapse to zero in some subjects, were analysed by
-\citet{pillonetto2002minimal}. What is less examined is the identifiability of the gut parameters when the
-observation is a postprandial summary computed from free-living CGM, which is the case here. Meal-response
-prediction from CGM and meal logs is an active area \citep{zeevi2015personalized,berry2020human,
-sergazinov2024glucobench}.
+\paragraph{Glucose--insulin models.}
+The minimal model estimates an insulin sensitivity index from the glucose decay after an injection
+\citep{bergman1979}, and was extended to give beta-cell responsivity and insulin sensitivity from an intravenous
+glucose tolerance test \citep{bergman1981}. Nonlinear least squares in the MINMOD software often returns an
+insulin sensitivity of zero in type two diabetes, and \citet{pillonetto2002minimal} address this by Bayesian
+estimation. Meal simulation models describe the events after a meal \citep{dallaman2007}. The UVA/Padova type one
+simulator has been extended for in silico trials \citep{dallaman2014uva}, and \citet{cobelli2009diabetes} review the
+field. \citet{erdos2024leveraging} calibrate personalised models from CGM and plasma insulin measured during an oral
+glucose tolerance test, and report that the practical identifiability of the parameters is better with CGM glucose
+than with plasma glucose. Their data come from a clinic with plasma insulin. Ours are free-living meals without
+insulin, and our target is the iAUC. Machine-learning models predict postprandial glycaemic responses from meals and
+person-level features \citep{zeevi2015personalized,berry2020human}, and GlucoBench collects public CGM datasets with
+forecasting benchmarks \citep{sergazinov2024glucobench}. These models do not fit a mechanistic simulator, so the
+question of what their parameters mean does not arise for them. It arises for the twin.
 
-\paragraph{Differentiable simulation and amortized inference.}
-Differentiable solvers make exact gradients available for simulators of biophysical systems
-\citep{kidger2021diffrax,bradbury2018jax,jaxley2025}, and gradient-based inversion of likelihood-free
-dynamical systems is well established \citep{kersting2020differentiable,beck2024diffusion}. Neural
-surrogates trade a training cost for fast repeated inversion \citep{liu2026ino}. Simulation-based
-inference provides calibrated amortized posteriors \citep{greenberg2019automatic,tejerocantero2020sbi},
-whose reliability under simulator mismatch has been studied \citep{talts2018sbc,ward2022robust,
-schmitt2023detecting}. Recent glucose digital twins use simulation-based inference or hybrid physiological
-and sequence models \citep{hoang2025t1dsbi,tran2026physioseq2seq}, and Bayesian Bergman-family models
-fitted from CGM with plasma insulin were presented by \citet{erdos2024leveraging}. Foundation models of
-CGM learn reusable representations for metabolic phenotyping and postprandial-response prediction
-\citep{li2026glucofm} without exposing physiological parameters, which is the contrary design choice to
-ours. Closest in spirit outside glucose is HIPNO \citep{pan2026hipno}, which handles a scale symmetry of
-a hemodynamic observation model by parameterizing a neural operator in the quotient space of the symmetry; our
-symmetry is a discrete exchange of two rates in a mechanistic simulator, and we ask what the data determine
-about the parameters rather than design an estimator that avoids the ambiguity. Medical digital twins from other signals follow the same fit-then-interpret pattern
-\citep{kuang2024medreal2sim}. None of these works asks what the fitted parameters mean; that is the
-question here.
+\paragraph{Differentiable simulation, inference and digital twins.}
+JAX and Diffrax provide differentiable numerical solvers \citep{bradbury2018jax,kidger2021diffrax}, and Jaxley uses
+them to train detailed neuron models by gradient descent \citep{jaxley2025}. Gaussian ODE filtering gives estimators
+of the likelihood gradient for ODE inverse problems \citep{kersting2020differentiable}. Diffusion tempering improves
+the convergence of gradient-based parameter optimization where nonlinear dynamics create many local minima
+\citep{beck2024diffusion}, a concern we share when we polish the trace fits (Section~\ref{sec:more}).
+\citet{liu2026ino} recover ODE parameters from sparse observations with a neural-operator surrogate.
 
-\paragraph{Datasets.}
-We use three public cohorts: CGMacros, free-living CGM with photographed, nutritionist-coded meals
-\citep{das2025cgmacros}; a Shanghai cohort of people with type-two diabetes with dietary records
-\citep{zhao2023shanghai}; and a cohort with standardized meals \citep{hall2018glucotypes}.
+Simulation-based inference learns posteriors with neural density estimators
+\citep{greenberg2019automatic,tejerocantero2020sbi}. Its behaviour under simulator misspecification has been studied
+\citep{ward2022robust,schmitt2023detecting}, and simulation-based calibration is a procedure for validating Bayesian
+inference \citep{talts2018sbc}. Our replica validates profile intervals in the same spirit.
+
+For diabetes twins, \citet{hoang2025t1dsbi} estimate parameters by neural posterior estimation, and
+\citet{tran2026physioseq2seq} combine matched physiological twins with a sequence model for glucose forecasting.
+\citet{li2026glucofm} pretrain a CGM foundation model and evaluate it on phenotype classification and
+postprandial-response prediction, tasks that do not ask for mechanistic parameters. \citet{kuang2024medreal2sim}
+identify digital-twin parameters from non-invasive data by physics-informed self-supervised learning. HIPNO
+\citep{pan2026hipno} handles a scale symmetry of a haemodynamic observation model by parameterizing a neural operator in
+the quotient space of the symmetry. Our symmetry is a discrete exchange of two rates in a mechanistic simulator, and our
+question differs. We ask what the data determine about the parameters of a fitted twin, not how well the twin predicts
+or how to avoid the ambiguity.
