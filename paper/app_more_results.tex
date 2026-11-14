@@ -28,6 +28,71 @@ $\sigma_1=\ke+\ka$ and $c=\ke\ka$ the two combinations were globally identifiabl
 
 \input{generated/correlates}
 
+\subsection{Checks added in amendment nine}
+\label{apx:phase13}
+
+These analyses were declared before they were run (Appendix~\ref{app:register}) and have no pass-or-fail rule, except
+H26, which is reported in Section~\ref{sec:more}.
+
+\paragraph{Clustered intervals.}
+The replica seeds reuse the same subjects, so the pooled fractions are clustered by subject. Resampling subjects, the
+bounded fraction of $\SI$ under iAUC pooled over five seeds is \resClustSI\% (\resClustSICount{} of \resClustSIPairs{}
+subject--seed pairs, \resClustSISubjects{} subjects), with a $95\%$ interval of \resClustSILow\ to \resClustSIHigh\%.
+For the polished trace coordinates pooled over seeds zero to two, $\tau_1$ is bounded in \resClustTau\%
+(\resClustTauCount{} of \resClustTauPairs{}, interval \resClustTauLow\ to \resClustTauHigh\%) and $p$ in
+\resClustP\% (\resClustPCount{} of \resClustPPairs{}, interval \resClustPLow\ to \resClustPHigh\%). The intervals
+that ignore the clustering are \resClustSINaiveLow\ to \resClustSINaiveHigh\%, \resClustTauNaiveLow\ to
+\resClustTauNaiveHigh\% and \resClustPNaiveLow\ to \resClustPNaiveHigh\%.
+
+\paragraph{Carbohydrate-error sweep.}
+Table~\ref{tab:cvsweep} gives the polished trace coordinate profiles of replica seed zero at five coefficients of
+variation of the logging error and, in the last row, the real data. The bounded fraction rises and the share of subjects whose
+nominal interval contains the truth falls as the error grows; among the bounded intervals the coverage is lower still.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{bounded (\%)} & \multicolumn{2}{c}{covers truth (\%)} & \multicolumn{2}{c}{covers, of the bounded (\%)} \\
+logging error & $\tau_1$ & $p$ & $\tau_1$ & $p$ & $\tau_1$ & $p$ \\
+\midrule
+exact & \resCvZeroBoundedTau & \resCvZeroBoundedP & \resCvZeroCoverTau & \resCvZeroCoverP & \resCvZeroCovbdTau & \resCvZeroCovbdP \\
+$0.1$ & \resCvTenthBoundedTau & \resCvTenthBoundedP & \resCvTenthCoverTau & \resCvTenthCoverP & \resCvTenthCovbdTau & \resCvTenthCovbdP \\
+$0.25$ & \resCvQuarterBoundedTau & \resCvQuarterBoundedP & \resCvQuarterCoverTau & \resCvQuarterCoverP & \resCvQuarterCovbdTau & \resCvQuarterCovbdP \\
+$0.5$ & \resCvHalfBoundedTau & \resCvHalfBoundedP & \resCvHalfCoverTau & \resCvHalfCoverP & \resCvHalfCovbdTau & \resCvHalfCovbdP \\
+$0.75$ & \resCvThreeQuarterBoundedTau & \resCvThreeQuarterBoundedP & \resCvThreeQuarterCoverTau & \resCvThreeQuarterCoverP & \resCvThreeQuarterCovbdTau & \resCvThreeQuarterCovbdP \\
+\midrule
+real data & \resPolishedBoundedTauTrace & \resPolishedBoundedPTrace & --- & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Polished trace coordinate profiles on replica seed zero, by coefficient of variation of the carbohydrate
+logging error, among subjects interior for the parameter. ``Covers truth'' is over all \resPvpFitTruthN{} subjects;
+``covers, of the bounded'' is the share of the bounded intervals that contain the truth. The truth is unknown for real data.}
+\label{tab:cvsweep}
+\end{table}
+
+\paragraph{Spacing of logged meals.}
+The CGMacros logs contain \resOverlapGaps{} gaps between consecutive meals of a subject, with a median of
+\resOverlapMedianGap{} hours. The share under three, four and six hours is \resOverlapWithinThree\% (Wilson interval
+\resOverlapWithinThreeLow\ to \resOverlapWithinThreeHigh\%), \resOverlapWithinFour\% (\resOverlapWithinFourLow\ to
+\resOverlapWithinFourHigh\%) and \resOverlapWithinSix\% (\resOverlapWithinSixLow\ to \resOverlapWithinSixHigh\%).
+The model assumes an empty gut at each meal. We did not measure the residual content and so do not say how much of
+the exchange symmetry this breaks.
+
+\paragraph{Numerical checks.}
+In the first \resTolSubjects{} subjects the Fisher information was recomputed at the stored estimates with a
+relative solver tolerance of $10^{-8}$ in place of $10^{-4}$. The median relative change of an eigenvalue is
+\resTolMedianRel\% for the smallest one, and the largest change, \resTolMaxRel\%, is in a subject whose smallest
+eigenvalue is at numerical zero. The absolute cosine of the weak direction with the exchange direction is at least
+\resTolMinCos{} in every subject. For the same subjects, \resStepsProfiles{} profiles were recomputed with $500$ inner
+optimizer steps in place of $100$, and \resStepsChanged{} changed class (bounded, one-sided or flat).
+
+\paragraph{A trivial proxy for HbA1c.}
+In the Shanghai subjects of Appendix~\ref{apx:leakage} (\resProxyN{} with HbA1c), the iAUC divided by the logged
+carbohydrate has a Pearson correlation of \resProxyRaw{} (\resProxyRawLow{} to \resProxyRawHigh) with HbA1c and
+\resProxyPartial{} (\resProxyPartialLow{} to \resProxyPartialHigh) with fasting glucose partialled out. The proxy has
+no mechanism and no correlation to lose, which is the comparison point for the raw correlation of the amortized estimate.
+
 \subsection{Further figures}
 
 \begin{figure}[t]

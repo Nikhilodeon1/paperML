@@ -290,7 +290,7 @@ def run_unit(unit: str, config: dict) -> dict:
     return {
         "subject_id": unit, "cohort": config["cohort"], "objective": name,
         "parameterization": parameterization, "replica": config.get("replica"),
-        "carb_scale": config.get("carb_scale"), "polish": polish,
+        "carb_scale": config.get("carb_scale"), "polish": polish, "inner_steps": int(config["steps"]),
         "noise_structure": structure, "profile_only": list(only) if only else None,
         "noise": noise.as_dict(),
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
@@ -323,6 +323,7 @@ def _matches(payload: dict, config: dict) -> bool:
             and abs(payload["bounds_scale"] - config["bounds_scale"]) < 1e-12
             and payload.get("cohort", "cgmacros") == config.get("cohort", "cgmacros")
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
+            and int(payload.get("inner_steps", 100)) == int(config.get("steps", 100))
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")
             and (payload.get("polish") is not None) == bool(config.get("polish"))

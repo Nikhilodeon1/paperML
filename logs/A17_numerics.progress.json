@@ -1,0 +1,16 @@
+{
+  "analysis_id": "A17_numerics",
+  "config_hash": "a6d81f9ba6c6",
+  "total": 10,
+  "done": 10,
+  "failed": 0,
+  "claimed": 0,
+  "pending": 0,
+  "elapsed_seconds": 0.7,
+  "units_per_hour": 52217.32,
+  "eta_hours": 0.0,
+  "workers_alive": 0,
+  "worker_restarts": 0,
+  "stopping": false,
+  "updated": "2026-11-13T05:56:51+0000"
+}

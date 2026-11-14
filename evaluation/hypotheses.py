@@ -42,6 +42,9 @@ def load_summary() -> dict:
     review = RESULTS / "phase13_summary.json"
     if review.exists():
         summary["phase13"] = json.loads(review.read_text(encoding="utf-8"))
+    inner = RESULTS / "phase14_summary.json"
+    if inner.exists():
+        summary["phase14"] = json.loads(inner.read_text(encoding="utf-8"))
     return summary
 
 
@@ -383,9 +386,31 @@ def h26(summary):
                                         "max_gap": gap["max_gap"]})
 
 
+def h27(summary):
+    rule = ("Trace coordinate profiles (polished, primary box) with 500 inner steps in place of 100: the bounded "
+            "fractions of tau1 and of p on the real data each move by at most 10 percentage points.")
+    block = summary.get("phase14", {}).get("h27")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="500-step profiles not run.")
+    return _row(rule, block["status"], {"tau1_points": block["difference_points"]["tau1"],
+                                        "p_points": block["difference_points"]["p"]})
+
+
+def h28(summary):
+    rule = ("Replica seed zero with exact carbohydrate and a quarter of the CGM noise, trace coordinate profiles with "
+            "500 inner steps: the nominal interval contains the true value for >= 90% of subjects, for tau1 and for p.")
+    block = summary.get("phase14", {}).get("h28")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="500-step profiles not run.")
+    return _row(rule, block["status"], {"tau1_nominal_coverage": block["coverage"]["tau1"],
+                                        "p_nominal_coverage": block["coverage"]["p"]})
+
+
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
        "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
        "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24, "H25": h25, "H26": h26}
+if (RESULTS / "phase14_summary.json").exists():            # H27 and H28 are listed once Amendment 10 has been run
+    ALL.update({"H27": h27, "H28": h28})
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

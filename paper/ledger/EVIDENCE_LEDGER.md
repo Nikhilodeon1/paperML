@@ -1,8 +1,8 @@
 # Evidence ledger
 
-Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:57-0800, combined SHA-256 `188a7d89b6372d01559ca7d1cdcfc5c2d8ca79977abea0a021896dc45cee3d14`; repository commit `61f9b3b` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
+Frozen result index: `results/index.json`, 6847 files, frozen 2026-11-12T23:02:16-0800, combined SHA-256 `aee5b4ed146ae8ac133e0c1f1d3ad295c2f28c4055dea738b71ed996c7d795fb`; repository commit `633ecdf` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
 
-374 macros used, 0 used but undefined.
+486 macros used, 0 used but undefined.
 
 | macro | value | analysis | used in |
 |---|---|---|---|
@@ -21,6 +21,28 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resCarbScaleLowLogRatio` | -0.22 | carbohydrate-scale sensitivity | app_results.tex, sec_results.tex |
 | `resCarbScaleLowUpper` | 89 | carbohydrate-scale sensitivity | app_results.tex |
 | `resCarbScaleUnscaledUpper` | 73 | carbohydrate-scale sensitivity | app_results.tex |
+| `resClustP` | 50 | phase 2 summary | app_more_results.tex |
+| `resClustPCount` | 54 | phase 2 summary | app_more_results.tex |
+| `resClustPHigh` | 61 | phase 2 summary | app_more_results.tex |
+| `resClustPLow` | 40 | phase 2 summary | app_more_results.tex |
+| `resClustPNaiveHigh` | 59 | phase 2 summary | app_more_results.tex |
+| `resClustPNaiveLow` | 41 | phase 2 summary | app_more_results.tex |
+| `resClustPPairs` | 108 | phase 2 summary | app_more_results.tex |
+| `resClustSI` | 20 | phase 2 summary | app_more_results.tex |
+| `resClustSICount` | 32 | phase 2 summary | app_more_results.tex |
+| `resClustSIHigh` | 30 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resClustSILow` | 12 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resClustSINaiveHigh` | 27 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resClustSINaiveLow` | 15 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resClustSIPairs` | 157 | phase 2 summary | app_more_results.tex |
+| `resClustSISubjects` | 45 | phase 2 summary | app_more_results.tex |
+| `resClustTau` | 65 | phase 2 summary | app_more_results.tex |
+| `resClustTauCount` | 68 | phase 2 summary | app_more_results.tex |
+| `resClustTauHigh` | 75 | phase 2 summary | app_more_results.tex |
+| `resClustTauLow` | 54 | phase 2 summary | app_more_results.tex |
+| `resClustTauNaiveHigh` | 73 | phase 2 summary | app_more_results.tex |
+| `resClustTauNaiveLow` | 55 | phase 2 summary | app_more_results.tex |
+| `resClustTauPairs` | 105 | phase 2 summary | app_more_results.tex |
 | `resCohortCgmSubjects` | 45 | phase 2 summary | app_results.tex, sec_abstract.tex, sec_discussion.tex, sec_results.tex, sec_setting.tex |
 | `resCohortHallSubjects` | 15 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_setting.tex |
 | `resCohortShanghaiSubjects` | 87 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_setting.tex |
@@ -46,6 +68,36 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resCosineCentroidOne` | 1.000 | phase 2 summary | app_results.tex |
 | `resCosineIaucOne` | 0.999 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resCosineTraceOne` | 1.000 | phase 2 summary | app_results.tex |
+| `resCvHalfBoundedP` | 69 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvHalfBoundedTau` | 85 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvHalfCovbdP` | 21 | phase 2 summary | app_more_results.tex |
+| `resCvHalfCovbdTau` | 11 | phase 2 summary | app_more_results.tex |
+| `resCvHalfCoverP` | 47 | phase 2 summary | app_more_results.tex |
+| `resCvHalfCoverTau` | 33 | phase 2 summary | app_more_results.tex |
+| `resCvQuarterBoundedP` | 48 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvQuarterBoundedTau` | 65 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvQuarterCovbdP` | 50 | phase 2 summary | app_more_results.tex |
+| `resCvQuarterCovbdTau` | 27 | phase 2 summary | app_more_results.tex |
+| `resCvQuarterCoverP` | 82 | phase 2 summary | app_more_results.tex |
+| `resCvQuarterCoverTau` | 62 | phase 2 summary | app_more_results.tex |
+| `resCvTenthBoundedP` | 30 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvTenthBoundedTau` | 38 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvTenthCovbdP` | 89 | phase 2 summary | app_more_results.tex |
+| `resCvTenthCovbdTau` | 69 | phase 2 summary | app_more_results.tex |
+| `resCvTenthCoverP` | 98 | phase 2 summary | app_more_results.tex |
+| `resCvTenthCoverTau` | 91 | phase 2 summary | app_more_results.tex |
+| `resCvThreeQuarterBoundedP` | 78 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvThreeQuarterBoundedTau` | 88 | phase 2 summary | app_more_results.tex, sec_discussion.tex, sec_results.tex |
+| `resCvThreeQuarterCovbdP` | 14 | phase 2 summary | app_more_results.tex |
+| `resCvThreeQuarterCovbdTau` | 4 | phase 2 summary | app_more_results.tex |
+| `resCvThreeQuarterCoverP` | 31 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvThreeQuarterCoverTau` | 11 | phase 2 summary | app_more_results.tex, sec_discussion.tex, sec_results.tex |
+| `resCvZeroBoundedP` | 23 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvZeroBoundedTau` | 17 | phase 2 summary | app_more_results.tex, sec_discussion.tex, sec_results.tex |
+| `resCvZeroCovbdP` | 86 | phase 2 summary | app_more_results.tex |
+| `resCvZeroCovbdTau` | 67 | phase 2 summary | app_more_results.tex |
+| `resCvZeroCoverP` | 96 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resCvZeroCoverTau` | 93 | phase 2 summary | app_more_results.tex, sec_discussion.tex, sec_results.tex |
 | `resDeltaThreshold` | 1.92 | phase 2 summary | app_results.tex, sec_results.tex, sec_setting.tex |
 | `resDiffGradOneVsGridOne` | 0 | H7-H9, CGMacros prediction (phase 2) | app_results.tex |
 | `resDiffGradOneVsGridOneHigh` | 1 | H7-H9, CGMacros prediction (phase 2) | app_results.tex |
@@ -93,6 +145,14 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resExtFlatKaOne` | 39 | phase 2 summary | app_results.tex |
 | `resExtFlatKeOne` | 41 | phase 2 summary | app_results.tex |
 | `resGapWithinTolerance` | 96.6 | phase 2 summary | app_results.tex |
+| `resGlobalMaxGap` | 20.35 | phase 2 summary | sec_results.tex |
+| `resGlobalN` | 45 | phase 2 summary | sec_results.tex |
+| `resGlobalRealP` | 88 | phase 2 summary | sec_results.tex |
+| `resGlobalRealTau` | 83 | phase 2 summary | sec_results.tex |
+| `resGlobalWithin` | 98 | phase 2 summary | sec_results.tex |
+| `resGlobalWithinCount` | 44 | phase 2 summary | sec_results.tex |
+| `resGlobalWithinHigh` | 100 | phase 2 summary | sec_results.tex |
+| `resGlobalWithinLow` | 88 | phase 2 summary | sec_results.tex |
 | `resGradProjRatio` | 0.006 | phase 2 summary | app_results.tex |
 | `resGradProjSIFirst` | 100 | phase 2 summary | app_results.tex |
 | `resGradRawRatio` | 0.23 | phase 2 summary | app_results.tex |
@@ -114,8 +174,8 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resHeteroRootAll` | 0 | H16, heteroskedastic noise (phase 10) | app_results.tex |
 | `resHeteroRootCount` | 0 | H16, heteroskedastic noise (phase 10) | app_results.tex |
 | `resHeteroRootN` | 15 | H16, heteroskedastic noise (phase 10) | app_results.tex |
-| `resLaterGraded` | 13 | phase 2 summary | sec_discussion.tex |
-| `resLaterMet` | 5 | phase 2 summary | sec_discussion.tex |
+| `resLaterGraded` | 14 | phase 2 summary | sec_discussion.tex |
+| `resLaterMet` | 6 | phase 2 summary | sec_discussion.tex |
 | `resLeakN` | 97 | leakage check (phase 8) | app_results.tex |
 | `resLeakPartialDiff` | -0.03 | leakage check (phase 8) | app_results.tex |
 | `resLeakPartialDiffHigh` | 0.16 | leakage check (phase 8) | app_results.tex |
@@ -129,7 +189,7 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resLeakRawGradient` | -0.14 | leakage check (phase 8) | app_results.tex |
 | `resLeakRawGradientHigh` | 0.07 | leakage check (phase 8) | app_results.tex |
 | `resLeakRawGradientLow` | -0.33 | leakage check (phase 8) | app_results.tex |
-| `resLeakRawSnpe` | -0.37 | leakage check (phase 8) | app_results.tex |
+| `resLeakRawSnpe` | -0.37 | leakage check (phase 8) | app_results.tex, sec_results.tex |
 | `resLeakRawSnpeHigh` | -0.23 | leakage check (phase 8) | app_results.tex |
 | `resLeakRawSnpeLow` | -0.49 | leakage check (phase 8) | app_results.tex |
 | `resLeakSnpeFeature` | -0.54 | leakage check (phase 8) | app_results.tex |
@@ -166,6 +226,17 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resOptGapMaxHalf` | 0.01 | phase 2 summary | app_results.tex |
 | `resOptGapMaxOne` | 0.25 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resOptGapMaxTwo` | 1.03 | phase 2 summary | app_results.tex |
+| `resOverlapGaps` | 1595 | phase 2 summary | app_more_results.tex, sec_discussion.tex |
+| `resOverlapMedianGap` | 4.8 | phase 2 summary | app_more_results.tex, sec_discussion.tex |
+| `resOverlapWithinFour` | 37 | phase 2 summary | app_more_results.tex, sec_discussion.tex |
+| `resOverlapWithinFourHigh` | 39 | phase 2 summary | app_more_results.tex |
+| `resOverlapWithinFourLow` | 35 | phase 2 summary | app_more_results.tex |
+| `resOverlapWithinSix` | 62 | phase 2 summary | app_more_results.tex, sec_discussion.tex |
+| `resOverlapWithinSixHigh` | 65 | phase 2 summary | app_more_results.tex |
+| `resOverlapWithinSixLow` | 60 | phase 2 summary | app_more_results.tex |
+| `resOverlapWithinThree` | 19 | phase 2 summary | app_more_results.tex, sec_discussion.tex |
+| `resOverlapWithinThreeHigh` | 21 | phase 2 summary | app_more_results.tex |
+| `resOverlapWithinThreeLow` | 17 | phase 2 summary | app_more_results.tex |
 | `resPHolmGradThreeVsPersonalMean` | 0.032 | phase 2 summary | app_results.tex |
 | `resPeakGradOne` | 44.4 | phase 2 summary | sec_results.tex |
 | `resPeakGradThree` | 47.5 | phase 2 summary | app_results.tex, sec_results.tex |
@@ -189,13 +260,13 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resPolishWithinCentroid` | 100 | H21, polished estimates (phase 9) | app_results.tex |
 | `resPolishWithinTrace` | 60 | H21, polished estimates (phase 9) | app_results.tex |
 | `resPolishedBoundedPCentroid` | 8 | H21, polished estimates (phase 9) | app_results.tex |
-| `resPolishedBoundedPTrace` | 88 | H21, polished estimates (phase 9) | app_results.tex, sec_abstract.tex, sec_results.tex |
+| `resPolishedBoundedPTrace` | 88 | H21, polished estimates (phase 9) | app_more_results.tex, app_results.tex, sec_abstract.tex, sec_results.tex |
 | `resPolishedBoundedPTraceCount` | 30 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedPTraceHigh` | 95 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedPTraceLow` | 73 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedPTraceN` | 34 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedTauCentroid` | 23 | H21, polished estimates (phase 9) | app_results.tex |
-| `resPolishedBoundedTauTrace` | 83 | H21, polished estimates (phase 9) | app_results.tex, sec_abstract.tex, sec_results.tex |
+| `resPolishedBoundedTauTrace` | 83 | H21, polished estimates (phase 9) | app_more_results.tex, app_results.tex, sec_abstract.tex, sec_results.tex |
 | `resPolishedBoundedTauTraceCount` | 24 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedTauTraceHigh` | 92 | H21, polished estimates (phase 9) | sec_results.tex |
 | `resPolishedBoundedTauTraceLow` | 65 | H21, polished estimates (phase 9) | sec_results.tex |
@@ -233,6 +304,40 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resProfileTraceKaTwo` | 51 | H5, profile intervals (phase 2) | app_results.tex |
 | `resProfileTraceKeOne` | 18 | H5, profile intervals (phase 2) | app_results.tex |
 | `resProfileTraceKeTwo` | 53 | H5, profile intervals (phase 2) | app_results.tex |
+| `resProxyN` | 97 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyPartial` | 0.01 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyPartialHigh` | 0.21 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyPartialLow` | -0.17 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyRaw` | -0.05 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyRawHigh` | 0.18 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resProxyRawLow` | -0.22 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resPvpFitTruthFloor` | 2264 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthMae` | 2301 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthMean` | 2707 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthN` | 45 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resPvpFitTruthRatio` | 1.02 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthRhoSIRatio` | -0.34 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthRhoTimingRatio` | 0.09 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthRhoTimingRatioHigh` | 0.42 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthRhoTimingRatioLow` | -0.25 | phase 2 summary | sec_results.tex |
+| `resPvpFitTruthTiming` | 0.03 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneRatio` | 1.03 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_intro.tex, sec_results.tex |
+| `resPvpRandomOneRhoSIRatio` | -0.23 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneRhoTimingRatio` | 0.19 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneRhoTimingRatioHigh` | 0.43 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneRhoTimingRatioLow` | -0.08 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneSI` | 0.21 | phase 2 summary | sec_results.tex |
+| `resPvpRandomOneTiming` | 0.45 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_intro.tex, sec_results.tex |
+| `resPvpRandomZeroRatio` | 1.03 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_intro.tex, sec_results.tex |
+| `resPvpRandomZeroRhoRmsMae` | 0.36 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoRmsMaeHigh` | 0.61 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoRmsMaeLow` | 0.04 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoSIRatio` | -0.28 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoTimingRatio` | 0.16 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoTimingRatioHigh` | 0.43 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroRhoTimingRatioLow` | -0.16 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroSI` | 0.18 | phase 2 summary | sec_results.tex |
+| `resPvpRandomZeroTiming` | 0.53 | phase 2 summary | sec_abstract.tex, sec_discussion.tex, sec_intro.tex, sec_results.tex |
 | `resRankDrawsIauc` | 200 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resRankFullIauc` | 198 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resRankRatioCentroid` | $4.2\times10^{-3}$ | phase 2 summary | app_results.tex |
@@ -320,9 +425,11 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resShCvWinsGradThreeVsGradOne` | 56 | H20, Shanghai prediction (phase 9) | app_results.tex |
 | `resSixAuc` | 0.92 | phase 2 summary | app_results.tex |
 | `resSixMedianSpearman` | 1.00 | phase 2 summary | app_results.tex |
+| `resStepsChanged` | 0 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resStepsGradThreeFiveHundredVsGridThree` | -2 | phase 2 summary | app_results.tex |
 | `resStepsGradThreeFiveHundredVsGridThreeHigh` | 0 | phase 2 summary | app_results.tex |
 | `resStepsGradThreeFiveHundredVsGridThreeLow` | -4 | phase 2 summary | app_results.tex |
+| `resStepsProfiles` | 30 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resSubjectsOne` | 45 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resSynthAuc` | 0.98 | H19, synthetic study (phase 9) | app_results.tex |
 | `resSynthCoverSI` | 84 | H19, synthetic study (phase 9) | sec_results.tex |
@@ -345,6 +452,10 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resTiedDiffHigh` | 17 | phase 2 summary | app_results.tex |
 | `resTiedDiffLow` | 3 | phase 2 summary | app_results.tex |
 | `resTiedTauBounded` | 37 | phase 2 summary | app_results.tex |
+| `resTolMaxRel` | 69.8 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTolMedianRel` | 3.0 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTolMinCos` | 0.993 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTolSubjects` | 10 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resTraceRmseGradOne` | 33.1 | phase 2 summary | sec_results.tex |
 | `resTraceRmseGradThree` | 35.9 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resTraceRmseGradThreeTrace` | 31.2 | phase 2 summary | app_results.tex |
@@ -368,6 +479,7 @@ Frozen result index: `results/index.json`, 5959 files, frozen 2026-11-11T19:32:5
 | `resVerdictHTwentyFive` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyFour` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyOne` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
+| `resVerdictHTwentySix` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
 | `resVerdictHTwentyThree` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |

@@ -45,7 +45,12 @@ with the grid extended to four times the upper bound (timing clause of H5, plann
 their estimates sit on a bound at the primary box, so the replication rests on the Fisher alignment and the flat
 profiles. Part of the pinning is an area deficit. Subjects whose rates sit on the upper bound have much larger
 responses and are under-predicted by \resBiasSignedKe{} mg\,dL$^{-1}$\,min on average, so the model cannot deliver
-their area at any admissible timing.
+their area at any admissible timing. The eigenvalues are not an artifact of the solver tolerance. In the first
+\resTolSubjects{} subjects, a relative tolerance of $10^{-8}$ in place of $10^{-4}$ changes the smallest eigenvalue by
+a median of \resTolMedianRel\%, the absolute cosine of the weak direction with the exchange direction stays at or above
+\resTolMinCos, and none of \resStepsProfiles{} profile classes changes when the inner optimizer takes $500$ steps in
+place of $100$ (\resStepsChanged{} changed). The largest change of an eigenvalue, \resTolMaxRel\%, belongs to a
+subject whose smallest eigenvalue is at numerical zero (Appendix~\ref{apx:phase13}).
 
 \begin{figure}[t]
 \centering
@@ -82,7 +87,9 @@ The replica gives the same answer. The model is exactly true, the noise is the s
 logging error is $25\%$. On seed zero the interval is bounded in \resReplicaSIBoundedCount{} of
 \resReplicaSIInterior{} interior subjects, or \resReplicaSIBounded\% (H13, post hoc, \resVerdictHThirteen). Pooled over
 five seeds it is bounded in \resSeedsSIBounded\% (\resSeedsSIBoundedCount{} of \resSeedsSIInterior{}; the seeds reuse
-the same subjects and meal schedules, so the Wilson interval treats them as more independent than they are), with
+the same subjects and meal schedules, so we resample subjects and not subject--seed pairs, which gives
+\resClustSILow\ to \resClustSIHigh\% against \resClustSINaiveLow\ to \resClustSINaiveHigh\% from the Wilson interval
+that ignores the clustering), with
 \resSeedsRangeLow--\resSeedsRangeHigh\% across seeds and no seed reaching the $50\%$ of the rule (H17, post hoc,
 \resVerdictHSeventeen). The pooled bounded intervals are calibrated, with coverage \resSeedsCoverSI\%. The interval for
 $\ke$ or $\ka$ is never bounded.
@@ -151,6 +158,41 @@ subject's physiology. Our claim that prediction does not reveal the failures is 
 was fitted to, the iAUC. Prediction of the peak time and the trace does register a cost of the fitted timing parameters,
 and we recommend reporting such checks beside the target-matched one.
 
+\paragraph{Held-out error against parameter error.}
+A replica knows the truth, so the claim can be measured as well as argued. For each subject we compare the
+held-out iAUC error of the three-parameter fit with the error of the model at the true parameters on the same meals,
+with the same logged carbohydrate (the floor), and with the error of the iAUC estimate in the parameters (Figure~\ref{fig:pvp};
+Amendment nine, post hoc). On the replica whose truths are the fitted values (seed zero, \resPvpFitTruthN{} subjects)
+the median held-out error of the fit is \resPvpFitTruthMae{} and the median floor is \resPvpFitTruthFloor{}, a median
+ratio of \resPvpFitTruthRatio{}, against \resPvpFitTruthMean{} for the personal mean. The timing parameters of this
+replica sit near the upper bound, where the estimate also lies, so their median log error of \resPvpFitTruthTiming{} says
+little. The test is the two replicas with truths drawn at random across the box (seeds zero and one). There the median
+ratio to the floor is \resPvpRandomZeroRatio{} and \resPvpRandomOneRatio{}, while the median root mean squared log error
+of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}, and that of $\SI$ is
+\resPvpRandomZeroSI{} and \resPvpRandomOneSI{}. The fit comes within a few percent of the true model's error with
+timing parameters that are far from the truth. Across subjects the ratio is not related to the timing error. The
+Spearman correlation is \resPvpFitTruthRhoTimingRatio{} (\resPvpFitTruthRhoTimingRatioLow{} to
+\resPvpFitTruthRhoTimingRatioHigh), \resPvpRandomZeroRhoTimingRatio{} (\resPvpRandomZeroRhoTimingRatioLow{} to
+\resPvpRandomZeroRhoTimingRatioHigh) and \resPvpRandomOneRhoTimingRatio{} (\resPvpRandomOneRhoTimingRatioLow{} to
+\resPvpRandomOneRhoTimingRatioHigh) in the three replicas, with intervals over subjects that include zero. The raw error
+does rise with the parameter error on random-truth seed zero ($\rho=\resPvpRandomZeroRhoRmsMae$, \resPvpRandomZeroRhoRmsMaeLow{}
+to \resPvpRandomZeroRhoRmsMaeHigh), but not in the other two replicas, and the relation is gone once the error is
+divided by the floor, which is what a subject-level scale effect would produce (we did not test that explanation). For $\SI$ the correlation with the ratio is
+negative in all three replicas (\resPvpFitTruthRhoSIRatio{}, \resPvpRandomZeroRhoSIRatio{} and
+\resPvpRandomOneRhoSIRatio{}), which is not the sign that prediction would see an error in $\SI$ either. This is a
+statement about replicas, where the floor is observable; on real data the floor is not.
+
+\begin{figure}[t]
+\centering
+\safefigure[width=\linewidth]{f10_prediction_vs_parameters}
+\caption{Held-out iAUC error of the three-parameter fit relative to the error of the model at the true parameters,
+on the true-model replica with fitted truths (seed zero) and with random truths (seeds zero and one).
+\textbf{(a)} Per subject, against the root mean squared log error of $\ke$ and $\ka$ in the iAUC estimate. A model
+whose error rose with its parameter error would slope upward. \textbf{(b)} Distribution over subjects; diamonds:
+median error of the personal mean relative to the same floor.}
+\label{fig:pvp}
+\end{figure}
+
 \begin{figure}[t]
 \centering
 \safefigure[width=\linewidth]{f7_prediction}
@@ -175,7 +217,12 @@ identifiability. The trace fits are not likelihood optima for \resPolishNotWithi
 trace fits bound $\tau_1$ in \resPolishedBoundedTauTraceCount{} of \resPolishedBoundedTauTraceN{}
 (\resPolishedBoundedTauTrace\%, \resPolishedBoundedTauTraceLow\ to \resPolishedBoundedTauTraceHigh\%) and $p$ in
 \resPolishedBoundedPTraceCount{} of \resPolishedBoundedPTraceN{} (\resPolishedBoundedPTrace\%,
-\resPolishedBoundedPTraceLow\ to \resPolishedBoundedPTraceHigh\%) of the subjects interior for them. On a true-model
+\resPolishedBoundedPTraceLow\ to \resPolishedBoundedPTraceHigh\%) of the subjects interior for them. The polish is a global optimum by the check we planned for it: with \resGlobalN{}
+real subjects, thirty random starts in place of five leave the polished likelihood within the interval cutoff of
+the earlier one for \resGlobalWithinCount{} (\resGlobalWithin\%, Wilson interval \resGlobalWithinLow\ to
+\resGlobalWithinHigh\%); the one subject outside differs by \resGlobalMaxGap{} in negative log-likelihood, and the
+bounded fractions are unchanged at \resGlobalRealTau\% and \resGlobalRealP\% (H26, post hoc, \resVerdictHTwentySix).
+The replica gives the same answer. On a true-model
 replica they bound $\tau_1$ in \resReplicaCoordsTauTraceCount{} of \resReplicaCoordsTauTraceN{}
 (\resReplicaCoordsTauTrace\%, \resReplicaCoordsTauTraceLow\ to \resReplicaCoordsTauTraceHigh\%) and $p$ in
 \resReplicaCoordsPTraceCount{} of \resReplicaCoordsPTraceN{} (\resReplicaCoordsPTrace\%,
@@ -190,8 +237,19 @@ carbohydrate the nominal interval covers the truth for \resExactOneCoverTau\% an
 post hoc, \resVerdictHTwentyFive), the empirical cutoff is \resExactOneCutoffTau{} against the nominal
 \resDeltaThreshold, and the trace bounds $\tau_1$ and $p$ in only \resExactOneTraceBoundedTau\% and
 \resExactOneTraceBoundedP\%. An input error therefore makes the trace intervals more often bounded and less often
-right. The real-data fractions are consistent with the same mechanism, but we cannot show that it is the one at work,
-and a second source of undercoverage at low noise is unidentified. We do not claim that the combination is
+right. Sweeping the coefficient of variation of the logging error on seed zero (polished trace coordinate profiles,
+\resPvpFitTruthN{} subjects) shows a dose response. The bounded fractions for $\tau_1$ and $p$ are
+\resCvZeroBoundedTau\% and \resCvZeroBoundedP\% at exact carbohydrate, \resCvTenthBoundedTau\% and
+\resCvTenthBoundedP\% at $0.1$, \resCvQuarterBoundedTau\% and \resCvQuarterBoundedP\% at $0.25$,
+\resCvHalfBoundedTau\% and \resCvHalfBoundedP\% at $0.5$ and \resCvThreeQuarterBoundedTau\% and
+\resCvThreeQuarterBoundedP\% at $0.75$, while the share of subjects whose nominal interval contains the truth falls
+from \resCvZeroCoverTau\% and \resCvZeroCoverP\% to \resCvThreeQuarterCoverTau\% and \resCvThreeQuarterCoverP\%
+(Appendix~\ref{apx:phase13}). The real-data fractions of \resPolishedBoundedTauTrace\% and
+\resPolishedBoundedPTrace\% are reached on the replica for $\tau_1$ at a logging error of $0.5$ to $0.75$ and are
+above every replica value for $p$. The real-data pattern is therefore what a larger input error than the one we
+assumed would produce, and we cannot show that it is the cause: a mechanism outside the replica would do the same.
+At the estimated noise the undercoverage of the replica is explained by the input error, as the exact-carbohydrate
+replica shows; a second source of undercoverage at low noise is unidentified. We do not claim that the combination is
 recoverable. Appendix~\ref{apx:more} gives the trail.
 
 \subsection{A second model class}
@@ -210,4 +268,8 @@ and how much to misfit.
 Two further checks are in Appendix~\ref{app:results}. The gradient diagnostic ranks the three parameters as the profile
 likelihood does (H6, planned with a post hoc synthetic clause, \resVerdictHSix) but orders the two timing rates
 unstably across initializations (H10, planned, \resVerdictHTen). An external check against HbA1c shows the correlation
-of an amortized estimate largely disappearing once fasting glucose is partialled out.
+of an amortized estimate largely disappearing once fasting glucose is partialled out. A trivial proxy, the iAUC per
+gram of logged carbohydrate, has a correlation of \resProxyRaw{} (\resProxyRawLow{} to \resProxyRawHigh) with HbA1c in
+the same \resProxyN{} subjects, and \resProxyPartial{} (\resProxyPartialLow{} to \resProxyPartialHigh) with fasting
+glucose partialled out, so the raw correlation of the amortized estimate, \resLeakRawSnpe, is not what the area alone
+would give.

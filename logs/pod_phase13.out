@@ -1,0 +1,128 @@
+nohup: ignoring input
+=== 2026-11-13 05:56:29 evaluation.truth_floor --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-11-13 05:56:36 [A16_truth_floor] start: 45 units, 45 already done, 0 previously failed, 40 workers
+==============================================================================
+A16_truth_floor: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:36 evaluation.truth_floor --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+2026-11-13 05:56:41 [A16_truth_floor] start: 45 units, 45 already done, 0 previously failed, 40 workers
+==============================================================================
+A16_truth_floor: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:41 evaluation.truth_floor --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-11-13 05:56:45 [A16_truth_floor] start: 45 units, 45 already done, 0 previously failed, 40 workers
+==============================================================================
+A16_truth_floor: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:45 evaluation.truth_floor --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"}
+2026-11-13 05:56:49 [A16_truth_floor] start: 45 units, 45 already done, 0 previously failed, 40 workers
+==============================================================================
+A16_truth_floor: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:49 evaluation.numerics_check
+2026-11-13 05:56:51 [A17_numerics] start: 10 units, 10 already done, 0 previously failed, 40 workers
+==============================================================================
+A17_numerics: 10/10 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:52 evaluation.profile_lik --set steps=500 --set limit=10 --set bounds_scale=1.0
+2026-11-13 05:56:54 [A5_profile] start: 10 units, 10 already done, 0 previously failed, 40 workers
+==============================================================================
+A5_profile: 10/10 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:56:54 evaluation.prediction_cv --set cohort="cgmacros" --set min_meals=10 --set replica={"seed":0,"cgm":true,"carb_cv":0.25,"truth":"random"} --set cells=["grad3","grad1","personal_mean"]
+2026-11-13 05:57:11 [A9_prediction_cv] start: 225 units, 225 already done, 0 previously failed, 40 workers
+==============================================================================
+A9_prediction_cv: 225/225 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-13 05:57:11 evaluation.prediction_cv --set cohort="cgmacros" --set min_meals=10 --set replica={"seed":1,"cgm":true,"carb_cv":0.25,"truth":"random"} --set cells=["grad3","grad1","personal_mean"]
+2026-11-13 05:57:23 [A9_prediction_cv] start: 225 units, 142 already done, 0 previously failed, 40 workers
+2026-11-13 05:57:25 [A9_prediction_cv] killing worker 1: no heartbeat for 71691s
+2026-11-13 05:57:25 [A9_prediction_cv] killing worker 24: no heartbeat for 71665s
+  142/225 done, 0 failed, 40 workers, eta 0.0h
+  142/225 done, 0 failed, 40 workers, eta 0.0h
+  142/225 done, 0 failed, 40 workers, eta 0.0h
+  143/225 done, 0 failed, 40 workers, eta 0.0h
+  164/225 done, 0 failed, 40 workers, eta 0.0h
+  183/225 done, 0 failed, 40 workers, eta 0.0h
+  195/225 done, 0 failed, 30 workers, eta 0.0h
+  223/225 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 224/225 done, 0 failed in 0.06h
+==============================================================================
+=== 2026-11-13 06:01:04 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.1}
+2026-11-13 06:01:05 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  5/45 done, 0 failed, 40 workers, eta 0.4h
+  18/45 done, 0 failed, 27 workers, eta 0.1h
+  33/45 done, 0 failed, 12 workers, eta 0.0h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-11-13 06:06:02 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.5}
+2026-11-13 06:06:03 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  2/45 done, 0 failed, 40 workers, eta 0.9h
+  5/45 done, 0 failed, 40 workers, eta 0.4h
+  21/45 done, 0 failed, 25 workers, eta 0.1h
+  36/45 done, 0 failed, 11 workers, eta 0.0h
+  41/45 done, 0 failed, 5 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-11-13 06:10:51 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.75}
+2026-11-13 06:10:53 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  2/45 done, 0 failed, 40 workers, eta 0.9h
+  4/45 done, 0 failed, 40 workers, eta 0.5h
+  20/45 done, 0 failed, 26 workers, eta 0.1h
+  35/45 done, 0 failed, 12 workers, eta 0.0h
+  41/45 done, 0 failed, 4 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-11-13 06:15:43 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set polish_starts=30
+2026-11-13 06:15:44 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  2/45 done, 0 failed, 40 workers, eta 0.9h
+  6/45 done, 0 failed, 40 workers, eta 0.3h
+  16/45 done, 0 failed, 30 workers, eta 0.1h
+  35/45 done, 0 failed, 10 workers, eta 0.0h
+  42/45 done, 0 failed, 4 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.08h
+==============================================================================
+=== 2026-11-13 06:20:35 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set polish_starts=30 --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-11-13 06:20:36 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  0/45 done, 0 failed, 40 workers
+  1/45 done, 0 failed, 40 workers, eta 1.9h
+  3/45 done, 0 failed, 40 workers, eta 0.7h
+  16/45 done, 0 failed, 31 workers, eta 0.1h
+  29/45 done, 0 failed, 16 workers, eta 0.0h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.09h
+==============================================================================
+=== 2026-11-13 06:25:50 all queued Phase 13 jobs finished

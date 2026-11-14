@@ -136,7 +136,6 @@ def fig1_symmetry():
     ax.set_xlim(1e-9, 1.0)
     ax.set_xlabel("1 - |cosine| of the weak Fisher direction\nwith the exchange direction")
     ax.set_ylabel("cumulative share\nof subjects")
-    ax.legend(frameon=False, loc="upper left", fontsize=7.5)
     _panel(ax, "b")
     fig.tight_layout()
     return _save(fig, "f1_symmetry")
@@ -640,8 +639,54 @@ def figA4_robustness():
     return _save(fig, "a4_robustness")
 
 
+def fig10_prediction_vs_parameters():
+    """F10  Held-out iAUC error against parameter error, with the floor of the true model (Amendment 9, R1)."""
+    r1 = _load("phase13_summary.json").get("r1", {})
+    series = [("fit_truth_seed0", "replica, fitted truth (seed 0)", C["iauc"], "o"),
+              ("random_truth_seed0", "replica, random truth (seed 0)", C["red"], "s"),
+              ("random_truth_seed1", "replica, random truth (seed 1)", C["purple"], "^")]
+    series = [s for s in series if r1.get(s[0], {}).get("subjects")]
+    if not series:
+        return None
+    plt = _plt()
+    fig, axes = plt.subplots(1, 2, figsize=(6.8, 3.0))
+    ax = axes[0]
+    for key, label, color, marker in series:
+        rows = r1[key]["subjects"]
+        ax.scatter([r["timing_rms"] for r in rows], [r["grad3_mae"] / r["floor"] for r in rows], s=14, marker=marker,
+                   color=color, alpha=0.75, linewidths=0, label=label)
+    ax.axhline(1.0, color="black", lw=0.8)
+    ax.set_xlabel(r"timing-parameter error, RMS of $\log$ ratio ($k_e$, $k_a$)")
+    ax.set_ylabel("held-out iAUC MAE\nrelative to the true model")
+    _panel(ax, "a")
+    ax = axes[1]
+    positions, data, colors = [], [], []
+    for i, (key, label, color, marker) in enumerate(series):
+        rows = r1[key]["subjects"]
+        data.append([r["grad3_mae"] / r["floor"] for r in rows])
+        positions.append(i)
+        colors.append(color)
+    box = ax.boxplot(data, positions=positions, widths=0.5, showfliers=False, patch_artist=True,
+                     medianprops={"color": "black"})
+    for patch, color in zip(box["boxes"], colors):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.45)
+    pm = [np.median([r["personal_mean_mae"] / r["floor"] for r in r1[k]["subjects"]]) for k, *_ in series]
+    ax.plot(positions, pm, "D", color=C["grey"], ms=4)
+    ax.axhline(1.0, color="black", lw=0.8)
+    ax.set_xticks(positions)
+    ax.set_xticklabels(["fitted\ntruth", "random\ntruth, 0", "random\ntruth, 1"][:len(series)])
+    ax.set_ylabel("held-out iAUC MAE\nrelative to the true model")
+    _panel(ax, "b")
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, frameon=False, loc="lower center", ncol=3, fontsize=7.5, bbox_to_anchor=(0.5, -0.1))
+    fig.tight_layout()
+    return _save(fig, "f10_prediction_vs_parameters")
+
+
 ALL = {"f1": fig1_symmetry, "f2": fig2_fisher, "f3": fig3_profiles, "f4": fig4_replica, "f5": fig5_coordinates,
        "f6": fig6_cohorts, "f7": fig7_prediction, "f8": fig8_window, "f9": fig9_leakage,
+       "f10": fig10_prediction_vs_parameters,
        "a1": figA1_gut_and_boxes, "a2": figA2_generic_rank, "a3": figA3_dalla_man, "a4": figA4_robustness}
 
 

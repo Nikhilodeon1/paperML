@@ -2,7 +2,10 @@
 \label{sec:discussion}
 
 \paragraph{What the results say about twins.}
-Held-out iAUC error could not tell a determined parameter from an undetermined one. The iAUC carries little
+Held-out iAUC error could not tell a determined parameter from an undetermined one. On replicas with random truths the
+fit comes within \resPvpRandomZeroRatio{} and \resPvpRandomOneRatio{} times the error of the model at the true
+parameters while its rates are off by a median root mean squared log error of \resPvpRandomZeroTiming{} and
+\resPvpRandomOneTiming{}, and across subjects the ratio is unrelated to that error (Section~\ref{sec:prediction}). The iAUC carries little
 information about the gut rates, the data bound insulin sensitivity for a minority of subjects even when the model is
 true, and whether they determine a combination of the rates is not established (Sections~\ref{sec:timing},
 \ref{sec:si} and \ref{sec:more}); none of this changes how well the fitted model predicts the held-out area
@@ -19,8 +22,10 @@ more than one parameter range, because a one-sided interval is the prior range s
 over which a fraction is taken: parameters that are not identified sit on bounds, so a definition that excludes every
 subject with a parameter on a bound selects an empty set. Run a replica in which the model is true, give it the input
 error you expect, here the carbohydrate log, and check the interval cutoff there. In our replica an input error made
-trace intervals more often bounded and less often right, and a real-data result that exceeds the replica should not
-be taken at face value. Check the optimizer against a better-conditioned one, because a fixed-step estimate that is
+trace intervals more often bounded and less often right, and the effect grew with the size of the error: the bounded
+fraction for $\tau_1$ rose from \resCvZeroBoundedTau\% at exact carbohydrate to \resCvThreeQuarterBoundedTau\% at an
+error of $0.75$, while the coverage fell from \resCvZeroCoverTau\% to \resCvThreeQuarterCoverTau\%. A real-data
+result that exceeds the replica should not be taken at face value. Check the optimizer against a better-conditioned one, because a fixed-step estimate that is
 not an optimum produces profile minima below the estimate, as it did for \resPolishNotWithinTrace\% of our trace
 fits. Treat clinical correlations of a fitted parameter with care: the correlation we examined survives only until the
 fasting level is partialled out (Appendix~\ref{apx:leakage}).
@@ -62,13 +67,19 @@ A rise of $\delta$ is an asymptotic criterion, and with a few tens of meals per 
 undercover. Under the trace with the logging error the nominal interval covered the truth for \resReplicaCoordsCoverTauTrace\% and
 \resReplicaCoordsCoverPTrace\% of bounded intervals, coverage fell further as the replica noise fell, and it was
 adequate (\resExactOneCoverTau\% and \resExactOneCoverP\%) only with exact carbohydrate at the estimated noise. The
-optimizer misses the optimum for \resPolishNotWithinTrace\% of trace fits, and we did not profile from a global
-optimizer; a global search is what would test the second source of undercoverage at low noise.
+Adam estimate misses the optimum for \resPolishNotWithinTrace\% of trace fits, which is why the coordinate profiles
+start from a polished estimate, and thirty random starts do not improve that estimate (H26). The inner optimizer of each
+profile is a fixed-step run whose grid points are flagged when it has not settled, and the share of flagged points is
+higher at low noise. A longer inner run is the test of the second source of undercoverage at low noise, and it has not
+been run.
 
 \paragraph{Isolated meals and fixed parameters.}
 Every meal starts with an empty gut, and each meal is simulated alone. Residual content breaks the symmetry in
 proportion to its size (Proposition~\ref{prop:breaking}). A day-continuous replica, in which a snack or a long previous
 meal leaves a residue, was not run, and a protocol with fasting periods before each meal would measure the residue.
+Meals follow one another closely in these logs, so a residue is possible for many of them: among \resOverlapGaps{} gaps between consecutive logged meals in CGMacros
+the median is \resOverlapMedianGap{} hours, and \resOverlapWithinThree\%, \resOverlapWithinFour\% and
+\resOverlapWithinSix\% of the gaps are under three, four and six hours (Appendix~\ref{apx:phase13}).
 Two parameters of the glucose equations, $\gamma$ and $p_3$, are fixed at population values, and a perturbation of them
 was not run; a fixed value that is wrong would be absorbed by the fitted ones.
 

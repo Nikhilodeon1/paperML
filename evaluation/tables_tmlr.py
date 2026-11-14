@@ -55,6 +55,8 @@ TOPIC = {
     "H24": "Replica with a smaller CGM noise scale",
     "H25": "Replica with exact carbohydrate",
     "H26": "Polished trace estimates are global optima (30 starts)",
+    "H27": "The real-data trace fractions do not depend on the inner optimizer budget",
+    "H28": "Calibration at low noise with exact carbohydrate, longer inner optimization",
 }
 
 

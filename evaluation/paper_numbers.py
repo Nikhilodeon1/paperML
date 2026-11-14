@@ -130,6 +130,7 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase10_macros(summary.get("phase10", {})))
     m.update(_phase11_macros(summary.get("phase11", {})))
     m.update(_phase13_macros(summary.get("phase13", {})))
+    m.update(_phase14_macros(summary.get("phase14", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -620,6 +621,67 @@ def _phase13_macros(p13: dict) -> dict:
         if steps.get("n_profiles"):
             m["resStepsProfiles"] = {"value": steps["n_profiles"], "fmt": ".0f"}
             m["resStepsChanged"] = {"value": steps["changed"], "fmt": ".0f"}
+    return m
+
+
+def _phase14_macros(p14: dict) -> dict:
+    """Amendment 10: inner-optimizer budget of the trace coordinate profiles, and the floors for peak time and trace."""
+    m: dict = {}
+    if not p14:
+        return m
+    settings = {"real": "Real", "replica": "Rep", "exact": "Exact", "quarter": "Quarter"}
+    budgets = {"steps_100": "Hundred", "steps_500": "FiveHundred"}
+    for key, tag in settings.items():
+        block = p14.get("r7", {}).get(key, {})
+        for steps, word in budgets.items():
+            b = block.get(steps, {})
+            if not b.get("n"):
+                continue
+            for name, coord in (("tau1", "Tau"), ("p", "P")):
+                frac = (b.get(name, {}).get("bounded_interior") or {}).get("fraction")
+                if frac is not None:
+                    m[f"resInner{tag}{word}Bounded{coord}"] = {"value": 100 * frac, "fmt": ".0f"}
+                cover = (b.get(name, {}).get("nominal_coverage") or {}).get("fraction")
+                if cover is not None:
+                    m[f"resInner{tag}{word}Cover{coord}"] = {"value": 100 * cover, "fmt": ".0f"}
+                bounded_cover = ((b.get(name, {}).get("bounded_coverage") or {}).get("fraction"))
+                if isinstance(bounded_cover, (int, float)):
+                    m[f"resInner{tag}{word}Covbd{coord}"] = {"value": 100 * bounded_cover, "fmt": ".0f"}
+            st = b.get("settling", {})
+            if st.get("points"):
+                m[f"resInner{tag}{word}Unsettled"] = {"value": 100 * st["unsettled_fraction"], "fmt": ".0f"}
+                m[f"resInner{tag}{word}Better"] = {"value": st["better_than_estimate"], "fmt": ".0f"}
+                m[f"resInner{tag}{word}Profiles"] = {"value": st["profiles"], "fmt": ".0f"}
+        ch = block.get("changes", {})
+        if ch.get("n"):
+            m[f"resInner{tag}Changed"] = {"value": ch["changed"], "fmt": ".0f"}
+            m[f"resInner{tag}ChangedOf"] = {"value": ch["n"], "fmt": ".0f"}
+            m[f"resInner{tag}ToOpen"] = {"value": ch["bounded_to_open"], "fmt": ".0f"}
+            m[f"resInner{tag}ToBounded"] = {"value": ch["open_to_bounded"], "fmt": ".0f"}
+    diff = p14.get("h27", {}).get("difference_points")
+    if diff:
+        m["resInnerRealDiffTau"] = {"value": diff["tau1"], "fmt": ".0f"}
+        m["resInnerRealDiffP"] = {"value": diff["p"], "fmt": ".0f"}
+    for key, tag in (("fit_truth_seed0", "FitTruth"), ("random_truth_seed0", "RandomZero"),
+                     ("random_truth_seed1", "RandomOne")):
+        d = p14.get("r9", {}).get(key, {})
+        if not d.get("n"):
+            continue
+        m[f"resFloor{tag}N"] = {"value": d["n"], "fmt": ".0f"}
+        for cell, word in (("grad3", "Three"), ("grad1", "One")):
+            for kind, name, fmt in (("peak", "Peak", ".1f"), ("trace", "Trace", ".1f")):
+                c = d.get(f"{cell}_{kind}")
+                if not c:
+                    continue
+                m[f"resFloor{name}{tag}{word}Fit"] = {"value": c["median_fit"], "fmt": fmt}
+                m[f"resFloor{name}{tag}{word}Floor"] = {"value": c["median_floor"], "fmt": fmt}
+                m[f"resFloor{name}{tag}{word}Ratio"] = {"value": c["median_ratio"], "fmt": ".2f"}
+                rho = c["spearman_timing_ratio"]
+                m[f"resFloor{name}{tag}{word}Rho"] = _ci(rho["estimate"], rho["ci95"][0], rho["ci95"][1], ".2f")
+        for kind, name in (("peak", "Peak"), ("trace", "Trace")):
+            c = d.get(f"free_minus_fixed_{kind}")
+            if c:
+                m[f"resFloor{name}{tag}FreeMinusFixed"] = {"value": c["median_difference_in_floors"], "fmt": ".2f"}
     return m
 
 
