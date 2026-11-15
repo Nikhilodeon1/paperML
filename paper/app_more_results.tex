@@ -71,6 +71,30 @@ logging error, among subjects interior for the parameter. ``Covers truth'' is ov
 \label{tab:cvsweep}
 \end{table}
 
+\paragraph{Inner-optimizer budget.}
+Table~\ref{tab:inner} compares the polished trace coordinate profiles at $100$ inner steps with the same profiles at $500$
+(same estimates, same grids). A grid point is flagged when its inner optimization was still improving by more than $0.05$
+in negative log-likelihood. The longer run settles nearly every point and changes no class, and the bounded fractions and
+the coverage are the same to the digit shown at both budgets (H27 and H28, Section~\ref{sec:more}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{flagged points (\%)} & profile classes & \multicolumn{2}{c}{covers truth, long run (\%)} \\
+setting & default & long & changed & $\tau_1$ & $p$ \\
+\midrule
+real data & \resInnerRealHundredUnsettled & \resInnerRealFiveHundredUnsettled & \resInnerRealChanged{} of \resInnerRealChangedOf & --- & --- \\
+replica, error $0.25$ & \resInnerRepHundredUnsettled & \resInnerRepFiveHundredUnsettled & \resInnerRepChanged{} of \resInnerRepChangedOf & \resInnerRepFiveHundredCoverTau & \resInnerRepFiveHundredCoverP \\
+replica, exact carbohydrate & \resInnerExactHundredUnsettled & \resInnerExactFiveHundredUnsettled & \resInnerExactChanged{} of \resInnerExactChangedOf & \resInnerExactFiveHundredCoverTau & \resInnerExactFiveHundredCoverP \\
+exact, quarter noise & \resInnerQuarterHundredUnsettled & \resInnerQuarterFiveHundredUnsettled & \resInnerQuarterChanged{} of \resInnerQuarterChangedOf & \resInnerQuarterFiveHundredCoverTau & \resInnerQuarterFiveHundredCoverP \\
+\bottomrule
+\end{tabular}
+\caption{Trace coordinate profiles with polished estimates at $100$ and $500$ inner steps, primary box. Profile classes
+are bounded, one-sided or flat; each setting has $45$ subjects and two profiles per subject.}
+\label{tab:inner}
+\end{table}
+
 \paragraph{Spacing of logged meals.}
 The CGMacros logs contain \resOverlapGaps{} gaps between consecutive meals of a subject, with a median of
 \resOverlapMedianGap{} hours. The share under three, four and six hours is \resOverlapWithinThree\% (Wilson interval

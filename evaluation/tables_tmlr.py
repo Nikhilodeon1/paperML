@@ -57,6 +57,8 @@ TOPIC = {
     "H26": "Polished trace estimates are global optima (30 starts)",
     "H27": "The real-data trace fractions do not depend on the inner optimizer budget",
     "H28": "Calibration at low noise with exact carbohydrate, longer inner optimization",
+    "H29": "Positive control: gut rates identified when the symmetry is broken by design",
+    "H30": "The polished estimate is the optimum relative to the truth at low noise",
 }
 
 

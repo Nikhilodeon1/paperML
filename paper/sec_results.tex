@@ -2,7 +2,7 @@
 \label{sec:results}
 
 Hypotheses H1 to H10 were fixed in version control before the analyses. H11 and H12 were declared before theirs, and
-H13 to H26 after earlier results had been seen; those are marked post hoc. Fractions carry Wilson intervals and paired
+H13 to H28 after earlier results had been seen; those are marked post hoc. Fractions carry Wilson intervals and paired
 differences carry subject-level bootstrap intervals. Appendix~\ref{app:results} gives the tables and figures omitted
 here, and Appendix~\ref{app:scorecard} the status of every hypothesis.
 
@@ -182,6 +182,24 @@ negative in all three replicas (\resPvpFitTruthRhoSIRatio{}, \resPvpRandomZeroRh
 \resPvpRandomOneRhoSIRatio{}), which is not the sign that prediction would see an error in $\SI$ either. This is a
 statement about replicas, where the floor is observable; on real data the floor is not.
 
+The same floor can be asked of two targets that the fits were not trained on (Amendment ten, post hoc, from stored
+results). On the random-truth replicas the held-out peak-time error of the three-parameter fit is
+\resFloorPeakRandomZeroThreeFit{} and \resFloorPeakRandomOneThreeFit{} minutes against floors of
+\resFloorPeakRandomZeroThreeFloor{} and \resFloorPeakRandomOneThreeFloor{}, a ratio of \resFloorPeakRandomZeroThreeRatio{}
+and \resFloorPeakRandomOneThreeRatio{}, and its held-out trace error is \resFloorTraceRandomZeroThreeRatio{} and
+\resFloorTraceRandomOneThreeRatio{} times the floor. Here the ratio does follow the timing error. The Spearman
+correlation with the timing error is \resFloorPeakRandomZeroThreeRho{} (\resFloorPeakRandomZeroThreeRhoLow{} to
+\resFloorPeakRandomZeroThreeRhoHigh) and \resFloorPeakRandomOneThreeRho{} (\resFloorPeakRandomOneThreeRhoLow{} to
+\resFloorPeakRandomOneThreeRhoHigh) for the peak time, and \resFloorTraceRandomZeroThreeRho{}
+(\resFloorTraceRandomZeroThreeRhoLow{} to \resFloorTraceRandomZeroThreeRhoHigh) and \resFloorTraceRandomOneThreeRho{}
+(\resFloorTraceRandomOneThreeRhoLow{} to \resFloorTraceRandomOneThreeRhoHigh) for the trace. The fit of $\SI$ alone, with
+the timing held at the population values, is closer to the floor (\resFloorPeakRandomZeroOneRatio{} and
+\resFloorPeakRandomOneOneRatio{} for the peak time, \resFloorTraceRandomZeroOneRatio{} and
+\resFloorTraceRandomOneOneRatio{} for the trace), and its ratio is unrelated to the timing error of the
+three-parameter fit. A check on the peak time or the trace would therefore see the failure that the iAUC check hides, and
+fitting the timing from the iAUC costs accuracy on those targets in comparison with leaving it at the population values,
+which agrees with the real-data comparison above.
+
 \begin{figure}[t]
 \centering
 \safefigure[width=\linewidth]{f10_prediction_vs_parameters}
@@ -249,7 +267,20 @@ from \resCvZeroCoverTau\% and \resCvZeroCoverP\% to \resCvThreeQuarterCoverTau\%
 above every replica value for $p$. The real-data pattern is therefore what a larger input error than the one we
 assumed would produce, and we cannot show that it is the cause: a mechanism outside the replica would do the same.
 At the estimated noise the undercoverage of the replica is explained by the input error, as the exact-carbohydrate
-replica shows; a second source of undercoverage at low noise is unidentified. We do not claim that the combination is
+replica shows. A second source of undercoverage at low noise is unidentified, and it is not the inner optimizer of the
+profile. With $500$ inner steps in place of $100$, the share of grid points flagged as unsettled falls from
+\resInnerQuarterHundredUnsettled\% to \resInnerQuarterFiveHundredUnsettled\% at a quarter of the noise, no profile
+changes class in any of the four settings we reran (\resInnerQuarterChanged{} of \resInnerQuarterChangedOf{} at a
+quarter of the noise, \resInnerRealChanged{} of \resInnerRealChangedOf{} on the real data), and with exact
+carbohydrate and a quarter of the noise the nominal interval still contains the truth for only
+\resInnerQuarterFiveHundredCoverTau\% and \resInnerQuarterFiveHundredCoverP\% of subjects (H28, post hoc,
+\resVerdictHTwentyEight). The real-data bounded fractions are the same at both budgets, \resInnerRealFiveHundredBoundedTau\%
+and \resInnerRealFiveHundredBoundedP\% (H27, post hoc, \resVerdictHTwentySeven). Under those conditions the detector
+bounds $\tau_1$ and $p$ in \resInnerQuarterFiveHundredBoundedTau\% and \resInnerQuarterFiveHundredBoundedP\% of
+interior subjects, and the bounded intervals contain the truth in \resInnerQuarterFiveHundredCovbdTau\% and
+\resInnerQuarterFiveHundredCovbdP\%. We therefore have no setting in which the trace profiles return a bounded and a
+calibrated interval for the combination together: they are calibrated when they are rarely bounded (exact carbohydrate at
+the estimated noise) and often bounded when they are not calibrated. We do not claim that the combination is
 recoverable. Appendix~\ref{apx:more} gives the trail.
 
 \subsection{A second model class}

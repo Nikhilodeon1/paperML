@@ -45,6 +45,9 @@ def load_summary() -> dict:
     inner = RESULTS / "phase14_summary.json"
     if inner.exists():
         summary["phase14"] = json.loads(inner.read_text(encoding="utf-8"))
+    control = RESULTS / "phase15_summary.json"
+    if control.exists():
+        summary["phase15"] = json.loads(control.read_text(encoding="utf-8"))
     return summary
 
 
@@ -409,8 +412,33 @@ def h28(summary):
 ALL = {"H1": h1, "H2": h2, "H3": h3, "H4": h4, "H5": h5, "H6": h6, "H7": h7, "H8": h8, "H9": h9,
        "H10": h10, "H11": h11, "H12": h12, "H13": h13, "H14": h14, "H15": h15, "H16": h16,
        "H17": h17, "H18": h18, "H19": h19, "H20": h20, "H21": h21, "H22": h22, "H23": h23, "H24": h24, "H25": h25, "H26": h26}
+def h29(summary):
+    rule = ("Positive control: random-truth replica seed 0, exact carbohydrate, estimated noise, 10% of each meal left in "
+            "the intestine (known to the fit), trace profiles in rate coordinates with polished estimates: k_e and k_a "
+            "each bounded in >= 50% of interior subjects and contained in the nominal interval for >= 90% of subjects.")
+    block = summary.get("phase15", {}).get("h29")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Residual-gut replica not run.")
+    observed = {}
+    for name in ("k_e", "k_a"):
+        observed[f"{name}_bounded"] = block["observed"][name]["bounded"]
+        observed[f"{name}_coverage"] = block["observed"][name]["coverage"]
+    return _row(rule, block["status"], observed)
+
+
+def h30(summary):
+    rule = ("Exact carbohydrate and a quarter of the CGM noise, trace coordinate profiles: the stored polished estimate "
+            "exceeds the best optimum found from the true parameters by less than delta in >= 90% of subjects.")
+    block = summary.get("phase15", {}).get("h30")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Likelihood at the truth not evaluated.")
+    return _row(rule, block["status"], {"fraction_within_delta": block["fraction"], "max_gap": block["max_gap"]})
+
+
 if (RESULTS / "phase14_summary.json").exists():            # H27 and H28 are listed once Amendment 10 has been run
     ALL.update({"H27": h27, "H28": h28})
+if (RESULTS / "phase15_summary.json").exists():            # H29 and H30 are listed once Amendment 11 has been run
+    ALL.update({"H29": h29, "H30": h30})
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

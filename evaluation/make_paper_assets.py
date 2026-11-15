@@ -49,12 +49,14 @@ def main(argv=None) -> int:
                     help="also build results/phase13_summary.json (Amendment 9; only after the amendment is committed)")
     ap.add_argument("--phase14", action="store_true",
                     help="also build results/phase14_summary.json (Amendment 10; only after the amendment is committed)")
+    ap.add_argument("--phase15", action="store_true",
+                    help="also build results/phase15_summary.json (Amendment 11; only after the amendment is committed)")
     ap.add_argument("--no-freeze", action="store_true",
                     help="do not rewrite results/index.json (the macros are then read from the existing index)")
     args = ap.parse_args(argv)
 
     from evaluation import (figs_tmlr, freeze_results, lint_numbers, lint_terms, make_macros, paper_numbers,
-                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, phase13_summary, phase14_summary, tables_tmlr,
+                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, phase13_summary, phase14_summary, phase15_summary, tables_tmlr,
                             tmlr_build)
 
     def freeze():
@@ -97,7 +99,8 @@ def main(argv=None) -> int:
     steps = [("summary 2", phase2_summary.main), ("summary 8", phase8_summary.main),
              ("summary 9", phase9_summary.main), ("summary 10", recalibration.main), ("summary 11", noise_scale.main)] + (
                 [("summary 13", phase13_summary.main)] if args.phase13 else []) + (
-                [("summary 14", phase14_summary.main)] if args.phase14 else []) + [
+                [("summary 14", phase14_summary.main)] if args.phase14 else []) + (
+                [("summary 15", phase15_summary.main)] if args.phase15 else []) + [
              ("numbers", paper_numbers.main), ("freeze", freeze),
              ("macros", macros), ("figures", figs_tmlr.main), ("tables", tables_tmlr.main)]
     if not args.skip_lint:

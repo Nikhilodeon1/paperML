@@ -176,6 +176,14 @@ def log_grid(lower: float, upper: float, points: int, extension: int = 0) -> tup
 
 
 def run_unit(unit: str, config: dict) -> dict:
+    """One subject. A replica with `residual_gut` gives the fit the same residual intestinal content as the truth
+    (Amendment 11); every other analysis runs with the empty gut of the published results."""
+    from simulation import jax_engine
+    with jax_engine.residual_gut(float((config.get("replica") or {}).get("residual_gut", 0.0))):
+        return _run_unit(unit, config)
+
+
+def _run_unit(unit: str, config: dict) -> dict:
     subject = get_subject(config, unit)
     window = window_for(subject)
     scale = config["bounds_scale"]

@@ -1,0 +1,21 @@
+2026-10-02 02:27:43 [A4_fisher] start: 45 units, 0 already done, 0 previously failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  0/45 done, 0 failed, 6 workers
+  4/45 done, 0 failed, 6 workers, eta 0.3h
+  6/45 done, 0 failed, 6 workers, eta 0.2h
+  10/45 done, 0 failed, 6 workers, eta 0.2h
+  12/45 done, 0 failed, 6 workers, eta 0.1h
+  16/45 done, 0 failed, 6 workers, eta 0.1h
+  18/45 done, 0 failed, 6 workers, eta 0.1h
+  23/45 done, 0 failed, 6 workers, eta 0.1h
+  25/45 done, 0 failed, 6 workers, eta 0.1h
+  28/45 done, 0 failed, 6 workers, eta 0.1h
+  31/45 done, 0 failed, 6 workers, eta 0.0h
+  32/45 done, 0 failed, 6 workers, eta 0.0h
+  36/45 done, 0 failed, 6 workers, eta 0.0h
+  38/45 done, 0 failed, 6 workers, eta 0.0h
+  43/45 done, 0 failed, 3 workers, eta 0.0h
+==============================================================================
+A4_fisher: 45/45 done, 0 failed in 0.15h
+==============================================================================

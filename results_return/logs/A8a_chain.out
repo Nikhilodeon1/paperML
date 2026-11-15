@@ -1,0 +1,144 @@
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+OpenBLAS error: Memory allocation still failed after 10 retries, giving up.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 549, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 496, in main
+    module = load_analysis(args.module)
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 76, in load_analysis
+    module = importlib.import_module(module_name)
+  File "C:\Python314\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\gradient_diag.py", line 29, in <module>
+    from personalization.fit_general import BOUND_TOLERANCE, _optimizer     # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\personalization\fit_general.py", line 37, in <module>
+    from personalization.objectives import Objective, ObjectiveSpec, build_objective, observed_values
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\personalization\objectives.py", line 48, in <module>
+    from personalization import coords as co
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\personalization\coords.py", line 46, in <module>
+    from personalization.gradient_fit import PARAM_RANGES
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\personalization\gradient_fit.py", line 29, in <module>
+    from simulation.jax_engine import JaxPhysioParams, run_meal
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\simulation\jax_engine.py", line 20, in <module>
+    from diffrax import diffeqsolve, ODETerm, SaveAt, Tsit5, PIDController
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\diffrax\__init__.py", line 3, in <module>
+    from ._adjoint import (
+    ...<6 lines>...
+    )
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\diffrax\_adjoint.py", line 13, in <module>
+    import lineax as lx
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\lineax\__init__.py", line 17, in <module>
+    from . import internal as internal
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\lineax\internal\__init__.py", line 27, in <module>
+    from .._solve import linear_solve_p as linear_solve_p
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\lineax\_solve.py", line 489, in <module>
+    _lu_token = eqxi.str2jax("lu_token")
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\equinox\internal\_str2jax.py", line 9, in str2jax
+    class M(Module):
+    ...<5 lines>...
+            return msg
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\equinox\_module\_module.py", line 339, in __new__
+    cls = better_dataclass(eq=False, repr=False, init=has_dataclass_init)(cls)
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\equinox\_module\_better_abstract.py", line 257, in make_dataclass
+    cls = dataclasses.dataclass(**kwargs)(cls)
+  File "C:\Python314\Lib\dataclasses.py", line 1432, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+                          frozen, match_args, kw_only, slots,
+                          weakref_slot)
+  File "C:\Python314\Lib\dataclasses.py", line 1222, in _process_class
+    text_sig = str(inspect.signature(
+                   ~~~~~~~~~~~~~~~~~^
+        cls,
+        ^^^^
+        annotation_format=annotationlib.Format.FORWARDREF,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )).replace(' -> None', '')
+    ^
+  File "C:\Python314\Lib\inspect.py", line 3321, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   globals=globals, locals=locals, eval_str=eval_str,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   annotation_format=annotation_format)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\inspect.py", line 3036, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+                                    follow_wrapper_chains=follow_wrapped,
+                                    globals=globals, locals=locals, eval_str=eval_str,
+                                    annotation_format=annotation_format)
+  File "C:\Python314\Lib\inspect.py", line 2460, in _signature_from_callable
+    sig = obj.__signature__
+          ^^^^^^^^^^^^^^^^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\.venv\Lib\site-packages\equinox\_module\_module.py", line 441, in __signature__
+    sig = inspect.signature(cls.__init__)
+  File "C:\Python314\Lib\inspect.py", line 3321, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   globals=globals, locals=locals, eval_str=eval_str,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   annotation_format=annotation_format)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\inspect.py", line 3036, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+                                    follow_wrapper_chains=follow_wrapped,
+                                    globals=globals, locals=locals, eval_str=eval_str,
+                                    annotation_format=annotation_format)
+  File "C:\Python314\Lib\inspect.py", line 2511, in _signature_from_callable
+    return _signature_from_function(sigcls, obj,
+                                    skip_bound_arg=skip_bound_arg,
+                                    globals=globals, locals=locals, eval_str=eval_str,
+                                    annotation_format=annotation_format)
+  File "C:\Python314\Lib\inspect.py", line 2334, in _signature_from_function
+    annotations = get_annotations(func, globals=globals, locals=locals, eval_str=eval_str,
+                                  format=annotation_format)
+  File "C:\Python314\Lib\annotationlib.py", line 957, in get_annotations
+    ann = _get_dunder_annotations(obj)
+  File "C:\Python314\Lib\annotationlib.py", line 1137, in _get_dunder_annotations
+    ann = getattr(obj, "__annotations__", None)
+MemoryError
+2026-10-02 03:25:47 [A8a_gradient_diag] start: 45 units, 0 already done, 0 previously failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 1 failed, 1 workers
+  0/45 done, 1 failed, 1 workers
+  0/45 done, 1 failed, 1 workers
+  0/45 done, 1 failed, 1 workers
+  1/45 done, 1 failed, 1 workers, eta 3.8h
+  1/45 done, 1 failed, 1 workers, eta 4.2h
+  2/45 done, 1 failed, 1 workers, eta 2.2h
+  2/45 done, 1 failed, 1 workers, eta 2.4h
+  3/45 done, 1 failed, 1 workers, eta 1.7h
+  4/45 done, 1 failed, 1 workers, eta 1.3h
+  5/45 done, 1 failed, 1 workers, eta 1.1h
+  6/45 done, 1 failed, 1 workers, eta 0.9h
+  7/45 done, 1 failed, 1 workers, eta 0.8h
+  8/45 done, 1 failed, 1 workers, eta 0.8h
+  10/45 done, 1 failed, 1 workers, eta 0.6h
+  11/45 done, 1 failed, 1 workers, eta 0.6h
+  12/45 done, 1 failed, 1 workers, eta 0.5h
+  13/45 done, 1 failed, 1 workers, eta 0.5h
+  14/45 done, 1 failed, 1 workers, eta 0.5h
+  16/45 done, 1 failed, 1 workers, eta 0.4h
+  17/45 done, 1 failed, 1 workers, eta 0.4h

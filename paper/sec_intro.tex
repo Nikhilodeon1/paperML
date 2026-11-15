@@ -53,7 +53,8 @@ Our contributions are three.
   appendix reports $90$ and $300$ as well. On replicas with random truths the fit comes within
   \resPvpRandomZeroRatio{} and \resPvpRandomOneRatio{} times the error of the true model, with the rates off by a
   median root mean squared log error of \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}, and across subjects
-  the ratio is unrelated to the parameter error.
+  the ratio is unrelated to the parameter error. A check on the peak time or the trace, which the fits were not
+  trained on, would see it: their excess over the floor rises with the timing error.
 \end{enumerate}
 Two further results qualify these. The sum and product of the reciprocal rates look recoverable from the full
 glucose trace on real data, but a true-model replica does not reproduce this, and removing the carbohydrate error
@@ -70,7 +71,7 @@ claim & evidence & scope \\
 $\ke$ and $\ka$ are not separable from the area & Prop.~\ref{prop:exchange}; Sec.~\ref{sec:timing}; H4, H5, H15 & three cohorts; iAUC \\
 $\SI$ is only conditionally recoverable & Sec.~\ref{sec:si}; H5, H13, H17, H19 & CGMacros; replica and synthetic \\
 Prediction does not see either failure & Sec.~\ref{sec:prediction}; H7--H9, H20; floor of the true model & CGMacros and Shanghai; replicas \\
-Recovery of the combination $(\tau_1,p)$ from the trace is not established & Sec.~\ref{sec:more}; H11, H18, H21, H23--H26 & CGMacros; one model family \\
+Recovery of the combination $(\tau_1,p)$ from the trace is not established & Sec.~\ref{sec:more}; H11, H18, H21, H23--H28 & CGMacros; one model family \\
 The gut parameters of a second model are also not identified & Sec.~\ref{sec:dm}; H22 & CGMacros; iAUC only \\
 Clinical correlations of a fitted parameter need controls & App.~\ref{apx:leakage} & Shanghai \\
 \bottomrule

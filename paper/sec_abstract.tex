@@ -22,7 +22,8 @@ Held-out iAUC error does not separate gradient fitting from grid search
 sensitivity alone within a margin of $150$ in two cohorts, so this prediction check does not reveal either failure.
 On true-model replicas with random truths the held-out error of the fit is \resPvpRandomZeroRatio{} and
 \resPvpRandomOneRatio{} times that of the model at the true parameters, while the root mean squared log error of the
-two rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}.
+two rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}. Held-out peak-time and trace error, which the fits
+were not trained on, do rise with the timing error.
 Recovery of a combination of the two rates from the full glucose trace is not established. Polished fits bound it in
 \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of real subjects and in \resReplicaCoordsTauTrace\%
 and \resReplicaCoordsPTrace\% of true-model replicas, where the bounded intervals cover the truth in

@@ -36,7 +36,9 @@ def skipped(verdicts: dict) -> list[tuple[str, str]]:
                        ("H25", "Replica with exact carbohydrate (Amendment 8)."),
                        ("H26", "Thirty-start polish of the trace coordinate profiles (Amendment 9)."),
                        ("H27", "Inner-optimizer budget of the real-data trace coordinate profiles (Amendment 10)."),
-                       ("H28", "Low-noise calibration with exact carbohydrate at 500 inner steps (Amendment 10).")):
+                       ("H28", "Low-noise calibration with exact carbohydrate at 500 inner steps (Amendment 10)."),
+                       ("H29", "Positive control with residual intestinal content known to the fit (Amendment 11)."),
+                       ("H30", "Likelihood at the truth against the polished estimate at low noise (Amendment 11).")):
         if verdicts.get(name, {}).get("status") == "not evaluated":
             out.append((name, text))
     return out

@@ -1,0 +1,6 @@
+2026-10-02 03:06:12 [A3_generic_rank] start: 4 units, 0 already done, 0 previously failed, 2 workers
+2026-10-02 03:09:00 [A3_generic_rank] worker 1 finished iauc in 103.9s
+2026-10-02 03:09:07 [A3_generic_rank] worker 0 finished iauc_centroid in 119.6s
+2026-10-02 03:10:03 [A3_generic_rank] worker 1 finished iauc_peak in 63.1s
+2026-10-02 03:15:34 [A3_generic_rank] start: 4 units, 3 already done, 0 previously failed, 1 workers
+2026-10-02 03:19:48 [A3_generic_rank] worker 0 finished trace in 203.3s

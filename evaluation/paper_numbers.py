@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix", 27: "TwentySeven", 28: "TwentyEight", 29: "TwentyNine", 30: "Thirty"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -131,6 +131,7 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase11_macros(summary.get("phase11", {})))
     m.update(_phase13_macros(summary.get("phase13", {})))
     m.update(_phase14_macros(summary.get("phase14", {})))
+    m.update(_phase15_macros(summary.get("phase15", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -682,6 +683,64 @@ def _phase14_macros(p14: dict) -> dict:
             c = d.get(f"free_minus_fixed_{kind}")
             if c:
                 m[f"resFloor{name}{tag}FreeMinusFixed"] = {"value": c["median_difference_in_floors"], "fmt": ".2f"}
+    return m
+
+
+def _phase15_macros(p15: dict) -> dict:
+    """Amendment 11: the symmetry broken by design, the fixed-parameter perturbation, the likelihood at the truth."""
+    m: dict = {}
+    if not p15:
+        return m
+    params = {"S_I": "SI", "k_e": "Ke", "k_a": "Ka"}
+
+    def block_macros(prefix: str, block: dict, keys: dict) -> None:
+        for name, tag in keys.items():
+            b = block.get(name)
+            if not b:
+                continue
+            frac = (b.get("bounded_interior") or {}).get("fraction")
+            if frac is not None:
+                m[f"{prefix}{tag}Bounded"] = {"value": 100 * frac, "fmt": ".0f"}
+                m[f"{prefix}{tag}BoundedCount"] = {"value": b["bounded_interior"]["bounded"], "fmt": ".0f"}
+                m[f"{prefix}{tag}BoundedN"] = {"value": b["bounded_interior"]["n"], "fmt": ".0f"}
+            cover = (b.get("nominal_coverage") or {}).get("fraction")
+            if cover is not None:
+                m[f"{prefix}{tag}Cover"] = {"value": 100 * cover, "fmt": ".0f"}
+            covbd = (b.get("bounded_coverage") or {}).get("fraction")
+            if covbd is not None:
+                m[f"{prefix}{tag}Covbd"] = {"value": 100 * covbd, "fmt": ".0f"}
+
+    words = {"seed0_0": "Zero", "seed0_0.05": "Five", "seed0_0.1": "Ten", "seed0_0.2": "Twenty", "seed1_0.1": "SeedOneTen"}
+    for key, word in words.items():
+        block = p15.get("p1", {}).get(key, {})
+        if block.get("n"):
+            m[f"resRes{word}N"] = {"value": block["n"], "fmt": ".0f"}
+            block_macros(f"resRes{word}", block, params)
+    tags = {"baseline": "Base", "insulin_secretion_1.3": "GammaUp", "insulin_secretion_0.7": "GammaDown",
+            "x_gain_1.3": "PThreeUp", "x_gain_0.7": "PThreeDown"}
+    for key, tag in tags.items():
+        block = p15.get("p2", {}).get(key, {})
+        if not block.get("n"):
+            continue
+        block_macros(f"resPert{tag}", {"S_I": block["S_I"]}, {"S_I": "SI"})
+        if block.get("median_abs_log_error") is not None:
+            m[f"resPert{tag}Err"] = {"value": block["median_abs_log_error"], "fmt": ".2f"}
+            m[f"resPert{tag}Bias"] = {"value": block["median_signed_log_error"], "fmt": ".2f"}
+    for key, tag in (("exact", "Exact"), ("quarter", "Quarter"), ("replica", "Rep")):
+        b = p15.get("p3", {}).get(key, {})
+        if not b.get("n"):
+            continue
+        m[f"resCal{tag}N"] = {"value": b["n"], "fmt": ".0f"}
+        m[f"resCal{tag}MedianLr"] = {"value": b["median_lr_half"], "fmt": ".1f"}
+        m[f"resCal{tag}Q90Lr"] = {"value": b["q90_lr_half"], "fmt": ".1f"}
+        m[f"resCal{tag}Over"] = {"value": 100 * b["share_lr_over_delta"], "fmt": ".0f"}
+        m[f"resCal{tag}GapWithin"] = {"value": b["optimizer_gap_within"], "fmt": ".0f"}
+        m[f"resCal{tag}GapFraction"] = {"value": 100 * b["optimizer_gap_fraction"], "fmt": ".0f"}
+        m[f"resCal{tag}GapMax"] = {"value": b["max_optimizer_gap"], "fmt": ".2f"}
+        ref = b.get("reference_half_chi2_3")
+        if ref:
+            m["resCalRefMedian"] = {"value": ref[0], "fmt": ".1f"}
+            m["resCalRefQ90"] = {"value": ref[1], "fmt": ".1f"}
     return m
 
 

@@ -1,0 +1,31 @@
+2026-10-02 03:06:12 [A3_generic_rank] start: 4 units, 0 already done, 0 previously failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  0/4 done, 0 failed, 2 workers
+  2/4 done, 0 failed, 2 workers, eta 0.1h
+  2/4 done, 0 failed, 2 workers, eta 0.1h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+  3/4 done, 0 failed, 1 workers, eta 0.0h
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 539, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 523, in main
+    args.module, heartbeat_grace=args.heartbeat_grace).run()
+                                                       ~~~^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 381, in run
+    self._write_progress(state)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\nikhi\Codes\RES\src\DigiTwin\paperML\evaluation\runner.py", line 359, in _write_progress
+    os.replace(temporary, LOGS / f"{self.analysis_id}.progress.json")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\logs\\A3_generic_rank.progress.json.partial' -> 'C:\\Users\\nikhi\\Codes\\RES\\src\\DigiTwin\\paperML\\logs\\A3_generic_rank.progress.json'

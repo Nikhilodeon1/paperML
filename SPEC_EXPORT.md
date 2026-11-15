@@ -136,7 +136,7 @@ def early_slope(ts, glucose, cutoff_min: float = 45.0, n_pre: int = 6):
 
 ## Smoothing primitives, verbatim
 
-`softplus_relu` (simulation/jax_engine.py, lines 43-45)
+`softplus_relu` (simulation/jax_engine.py, lines 63-65)
 
 ```python
 def softplus_relu(x, beta: float = 10.0):
@@ -144,7 +144,7 @@ def softplus_relu(x, beta: float = 10.0):
     return jax.nn.softplus(beta * x) / beta
 ```
 
-`sigmoid_switch` (simulation/jax_engine.py, lines 48-50)
+`sigmoid_switch` (simulation/jax_engine.py, lines 68-70)
 
 ```python
 def sigmoid_switch(x, thresh: float, sharp: float):
@@ -152,7 +152,7 @@ def sigmoid_switch(x, thresh: float, sharp: float):
     return jax.nn.sigmoid(sharp * (x - thresh))
 ```
 
-`smooth_clamp01` (simulation/jax_engine.py, lines 53-55)
+`smooth_clamp01` (simulation/jax_engine.py, lines 73-75)
 
 ```python
 def smooth_clamp01(z, sharp: float = 6.0):
@@ -160,7 +160,7 @@ def smooth_clamp01(z, sharp: float = 6.0):
     return jax.nn.sigmoid(sharp * (z - 0.5))
 ```
 
-`soft_clamp` (simulation/jax_engine.py, lines 58-65)
+`soft_clamp` (simulation/jax_engine.py, lines 78-85)
 
 ```python
 def soft_clamp(x, lo, hi):
@@ -173,7 +173,7 @@ def soft_clamp(x, lo, hi):
     return mid + half * jnp.tanh((x - mid) / half)
 ```
 
-`diurnal_cortisol` (simulation/jax_engine.py, lines 68-69)
+`diurnal_cortisol` (simulation/jax_engine.py, lines 88-89)
 
 ```python
 def diurnal_cortisol(clock_hour):
@@ -182,7 +182,7 @@ def diurnal_cortisol(clock_hour):
 
 ## Vector field, verbatim
 
-`vector_field` (simulation/jax_engine.py, lines 120-175)
+`vector_field` (simulation/jax_engine.py, lines 140-195)
 
 ```python
 def vector_field(t, y, args):
@@ -243,7 +243,7 @@ def vector_field(t, y, args):
     return dy
 ```
 
-`run_meal` (simulation/jax_engine.py, lines 178-196)
+`run_meal` (simulation/jax_engine.py, lines 198-219)
 
 ```python
 def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_g: float = 0.0,
@@ -257,9 +257,12 @@ def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_
     blunt = 1.0 / (1.0 + 0.08 * fiber_g + 0.005 * fat_g)
     mass_mg = carbs_g * 1000.0 * 0.90 * blunt
     ts = jnp.arange(0.0, duration_min + 1e-6, step_min)
+    y0 = initial_state()
+    if RESIDUAL_GUT_FRACTION:
+        y0 = y0.at[IDX["gut_glucose_mg"]].set(RESIDUAL_GUT_FRACTION * mass_mg)
     sol = diffeqsolve(
         ODETerm(vector_field), Tsit5(), t0=0.0, t1=float(duration_min), dt0=1.0,
-        y0=initial_state(), args=(params, meal_time, mass_mg, clock_hour),
+        y0=y0, args=(params, meal_time, mass_mg, clock_hour),
         saveat=SaveAt(ts=ts),
         stepsize_controller=PIDController(rtol=SOLVER_RTOL, atol=SOLVER_ATOL), max_steps=10000,
     )

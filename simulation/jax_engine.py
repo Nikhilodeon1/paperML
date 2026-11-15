@@ -14,6 +14,8 @@ not map to a fixed JAX array). Every smoothing decision is recorded in `SMOOTHIN
 """
 from __future__ import annotations
 
+from contextlib import contextmanager
+
 import jax
 import jax.numpy as jnp
 import equinox as eqx
@@ -23,6 +25,24 @@ from diffrax import diffeqsolve, ODETerm, SaveAt, Tsit5, PIDController
 # module globals to compare the Fisher information at a tighter tolerance (Amendment 9, R4).
 SOLVER_RTOL = 1e-4
 SOLVER_ATOL = 1e-4
+
+# Amendment 11: intestinal content left over from an earlier meal, as a fraction of the meal's glucose mass, present
+# at t = 0 (30 min before the meal). The default 0 is the empty gut every published number used. A replica study
+# sets it for the truth AND the fit (`evaluation.profile_lik` reads it from the replica) to break the exchange
+# symmetry by design.
+RESIDUAL_GUT_FRACTION = 0.0
+
+
+@contextmanager
+def residual_gut(fraction: float):
+    """Set `RESIDUAL_GUT_FRACTION` for the duration of a block, then restore it."""
+    global RESIDUAL_GUT_FRACTION
+    previous = RESIDUAL_GUT_FRACTION
+    RESIDUAL_GUT_FRACTION = float(fraction)
+    try:
+        yield
+    finally:
+        RESIDUAL_GUT_FRACTION = previous
 
 # --- state index map (full 21-var vector; this stage evolves the glucose subset, rest constant) -
 STATE_VARS = [
@@ -186,9 +206,12 @@ def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_
     blunt = 1.0 / (1.0 + 0.08 * fiber_g + 0.005 * fat_g)
     mass_mg = carbs_g * 1000.0 * 0.90 * blunt
     ts = jnp.arange(0.0, duration_min + 1e-6, step_min)
+    y0 = initial_state()
+    if RESIDUAL_GUT_FRACTION:
+        y0 = y0.at[IDX["gut_glucose_mg"]].set(RESIDUAL_GUT_FRACTION * mass_mg)
     sol = diffeqsolve(
         ODETerm(vector_field), Tsit5(), t0=0.0, t1=float(duration_min), dt0=1.0,
-        y0=initial_state(), args=(params, meal_time, mass_mg, clock_hour),
+        y0=y0, args=(params, meal_time, mass_mg, clock_hour),
         saveat=SaveAt(ts=ts),
         stepsize_controller=PIDController(rtol=SOLVER_RTOL, atol=SOLVER_ATOL), max_steps=10000,
     )

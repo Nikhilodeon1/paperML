@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import dataclasses
 import hashlib
+import json
 from functools import lru_cache
 
 import numpy as np
@@ -107,12 +108,17 @@ def random_parameters(unit: str, seed: int, box: float = 1.0) -> dict:
     return dict(zip(TARGETS, theta.tolist()))
 
 
-def _simulate(subject: Subject, theta: dict, carbs=None):
+def _simulate(subject: Subject, theta: dict, carbs=None, perturb: dict | None = None):
+    """Simulate every meal of a subject. `perturb` multiplies named fixed parameters (Amendment 11, truth side only)."""
     import jax.numpy as jnp
     from personalization.objectives import simulate_meals
     from personalization.subject_loss import TARGETS, base_params, build_params
     base = base_params(subject.profile)
     params = build_params(base, jnp.asarray([theta[n] for n in TARGETS]))
+    if perturb:
+        import equinox as eqx
+        for name, factor in perturb.items():
+            params = eqx.tree_at(lambda p, n=name: getattr(p, n), params, getattr(params, name) * float(factor))
     records = subject.records
     carbs = np.array([r["carbs_g"] for r in records]) if carbs is None else np.asarray(carbs)
     fat = np.array([r["fat_g"] for r in records])
@@ -124,9 +130,11 @@ def _simulate(subject: Subject, theta: dict, carbs=None):
 def real_residual_noise(subject: Subject, unit: str) -> dict:
     """AR(1) coefficient and innovation sd of the real trace around the maximum-likelihood fit."""
     from personalization.noise_model import estimate_ar1
+    from simulation import jax_engine
     row = _reference_fit(unit)
     try:
-        simulated = _simulate(subject, row["theta_ml"])
+        with jax_engine.residual_gut(0.0):                              # the real data have no designed residual
+            simulated = _simulate(subject, row["theta_ml"])
         n = min(len(r["glucose"]["values"]) for r in subject.records)
         real = np.array([r["glucose"]["values"][:n] for r in subject.records], dtype=float)
         residual = real - simulated[:, :n]
@@ -151,12 +159,16 @@ def _ar1_noise(rng, rho: float, innovation_sd: float, shape: tuple[int, int]) ->
 
 @lru_cache(maxsize=256)
 def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool, carb_cv: float,
-                    limit, truth_mode: str = "fit", cgm_scale: float = 1.0) -> tuple:
+                    limit, truth_mode: str = "fit", cgm_scale: float = 1.0, residual: float = 0.0,
+                    perturb_key: str = "") -> tuple:
+    from simulation import jax_engine
     config = {"cohort": cohort, "min_meals": min_meals, "limit": limit}
     subject = _cohort_subject(config, unit)
     truth = (random_parameters(unit, seed) if truth_mode == "random"
              else true_parameters(subject, unit))
-    clean = _simulate(subject, truth)                                   # 210 min on a 5 min grid
+    perturb = json.loads(perturb_key) if perturb_key else None
+    with jax_engine.residual_gut(residual):                             # Amendment 11: designed residual gut content
+        clean = _simulate(subject, truth, perturb=perturb)              # 210 min on a 5 min grid
     n_samples = clean.shape[1]
     glucose = clean.copy()
     noise = {"rho": None, "innovation_sd": None, "fallback": None}
@@ -186,11 +198,17 @@ def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool
     return tuple(records), truth, noise, n_samples
 
 
+def _replica_args(config: dict, replica: dict, unit: str) -> tuple:
+    """Positional arguments of `_replica_cached` for one subject (hashable, so the cache sees every replica key)."""
+    perturb = replica.get("perturb")
+    return (config["cohort"], config["min_meals"], unit, int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
+            float(replica.get("carb_cv", 0.25)), config.get("limit"), str(replica.get("truth", "fit")),
+            float(replica.get("cgm_scale", 1.0)), float(replica.get("residual_gut", 0.0)),
+            json.dumps(perturb, sort_keys=True) if perturb else "")
+
+
 def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:
-    records, _, _, _ = _replica_cached(config["cohort"], config["min_meals"], subject.subject_id,
-                                       int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
-                                       float(replica.get("carb_cv", 0.25)), config.get("limit"),
-                                       str(replica.get("truth", "fit")), float(replica.get("cgm_scale", 1.0)))
+    records, _, _, _ = _replica_cached(*_replica_args(config, replica, subject.subject_id))
     # The replica is always simulated on the 5 minute grid with the default window, whatever the
     # cohort it was built from; it is a CGMacros-style replica.
     return dataclasses.replace(subject, records=tuple(records), sampling_min=5.0, window_min=180.0,
@@ -199,10 +217,7 @@ def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:
 
 def replica_truth(config: dict, unit: str) -> dict:
     replica = config["replica"]
-    _, truth, noise, _ = _replica_cached(config["cohort"], config["min_meals"], unit,
-                                         int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
-                                         float(replica.get("carb_cv", 0.25)), config.get("limit"),
-                                         str(replica.get("truth", "fit")), float(replica.get("cgm_scale", 1.0)))
+    _, truth, noise, _ = _replica_cached(*_replica_args(config, replica, unit))
     return {"theta_true": truth, "noise": noise}
 
 

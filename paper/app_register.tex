@@ -89,6 +89,19 @@ results are in Appendix~\ref{apx:phase13} and Section~\ref{sec:prediction}. The 
 default threading oversubscribed its cores; thread settings change the order of floating-point summation and so possibly
 the last digits of a result, not any verdict.
 
+\paragraph{Amendment ten (after the sixth freeze, in preparation for an external read; post hoc).}
+The amendment records what had been seen: the stored per-point flags of the inner optimizer in the existing profile files,
+which showed a larger share of unsettled grid points at low noise. It adds H27 and H28, with their rules, before they
+were run: the trace coordinate profiles with polished estimates are rerun with $500$ inner steps in place of $100$, to ask
+whether the real-data bounded fractions depend on the inner budget (H27) and whether a longer inner run restores
+calibration at low noise with exact carbohydrate (H28). It also adds report-only analyses: the same rerun on three replica
+settings, the read-out of the low-noise case as a positive control, and the floor of the true model for held-out peak-time
+and trace error on the random-truth replicas, from stored results. H27 was met and H28 was not (\resVerdictHTwentySeven{}
+and \resVerdictHTwentyEight{}). A positive control that breaks the symmetry by design, a day-continuous replica, a
+perturbation of the fixed parameters, a replica for the second gut model and a real-data test of carbohydrate error are not
+run and are listed as limitations. Profile result files now record the number of inner steps, and earlier files count as
+$100$.
+
 \paragraph{Corrections to the text and the bibliography.}
 These changed no result, rule or verdict. The text described the Shanghai leakage statistic as a Spearman
 correlation; the code computes a Pearson correlation, and the text, caption and figure label were corrected (the
@@ -109,6 +122,6 @@ replaces it with what-if noise budgets that make no additive claim.
 \label{app:notrun}
 
 The design sweep over meal size and timing, a replica or synthetic study for the second model class, and
-heteroskedastic noise models for the trace objective were not run, and neither were the three analyses named at the end of amendment nine. An analysis of clinical correlations of
+heteroskedastic noise models for the trace objective were not run, and neither were the analyses named at the end of amendments nine and ten. An analysis of clinical correlations of
 $\SI$ across cohorts was not repeated; only the Shanghai check of Appendix~\ref{apx:leakage} is reported. Every
 analysis declared in amendments five and six was run to completion.
