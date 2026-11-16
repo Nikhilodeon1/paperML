@@ -1,7 +1,7 @@
 """Phase 15 (Amendment 11): a positive control with the symmetry broken by design, a misspecification test of the fixed
 parameters, and the likelihood at the truth.
 
-P1  trace profiles in rate coordinates (polished, 500 inner steps) on random-truth replicas with exact carbohydrate, the
+P1  trace profiles in rate coordinates (polished, 100 inner steps after Addendum 1) on random-truth replicas with exact carbohydrate, the
     estimated noise and a designed residual intestinal content of 0, 5, 10 and 20% of each meal, seed 0, and 10% on seed 1
 H29 at 10% (seed 0): k_e and k_a each bounded in >= 50% of interior subjects and covered by the nominal interval in >= 90%
 P2  S_I profiles under iAUC on the standard replica with gamma (insulin secretion) or p3 (insulin action gain) of the truth
@@ -47,7 +47,7 @@ def p1_replica(residual: float, seed: int = 0) -> dict:
 
 def _rates_config(replica: dict) -> dict:
     return {**profile_lik.default_config(), "bounds_scale": 1.0, "objective": "trace", "parameterization": "rates",
-            "polish": True, "steps": 500, "replica": replica}
+            "polish": True, "steps": 100, "replica": replica}
 
 
 def _covered_of_bounded(rows: list[dict], key: str) -> dict:

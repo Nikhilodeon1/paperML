@@ -21,7 +21,7 @@ archive() { tar czf phase15_results.tgz results logs && echo "wrote phase15_resu
 if [ "${1:-}" = "archive" ]; then archive; exit 0; fi
 
 # --- 1. H29 and P1: trace profiles in rate coordinates, random truths, exact carbohydrate, residual gut content ----
-TRACE="--set objective=\"trace\" --set bounds_scale=1.0 --set polish=true --set steps=500"
+TRACE="--set objective=\"trace\" --set bounds_scale=1.0 --set polish=true --set extension_points=0"   # Addendum 1: default 100 inner steps
 run evaluation.profile_lik $TRACE --set 'replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random","residual_gut":0.1}'
 run evaluation.profile_lik $TRACE --set 'replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random"}'
 run evaluation.profile_lik $TRACE --set 'replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random","residual_gut":0.05}'

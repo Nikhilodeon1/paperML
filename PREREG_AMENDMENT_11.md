@@ -79,3 +79,25 @@ the three likelihood-at-the-truth runs. It must run on the disk that holds the P
 it). An eighth freeze follows. No threshold is changed after the first Phase 15 unit is run, and no hypothesis is rescued by
 changing code or thresholds. Profile files of residual-gut and perturbed replicas record the replica keys `residual_gut` and
 `perturb`, and result selection separates sets by them.
+
+## Addendum 1 (written after the first launch of Phase 15 and before any Phase 15 result was read)
+
+The first launch ran the residual-gut runs of H29 and R11 with 500 inner steps in place of the default 100, as written above. After
+more than two hours, 5 of the 45 units of the first run (10% residual, seed 0) had finished and the others had gone more than
+7,200 s without a heartbeat and were being killed and restarted; the Phase 14 runs, which have the same number of grid points,
+took about 14 minutes in total. None of the finished units was read, and no Phase 15 summary was built. The runs were stopped.
+
+Two settings of the profile runs change, and nothing else:
+
+* the inner optimization uses the default **100 steps**. Phase 14 showed that 500 steps in place of 100 change no profile class
+  (0 of 90 profiles in each of four settings) and do not change the coverage, so the budget does not affect the quantities
+  H29 and R11 read;
+* `extension_points` is set to **0**. The extension of the `k_e` and `k_a` grids to four times the upper bound is a diagnostic
+  outside the classification (`extended`, never used by H5, H29 or any rule), so the in-box classes, the bounded fractions and
+  the coverage that H29 reads are unchanged.
+
+Every rule, threshold and data set above stays as written: H29 (10% residual, seed 0, `k_e` and `k_a` each bounded in at
+least 50% of interior subjects and covered in at least 90% of subjects), H30, R10 to R12. The 500-step files of the abandoned
+launch stay on disk; result selection separates sets by the number of inner steps, so they are not used. The likelihood-at-the-truth
+runs (H30, R10) still read the Phase 14 coordinate profiles at 500 steps, unchanged. The 100-step profile files of
+the residual-gut and perturbed replicas record `inner_steps` 100 and are selected by it.
