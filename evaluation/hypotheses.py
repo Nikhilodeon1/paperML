@@ -48,6 +48,9 @@ def load_summary() -> dict:
     control = RESULTS / "phase15_summary.json"
     if control.exists():
         summary["phase15"] = json.loads(control.read_text(encoding="utf-8"))
+    solver = RESULTS / "phase16_summary.json"
+    if solver.exists():
+        summary["phase16"] = json.loads(solver.read_text(encoding="utf-8"))
     return summary
 
 
@@ -435,10 +438,39 @@ def h30(summary):
     return _row(rule, block["status"], {"fraction_within_delta": block["fraction"], "max_gap": block["max_gap"]})
 
 
+def h31(summary):
+    rule = ("Exact carbohydrate and a quarter of the CGM noise: a converged inner solve (L-BFGS-B from the estimate) at the "
+            "true value of tau1 and of p keeps the profile excess below delta in >= 90% of subjects, for both.")
+    block = summary.get("phase16", {}).get("h31")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Profile at the true value not run.")
+    return _row(rule, block["status"], {f"{k}_within_delta": v for k, v in block["share"].items()})
+
+
+def h32(summary):
+    rule = ("Real data, trace coordinate profiles: the bounded fractions of tau1 and p with a converged inner solver stay "
+            "within 10 points of those of the default Adam profiles.")
+    block = summary.get("phase16", {}).get("h32")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Converged-solver profiles not run.")
+    return _row(rule, block["status"], {f"{k}_difference_points": v for k, v in block["difference_points"].items()})
+
+
+def h33(summary):
+    rule = ("Exact carbohydrate and a quarter of the CGM noise, 29 grid points, converged inner solver: nominal coverage "
+            ">= 90% for tau1 and p.")
+    block = summary.get("phase16", {}).get("h33")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="Converged-solver profiles not run.")
+    return _row(rule, block["status"], {f"{k}_coverage": v for k, v in block["coverage"].items()})
+
+
 if (RESULTS / "phase14_summary.json").exists():            # H27 and H28 are listed once Amendment 10 has been run
     ALL.update({"H27": h27, "H28": h28})
 if (RESULTS / "phase15_summary.json").exists():            # H29 and H30 are listed once Amendment 11 has been run
     ALL.update({"H29": h29, "H30": h30})
+if (RESULTS / "phase16_summary.json").exists():            # H31 to H33 are listed once Amendment 12 has been run
+    ALL.update({"H31": h31, "H32": h32, "H33": h33})
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

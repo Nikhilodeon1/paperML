@@ -29,13 +29,13 @@ INCLUDE_FILES = ("data_paths.py", "paper_config.py", "pytest.ini", "requirements
                  "PREREG.md", "PREREG_AMENDMENT_1.md", "PREREG_AMENDMENT_2.md",
                  "PREREG_AMENDMENT_3.md", "PREREG_AMENDMENT_4.md", "PREREG_AMENDMENT_5.md",
                  "PREREG_AMENDMENT_6.md", "PREREG_AMENDMENT_7.md", "PREREG_AMENDMENT_8.md",
-                 "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "SPEC_EXPORT.md", "docs/POD.md",
+                 "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "PREREG_AMENDMENT_12.md", "SPEC_EXPORT.md", "docs/POD.md",
                  "docs/PHASE9.md")
 INCLUDE_TESTS = ("test_prediction_cv.py", "test_phase7.py", "test_phase8.py", "test_phase1.py", "test_phase2_modules.py", "test_lint_terms.py",
                  "test_runner.py", "test_results_pipeline.py", "test_cv_utils.py", "test_subject_loss.py",
                  "test_identifiability.py", "test_identifiability_toys.py", "test_observables.py",
                  "test_stats_utils.py", "test_determinism.py", "test_spec_and_cohort.py", "test_phase9.py",
-                 "test_phase10.py", "test_phase13.py", "test_phase14.py", "test_phase15.py")
+                 "test_phase10.py", "test_phase13.py", "test_phase14.py", "test_phase15.py", "test_phase16.py")
 EXCLUDE_PARTS = {"__pycache__", ".git", ".venv", ".jax_cache", ".cache", "node_modules", "data",
                  "user_data", "logs", "sbi-logs"}
 # Product code that lives beside the analyses in this repository and that no analysis imports.

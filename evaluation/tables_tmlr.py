@@ -59,6 +59,9 @@ TOPIC = {
     "H28": "Calibration at low noise with exact carbohydrate, longer inner optimization",
     "H29": "Positive control: gut rates identified when the symmetry is broken by design",
     "H30": "The polished estimate is the optimum relative to the truth at low noise",
+    "H31": "A converged inner solve keeps the true value inside the band at low noise",
+    "H32": "The real-data trace fractions do not depend on the inner solver",
+    "H33": "Calibration at low noise with a converged inner solver and a finer grid",
 }
 
 

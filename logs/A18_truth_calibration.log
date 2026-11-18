@@ -1,0 +1,546 @@
+2026-11-16 11:16:20 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 unit CGMacros-001 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 unit CGMacros-003 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 unit CGMacros-004 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 unit CGMacros-002 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 unit CGMacros-005 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 unit CGMacros-001 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 gave up on CGMacros-001 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 unit CGMacros-006 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 unit CGMacros-007 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 unit CGMacros-003 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 gave up on CGMacros-003 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 unit CGMacros-002 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 gave up on CGMacros-002 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 unit CGMacros-004 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 gave up on CGMacros-004 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 unit CGMacros-007 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 gave up on CGMacros-007 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 unit CGMacros-008 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 unit CGMacros-005 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 gave up on CGMacros-005 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 unit CGMacros-010 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 unit CGMacros-009 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 3 unit CGMacros-011 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 unit CGMacros-006 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 gave up on CGMacros-006 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 unit CGMacros-008 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 gave up on CGMacros-008 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 unit CGMacros-013 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 unit CGMacros-009 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 unit CGMacros-014 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 gave up on CGMacros-009 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 6 unit CGMacros-012 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 unit CGMacros-010 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 7 gave up on CGMacros-010 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 unit CGMacros-013 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 0 gave up on CGMacros-013 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 2 unit CGMacros-015 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 unit CGMacros-014 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:23 [A18_truth_calibration] worker 1 gave up on CGMacros-014 after 2 attempts
+2026-11-16 11:16:23 [A18_truth_calibration] worker 4 unit CGMacros-016 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-012 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-017 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 gave up on CGMacros-012 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-015 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 gave up on CGMacros-015 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-018 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-020 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-016 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 gave up on CGMacros-016 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 unit CGMacros-019 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-017 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 gave up on CGMacros-017 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-021 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-022 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-018 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 gave up on CGMacros-018 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-020 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 gave up on CGMacros-020 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-011 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 gave up on CGMacros-011 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-026 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-021 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 gave up on CGMacros-021 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-022 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 gave up on CGMacros-022 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-023 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-027 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-028 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-029 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-026 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 gave up on CGMacros-026 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-030 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-023 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 gave up on CGMacros-023 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-027 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 gave up on CGMacros-027 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-029 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 gave up on CGMacros-029 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-031 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-028 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 gave up on CGMacros-028 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-032 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-030 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 gave up on CGMacros-030 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-033 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-034 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-031 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-035 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 gave up on CGMacros-031 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-036 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-032 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 gave up on CGMacros-032 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-033 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 gave up on CGMacros-033 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-038 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 unit CGMacros-019 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 gave up on CGMacros-019 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-035 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 gave up on CGMacros-035 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-036 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 gave up on CGMacros-036 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-034 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 gave up on CGMacros-034 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-041 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-038 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 gave up on CGMacros-038 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-042 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-039 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-043 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 unit CGMacros-044 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-045 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-041 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 gave up on CGMacros-041 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-047 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-042 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 gave up on CGMacros-042 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-046 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 unit CGMacros-039 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 unit CGMacros-043 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 2 gave up on CGMacros-039 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 3 gave up on CGMacros-043 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 unit CGMacros-045 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 1 gave up on CGMacros-045 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 unit CGMacros-044 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 5 gave up on CGMacros-044 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-049 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 unit CGMacros-047 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 6 gave up on CGMacros-047 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 unit CGMacros-046 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 0 gave up on CGMacros-046 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-048 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 unit CGMacros-049 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 4 gave up on CGMacros-049 after 2 attempts
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 unit CGMacros-048 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:24 [A18_truth_calibration] worker 7 gave up on CGMacros-048 after 2 attempts
+2026-11-16 11:16:27 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-001 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-002 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-003 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-004 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-005 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-006 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-007 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-008 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-001 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 gave up on CGMacros-001 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-002 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 gave up on CGMacros-002 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-003 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 gave up on CGMacros-003 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-004 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 gave up on CGMacros-004 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-009 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-005 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 gave up on CGMacros-005 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-006 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 gave up on CGMacros-006 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-010 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-011 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-012 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-007 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-008 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 gave up on CGMacros-007 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 gave up on CGMacros-008 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-009 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 gave up on CGMacros-009 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-013 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-014 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-010 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 gave up on CGMacros-010 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-011 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 gave up on CGMacros-011 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-012 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 gave up on CGMacros-012 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-015 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-016 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-013 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 gave up on CGMacros-013 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-017 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-014 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 gave up on CGMacros-014 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-018 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-015 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 gave up on CGMacros-015 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-020 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-016 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 gave up on CGMacros-016 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-019 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-017 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 gave up on CGMacros-017 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-021 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-022 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-018 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 gave up on CGMacros-018 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-023 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-020 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 gave up on CGMacros-020 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-019 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 gave up on CGMacros-019 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-021 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 gave up on CGMacros-021 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-026 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-022 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 gave up on CGMacros-022 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-027 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-028 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-023 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 gave up on CGMacros-023 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-029 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-030 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-031 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-026 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 gave up on CGMacros-026 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-032 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-027 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 gave up on CGMacros-027 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-028 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 gave up on CGMacros-028 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-033 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-029 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 gave up on CGMacros-029 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-030 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 gave up on CGMacros-030 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-031 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 gave up on CGMacros-031 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-034 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-032 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 gave up on CGMacros-032 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-035 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-036 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-033 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 gave up on CGMacros-033 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-038 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-039 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-041 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-034 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 gave up on CGMacros-034 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-042 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-035 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 gave up on CGMacros-035 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-036 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 gave up on CGMacros-036 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-038 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 gave up on CGMacros-038 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-043 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-039 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 gave up on CGMacros-039 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-041 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 gave up on CGMacros-041 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-044 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 unit CGMacros-042 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 1 gave up on CGMacros-042 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 2 unit CGMacros-045 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 unit CGMacros-043 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 7 gave up on CGMacros-043 after 2 attempts
+2026-11-16 11:16:29 [A18_truth_calibration] worker 4 unit CGMacros-046 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 5 unit CGMacros-047 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 6 unit CGMacros-048 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 3 unit CGMacros-049 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 unit CGMacros-044 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:29 [A18_truth_calibration] worker 0 gave up on CGMacros-044 after 2 attempts
+2026-11-16 11:16:30 [A18_truth_calibration] worker 2 unit CGMacros-045 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:30 [A18_truth_calibration] worker 2 gave up on CGMacros-045 after 2 attempts
+2026-11-16 11:16:30 [A18_truth_calibration] worker 5 unit CGMacros-047 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:30 [A18_truth_calibration] worker 5 gave up on CGMacros-047 after 2 attempts
+2026-11-16 11:16:30 [A18_truth_calibration] worker 4 unit CGMacros-046 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:30 [A18_truth_calibration] worker 4 gave up on CGMacros-046 after 2 attempts
+2026-11-16 11:16:30 [A18_truth_calibration] worker 6 unit CGMacros-048 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:30 [A18_truth_calibration] worker 6 gave up on CGMacros-048 after 2 attempts
+2026-11-16 11:16:30 [A18_truth_calibration] worker 3 unit CGMacros-049 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:30 [A18_truth_calibration] worker 3 gave up on CGMacros-049 after 2 attempts
+2026-11-16 11:16:33 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-001 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-002 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-003 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-004 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-005 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-006 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-001 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-001 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 gave up on CGMacros-001 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-002 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-002 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 gave up on CGMacros-002 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 unit CGMacros-007 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-009 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-003 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-003 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 gave up on CGMacros-003 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 4 unit CGMacros-008 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-010 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-009 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-009 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 gave up on CGMacros-009 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-011 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-012 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-010 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-010 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 gave up on CGMacros-010 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-005 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-005 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 gave up on CGMacros-005 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-006 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-006 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 gave up on CGMacros-006 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-004 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-004 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 gave up on CGMacros-004 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-011 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-011 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 gave up on CGMacros-011 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-014 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-012 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-012 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-013 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 gave up on CGMacros-012 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-015 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-016 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-017 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-014 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-014 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-013 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-013 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 gave up on CGMacros-013 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 gave up on CGMacros-014 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-018 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-017 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-017 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-015 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-015 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 gave up on CGMacros-017 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 gave up on CGMacros-015 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-016 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-016 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 gave up on CGMacros-016 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 unit CGMacros-007 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-007 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 gave up on CGMacros-007 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-019 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-020 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-018 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-018 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 gave up on CGMacros-018 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-021 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-022 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 unit CGMacros-026 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-023 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 4 unit CGMacros-008 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-008 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 4 gave up on CGMacros-008 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-020 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-020 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 gave up on CGMacros-020 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 unit CGMacros-019 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-019 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 3 gave up on CGMacros-019 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 unit CGMacros-022 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-022 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 0 gave up on CGMacros-022 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 unit CGMacros-021 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-021 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 6 gave up on CGMacros-021 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 7 unit CGMacros-027 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 unit CGMacros-026 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-026 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 2 gave up on CGMacros-026 after 2 attempts
+2026-11-16 11:16:35 [A18_truth_calibration] worker 4 unit CGMacros-028 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 5 unit CGMacros-029 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 unit CGMacros-023 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-023 at this replica and budget
+2026-11-16 11:16:35 [A18_truth_calibration] worker 1 gave up on CGMacros-023 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-032 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-031 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 unit CGMacros-033 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 unit CGMacros-028 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-028 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 gave up on CGMacros-028 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 unit CGMacros-029 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-029 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 unit CGMacros-027 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-027 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 gave up on CGMacros-029 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 gave up on CGMacros-027 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 unit CGMacros-034 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-032 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-032 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 gave up on CGMacros-032 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 unit CGMacros-033 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-033 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-031 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-031 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 gave up on CGMacros-033 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 gave up on CGMacros-031 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 unit CGMacros-030 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 unit CGMacros-035 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 unit CGMacros-036 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 unit CGMacros-038 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 unit CGMacros-034 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-034 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 gave up on CGMacros-034 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-039 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-042 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 unit CGMacros-030 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-030 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 gave up on CGMacros-030 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 unit CGMacros-035 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-035 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 gave up on CGMacros-035 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 unit CGMacros-036 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-036 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 gave up on CGMacros-036 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 unit CGMacros-041 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 unit CGMacros-038 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-038 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 gave up on CGMacros-038 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 unit CGMacros-043 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-042 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-042 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 gave up on CGMacros-042 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-039 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-039 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 gave up on CGMacros-039 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 unit CGMacros-044 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 unit CGMacros-045 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 unit CGMacros-046 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 unit CGMacros-047 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 unit CGMacros-043 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-043 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 1 gave up on CGMacros-043 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-048 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 unit CGMacros-044 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-044 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 3 gave up on CGMacros-044 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 unit CGMacros-041 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-041 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 2 gave up on CGMacros-041 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 unit CGMacros-045 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-045 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-049 attempt 1 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 4 gave up on CGMacros-045 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 unit CGMacros-046 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-046 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 5 gave up on CGMacros-046 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 unit CGMacros-048 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-048 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 0 gave up on CGMacros-048 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 unit CGMacros-049 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-049 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 6 gave up on CGMacros-049 after 2 attempts
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 unit CGMacros-047 attempt 2 failed: RuntimeError: no stored coords profile result for CGMacros-047 at this replica and budget
+2026-11-16 11:16:36 [A18_truth_calibration] worker 7 gave up on CGMacros-047 after 2 attempts
+2026-11-17 04:28:12 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-17 04:28:58 [A18_truth_calibration] worker 6 finished CGMacros-001 in 40.9s
+2026-11-17 04:28:58 [A18_truth_calibration] worker 5 finished CGMacros-005 in 40.9s
+2026-11-17 04:28:58 [A18_truth_calibration] worker 3 finished CGMacros-008 in 40.2s
+2026-11-17 04:28:59 [A18_truth_calibration] worker 2 finished CGMacros-002 in 41.8s
+2026-11-17 04:28:59 [A18_truth_calibration] worker 1 finished CGMacros-004 in 42.4s
+2026-11-17 04:28:59 [A18_truth_calibration] worker 0 finished CGMacros-007 in 42.1s
+2026-11-17 04:28:59 [A18_truth_calibration] worker 4 finished CGMacros-003 in 42.7s
+2026-11-17 04:29:02 [A18_truth_calibration] worker 7 finished CGMacros-006 in 44.7s
+2026-11-17 04:29:15 [A18_truth_calibration] worker 2 finished CGMacros-012 in 16.2s
+2026-11-17 04:29:16 [A18_truth_calibration] worker 6 finished CGMacros-009 in 18.0s
+2026-11-17 04:29:26 [A18_truth_calibration] worker 3 finished CGMacros-011 in 28.2s
+2026-11-17 04:29:26 [A18_truth_calibration] worker 0 finished CGMacros-014 in 26.9s
+2026-11-17 04:29:28 [A18_truth_calibration] worker 5 finished CGMacros-010 in 30.7s
+2026-11-17 04:29:29 [A18_truth_calibration] worker 1 finished CGMacros-013 in 30.1s
+2026-11-17 04:29:30 [A18_truth_calibration] worker 4 finished CGMacros-015 in 30.3s
+2026-11-17 04:29:31 [A18_truth_calibration] worker 6 finished CGMacros-018 in 15.9s
+2026-11-17 04:29:36 [A18_truth_calibration] worker 7 finished CGMacros-016 in 33.9s
+2026-11-17 04:29:46 [A18_truth_calibration] worker 5 finished CGMacros-021 in 17.8s
+2026-11-17 04:29:46 [A18_truth_calibration] worker 0 finished CGMacros-020 in 19.9s
+2026-11-17 04:29:46 [A18_truth_calibration] worker 1 finished CGMacros-022 in 16.8s
+2026-11-17 04:29:47 [A18_truth_calibration] worker 2 finished CGMacros-017 in 31.8s
+2026-11-17 04:29:57 [A18_truth_calibration] worker 4 finished CGMacros-023 in 27.0s
+2026-11-17 04:29:57 [A18_truth_calibration] worker 3 finished CGMacros-019 in 30.6s
+2026-11-17 04:30:00 [A18_truth_calibration] worker 6 finished CGMacros-026 in 28.7s
+2026-11-17 04:30:02 [A18_truth_calibration] worker 2 finished CGMacros-031 in 15.1s
+2026-11-17 04:30:06 [A18_truth_calibration] worker 7 finished CGMacros-027 in 30.5s
+2026-11-17 04:30:13 [A18_truth_calibration] worker 0 finished CGMacros-029 in 26.6s
+2026-11-17 04:30:13 [A18_truth_calibration] worker 3 finished CGMacros-033 in 16.5s
+2026-11-17 04:30:16 [A18_truth_calibration] worker 5 finished CGMacros-028 in 29.6s
+2026-11-17 04:30:16 [A18_truth_calibration] worker 1 finished CGMacros-030 in 29.8s
+2026-11-17 04:30:20 [A18_truth_calibration] worker 7 finished CGMacros-036 in 14.0s
+2026-11-17 04:30:25 [A18_truth_calibration] worker 3 finished CGMacros-039 in 11.9s
+2026-11-17 04:30:30 [A18_truth_calibration] worker 4 finished CGMacros-032 in 33.4s
+2026-11-17 04:30:31 [A18_truth_calibration] worker 0 finished CGMacros-038 in 18.1s
+2026-11-17 04:30:33 [A18_truth_calibration] worker 6 finished CGMacros-034 in 33.2s
+2026-11-17 04:30:34 [A18_truth_calibration] worker 5 finished CGMacros-041 in 17.6s
+2026-11-17 04:30:37 [A18_truth_calibration] worker 2 finished CGMacros-035 in 34.9s
+2026-11-17 04:30:45 [A18_truth_calibration] worker 4 finished CGMacros-045 in 14.5s
+2026-11-17 04:30:45 [A18_truth_calibration] worker 1 finished CGMacros-042 in 28.7s
+2026-11-17 04:30:45 [A18_truth_calibration] worker 3 finished CGMacros-044 in 19.7s
+2026-11-17 04:30:51 [A18_truth_calibration] worker 0 finished CGMacros-046 in 19.6s
+2026-11-17 04:30:51 [A18_truth_calibration] worker 6 finished CGMacros-047 in 17.6s
+2026-11-17 04:30:51 [A18_truth_calibration] worker 5 finished CGMacros-048 in 17.6s
+2026-11-17 04:30:53 [A18_truth_calibration] worker 7 finished CGMacros-043 in 33.0s
+2026-11-17 04:30:54 [A18_truth_calibration] worker 2 finished CGMacros-049 in 16.7s
+2026-11-17 04:30:57 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-17 04:31:31 [A18_truth_calibration] worker 2 finished CGMacros-008 in 30.1s
+2026-11-17 04:31:31 [A18_truth_calibration] worker 4 finished CGMacros-003 in 30.6s
+2026-11-17 04:31:31 [A18_truth_calibration] worker 5 finished CGMacros-006 in 30.5s
+2026-11-17 04:31:32 [A18_truth_calibration] worker 3 finished CGMacros-001 in 31.4s
+2026-11-17 04:31:32 [A18_truth_calibration] worker 1 finished CGMacros-002 in 31.7s
+2026-11-17 04:31:32 [A18_truth_calibration] worker 0 finished CGMacros-005 in 31.7s
+2026-11-17 04:31:33 [A18_truth_calibration] worker 6 finished CGMacros-007 in 31.9s
+2026-11-17 04:31:33 [A18_truth_calibration] worker 7 finished CGMacros-004 in 32.9s
+2026-11-17 04:31:41 [A18_truth_calibration] worker 5 finished CGMacros-011 in 10.0s
+2026-11-17 04:31:54 [A18_truth_calibration] worker 2 finished CGMacros-009 in 23.2s
+2026-11-17 04:31:57 [A18_truth_calibration] worker 1 finished CGMacros-013 in 24.9s
+2026-11-17 04:31:57 [A18_truth_calibration] worker 3 finished CGMacros-012 in 25.2s
+2026-11-17 04:31:57 [A18_truth_calibration] worker 4 finished CGMacros-010 in 26.0s
+2026-11-17 04:31:58 [A18_truth_calibration] worker 0 finished CGMacros-014 in 25.6s
+2026-11-17 04:31:58 [A18_truth_calibration] worker 6 finished CGMacros-015 in 25.3s
+2026-11-17 04:31:59 [A18_truth_calibration] worker 7 finished CGMacros-016 in 25.8s
+2026-11-17 04:32:07 [A18_truth_calibration] worker 5 finished CGMacros-017 in 25.2s
+2026-11-17 04:32:08 [A18_truth_calibration] worker 2 finished CGMacros-018 in 13.1s
+2026-11-17 04:32:12 [A18_truth_calibration] worker 3 finished CGMacros-020 in 15.2s
+2026-11-17 04:32:13 [A18_truth_calibration] worker 0 finished CGMacros-022 in 15.6s
+2026-11-17 04:32:14 [A18_truth_calibration] worker 4 finished CGMacros-021 in 16.6s
+2026-11-17 04:32:23 [A18_truth_calibration] worker 1 finished CGMacros-019 in 25.9s
+2026-11-17 04:32:24 [A18_truth_calibration] worker 6 finished CGMacros-023 in 25.9s
+2026-11-17 04:32:26 [A18_truth_calibration] worker 2 finished CGMacros-028 in 18.3s
+2026-11-17 04:32:26 [A18_truth_calibration] worker 7 finished CGMacros-026 in 26.9s
+2026-11-17 04:32:28 [A18_truth_calibration] worker 3 finished CGMacros-029 in 15.3s
+2026-11-17 04:32:33 [A18_truth_calibration] worker 5 finished CGMacros-027 in 26.7s
+2026-11-17 04:32:39 [A18_truth_calibration] worker 4 finished CGMacros-031 in 25.5s
+2026-11-17 04:32:40 [A18_truth_calibration] worker 0 finished CGMacros-030 in 26.2s
+2026-11-17 04:32:41 [A18_truth_calibration] worker 7 finished CGMacros-035 in 15.0s
+2026-11-17 04:32:48 [A18_truth_calibration] worker 5 finished CGMacros-038 in 15.1s
+2026-11-17 04:32:50 [A18_truth_calibration] worker 1 finished CGMacros-032 in 26.5s
+2026-11-17 04:32:50 [A18_truth_calibration] worker 6 finished CGMacros-033 in 26.0s
+2026-11-17 04:32:51 [A18_truth_calibration] worker 2 finished CGMacros-034 in 25.4s
+2026-11-17 04:32:56 [A18_truth_calibration] worker 3 finished CGMacros-036 in 28.2s
+2026-11-17 04:32:57 [A18_truth_calibration] worker 4 finished CGMacros-039 in 17.3s
+2026-11-17 04:32:57 [A18_truth_calibration] worker 0 finished CGMacros-041 in 17.3s
+2026-11-17 04:33:05 [A18_truth_calibration] worker 1 finished CGMacros-044 in 14.9s
+2026-11-17 04:33:05 [A18_truth_calibration] worker 6 finished CGMacros-045 in 14.9s
+2026-11-17 04:33:09 [A18_truth_calibration] worker 2 finished CGMacros-046 in 17.3s
+2026-11-17 04:33:11 [A18_truth_calibration] worker 3 finished CGMacros-047 in 14.7s
+2026-11-17 04:33:12 [A18_truth_calibration] worker 7 finished CGMacros-042 in 30.4s
+2026-11-17 04:33:12 [A18_truth_calibration] worker 4 finished CGMacros-048 in 15.3s
+2026-11-17 04:33:13 [A18_truth_calibration] worker 0 finished CGMacros-049 in 16.5s
+2026-11-17 04:33:15 [A18_truth_calibration] worker 5 finished CGMacros-043 in 26.5s
+2026-11-17 04:33:18 [A18_truth_calibration] start: 45 units, 0 already done, 0 previously failed, 8 workers
+2026-11-17 04:33:52 [A18_truth_calibration] worker 5 finished CGMacros-008 in 29.1s
+2026-11-17 04:33:53 [A18_truth_calibration] worker 2 finished CGMacros-003 in 30.9s
+2026-11-17 04:33:53 [A18_truth_calibration] worker 0 finished CGMacros-005 in 31.1s
+2026-11-17 04:33:53 [A18_truth_calibration] worker 3 finished CGMacros-007 in 31.1s
+2026-11-17 04:33:53 [A18_truth_calibration] worker 4 finished CGMacros-001 in 31.3s
+2026-11-17 04:33:54 [A18_truth_calibration] worker 6 finished CGMacros-002 in 31.6s
+2026-11-17 04:33:54 [A18_truth_calibration] worker 1 finished CGMacros-006 in 31.9s
+2026-11-17 04:33:56 [A18_truth_calibration] worker 7 finished CGMacros-004 in 34.3s
+2026-11-17 04:34:06 [A18_truth_calibration] worker 4 finished CGMacros-013 in 12.7s
+2026-11-17 04:34:12 [A18_truth_calibration] worker 5 finished CGMacros-009 in 19.9s
+2026-11-17 04:34:17 [A18_truth_calibration] worker 2 finished CGMacros-010 in 24.0s
+2026-11-17 04:34:18 [A18_truth_calibration] worker 0 finished CGMacros-011 in 24.7s
+2026-11-17 04:34:19 [A18_truth_calibration] worker 3 finished CGMacros-012 in 25.4s
+2026-11-17 04:34:20 [A18_truth_calibration] worker 6 finished CGMacros-014 in 26.8s
+2026-11-17 04:34:21 [A18_truth_calibration] worker 1 finished CGMacros-015 in 26.8s
+2026-11-17 04:34:22 [A18_truth_calibration] worker 7 finished CGMacros-016 in 25.1s
+2026-11-17 04:34:29 [A18_truth_calibration] worker 5 finished CGMacros-018 in 16.5s
+2026-11-17 04:34:31 [A18_truth_calibration] worker 0 finished CGMacros-020 in 13.5s
+2026-11-17 04:34:36 [A18_truth_calibration] worker 6 finished CGMacros-022 in 15.6s
+2026-11-17 04:34:36 [A18_truth_calibration] worker 4 finished CGMacros-017 in 29.9s
+2026-11-17 04:34:37 [A18_truth_calibration] worker 1 finished CGMacros-023 in 15.9s
+2026-11-17 04:34:45 [A18_truth_calibration] worker 5 finished CGMacros-027 in 15.9s
+2026-11-17 04:34:45 [A18_truth_calibration] worker 2 finished CGMacros-019 in 27.9s
+2026-11-17 04:34:46 [A18_truth_calibration] worker 3 finished CGMacros-021 in 27.1s
+2026-11-17 04:34:50 [A18_truth_calibration] worker 7 finished CGMacros-026 in 28.1s
+2026-11-17 04:34:53 [A18_truth_calibration] worker 6 finished CGMacros-029 in 17.2s
+2026-11-17 04:34:54 [A18_truth_calibration] worker 1 finished CGMacros-031 in 17.5s
+2026-11-17 04:35:01 [A18_truth_calibration] worker 0 finished CGMacros-028 in 29.6s
+2026-11-17 04:35:01 [A18_truth_calibration] worker 2 finished CGMacros-033 in 16.3s
+2026-11-17 04:35:06 [A18_truth_calibration] worker 7 finished CGMacros-035 in 16.1s
+2026-11-17 04:35:06 [A18_truth_calibration] worker 4 finished CGMacros-030 in 29.8s
+2026-11-17 04:35:11 [A18_truth_calibration] worker 5 finished CGMacros-032 in 25.8s
+2026-11-17 04:35:14 [A18_truth_calibration] worker 3 finished CGMacros-034 in 28.2s
+2026-11-17 04:35:14 [A18_truth_calibration] worker 2 finished CGMacros-041 in 13.0s
+2026-11-17 04:35:18 [A18_truth_calibration] worker 0 finished CGMacros-039 in 17.1s
+2026-11-17 04:35:21 [A18_truth_calibration] worker 6 finished CGMacros-036 in 27.5s
+2026-11-17 04:35:22 [A18_truth_calibration] worker 1 finished CGMacros-038 in 28.1s
+2026-11-17 04:35:27 [A18_truth_calibration] worker 5 finished CGMacros-044 in 16.0s
+2026-11-17 04:35:31 [A18_truth_calibration] worker 3 finished CGMacros-045 in 16.7s
+2026-11-17 04:35:32 [A18_truth_calibration] worker 2 finished CGMacros-046 in 17.7s
+2026-11-17 04:35:35 [A18_truth_calibration] worker 7 finished CGMacros-042 in 28.8s
+2026-11-17 04:35:36 [A18_truth_calibration] worker 0 finished CGMacros-047 in 18.2s
+2026-11-17 04:35:37 [A18_truth_calibration] worker 4 finished CGMacros-043 in 31.1s
+2026-11-17 04:35:38 [A18_truth_calibration] worker 6 finished CGMacros-048 in 17.0s
+2026-11-17 04:35:43 [A18_truth_calibration] worker 1 finished CGMacros-049 in 20.2s

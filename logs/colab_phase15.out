@@ -1,0 +1,24 @@
+=== 2026-11-16 09:38:10 evaluation.profile_lik --set objective="trace" --set bounds_scale=1.0 --set polish=true --set extension_points=0 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random","residual_gut":0.1}
+2026-11-16 09:38:12 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+
+interrupt: finishing the units in flight, then stopping. Interrupt again to stop now. Re-run the same command to resume.
+==============================================================================
+A5_profile: 0/45 done, 0 failed in 0.03h
+  44 still pending — re-run the same command to resume
+==============================================================================
+=== 2026-11-16 09:40:09 evaluation.profile_lik --set objective="trace" --set bounds_scale=1.0 --set polish=true --set extension_points=0 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random"}
+2026-11-16 09:40:11 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+
+interrupt: finishing the units in flight, then stopping. Interrupt again to stop now. Re-run the same command to resume.
+
+second interrupt: stopping now
+==============================================================================
+A5_profile: 0/45 done, 0 failed in 0.01h
+  44 still pending — re-run the same command to resume
+==============================================================================

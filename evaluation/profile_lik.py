@@ -85,6 +85,10 @@ def default_config() -> dict:
         # profiled parameters to a list of names (the S_I sensitivity profiles only that one).
         "noise_structure": "homoskedastic",
         "profile_only": None,
+        # Amendment 12: "adam" is the fixed-step inner solver of every earlier result; "lbfgsb" solves each grid point to
+        # convergence (evaluation/profile_solver.py), with at most `lbfgsb_maxiter` iterations per point.
+        "inner_solver": "adam",
+        "lbfgsb_maxiter": 200,
     }
 
 
@@ -253,9 +257,14 @@ def _run_unit(unit: str, config: dict) -> dict:
         else:
             grid, n_inside = log_grid(lower[index], upper[index], config["grid_points"], extension)
             phi_grid = np.log(grid)
-        raw = profile_likelihood(loss_fn, phi_hat, index, phi_grid, lower=phi_lower, upper=phi_upper,
-                                 steps=config["steps"], learning_rate=config["learning_rate"],
-                                 project=project)
+        if config.get("inner_solver", "adam") == "lbfgsb":
+            from evaluation.profile_solver import profile_lbfgsb
+            raw = profile_lbfgsb(loss_fn, phi_hat, index, phi_grid, phi_lower, phi_upper, project,
+                                 int(config.get("lbfgsb_maxiter", 200)))
+        else:
+            raw = profile_likelihood(loss_fn, phi_hat, index, phi_grid, lower=phi_lower, upper=phi_upper,
+                                     steps=config["steps"], learning_rate=config["learning_rate"],
+                                     project=project)
         profile = np.asarray(raw["profile"], dtype=float)
         drift = np.asarray(raw["drift"], dtype=float)
         reference = min(loss_at_hat, float(profile.min()))
@@ -282,6 +291,8 @@ def _run_unit(unit: str, config: dict) -> dict:
                     np.log(grid[inside][int(np.argmin(profile[inside]))]) - phi_hat[index])
                 <= (phi_upper[index] - phi_lower[index]) / (config["grid_points"] - 1) + 1e-9),
         }
+        if "converged" in raw:
+            entry["solver_converged"] = [bool(v) for v in raw["converged"]]
         if extension:
             entry["extended"] = classify_profile(grid, profile, delta=CHI2_DELTA, reference=reference)
             entry["extended_note"] = ("points beyond the physiological upper bound; diagnostic "
@@ -299,6 +310,7 @@ def _run_unit(unit: str, config: dict) -> dict:
         "subject_id": unit, "cohort": config["cohort"], "objective": name,
         "parameterization": parameterization, "replica": config.get("replica"),
         "carb_scale": config.get("carb_scale"), "polish": polish, "inner_steps": int(config["steps"]),
+        "inner_solver": config.get("inner_solver", "adam"), "grid_points": int(config["grid_points"]),
         "noise_structure": structure, "profile_only": list(only) if only else None,
         "noise": noise.as_dict(),
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
@@ -332,6 +344,8 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("cohort", "cgmacros") == config.get("cohort", "cgmacros")
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
             and int(payload.get("inner_steps", 100)) == int(config.get("steps", 100))
+            and payload.get("inner_solver", "adam") == config.get("inner_solver", "adam")
+            and int(payload.get("grid_points", 15)) == int(config.get("grid_points", 15))
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")
             and (payload.get("polish") is not None) == bool(config.get("polish"))
@@ -382,7 +396,7 @@ def summarize_rows(rows: list[dict], config: dict) -> dict:
         out["parameters"][parameter] = entry
     # Amendment 2: interior FOR a parameter, from the estimate's distance to its own bounds.
     key = "insulin_sensitivity" if "insulin_sensitivity" in rows[0]["profiles"] else "log_insulin_sensitivity"
-    interior = [r for r in rows if r["distance_to_bound"][key] > 0.01]
+    interior = [r for r in rows if key in r["profiles"] and r["distance_to_bound"][key] > 0.01]   # absent if not profiled
     out["interior_for_S_I"] = len(interior)
     if interior:
         bounded = sum(r["profiles"][key]["classification"]["verdict"] == "identifiable" for r in interior)
