@@ -1,0 +1,139 @@
+=== 2026-11-18 08:40:00 evaluation.profile_at_truth --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"cgm_scale":0.25}
+2026-11-18 08:40:02 [A19_profile_at_truth] start: 45 units, 45 already done, 0 previously failed, 1 workers
+==============================================================================
+A19_profile_at_truth: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-18 08:40:02 evaluation.profile_at_truth --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+2026-11-18 08:40:05 [A19_profile_at_truth] start: 45 units, 43 already done, 1 previously failed, 1 workers
+  43/45 done, 1 failed, 1 workers, eta 0.0h
+  43/45 done, 1 failed, 1 workers, eta 0.0h
+==============================================================================
+A19_profile_at_truth: 44/45 done, 1 failed in 0.01h
+  FAILED: CGMacros-034
+  tracebacks in /content/paperML/results/A19_profile_at_truth/089e331e5795
+==============================================================================
+!!! evaluation.profile_at_truth --set replica={"seed":0,"cgm":true,"carb_cv":0.0} exited non-zero; continuing
+=== 2026-11-18 08:40:43 evaluation.profile_at_truth --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-11-18 08:40:46 [A19_profile_at_truth] start: 45 units, 44 already done, 0 previously failed, 1 workers
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A19_profile_at_truth: 45/45 done, 0 failed in 0.01h
+==============================================================================
+=== 2026-11-18 08:41:26 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set inner_solver="lbfgsb" --set profile_only=["log_tau1","log_p"] --set grid_points=29 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"cgm_scale":0.25}
+2026-11-18 08:41:27 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 1 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-18 08:41:28 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set inner_solver="lbfgsb" --set profile_only=["log_tau1","log_p"]
+2026-11-18 08:41:29 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 1 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-18 08:41:30 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set inner_solver="lbfgsb" --set profile_only=["log_tau1","log_p"] --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"cgm_scale":0.25}
+2026-11-18 08:41:31 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 1 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-18 08:41:31 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set inner_solver="lbfgsb" --set profile_only=["log_tau1","log_p"] --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+2026-11-18 08:41:33 [A5_profile] start: 45 units, 18 already done, 0 previously failed, 1 workers
+  18/45 done, 0 failed, 1 workers, eta 0.0h
+  18/45 done, 0 failed, 1 workers, eta 0.0h
+  19/45 done, 0 failed, 1 workers, eta 0.0h
+  20/45 done, 0 failed, 1 workers, eta 0.0h
+  20/45 done, 0 failed, 1 workers, eta 0.0h
+  21/45 done, 0 failed, 1 workers, eta 0.0h
+  22/45 done, 0 failed, 1 workers, eta 0.1h
+  23/45 done, 0 failed, 1 workers, eta 0.1h
+  24/45 done, 0 failed, 1 workers, eta 0.1h
+  24/45 done, 0 failed, 1 workers, eta 0.1h
+  25/45 done, 0 failed, 1 workers, eta 0.1h
+  26/45 done, 0 failed, 1 workers, eta 0.1h
+  27/45 done, 0 failed, 1 workers, eta 0.1h
+  28/45 done, 0 failed, 1 workers, eta 0.1h
+  29/45 done, 0 failed, 1 workers, eta 0.1h
+  30/45 done, 0 failed, 1 workers, eta 0.1h
+  30/45 done, 0 failed, 1 workers, eta 0.1h
+  31/45 done, 0 failed, 1 workers, eta 0.1h
+  32/45 done, 0 failed, 1 workers, eta 0.1h
+  33/45 done, 0 failed, 1 workers, eta 0.1h
+  34/45 done, 0 failed, 1 workers, eta 0.1h
+  35/45 done, 0 failed, 1 workers, eta 0.1h
+  36/45 done, 0 failed, 1 workers, eta 0.0h
+  36/45 done, 0 failed, 1 workers, eta 0.0h
+  37/45 done, 0 failed, 1 workers, eta 0.0h
+  38/45 done, 0 failed, 1 workers, eta 0.0h
+  39/45 done, 0 failed, 1 workers, eta 0.0h
+  39/45 done, 0 failed, 1 workers, eta 0.0h
+  40/45 done, 0 failed, 1 workers, eta 0.0h
+  41/45 done, 0 failed, 1 workers, eta 0.0h
+  42/45 done, 0 failed, 1 workers, eta 0.0h
+  43/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.27h
+==============================================================================
+=== 2026-11-18 08:57:58 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set inner_solver="lbfgsb" --set profile_only=["log_tau1","log_p"] --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-11-18 08:57:59 [A5_profile] start: 45 units, 0 already done, 0 previously failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  0/45 done, 0 failed, 1 workers
+  1/45 done, 0 failed, 1 workers, eta 0.8h
+  2/45 done, 0 failed, 1 workers, eta 0.6h
+  3/45 done, 0 failed, 1 workers, eta 0.5h
+  3/45 done, 0 failed, 1 workers, eta 0.6h
+  4/45 done, 0 failed, 1 workers, eta 0.5h
+  4/45 done, 0 failed, 1 workers, eta 0.6h
+  5/45 done, 0 failed, 1 workers, eta 0.5h
+  6/45 done, 0 failed, 1 workers, eta 0.5h
+  7/45 done, 0 failed, 1 workers, eta 0.5h
+  7/45 done, 0 failed, 1 workers, eta 0.5h
+  8/45 done, 0 failed, 1 workers, eta 0.5h
+  9/45 done, 0 failed, 1 workers, eta 0.4h
+  10/45 done, 0 failed, 1 workers, eta 0.4h
+  11/45 done, 0 failed, 1 workers, eta 0.4h
+  12/45 done, 0 failed, 1 workers, eta 0.4h
+  12/45 done, 0 failed, 1 workers, eta 0.4h
+  13/45 done, 0 failed, 1 workers, eta 0.4h
+  14/45 done, 0 failed, 1 workers, eta 0.4h
+  15/45 done, 0 failed, 1 workers, eta 0.3h
+  15/45 done, 0 failed, 1 workers, eta 0.4h
+  16/45 done, 0 failed, 1 workers, eta 0.3h
+  17/45 done, 0 failed, 1 workers, eta 0.3h
+  18/45 done, 0 failed, 1 workers, eta 0.3h
+  18/45 done, 0 failed, 1 workers, eta 0.3h
+  19/45 done, 0 failed, 1 workers, eta 0.3h
+  20/45 done, 0 failed, 1 workers, eta 0.3h
+  21/45 done, 0 failed, 1 workers, eta 0.3h
+  22/45 done, 0 failed, 1 workers, eta 0.3h
+  22/45 done, 0 failed, 1 workers, eta 0.3h
+  23/45 done, 0 failed, 1 workers, eta 0.2h
+  24/45 done, 0 failed, 1 workers, eta 0.2h
+  25/45 done, 0 failed, 1 workers, eta 0.2h
+  26/45 done, 0 failed, 1 workers, eta 0.2h
+  27/45 done, 0 failed, 1 workers, eta 0.2h
+  28/45 done, 0 failed, 1 workers, eta 0.2h
+  28/45 done, 0 failed, 1 workers, eta 0.2h
+  29/45 done, 0 failed, 1 workers, eta 0.2h
+  30/45 done, 0 failed, 1 workers, eta 0.2h
+  31/45 done, 0 failed, 1 workers, eta 0.2h
+  32/45 done, 0 failed, 1 workers, eta 0.1h
+  33/45 done, 0 failed, 1 workers, eta 0.1h
+  34/45 done, 0 failed, 1 workers, eta 0.1h
+  35/45 done, 0 failed, 1 workers, eta 0.1h
+  36/45 done, 0 failed, 1 workers, eta 0.1h
+  36/45 done, 0 failed, 1 workers, eta 0.1h
+  37/45 done, 0 failed, 1 workers, eta 0.1h
+  38/45 done, 0 failed, 1 workers, eta 0.1h
+  39/45 done, 0 failed, 1 workers, eta 0.1h
+  40/45 done, 0 failed, 1 workers, eta 0.1h
+  41/45 done, 0 failed, 1 workers, eta 0.0h
+  41/45 done, 0 failed, 1 workers, eta 0.0h
+  42/45 done, 0 failed, 1 workers, eta 0.0h
+  43/45 done, 0 failed, 1 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.46h
+==============================================================================
+=== 2026-11-18 09:25:51 all queued Phase 16 jobs finished
+wrote phase16_results.tgz
+Copy phase16_results.tgz to Drive, then stop the runtime.

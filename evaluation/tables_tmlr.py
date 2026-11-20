@@ -62,6 +62,7 @@ TOPIC = {
     "H31": "A converged inner solve keeps the true value inside the band at low noise",
     "H32": "The real-data trace fractions do not depend on the inner solver",
     "H33": "Calibration at low noise with a converged inner solver and a finer grid",
+    "H34": "The real-data trace fractions do not depend on the grid resolution",
 }
 
 

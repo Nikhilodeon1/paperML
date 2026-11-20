@@ -51,6 +51,9 @@ def load_summary() -> dict:
     solver = RESULTS / "phase16_summary.json"
     if solver.exists():
         summary["phase16"] = json.loads(solver.read_text(encoding="utf-8"))
+    grid = RESULTS / "phase17_summary.json"
+    if grid.exists():
+        summary["phase17"] = json.loads(grid.read_text(encoding="utf-8"))
     return summary
 
 
@@ -465,12 +468,23 @@ def h33(summary):
     return _row(rule, block["status"], {f"{k}_coverage": v for k, v in block["coverage"].items()})
 
 
+def h34(summary):
+    rule = ("Real data, trace coordinate profiles, Adam inner solver: the bounded fractions of tau1 and p on a 29-point grid "
+            "stay within 10 points of those on the 15-point grid of the paper.")
+    block = summary.get("phase17", {}).get("h34")
+    if not block or block.get("status") in (None, "not evaluated"):
+        return _row(rule, "not evaluated", note="29-point profiles not run.")
+    return _row(rule, block["status"], {f"{k}_difference_points": v for k, v in block["difference_points"].items()})
+
+
 if (RESULTS / "phase14_summary.json").exists():            # H27 and H28 are listed once Amendment 10 has been run
     ALL.update({"H27": h27, "H28": h28})
 if (RESULTS / "phase15_summary.json").exists():            # H29 and H30 are listed once Amendment 11 has been run
     ALL.update({"H29": h29, "H30": h30})
 if (RESULTS / "phase16_summary.json").exists():            # H31 to H33 are listed once Amendment 12 has been run
     ALL.update({"H31": h31, "H32": h32, "H33": h33})
+if (RESULTS / "phase17_summary.json").exists():            # H34 is listed once Amendment 13 has been run
+    ALL.update({"H34": h34})
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 
