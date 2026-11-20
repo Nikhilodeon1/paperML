@@ -2,7 +2,7 @@
 \label{sec:results}
 
 Hypotheses H1 to H10 were fixed in version control before the analyses. H11 and H12 were declared before theirs, and
-H13 to H28 after earlier results had been seen; those are marked post hoc. Fractions carry Wilson intervals and paired
+H13 to H34 after earlier results had been seen; those are marked post hoc. Fractions carry Wilson intervals and paired
 differences carry subject-level bootstrap intervals. Appendix~\ref{app:results} gives the tables and figures omitted
 here, and Appendix~\ref{app:scorecard} the status of every hypothesis.
 
@@ -111,6 +111,21 @@ against \resHeteroBaseline\%; H16, exploratory; Appendix~\ref{apx:si}). A system
 absorbed by $\SI$. Scaling every logged carbohydrate by $0.75$ and $1.33$ moves the median estimate by a log ratio of
 \resCarbScaleLowLogRatio{} and \resCarbScaleHighLogRatio{}, close to the \resCarbScaleLowExpected{} and
 \resCarbScaleHighExpected{} of exact absorption (H16, exploratory).
+
+\paragraph{A wrong fixed parameter.}
+Two parameters of the glucose equations, $\gamma$ (insulin secretion) and $p_3$ (the gain of insulin action), are fixed
+at population values in every fit. To see what a wrong value does, we multiplied one of them in the truth of the
+standard replica by $1.3$ and by $0.7$ and kept the population value in the fit (Amendment eleven, post hoc). The two
+parameters act alike here: scaling $\gamma$ or scaling $p_3$ by the same factor gave the same estimate of $\SI$ in
+\resPertSameUp{} of \resPertSameUpN{} subjects at $1.3$ and \resPertSameDown{} of \resPertSameDownN{} at $0.7$, so we
+treat them as one test, a change in the scale of insulin action. On the unperturbed replica the nominal interval for
+$\SI$ contains the truth for \resPertBaseSICover\% of subjects, with a median signed log error of \resPertBaseBias{}.
+With the truth's insulin action raised by thirty percent the coverage is \resPertGammaUpSICover\% and the median
+signed log error \resPertGammaUpBias{}. Lowered by thirty percent, the coverage falls to \resPertGammaDownSICover\%, the
+bounded intervals contain the truth in \resPertGammaDownSICovbd\% of cases, and the median signed log error is
+\resPertGammaDownBias{}, close to the shift of the baseline by the logarithm of the factor. A wrong fixed parameter is
+absorbed by $\SI$, in the direction the scale predicts, and the interval for $\SI$ does not signal it: the share of
+bounded intervals is \resPertGammaDownSIBounded\% against \resPertBaseSIBounded\% on the unperturbed replica.
 
 \begin{figure}[t]
 \centering
@@ -267,21 +282,71 @@ from \resCvZeroCoverTau\% and \resCvZeroCoverP\% to \resCvThreeQuarterCoverTau\%
 above every replica value for $p$. The real-data pattern is therefore what a larger input error than the one we
 assumed would produce, and we cannot show that it is the cause: a mechanism outside the replica would do the same.
 At the estimated noise the undercoverage of the replica is explained by the input error, as the exact-carbohydrate
-replica shows. A second source of undercoverage at low noise is unidentified, and it is not the inner optimizer of the
-profile. With $500$ inner steps in place of $100$, the share of grid points flagged as unsettled falls from
-\resInnerQuarterHundredUnsettled\% to \resInnerQuarterFiveHundredUnsettled\% at a quarter of the noise, no profile
-changes class in any of the four settings we reran (\resInnerQuarterChanged{} of \resInnerQuarterChangedOf{} at a
-quarter of the noise, \resInnerRealChanged{} of \resInnerRealChangedOf{} on the real data), and with exact
-carbohydrate and a quarter of the noise the nominal interval still contains the truth for only
-\resInnerQuarterFiveHundredCoverTau\% and \resInnerQuarterFiveHundredCoverP\% of subjects (H28, post hoc,
-\resVerdictHTwentyEight). The real-data bounded fractions are the same at both budgets, \resInnerRealFiveHundredBoundedTau\%
-and \resInnerRealFiveHundredBoundedP\% (H27, post hoc, \resVerdictHTwentySeven). Under those conditions the detector
-bounds $\tau_1$ and $p$ in \resInnerQuarterFiveHundredBoundedTau\% and \resInnerQuarterFiveHundredBoundedP\% of
-interior subjects, and the bounded intervals contain the truth in \resInnerQuarterFiveHundredCovbdTau\% and
-\resInnerQuarterFiveHundredCovbdP\%. We therefore have no setting in which the trace profiles return a bounded and a
-calibrated interval for the combination together: they are calibrated when they are rarely bounded (exact carbohydrate at
-the estimated noise) and often bounded when they are not calibrated. We do not claim that the combination is
-recoverable. Appendix~\ref{apx:more} gives the trail.
+replica shows. A second source of undercoverage appears at low noise, and it lies in how the profile is read, not in the
+likelihood or the optimizer. With exact carbohydrate and a quarter of the noise, the nominal interval read off the
+stored grid contains the truth for only \resInnerQuarterFiveHundredCoverTau\% and
+\resInnerQuarterFiveHundredCoverP\% of subjects (H28, post hoc, \resVerdictHTwentyEight), and a longer inner run does
+not change that: with $500$ inner steps in place of $100$ the share of grid points flagged as unsettled falls from
+\resInnerQuarterHundredUnsettled\% to \resInnerQuarterFiveHundredUnsettled\%, no profile changes class in any of the
+four settings we reran (\resInnerQuarterChanged{} of \resInnerQuarterChangedOf{} at a quarter of the noise,
+\resInnerRealChanged{} of \resInnerRealChangedOf{} on the real data), and the real-data bounded fractions stay at
+\resInnerRealFiveHundredBoundedTau\% and \resInnerRealFiveHundredBoundedP\% (H27, post hoc, \resVerdictHTwentySeven).
+Three further checks locate the source (Amendments eleven and twelve, post hoc). First, the likelihood at the true
+parameters is calibrated at this noise: half the likelihood-ratio statistic has median \resCalQuarterMedianLr{} and
+ninetieth percentile \resCalQuarterQNinetyLr{}, against \resCalRefMedian{} and \resCalRefQNinety{} for half a chi-square with
+three degrees of freedom, and exceeds the cutoff in \resCalQuarterOver\% of subjects. The stored polished estimate is
+within the cutoff of the best optimum found from the truth in \resCalQuarterGapWithin{} of \resCalQuarterN{} subjects,
+with a largest gap of \resCalQuarterGapMax{} (H30, post hoc, \resVerdictHThirty). Second, computed directly at the true
+value, with the other two coordinates solved to convergence, the profile excess is within the cutoff for
+\resTruthQuarterTauDirectWithinCount{} of \resTruthQuarterTauDirectN{} subjects for $\tau_1$ and
+\resTruthQuarterPDirectWithinCount{} of \resTruthQuarterPDirectN{} for $p$ (H31, post hoc, \resVerdictHThirtyOne),
+whether the solve starts at the estimate or at the truth and whether it uses Adam or L-BFGS-B; those choices change the
+median excess by \resTruthQuarterTauSolver{} (solver) and \resTruthQuarterTauStart{} (start). The excess read off the
+fifteen-point grid has median \resTruthQuarterTauStoredMedian{} for $\tau_1$ and \resTruthQuarterPStoredMedian{} for $p$,
+against \resTruthQuarterTauDirectMedian{} and \resTruthQuarterPDirectMedian{} when computed at the true value. The
+difference is linear interpolation across a grid that is wide relative to a narrow profile (median
+\resTruthQuarterTauInterp{} for $\tau_1$ and \resTruthQuarterPInterp{} for $p$). At the estimated noise the same
+comparison gives \resTruthExactTauStoredMedian{} against \resTruthExactTauDirectMedian{} for $\tau_1$, a smaller
+overstatement that leaves the coverage near its nominal level. Third, a converged inner solver (L-BFGS-B at every grid point) changes no profile class in any setting
+(\resConvRealChanged{} of \resConvRealChangedOf{} on the real data, \resConvQuarterChanged{} of
+\resConvQuarterChangedOf{} at a quarter of the noise) and leaves the real-data bounded fractions at
+\resConvRealTauBounded\% and \resConvRealPBounded\% (H32, post hoc, \resVerdictHThirtyTwo); and a grid of
+twenty-nine points in place of fifteen leaves them there too (\resGridRealTwentyNineTauBounded\% and
+\resGridRealTwentyNinePBounded\%; H34, post hoc, \resVerdictHThirtyFour), changing no class on the real data or on the
+exact-carbohydrate and carbohydrate-error replicas (\resGridRealChanged{}, \resGridExactChanged{} and
+\resGridRepChanged{} of \resGridRealChangedOf{}). Only the narrow profiles of the low-noise replica depend on the grid.
+On a twenty-nine-point grid with the converged solver, the nominal interval contains the truth for
+\resConvFineTauCover\% and \resConvFinePCover\% of subjects at a quarter of the noise (H33, post hoc,
+\resVerdictHThirtyThree), the detector bounds $\tau_1$ and $p$ in \resConvFineTauBounded\% and \resConvFinePBounded\%
+of interior subjects, and the bounded intervals contain the truth in \resConvFineTauCovbd\% and \resConvFinePCovbd\%.
+
+This changes the claim we can make about the combination. There is a setting, a true-model replica with exact
+carbohydrate and a quarter of the replica noise, in which the trace profiles return intervals for $\tau_1$ and $p$ that
+are both often bounded and calibrated, so the detector can identify the combination when the data and the inputs are
+good enough. It is not the setting of the real data. At the estimated noise with exact carbohydrate the intervals are
+calibrated (\resExactOneCoverTau\% and \resExactOneCoverP\%) and rarely bounded (\resExactOneTraceBoundedTau\% and
+\resExactOneTraceBoundedP\%), and with the carbohydrate error of the replica they are more often bounded and less
+often right. We do not claim that the combination is recovered on the real data, whose bounded fractions of
+\resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% are consistent with a larger input error or a
+smaller noise than we assumed and cannot be assigned to either. Appendix~\ref{apx:more} gives the trail.
+
+\paragraph{Breaking the symmetry by design.}
+If the exchange symmetry were the only reason the gut rates are not bounded, a design that breaks it should bound
+them. We gave every meal of a random-truth replica with exact carbohydrate a known residual intestinal content,
+equal in the truth and in the fit so that the model stays exactly true (Amendment eleven, H29, post hoc). At a content
+of $10\%$ of the meal, $\ke$ and $\ka$ are bounded in \resResTenKeBoundedCount{} of \resResTenKeBoundedN{} and
+\resResTenKaBoundedCount{} of \resResTenKaBoundedN{} interior subjects (\resResTenKeBounded\% and
+\resResTenKaBounded\%), and the nominal interval contains the truth for \resResTenKeCover\% and \resResTenKaCover\% of
+subjects. The rule asked for at least half bounded and ninety percent covered, and it was not met
+(\resVerdictHTwentyNine). The bounded fraction rises with the content, for $\ke$ from \resResZeroKeBounded\% at none
+through \resResFiveKeBounded\% and \resResTenKeBounded\% to \resResTwentyKeBounded\% at $20\%$, and for $\ka$ from
+\resResZeroKaBounded\% through \resResFiveKaBounded\% and \resResTenKaBounded\% to \resResTwentyKaBounded\%, while the
+intervals stay calibrated (coverage \resResTwentyKeCover\% and \resResTwentyKaCover\% at $20\%$). A second replica seed at
+$10\%$ gives \resResSeedOneTenKeBounded\% and \resResSeedOneTenKaBounded\%, and a grid of twenty-nine points leaves the
+$10\%$ result at \resGridResTenTwentyNineKeBounded\% and \resGridResTenTwentyNineKaBounded\%. So breaking the symmetry
+helps in proportion to the residue, but a tenth of the meal does not make the rates identifiable from these data: the
+structural result of Proposition~\ref{prop:breaking} is necessary for a bounded interval and, at this noise, not
+sufficient. The residue is a design choice for a control and not a model of free-living meals.
 
 \subsection{A second model class}
 \label{sec:dm}

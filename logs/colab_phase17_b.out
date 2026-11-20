@@ -1,0 +1,28 @@
+=== 2026-11-20 17:13:41 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set grid_points=29
+2026-11-20 17:13:42 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 8 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-20 17:13:43 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set grid_points=29 --set replica={"seed":0,"cgm":true,"carb_cv":0.0}
+2026-11-20 17:13:44 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 8 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-20 17:13:45 evaluation.profile_lik --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set grid_points=29 --set replica={"seed":0,"cgm":true,"carb_cv":0.25}
+2026-11-20 17:13:46 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 8 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-20 17:13:47 evaluation.profile_lik --set objective="trace" --set bounds_scale=1.0 --set polish=true --set extension_points=0 --set grid_points=29 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random","residual_gut":0.1}
+2026-11-20 17:13:48 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 8 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-20 17:13:49 evaluation.profile_lik --set objective="trace" --set bounds_scale=1.0 --set polish=true --set extension_points=0 --set grid_points=29 --set replica={"seed":0,"cgm":true,"carb_cv":0.0,"truth":"random"}
+2026-11-20 17:13:50 [A5_profile] start: 45 units, 45 already done, 0 previously failed, 8 workers
+==============================================================================
+A5_profile: 45/45 done, 0 failed in 0.00h
+==============================================================================
+=== 2026-11-20 17:13:51 all queued Phase 17 jobs finished
+wrote phase17_results.tgz
+Copy phase17_results.tgz to Drive, then stop the runtime.

@@ -101,8 +101,10 @@ def p2() -> dict:
     for perturb in PERTURBATIONS:
         (name, factor), = perturb.items()
         sets[f"{name}_{factor:g}"] = {**STANDARD_REPLICA, "perturb": perturb}
+    by_tag = {}
     for tag, replica in sets.items():
         rows = _rows(_iauc_config(replica))
+        by_tag[tag] = {r["subject_id"]: r for r in rows}
         if not rows:
             out[tag] = {"n": 0}
             continue
@@ -117,6 +119,21 @@ def p2() -> dict:
                             "bounded_coverage": _covered_of_bounded(rows, "insulin_sensitivity")},
                     "median_abs_log_error": float(np.median(np.abs(errors))) if errors else None,
                     "median_signed_log_error": float(np.median(errors)) if errors else None}
+    out["equivalence"] = _equivalence(by_tag)
+    return out
+
+
+def _equivalence(by_tag: dict, tolerance: float = 1e-4) -> dict:
+    """Subjects whose S_I estimate is the same (to `tolerance`) under a gamma and under a p3 perturbation of one factor."""
+    out = {}
+    for label, (a, b) in {"up": ("insulin_secretion_1.3", "x_gain_1.3"), "down": ("insulin_secretion_0.7", "x_gain_0.7")}.items():
+        shared = sorted(set(by_tag.get(a, {})) & set(by_tag.get(b, {})))
+        if not shared:
+            out[label] = {"n": 0}
+            continue
+        same = sum(abs(float(by_tag[a][u]["theta_ml"]["insulin_sensitivity"])
+                       - float(by_tag[b][u]["theta_ml"]["insulin_sensitivity"])) < tolerance for u in shared)
+        out[label] = {"n": len(shared), "same": int(same)}
     return out
 
 

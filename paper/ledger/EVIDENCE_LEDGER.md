@@ -1,12 +1,12 @@
 # Evidence ledger
 
-Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:18-0800, combined SHA-256 `f87662a85ffd768c0357f393d6397582f787f729b78f5889adaf906dd123437e`; repository commit `7d10535` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
+Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T09:59:41-0800, combined SHA-256 `ed4a1a0401a5991bc3825d14ab6539d1ccee6f5c2bbe987481ece0649d0c2543`; repository commit `0be22f2` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
 
-540 macros used, 0 used but undefined.
+660 macros used, 0 used but undefined.
 
 | macro | value | analysis | used in |
 |---|---|---|---|
-| `resAmendmentCount` | ten | phase 2 summary | app_register.tex, sec_intro.tex |
+| `resAmendmentCount` | thirteen | phase 2 summary | app_register.tex, sec_intro.tex |
 | `resBiasObsOtherKe` | 2638 | phase 2 summary | app_results.tex |
 | `resBiasObsPinnedKe` | 5618 | phase 2 summary | app_results.tex |
 | `resBiasSignedKe` | -1008 | phase 2 summary | app_results.tex, sec_results.tex |
@@ -14,6 +14,15 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resBootstrapResamples` | 2000 | phase 2 summary | app_setting.tex |
 | `resBoundaryCoords` | 65 | phase 2 summary | app_results.tex |
 | `resBoundaryCoordsTrace` | 51 | phase 2 summary | app_results.tex |
+| `resCalQuarterGapMax` | 0.00 | phase 2 summary | sec_results.tex |
+| `resCalQuarterGapWithin` | 45 | phase 2 summary | sec_results.tex |
+| `resCalQuarterMedianLr` | 1.0 | phase 2 summary | sec_results.tex |
+| `resCalQuarterN` | 45 | phase 2 summary | sec_results.tex |
+| `resCalQuarterOver` | 20 | phase 2 summary | sec_results.tex |
+| `resCalQuarterQNinetyLr` | 2.4 | phase 2 summary | sec_results.tex |
+| `resCalRefMedian` | 1.2 | phase 2 summary | sec_results.tex |
+| `resCalRefQNinety` | 3.1 | phase 2 summary | sec_results.tex |
+| `resCalRepOver` | 38 | phase 2 summary | sec_discussion.tex |
 | `resCarbScaleHighExpected` | 0.29 | carbohydrate-scale sensitivity | app_results.tex, sec_results.tex |
 | `resCarbScaleHighLogRatio` | 0.39 | carbohydrate-scale sensitivity | app_results.tex, sec_results.tex |
 | `resCarbScaleHighUpper` | 76 | carbohydrate-scale sensitivity | app_results.tex |
@@ -52,6 +61,18 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resCondRefCentroidOne` | $8.7\times10^{4}$ | phase 2 summary | app_results.tex |
 | `resCondRefIaucOne` | $3.3\times10^{5}$ | phase 2 summary | app_results.tex |
 | `resCondRefTraceOne` | $8.1\times10^{2}$ | phase 2 summary | app_results.tex |
+| `resConvFinePBounded` | 71 | phase 2 summary | sec_abstract.tex, sec_results.tex |
+| `resConvFinePCovbd` | 90 | phase 2 summary | sec_results.tex |
+| `resConvFinePCover` | 91 | phase 2 summary | sec_results.tex |
+| `resConvFineTauBounded` | 80 | phase 2 summary | sec_abstract.tex, sec_results.tex |
+| `resConvFineTauCovbd` | 94 | phase 2 summary | sec_results.tex |
+| `resConvFineTauCover` | 91 | phase 2 summary | sec_results.tex |
+| `resConvQuarterChanged` | 0 | phase 2 summary | sec_results.tex |
+| `resConvQuarterChangedOf` | 90 | phase 2 summary | sec_results.tex |
+| `resConvRealChanged` | 0 | phase 2 summary | sec_results.tex |
+| `resConvRealChangedOf` | 90 | phase 2 summary | sec_results.tex |
+| `resConvRealPBounded` | 88 | phase 2 summary | sec_results.tex |
+| `resConvRealTauBounded` | 83 | phase 2 summary | sec_results.tex |
 | `resCoordsBoundedPCentroid` | 8 | H11, coordinate fits (phase 8) | sec_results.tex |
 | `resCoordsBoundedPIauc` | 0 | H11, coordinate fits (phase 8) | sec_results.tex |
 | `resCoordsBoundedPTrace` | 83 | H11, coordinate fits (phase 8) | sec_results.tex |
@@ -181,6 +202,24 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resGradProjSIFirst` | 100 | phase 2 summary | app_results.tex |
 | `resGradRawRatio` | 0.23 | phase 2 summary | app_results.tex |
 | `resGradRawSIFirst` | 91 | phase 2 summary | app_results.tex |
+| `resGridExactChanged` | 0 | phase 2 summary | sec_results.tex |
+| `resGridRealChanged` | 0 | phase 2 summary | sec_results.tex |
+| `resGridRealChangedOf` | 90 | phase 2 summary | sec_results.tex |
+| `resGridRealTwentyNinePBounded` | 88 | phase 2 summary | sec_results.tex |
+| `resGridRealTwentyNineTauBounded` | 83 | phase 2 summary | sec_results.tex |
+| `resGridRepChanged` | 0 | phase 2 summary | sec_results.tex |
+| `resGridResTenTwentyNineKaBounded` | 6 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resGridResTenTwentyNineKaCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resGridResTenTwentyNineKeBounded` | 13 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resGridResTenTwentyNineKeCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resGridResTenTwentyNineSIBounded` | 76 | phase 2 summary | app_more_results.tex |
+| `resGridResTenTwentyNineSICover` | 100 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineKaBounded` | 3 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineKaCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineKeBounded` | 3 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineKeCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineSIBounded` | 71 | phase 2 summary | app_more_results.tex |
+| `resGridResZeroTwentyNineSICover` | 98 | phase 2 summary | app_more_results.tex |
 | `resGutSweepMaxFive` | 5.94 | phase 2 summary | sec_theory.tex |
 | `resGutSweepMaxHalf` | 0.60 | phase 2 summary | sec_theory.tex |
 | `resGutSweepMaxTen` | 11.80 | phase 2 summary | sec_theory.tex |
@@ -206,10 +245,6 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resInnerExactHundredUnsettled` | 6 | phase 2 summary | app_more_results.tex |
 | `resInnerQuarterChanged` | 0 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resInnerQuarterChangedOf` | 90 | phase 2 summary | app_more_results.tex, sec_results.tex |
-| `resInnerQuarterFiveHundredBoundedP` | 60 | phase 2 summary | sec_results.tex |
-| `resInnerQuarterFiveHundredBoundedTau` | 61 | phase 2 summary | sec_results.tex |
-| `resInnerQuarterFiveHundredCovbdP` | 28 | phase 2 summary | sec_results.tex |
-| `resInnerQuarterFiveHundredCovbdTau` | 8 | phase 2 summary | sec_results.tex |
 | `resInnerQuarterFiveHundredCoverP` | 20 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resInnerQuarterFiveHundredCoverTau` | 16 | phase 2 summary | app_more_results.tex, sec_results.tex |
 | `resInnerQuarterFiveHundredUnsettled` | 0 | phase 2 summary | app_more_results.tex, sec_results.tex |
@@ -226,8 +261,8 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resInnerRepFiveHundredCoverTau` | 62 | phase 2 summary | app_more_results.tex |
 | `resInnerRepFiveHundredUnsettled` | 0 | phase 2 summary | app_more_results.tex |
 | `resInnerRepHundredUnsettled` | 7 | phase 2 summary | app_more_results.tex |
-| `resLaterGraded` | 16 | phase 2 summary | sec_discussion.tex |
-| `resLaterMet` | 7 | phase 2 summary | sec_discussion.tex |
+| `resLaterGraded` | 22 | phase 2 summary | sec_discussion.tex |
+| `resLaterMet` | 12 | phase 2 summary | sec_discussion.tex |
 | `resLeakN` | 97 | leakage check (phase 8) | app_results.tex |
 | `resLeakPartialDiff` | -0.03 | leakage check (phase 8) | app_results.tex |
 | `resLeakPartialDiffHigh` | 0.16 | leakage check (phase 8) | app_results.tex |
@@ -294,6 +329,19 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resPeakGradThree` | 47.5 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resPeakGradThreeTrace` | 41.6 | phase 2 summary | app_results.tex |
 | `resPeakPersonalMean` | 41.0 | phase 2 summary | app_results.tex |
+| `resPertBaseBias` | -0.19 | phase 2 summary | sec_results.tex |
+| `resPertBaseSIBounded` | 26 | phase 2 summary | sec_results.tex |
+| `resPertBaseSICover` | 87 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownBias` | -0.31 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownSIBounded` | 33 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownSICovbd` | 44 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownSICover` | 64 | phase 2 summary | sec_results.tex |
+| `resPertGammaUpBias` | 0.02 | phase 2 summary | sec_results.tex |
+| `resPertGammaUpSICover` | 91 | phase 2 summary | sec_results.tex |
+| `resPertSameDown` | 44 | phase 2 summary | sec_results.tex |
+| `resPertSameDownN` | 45 | phase 2 summary | sec_results.tex |
+| `resPertSameUp` | 44 | phase 2 summary | sec_results.tex |
+| `resPertSameUpN` | 45 | phase 2 summary | sec_results.tex |
 | `resPinnedFracKaHalf` | 98 | phase 2 summary | app_results.tex |
 | `resPinnedFracKaOne` | 87 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resPinnedFracKaTwo` | 76 | phase 2 summary | app_results.tex |
@@ -450,6 +498,40 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resReplicaSIBounded` | 26 | H13-H14, replica (phase 8) | sec_results.tex |
 | `resReplicaSIBoundedCount` | 9 | H13-H14, replica (phase 8) | sec_results.tex |
 | `resReplicaSIInterior` | 34 | H13-H14, replica (phase 8) | sec_results.tex |
+| `resResFiveKaBounded` | 0 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResFiveKaCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResFiveKeBounded` | 4 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResFiveKeCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResFiveSIBounded` | 73 | phase 2 summary | app_more_results.tex |
+| `resResFiveSICover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResSeedOneTenKaBounded` | 9 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResSeedOneTenKaCover` | 98 | phase 2 summary | app_more_results.tex |
+| `resResSeedOneTenKeBounded` | 15 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResSeedOneTenKeCover` | 98 | phase 2 summary | app_more_results.tex |
+| `resResSeedOneTenSIBounded` | 62 | phase 2 summary | app_more_results.tex |
+| `resResSeedOneTenSICover` | 87 | phase 2 summary | app_more_results.tex |
+| `resResTenKaBounded` | 6 | phase 2 summary | app_more_results.tex, sec_abstract.tex, sec_results.tex |
+| `resResTenKaBoundedCount` | 2 | phase 2 summary | sec_results.tex |
+| `resResTenKaBoundedN` | 31 | phase 2 summary | sec_results.tex |
+| `resResTenKaCover` | 100 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTenKeBounded` | 13 | phase 2 summary | app_more_results.tex, sec_abstract.tex, sec_results.tex |
+| `resResTenKeBoundedCount` | 4 | phase 2 summary | sec_results.tex |
+| `resResTenKeBoundedN` | 31 | phase 2 summary | sec_results.tex |
+| `resResTenKeCover` | 100 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTenSIBounded` | 76 | phase 2 summary | app_more_results.tex |
+| `resResTenSICover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResTwentyKaBounded` | 23 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTwentyKaCover` | 100 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTwentyKeBounded` | 39 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTwentyKeCover` | 98 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResTwentySIBounded` | 68 | phase 2 summary | app_more_results.tex |
+| `resResTwentySICover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResZeroKaBounded` | 3 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResZeroKaCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResZeroKeBounded` | 3 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resResZeroKeCover` | 100 | phase 2 summary | app_more_results.tex |
+| `resResZeroSIBounded` | 71 | phase 2 summary | app_more_results.tex |
+| `resResZeroSICover` | 98 | phase 2 summary | app_more_results.tex |
 | `resSatDoubleTop` | 0.66 | phase 2 summary | app_results.tex |
 | `resSatTopToBottom` | 0.82 | phase 2 summary | app_results.tex |
 | `resSeedsCoverCount` | 29 | H17, replica seeds (phase 9) | app_results.tex |
@@ -512,6 +594,38 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resTraceRmseGradThree` | 35.9 | phase 2 summary | app_results.tex, sec_results.tex |
 | `resTraceRmseGradThreeTrace` | 31.2 | phase 2 summary | app_results.tex |
 | `resTraceRmsePersonalMean` | 32.0 | phase 2 summary | app_results.tex |
+| `resTruthExactPDirectMedian` | 0.3 | phase 2 summary | app_more_results.tex |
+| `resTruthExactPDirectOver` | 4 | phase 2 summary | app_more_results.tex |
+| `resTruthExactPStoredMedian` | 0.5 | phase 2 summary | app_more_results.tex |
+| `resTruthExactPStoredOver` | 4 | phase 2 summary | app_more_results.tex |
+| `resTruthExactTauDirectMedian` | 0.2 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthExactTauDirectOver` | 2 | phase 2 summary | app_more_results.tex |
+| `resTruthExactTauStoredMedian` | 0.6 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthExactTauStoredOver` | 7 | phase 2 summary | app_more_results.tex |
+| `resTruthQuarterPDirectMedian` | 0.2 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthQuarterPDirectN` | 45 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterPDirectOver` | 2 | phase 2 summary | app_more_results.tex |
+| `resTruthQuarterPDirectWithinCount` | 44 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterPInterp` | 3.1 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterPStoredMedian` | 3.4 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthQuarterPStoredOver` | 80 | phase 2 summary | app_more_results.tex |
+| `resTruthQuarterTauDirectMedian` | 0.2 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthQuarterTauDirectN` | 45 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterTauDirectOver` | 0 | phase 2 summary | app_more_results.tex |
+| `resTruthQuarterTauDirectWithinCount` | 45 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterTauInterp` | 4.8 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterTauSolver` | 0.000 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterTauStart` | 0.000 | phase 2 summary | sec_results.tex |
+| `resTruthQuarterTauStoredMedian` | 5.3 | phase 2 summary | app_more_results.tex, sec_results.tex |
+| `resTruthQuarterTauStoredOver` | 84 | phase 2 summary | app_more_results.tex |
+| `resTruthRepPDirectMedian` | 0.5 | phase 2 summary | app_more_results.tex |
+| `resTruthRepPDirectOver` | 18 | phase 2 summary | app_more_results.tex |
+| `resTruthRepPStoredMedian` | 0.7 | phase 2 summary | app_more_results.tex |
+| `resTruthRepPStoredOver` | 18 | phase 2 summary | app_more_results.tex |
+| `resTruthRepTauDirectMedian` | 0.7 | phase 2 summary | app_more_results.tex |
+| `resTruthRepTauDirectOver` | 27 | phase 2 summary | app_more_results.tex |
+| `resTruthRepTauStoredMedian` | 1.1 | phase 2 summary | app_more_results.tex |
+| `resTruthRepTauStoredOver` | 38 | phase 2 summary | app_more_results.tex |
 | `resVerdictHEight` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHEighteen` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHEleven` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
@@ -525,12 +639,18 @@ Frozen result index: `results/index.json`, 7032 files, frozen 2026-11-14T00:29:1
 | `resVerdictHSix` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTen` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHThirteen` | not met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHThirty` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHThirtyFour` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHThirtyOne` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHThirtyThree` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHThirtyTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
 | `resVerdictHThree` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |
 | `resVerdictHTwelve` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |
 | `resVerdictHTwenty` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHTwentyEight` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
 | `resVerdictHTwentyFive` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyFour` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
+| `resVerdictHTwentyNine` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
 | `resVerdictHTwentyOne` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentySeven` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
 | `resVerdictHTwentySix` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |

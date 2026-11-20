@@ -71,10 +71,14 @@ adequate (\resExactOneCoverTau\% and \resExactOneCoverP\%) only with exact carbo
 Adam estimate misses the optimum for \resPolishNotWithinTrace\% of trace fits, which is why the coordinate profiles
 start from a polished estimate, and thirty random starts do not improve that estimate (H26). The inner optimizer of each
 profile is a fixed-step run, and a longer one ($500$ steps in place of $100$) changes no profile class and does not
-restore coverage at low noise (H27 and H28). What is left untested is a local optimum of the polished estimate at low
-noise, since H26 was run at the estimated noise, and a misspecification of the whitened likelihood that matters only when
-the noise is small. Until one of them is found we cannot say that the trace profiles identify the combination in any
-setting, and the cases in which they cover the truth are the cases in which they are rarely bounded.
+restore coverage at low noise (H27 and H28). The low-noise undercoverage came from reading the profile off a fifteen-point
+grid: computed directly at the true value, the profile excess is within the cutoff for nearly every subject, the polished
+estimate is the optimum relative to the truth (H30), and a finer grid with a converged solver restores the coverage
+(H31 and H33). The bounded fractions we report on real data do not change with the inner solver or with a grid of
+twenty-nine points (H32 and H34). What remains is narrower. The grid and solver checks were run on one replica seed and
+one cohort. The likelihood at the true parameters is calibrated at the estimated noise and at a quarter of it, and it is
+not once the replica carries the logging error (\resCalRepOver\% of subjects above the cutoff), so on real data, where the
+input error is unknown, a nominal interval for the combination cannot be taken as calibrated, whatever the grid.
 
 \paragraph{Isolated meals and fixed parameters.}
 Every meal starts with an empty gut, and each meal is simulated alone. Residual content breaks the symmetry in
@@ -83,11 +87,14 @@ meal leaves a residue, was not run, and a protocol with fasting periods before e
 Meals follow one another closely in these logs, so a residue is possible for many of them: among \resOverlapGaps{} gaps between consecutive logged meals in CGMacros
 the median is \resOverlapMedianGap{} hours, and \resOverlapWithinThree\%, \resOverlapWithinFour\% and
 \resOverlapWithinSix\% of the gaps are under three, four and six hours (Appendix~\ref{apx:phase13}).
-Two parameters of the glucose equations, $\gamma$ and $p_3$, are fixed at population values, and a perturbation of them
-was not run; a fixed value that is wrong would be absorbed by the fitted ones.
+Two parameters of the glucose equations, $\gamma$ and $p_3$, are fixed at population values. Perturbing either in the
+truth of a replica by thirty percent shifts the estimate of $\SI$ by about the logarithm of the factor without a
+warning from its interval (Section~\ref{sec:si}), so a wrong fixed value is absorbed by the fitted ones. The positive
+control for the gut rates used a residual gut content that is a design choice, and a liquid and a solid meal, or a
+protocol with fasting before each meal, would test the same question with a physical design that we did not run.
 
 \paragraph{Post hoc hypotheses.}
-H13 to H28 were declared after earlier results were seen. Their thresholds were fixed before each run but chosen
+H13 to H34 were declared after earlier results were seen. Their thresholds were fixed before each run but chosen
 knowing the direction of the earlier results. We report all of them. Of the \resPlannedGraded{} planned hypotheses with
 a pass-or-fail rule, \resPlannedMet{} were met; of the \resLaterGraded{} later ones, \resLaterMet{} were met. Of
 the primary endpoints, which are planned, \resPrimaryNotMet{} were not met. Appendix~\ref{app:register} marks each

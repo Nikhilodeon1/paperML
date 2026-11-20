@@ -24,11 +24,15 @@ On true-model replicas with random truths the held-out error of the fit is \resP
 \resPvpRandomOneRatio{} times that of the model at the true parameters, while the root mean squared log error of the
 two rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}. Held-out peak-time and trace error, which the fits
 were not trained on, do rise with the timing error.
-Recovery of a combination of the two rates from the full glucose trace is not established. Polished fits bound it in
-\resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of real subjects and in \resReplicaCoordsTauTrace\%
-and \resReplicaCoordsPTrace\% of true-model replicas, where the bounded intervals cover the truth in
-\resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\%. With exact carbohydrate the replica intervals are
-calibrated and rarely bounded.
+Recovery of a combination of the two rates from the full glucose trace is not established on real data. Polished
+fits bound it in \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of real subjects and in
+\resReplicaCoordsTauTrace\% and \resReplicaCoordsPTrace\% of true-model replicas, where the bounded intervals cover the
+truth in \resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\%. With exact carbohydrate at the
+estimated noise the replica intervals are calibrated and rarely bounded, and only with exact carbohydrate and a
+quarter of the noise are they both bounded (\resConvFineTauBounded\% and \resConvFinePBounded\%) and calibrated; the
+undercoverage there came from the profile grid and not from the likelihood or the optimizer.
+A positive control that breaks the exchange symmetry by design bounds the gut rates in only
+\resResTenKeBounded\% and \resResTenKaBounded\% of subjects at a residual content of a tenth of the meal.
 Of the planned hypotheses with a pass-or-fail rule, \resPlannedMet{} of \resPlannedGraded{} were met, and
 \resPrimaryNotMet{} of the primary endpoints were not.
 For this model, this target and these cohorts, a good fit to postprandial CGM is not evidence that the fitted

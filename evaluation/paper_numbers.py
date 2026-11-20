@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix", 27: "TwentySeven", 28: "TwentyEight", 29: "TwentyNine", 30: "Thirty"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix", 27: "TwentySeven", 28: "TwentyEight", 29: "TwentyNine", 30: "Thirty", 31: "ThirtyOne", 32: "ThirtyTwo", 33: "ThirtyThree", 34: "ThirtyFour", 35: "ThirtyFive", 36: "ThirtySix"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -132,6 +132,8 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase13_macros(summary.get("phase13", {})))
     m.update(_phase14_macros(summary.get("phase14", {})))
     m.update(_phase15_macros(summary.get("phase15", {})))
+    m.update(_phase16_macros(summary.get("phase16", {})))
+    m.update(_phase17_macros(summary.get("phase17", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -726,13 +728,18 @@ def _phase15_macros(p15: dict) -> dict:
         if block.get("median_abs_log_error") is not None:
             m[f"resPert{tag}Err"] = {"value": block["median_abs_log_error"], "fmt": ".2f"}
             m[f"resPert{tag}Bias"] = {"value": block["median_signed_log_error"], "fmt": ".2f"}
+    for key, tag in (("up", "Up"), ("down", "Down")):
+        eq = p15.get("p2", {}).get("equivalence", {}).get(key, {})
+        if eq.get("n"):
+            m[f"resPertSame{tag}"] = {"value": eq["same"], "fmt": ".0f"}
+            m[f"resPertSame{tag}N"] = {"value": eq["n"], "fmt": ".0f"}
     for key, tag in (("exact", "Exact"), ("quarter", "Quarter"), ("replica", "Rep")):
         b = p15.get("p3", {}).get(key, {})
         if not b.get("n"):
             continue
         m[f"resCal{tag}N"] = {"value": b["n"], "fmt": ".0f"}
         m[f"resCal{tag}MedianLr"] = {"value": b["median_lr_half"], "fmt": ".1f"}
-        m[f"resCal{tag}Q90Lr"] = {"value": b["q90_lr_half"], "fmt": ".1f"}
+        m[f"resCal{tag}QNinetyLr"] = {"value": b["q90_lr_half"], "fmt": ".1f"}
         m[f"resCal{tag}Over"] = {"value": 100 * b["share_lr_over_delta"], "fmt": ".0f"}
         m[f"resCal{tag}GapWithin"] = {"value": b["optimizer_gap_within"], "fmt": ".0f"}
         m[f"resCal{tag}GapFraction"] = {"value": 100 * b["optimizer_gap_fraction"], "fmt": ".0f"}
@@ -740,7 +747,109 @@ def _phase15_macros(p15: dict) -> dict:
         ref = b.get("reference_half_chi2_3")
         if ref:
             m["resCalRefMedian"] = {"value": ref[0], "fmt": ".1f"}
-            m["resCalRefQ90"] = {"value": ref[1], "fmt": ".1f"}
+            m["resCalRefQNinety"] = {"value": ref[1], "fmt": ".1f"}
+    return m
+
+
+def _bounded_cells(m: dict, prefix: str, block: dict, keys: dict) -> None:
+    """Bounded fraction (and count), nominal coverage and coverage of the bounded intervals for named parameters."""
+    for name, tag in keys.items():
+        b = (block or {}).get(name)
+        if not b:
+            continue
+        bi = b.get("bounded_interior") or {}
+        if bi.get("fraction") is not None:
+            m[f"{prefix}{tag}Bounded"] = {"value": 100 * bi["fraction"], "fmt": ".0f"}
+            m[f"{prefix}{tag}BoundedCount"] = {"value": bi["bounded"], "fmt": ".0f"}
+            m[f"{prefix}{tag}BoundedN"] = {"value": bi["n"], "fmt": ".0f"}
+        cover = (b.get("nominal_coverage") or {}).get("fraction")
+        if cover is not None:
+            m[f"{prefix}{tag}Cover"] = {"value": 100 * cover, "fmt": ".0f"}
+        covbd = b.get("bounded_coverage")
+        covbd = covbd.get("fraction") if isinstance(covbd, dict) else None
+        if covbd is not None:
+            m[f"{prefix}{tag}Covbd"] = {"value": 100 * covbd, "fmt": ".0f"}
+
+
+def _phase16_macros(p16: dict) -> dict:
+    """Amendment 12: the profile at the true value four ways, and the converged inner solver."""
+    m: dict = {}
+    if not p16:
+        return m
+    coords = {"log_tau1": "Tau", "log_p": "P"}
+    for key, tag in (("quarter", "Quarter"), ("exact", "Exact"), ("replica", "Rep")):
+        block = p16.get("r13", {}).get(key, {})
+        if not block.get("n"):
+            continue
+        m[f"resTruth{tag}N"] = {"value": block["n"], "fmt": ".0f"}
+        for name, word in coords.items():
+            e = block.get(name) or {}
+            if not e.get("n"):
+                continue
+            for field, label in (("stored", "Stored"), ("adam_point", "Adam"), ("lbfgsb_hat", "Direct"),
+                                 ("lbfgsb_truth", "FromTruth")):
+                c = e[field]
+                m[f"resTruth{tag}{word}{label}Over"] = {"value": 100 * c["share_above_delta"], "fmt": ".0f"}
+                m[f"resTruth{tag}{word}{label}Median"] = {"value": c["median"], "fmt": ".1f"}
+            within = e["lbfgsb_hat"]["share_within_delta"]
+            m[f"resTruth{tag}{word}DirectWithin"] = {"value": 100 * within, "fmt": ".0f"}
+            m[f"resTruth{tag}{word}DirectWithinCount"] = {"value": round(within * e["lbfgsb_hat"]["n"]), "fmt": ".0f"}
+            m[f"resTruth{tag}{word}DirectN"] = {"value": e["lbfgsb_hat"]["n"], "fmt": ".0f"}
+            m[f"resTruth{tag}{word}Interp"] = {"value": e["median_interpolation"], "fmt": ".1f"}
+            m[f"resTruth{tag}{word}Solver"] = {"value": abs(e["median_inner_solver"]), "fmt": ".3f"}
+            m[f"resTruth{tag}{word}Start"] = {"value": abs(e["median_start"]), "fmt": ".3f"}
+    settings = {"real": "Real", "quarter": "Quarter", "exact": "Exact", "replica": "Rep"}
+    for key, tag in settings.items():
+        block = p16.get("r14", {}).get(key, {})
+        solved = block.get("lbfgsb", {})
+        if not solved.get("n"):
+            continue
+        _bounded_cells(m, f"resConv{tag}", solved, {"tau1": "Tau", "p": "P"})
+        ch = block.get("class_changes", {})
+        if ch.get("n"):
+            m[f"resConv{tag}Changed"] = {"value": ch["changed"], "fmt": ".0f"}
+            m[f"resConv{tag}ChangedOf"] = {"value": ch["n"], "fmt": ".0f"}
+        nc = block.get("lbfgsb_settling", {})
+        if nc.get("fraction") is not None:
+            m[f"resConv{tag}NotConverged"] = {"value": 100 * nc["fraction"], "fmt": ".1f"}
+            m[f"resConv{tag}NotConvergedCount"] = {"value": nc["not_converged"], "fmt": ".0f"}
+            m[f"resConv{tag}NotConvergedOf"] = {"value": nc["points"], "fmt": ".0f"}
+    fine = p16.get("r14", {}).get("quarter_fine", {}).get("lbfgsb", {})
+    if fine.get("n"):
+        _bounded_cells(m, "resConvFine", fine, {"tau1": "Tau", "p": "P"})
+    diff = p16.get("h32", {}).get("difference_points")
+    if diff:
+        m["resConvRealDiffTau"] = {"value": diff["tau1"], "fmt": ".0f"}
+        m["resConvRealDiffP"] = {"value": diff["p"], "fmt": ".0f"}
+    return m
+
+
+def _phase17_macros(p17: dict) -> dict:
+    """Amendment 13: the profiles on a 29-point grid in place of 15."""
+    m: dict = {}
+    if not p17:
+        return m
+    grids = {"grid_15": "Fifteen", "grid_29": "TwentyNine"}
+    for key, tag in (("real", "Real"), ("exact", "Exact"), ("replica", "Rep")):
+        block = p17.get("r15", {}).get(key, {})
+        for grid, word in grids.items():
+            b = block.get(grid, {})
+            if b.get("n"):
+                _bounded_cells(m, f"resGrid{tag}{word}", b, {"tau1": "Tau", "p": "P"})
+        ch = block.get("class_changes", {})
+        if ch.get("n"):
+            m[f"resGrid{tag}Changed"] = {"value": ch["changed"], "fmt": ".0f"}
+            m[f"resGrid{tag}ChangedOf"] = {"value": ch["n"], "fmt": ".0f"}
+    for key, tag in (("residual_0", "Zero"), ("residual_0.1", "Ten")):
+        block = p17.get("r16", {}).get(key, {})
+        for grid, word in grids.items():
+            b = block.get(grid, {})
+            if b.get("n"):
+                _bounded_cells(m, f"resGridRes{tag}{word}", b, {"S_I": "SI", "k_e": "Ke", "k_a": "Ka"})
+    diff = p17.get("h34", {}).get("difference_points")
+    if diff:
+        m["resGridRealDiffTau"] = {"value": diff["tau1"], "fmt": ".0f"}
+        m["resGridRealDiffP"] = {"value": diff["p"], "fmt": ".0f"}
     return m
 
 

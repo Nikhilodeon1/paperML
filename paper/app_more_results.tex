@@ -95,6 +95,61 @@ are bounded, one-sided or flat; each setting has $45$ subjects and two profiles 
 \label{tab:inner}
 \end{table}
 
+\paragraph{The profile at the true value.}
+Table~\ref{tab:truthprofile} gives the excess of the profile above its reference at the true value of $\tau_1$ and $p$, read
+off the stored grid and computed directly there with the other two coordinates solved to convergence. At a quarter of the
+noise the stored value is several times the direct one and above the cutoff in most subjects; at the estimated noise the
+two are close (H31, Section~\ref{sec:more}). The direct values are the same for Adam and L-BFGS-B and for a start at the
+estimate or at the truth to the digits shown elsewhere in the text.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llrrrr}
+\toprule
+ & & \multicolumn{2}{c}{median excess} & \multicolumn{2}{c}{above the cutoff (\%)} \\
+replica & coordinate & grid & direct & grid & direct \\
+\midrule
+exact, quarter noise & $\tau_1$ & \resTruthQuarterTauStoredMedian & \resTruthQuarterTauDirectMedian & \resTruthQuarterTauStoredOver & \resTruthQuarterTauDirectOver \\
+ & $p$ & \resTruthQuarterPStoredMedian & \resTruthQuarterPDirectMedian & \resTruthQuarterPStoredOver & \resTruthQuarterPDirectOver \\
+exact carbohydrate & $\tau_1$ & \resTruthExactTauStoredMedian & \resTruthExactTauDirectMedian & \resTruthExactTauStoredOver & \resTruthExactTauDirectOver \\
+ & $p$ & \resTruthExactPStoredMedian & \resTruthExactPDirectMedian & \resTruthExactPStoredOver & \resTruthExactPDirectOver \\
+error $0.25$ & $\tau_1$ & \resTruthRepTauStoredMedian & \resTruthRepTauDirectMedian & \resTruthRepTauStoredOver & \resTruthRepTauDirectOver \\
+ & $p$ & \resTruthRepPStoredMedian & \resTruthRepPDirectMedian & \resTruthRepPStoredOver & \resTruthRepPDirectOver \\
+\bottomrule
+\end{tabular}
+\caption{Excess of the trace coordinate profile at the true value of $\tau_1$ and $p$ (negative log-likelihood units),
+interpolated on the stored fifteen-point grid and computed directly at the true value. The cutoff is the $1.92$ of the
+interval criterion; each row has $45$ subjects.}
+\label{tab:truthprofile}
+\end{table}
+
+\paragraph{The positive control for the gut rates.}
+Table~\ref{tab:posctrl} gives the bounded fraction among interior subjects and the coverage of the nominal interval for
+$\SI$, $\ke$ and $\ka$ on the random-truth replica with exact carbohydrate and a known residual gut content (H29,
+Section~\ref{sec:more}). The last two rows repeat the runs with twenty-nine grid points in place of fifteen.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{bounded (\%)} & \multicolumn{3}{c}{nominal interval covers (\%)} \\
+residual content & $\SI$ & $\ke$ & $\ka$ & $\SI$ & $\ke$ & $\ka$ \\
+\midrule
+none & \resResZeroSIBounded & \resResZeroKeBounded & \resResZeroKaBounded & \resResZeroSICover & \resResZeroKeCover & \resResZeroKaCover \\
+$5\%$ & \resResFiveSIBounded & \resResFiveKeBounded & \resResFiveKaBounded & \resResFiveSICover & \resResFiveKeCover & \resResFiveKaCover \\
+$10\%$ & \resResTenSIBounded & \resResTenKeBounded & \resResTenKaBounded & \resResTenSICover & \resResTenKeCover & \resResTenKaCover \\
+$20\%$ & \resResTwentySIBounded & \resResTwentyKeBounded & \resResTwentyKaBounded & \resResTwentySICover & \resResTwentyKeCover & \resResTwentyKaCover \\
+$10\%$, second seed & \resResSeedOneTenSIBounded & \resResSeedOneTenKeBounded & \resResSeedOneTenKaBounded & \resResSeedOneTenSICover & \resResSeedOneTenKeCover & \resResSeedOneTenKaCover \\
+none, finer grid & \resGridResZeroTwentyNineSIBounded & \resGridResZeroTwentyNineKeBounded & \resGridResZeroTwentyNineKaBounded & \resGridResZeroTwentyNineSICover & \resGridResZeroTwentyNineKeCover & \resGridResZeroTwentyNineKaCover \\
+$10\%$, finer grid & \resGridResTenTwentyNineSIBounded & \resGridResTenTwentyNineKeBounded & \resGridResTenTwentyNineKaBounded & \resGridResTenTwentyNineSICover & \resGridResTenTwentyNineKeCover & \resGridResTenTwentyNineKaCover \\
+\bottomrule
+\end{tabular}
+\caption{Trace profiles in rate coordinates on random-truth replicas with exact carbohydrate, the estimated noise and a
+fraction of each meal already in the gut at the start, equal in the truth and in the fit. Seed zero unless stated; each
+row has $45$ subjects.}
+\label{tab:posctrl}
+\end{table}
+
 \paragraph{Spacing of logged meals.}
 The CGMacros logs contain \resOverlapGaps{} gaps between consecutive meals of a subject, with a median of
 \resOverlapMedianGap{} hours. The share under three, four and six hours is \resOverlapWithinThree\% (Wilson interval

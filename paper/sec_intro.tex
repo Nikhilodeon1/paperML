@@ -56,9 +56,14 @@ Our contributions are three.
   the ratio is unrelated to the parameter error. A check on the peak time or the trace, which the fits were not
   trained on, would see it: their excess over the floor rises with the timing error.
 \end{enumerate}
-Two further results qualify these. The sum and product of the reciprocal rates look recoverable from the full
-glucose trace on real data, but a true-model replica does not reproduce this, and removing the carbohydrate error
-from the replica shows that an input error can make such intervals both more often bounded and wrong
+Three further results qualify these. The sum and product of the reciprocal rates look recoverable from the full
+glucose trace on real data, but a true-model replica does not reproduce this at the estimated noise, and removing the
+carbohydrate error from the replica shows that an input error can make such intervals both more often bounded and
+wrong. The combination is recovered, with bounded and calibrated intervals, only in a replica with exact
+carbohydrate and a quarter of the noise, and the low-noise undercoverage we first saw there came from reading the
+profile off a coarse grid, which we show by computing it at the true value (Section~\ref{sec:more}). And a design that
+breaks the exchange symmetry, by giving each meal a known residual gut content, raises the share of bounded
+gut-rate intervals with the residue but does not make the rates identifiable at a tenth of the meal
 (Section~\ref{sec:more}). A second gut model, the Dalla Man model, also leaves its gut parameters unbounded
 (Section~\ref{sec:dm}). Table~\ref{tab:claims} maps each claim to its evidence and scope.
 
@@ -71,7 +76,8 @@ claim & evidence & scope \\
 $\ke$ and $\ka$ are not separable from the area & Prop.~\ref{prop:exchange}; Sec.~\ref{sec:timing}; H4, H5, H15 & three cohorts; iAUC \\
 $\SI$ is only conditionally recoverable & Sec.~\ref{sec:si}; H5, H13, H17, H19 & CGMacros; replica and synthetic \\
 Prediction does not see either failure & Sec.~\ref{sec:prediction}; H7--H9, H20; floor of the true model & CGMacros and Shanghai; replicas \\
-Recovery of the combination $(\tau_1,p)$ from the trace is not established & Sec.~\ref{sec:more}; H11, H18, H21, H23--H28 & CGMacros; one model family \\
+Recovery of the combination $(\tau_1,p)$ from the trace holds in a low-noise replica with exact inputs and is not established on real data & Sec.~\ref{sec:more}; H11, H18, H21, H23--H28, H31--H34 & CGMacros; one model family \\
+Breaking the exchange symmetry by design does not by itself make the rates identifiable & Sec.~\ref{sec:more}; H29 & replica; residual gut content \\
 The gut parameters of a second model are also not identified & Sec.~\ref{sec:dm}; H22 & CGMacros; iAUC only \\
 Clinical correlations of a fitted parameter need controls & App.~\ref{apx:leakage} & Shanghai \\
 \bottomrule
