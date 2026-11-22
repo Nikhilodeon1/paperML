@@ -77,11 +77,11 @@ def get_subject(config: dict, unit: str) -> Subject:
 # Replica
 # --------------------------------------------------------------------------------------------------
 
-def _reference_fit(unit: str, box: float = 1.0) -> dict:
+def _reference_fit(unit: str, box: float = 1.0, cohort: str = "cgmacros") -> dict:
     from evaluation.ladder import a4_results
-    row = a4_results("iauc", box).get(unit)
+    row = a4_results("iauc", box, cohort=cohort).get(unit)
     if row is None:
-        raise RuntimeError(f"no A4 iAUC result for {unit} at box {box}: the replica truth is the "
+        raise RuntimeError(f"no A4 iAUC result for {unit} ({cohort}) at box {box}: the replica truth is the "
                            f"regularized prediction fit stored there")
     return row
 
@@ -90,7 +90,7 @@ def true_parameters(subject: Subject, unit: str, box: float = 1.0) -> dict:
     """The regularized prediction-fit estimate, moved at least 5% of the box width inside the box."""
     from personalization.objectives import _scaled_bounds
     from personalization.subject_loss import TARGETS
-    row = _reference_fit(unit, box)
+    row = _reference_fit(unit, box, cohort=subject.cohort)       # Amendment 14: a replica of the Shanghai cohort
     lower, upper = (np.asarray(v, dtype=float) for v in _scaled_bounds(box))
     margin = INSIDE_FRACTION * (upper - lower)
     theta = np.array([row["theta_pilot"][n] for n in TARGETS], dtype=float)
@@ -131,7 +131,7 @@ def real_residual_noise(subject: Subject, unit: str) -> dict:
     """AR(1) coefficient and innovation sd of the real trace around the maximum-likelihood fit."""
     from personalization.noise_model import estimate_ar1
     from simulation import jax_engine
-    row = _reference_fit(unit)
+    row = _reference_fit(unit, cohort=subject.cohort)
     try:
         with jax_engine.residual_gut(0.0):                              # the real data have no designed residual
             simulated = _simulate(subject, row["theta_ml"])

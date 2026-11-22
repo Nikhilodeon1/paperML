@@ -79,3 +79,14 @@ def test_pattern_rule_is_thirty_points_both_ways():
 def test_hypotheses_are_not_evaluated_without_results():
     for fn in (hypotheses.h35, hypotheses.h36, hypotheses.h37, hypotheses.h38):
         assert fn({})["status"] == "not evaluated"
+
+
+def test_a_replica_of_the_shanghai_cohort_finds_its_stored_reference_fit():
+    import pytest
+    from evaluation.cohort_data import load_cohort
+    from evaluation.ladder import a4_results
+    if not a4_results("iauc", 1.0, cohort="shanghai"):
+        pytest.skip("no stored Shanghai fits in this checkout")
+    subject = load_cohort("shanghai", min_meals=10)[0]
+    truth = subject_source.true_parameters(subject, subject.subject_id)
+    assert set(truth) == {"insulin_sensitivity", "gastric_emptying", "carb_absorption"}
