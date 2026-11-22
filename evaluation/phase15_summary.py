@@ -108,17 +108,24 @@ def p2() -> dict:
         if not rows:
             out[tag] = {"n": 0}
             continue
-        errors = []
+        errors, interior_errors, pinned = [], [], 0
         for r in rows:
             truth = (r.get("replica_truth") or {}).get("theta_true")
             if truth:
-                errors.append(float(np.log(r["theta_ml"]["insulin_sensitivity"]) - np.log(truth["insulin_sensitivity"])))
+                error = float(np.log(r["theta_ml"]["insulin_sensitivity"]) - np.log(truth["insulin_sensitivity"]))
+                errors.append(error)
+                if r["distance_to_bound"]["insulin_sensitivity"] > 0.01:
+                    interior_errors.append(error)
+                else:
+                    pinned += 1
         out[tag] = {"n": len(rows),
                     "S_I": {"bounded_interior": bounded_among_interior(rows, "insulin_sensitivity", CHI2_DELTA),
                             "nominal_coverage": coverage_at(rows, "insulin_sensitivity", CHI2_DELTA),
                             "bounded_coverage": _covered_of_bounded(rows, "insulin_sensitivity")},
                     "median_abs_log_error": float(np.median(np.abs(errors))) if errors else None,
-                    "median_signed_log_error": float(np.median(errors)) if errors else None}
+                    "median_signed_log_error": float(np.median(errors)) if errors else None,
+                    "pinned_at_a_bound": pinned,
+                    "median_signed_log_error_interior": float(np.median(interior_errors)) if interior_errors else None}
     out["equivalence"] = _equivalence(by_tag)
     return out
 
@@ -153,9 +160,38 @@ def h30(p3_out: dict) -> dict:
             "max_gap": block["max_optimizer_gap"]}
 
 
+def box_symmetry() -> dict:
+    """Post hoc, no rule: for each bounded rate interval, is the swap partner of the estimate (k_a, k_e) inside the box?
+
+    The two rates have different boxes, so a partner outside the box could make an interval look bounded where the exchange
+    symmetry alone would leave two equal minima. Real data use the trace profiles in rate coordinates (not polished), the
+    replicas the Phase 15 sets at no residual content and at 10%.
+    """
+    real = {**profile_lik.default_config(), "bounds_scale": 1.0, "objective": "trace"}
+    sets = {"real": real, "zero": _rates_config(p1_replica(0.0)), "ten": _rates_config(p1_replica(0.10))}
+    out = {}
+    for tag, config in sets.items():
+        rows = _rows(config)
+        if not rows:
+            out[tag] = {"n": 0}
+            continue
+        entry = {"n": len(rows)}
+        for name, key in (("k_e", "gastric_emptying"), ("k_a", "carb_absorption")):
+            bounded = [r for r in rows if key in r["profiles"]
+                       and r["profiles"][key]["classification"]["verdict"] == "identifiable"]
+            inside = 0
+            for r in bounded:
+                ke, ka = r["theta_ml"]["gastric_emptying"], r["theta_ml"]["carb_absorption"]
+                (ke_lo, ke_hi), (ka_lo, ka_hi) = r["box"]["gastric_emptying"], r["box"]["carb_absorption"]
+                inside += int(ke_lo <= ka <= ke_hi and ka_lo <= ke <= ka_hi)
+            entry[name] = {"bounded": len(bounded), "partner_inside_box": inside}
+        out[tag] = entry
+    return out
+
+
 def summarize() -> dict:
     first, third = p1(), p3()
-    return {"p1": first, "h29": h29(first), "p2": p2(), "p3": third, "h30": h30(third)}
+    return {"p1": first, "h29": h29(first), "p2": p2(), "p3": third, "h30": h30(third), "box": box_symmetry()}
 
 
 def main() -> int:

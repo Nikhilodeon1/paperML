@@ -333,8 +333,8 @@ often bounded and less often right. That is what a misspecified input does to a 
 that is not the truth. The real-data fractions are consistent with the same mechanism, which we cannot show is the one
 at work. A second source acts at low noise. With exact carbohydrate and a quarter of the noise the coverage falls again
 (\resExactQuarterCoverTau\% and \resExactQuarterCoverP\%) while the bounded fractions rise
-(\resExactQuarterTraceBoundedTau\% and \resExactQuarterTraceBoundedP\%). We did not identify it, and the optimizer and
-the shape of the likelihood are the candidates. Under iAUC, exact carbohydrate does not make $\SI$ more often bounded
+(\resExactQuarterTraceBoundedTau\% and \resExactQuarterTraceBoundedP\%). It comes from the grid on which the profile is read, not from the optimizer or the likelihood: computed directly at the
+true value the profile covers the truth, and a finer grid restores the coverage (Section~ef{sec:more}). Under iAUC, exact carbohydrate does not make $\SI$ more often bounded
 (\resExactOneIaucSI\% against \resNoiseOneIaucSI\% with the logging error).
 
 \input{generated/replica_factorial}

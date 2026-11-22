@@ -63,6 +63,10 @@ TOPIC = {
     "H32": "The real-data trace fractions do not depend on the inner solver",
     "H33": "Calibration at low noise with a converged inner solver and a finer grid",
     "H34": "The real-data trace fractions do not depend on the grid resolution",
+    "H35": "Calibration under carbohydrate error when the noise is re-estimated at the fit",
+    "H36": "The carbohydrate-error pattern replicates on two more replica seeds",
+    "H37": "A systematic carbohydrate error is absorbed by the insulin-action scale",
+    "H38": "The carbohydrate-error pattern replicates on a replica built from the Shanghai cohort",
 }
 
 
@@ -80,7 +84,17 @@ def origin(name: str) -> str:
         return "amendment six (post hoc)"
     if n == 24:
         return "amendment seven (post hoc)"
-    return "amendment eight (post hoc)"
+    if n == 25:
+        return "amendment eight (post hoc)"
+    if n == 26:
+        return "amendment nine (post hoc)"
+    if n <= 28:
+        return "amendment ten (post hoc)"
+    if n <= 30:
+        return "amendment eleven (post hoc)"
+    if n <= 33:
+        return "amendment twelve (post hoc)"
+    return "amendment thirteen (post hoc)"
 
 
 def _esc(text) -> str:

@@ -10,7 +10,7 @@
 | tables | `evaluation/tables_aistats.py` | hypotheses, bounds, profiles, ladder, prediction, comparisons, written to `paper/generated/` |
 | assets | `evaluation/make_paper_assets.py` | summary, numbers, freeze, macros, figures, tables, then the number lint and the terminology lint; fails if any step fails |
 | final report | `evaluation/final_report.py` | `REPORTS/final.md` from the same verdict functions |
-| reproduction | `evaluation/reproduce_all_aistats.py` | full run in priority order, and a `--quick` three-subject smoke test in a temporary directory |
+| reproduction | `evaluation/reproduce_pipeline.py` | full run in priority order, and a `--quick` three-subject smoke test in a temporary directory |
 | package | `evaluation/package_anonymized.py` | allow-list archive; scans every included text file for names, addresses, home directories, machine names and key shapes, and writes nothing if any is found |
 
 Tests: `tests/test_phase7.py` (14), `tests/test_lint_terms.py` (6), and the Phase 2 modules (15). All pass.
@@ -20,7 +20,7 @@ Tests: `tests/test_phase7.py` (14), `tests/test_lint_terms.py` (6), and the Phas
 * The assets in `paper/` and `REPORTS/final.md` currently reflect a **partial** moment-check run (H2 shows
   a status computed from the subjects finished so far). Re-run `python -m evaluation.make_paper_assets`
   and `python -m evaluation.final_report` after the moment checks and the pod profile runs are merged.
-* `reproduce_all_aistats --quick` has not been run end to end yet.
+* `reproduce_pipeline --quick` has not been run end to end yet.
 * The anonymized package was built once with no findings, using a forbidden-word list supplied in the
   environment. It must be rebuilt after the last results are merged, extracted somewhere clean, and its
   tests run there.

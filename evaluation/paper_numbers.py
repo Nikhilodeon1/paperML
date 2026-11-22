@@ -18,7 +18,7 @@ PARAM_WORD = {"insulin_sensitivity": "SI", "gastric_emptying": "Ke", "carb_absor
 NUMBER_WORD = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
                8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen",
                14: "Fourteen", 15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen",
-               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix", 27: "TwentySeven", 28: "TwentyEight", 29: "TwentyNine", 30: "Thirty", 31: "ThirtyOne", 32: "ThirtyTwo", 33: "ThirtyThree", 34: "ThirtyFour", 35: "ThirtyFive", 36: "ThirtySix"}
+               19: "Nineteen", 20: "Twenty", 21: "TwentyOne", 22: "TwentyTwo", 23: "TwentyThree", 24: "TwentyFour", 25: "TwentyFive", 26: "TwentySix", 27: "TwentySeven", 28: "TwentyEight", 29: "TwentyNine", 30: "Thirty", 31: "ThirtyOne", 32: "ThirtyTwo", 33: "ThirtyThree", 34: "ThirtyFour", 35: "ThirtyFive", 36: "ThirtySix", 37: "ThirtySeven", 38: "ThirtyEight", 39: "ThirtyNine", 40: "Forty"}
 DIGIT_WORD = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five",
               "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
 
@@ -728,6 +728,22 @@ def _phase15_macros(p15: dict) -> dict:
         if block.get("median_abs_log_error") is not None:
             m[f"resPert{tag}Err"] = {"value": block["median_abs_log_error"], "fmt": ".2f"}
             m[f"resPert{tag}Bias"] = {"value": block["median_signed_log_error"], "fmt": ".2f"}
+        if block.get("median_signed_log_error_interior") is not None:
+            m[f"resPert{tag}Pinned"] = {"value": block["pinned_at_a_bound"], "fmt": ".0f"}
+            m[f"resPert{tag}InteriorBias"] = {"value": block["median_signed_log_error_interior"], "fmt": ".2f"}
+    import math
+    base_interior = (p15.get("p2", {}).get("baseline") or {}).get("median_signed_log_error_interior")
+    for key, tag, factor in (("insulin_secretion_1.3", "GammaUp", 1.3), ("insulin_secretion_0.7", "GammaDown", 0.7)):
+        block = p15.get("p2", {}).get(key) or {}
+        if base_interior is not None and block.get("median_signed_log_error_interior") is not None:
+            m[f"resPert{tag}ShiftExpected"] = {"value": math.log(factor), "fmt": ".2f"}
+            m[f"resPert{tag}ShiftObserved"] = {"value": block["median_signed_log_error_interior"] - base_interior, "fmt": ".2f"}
+    for key, tag in (("real", "Real"), ("zero", "Zero"), ("ten", "Ten")):
+        box = p15.get("box", {}).get(key, {})
+        for name, word in (("k_e", "Ke"), ("k_a", "Ka")):
+            if box.get(name):
+                m[f"resBox{tag}{word}Bounded"] = {"value": box[name]["bounded"], "fmt": ".0f"}
+                m[f"resBox{tag}{word}Inside"] = {"value": box[name]["partner_inside_box"], "fmt": ".0f"}
     for key, tag in (("up", "Up"), ("down", "Down")):
         eq = p15.get("p2", {}).get("equivalence", {}).get(key, {})
         if eq.get("n"):

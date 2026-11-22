@@ -160,7 +160,7 @@ def _ar1_noise(rng, rho: float, innovation_sd: float, shape: tuple[int, int]) ->
 @lru_cache(maxsize=256)
 def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool, carb_cv: float,
                     limit, truth_mode: str = "fit", cgm_scale: float = 1.0, residual: float = 0.0,
-                    perturb_key: str = "") -> tuple:
+                    perturb_key: str = "", carb_bias: float = 0.0) -> tuple:
     from simulation import jax_engine
     config = {"cohort": cohort, "min_meals": min_meals, "limit": limit}
     subject = _cohort_subject(config, unit)
@@ -186,6 +186,10 @@ def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool
         logged = carbs * multiplier
     else:
         logged = carbs
+    if carb_bias > 0:
+        # Amendment 14: a systematic logging error, the same unit-mean lognormal multiplier for every meal of the subject
+        sigma2 = np.log1p(carb_bias ** 2)
+        logged = logged * float(_rng(unit, seed, "carb_bias").lognormal(-0.5 * sigma2, np.sqrt(sigma2)))
     from simulation.jax_observables import Window, iauc
     window = Window()
     records = []
@@ -204,7 +208,7 @@ def _replica_args(config: dict, replica: dict, unit: str) -> tuple:
     return (config["cohort"], config["min_meals"], unit, int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
             float(replica.get("carb_cv", 0.25)), config.get("limit"), str(replica.get("truth", "fit")),
             float(replica.get("cgm_scale", 1.0)), float(replica.get("residual_gut", 0.0)),
-            json.dumps(perturb, sort_keys=True) if perturb else "")
+            json.dumps(perturb, sort_keys=True) if perturb else "", float(replica.get("carb_bias", 0.0)))
 
 
 def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:

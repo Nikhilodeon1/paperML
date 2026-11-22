@@ -23,7 +23,7 @@ from SHA-256 hashes of the unit, so results do not depend on the number of worke
 
 \paragraph{Reproducing the results.}
 \begin{verbatim}
-python -m evaluation.reproduce_all_aistats --quick   # smoke test
+python -m evaluation.reproduce_pipeline --quick   # smoke test
 bash scripts/pod_run_all.sh      # main analyses
 bash scripts/pod_phase8.sh       # replica, replication, leakage
 bash scripts/pod_phase9.sh       # synthetic, 2nd cohort, 2nd model

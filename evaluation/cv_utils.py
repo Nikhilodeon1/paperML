@@ -18,7 +18,7 @@ import hashlib
 
 import numpy as np
 
-__all__ = ["fold_seed", "make_folds", "split_indices"]
+__all__ = ["fold_seed", "make_folds", "make_time_folds", "split_indices"]
 
 
 def fold_seed(subject_id: str, seed: int) -> int:
@@ -47,6 +47,19 @@ def make_folds(subject_id: str, n_meals: int, k: int = 5, seed: int = 0) -> np.n
     folds = np.empty(n_meals, dtype=np.int64)
     folds[order] = np.arange(n_meals) % k
     return folds
+
+
+def make_time_folds(n_meals: int, k: int = 5) -> np.ndarray:
+    """Contiguous blocks of a subject's meals in record (time) order: fold `f` holds the f-th block of about `n/k` meals.
+
+    Used by the chronological schemes of Amendment 14: with "blocked" each block is held out and the rest train; with
+    "forward" a block is held out and only EARLIER blocks train, so nothing from the future informs a prediction.
+    """
+    if n_meals < 0:
+        raise ValueError(f"n_meals must be non-negative, got {n_meals}")
+    if k < 2:
+        raise ValueError(f"k must be at least 2, got {k}")
+    return np.minimum((np.arange(n_meals) * k) // max(n_meals, 1), k - 1).astype(np.int64)
 
 
 def split_indices(folds: np.ndarray, fold: int) -> tuple[np.ndarray, np.ndarray]:

@@ -60,8 +60,9 @@ $h$ from $R_a$ to glucose and $H(t)=\int_0^t h$,
 \int_0^T y\,dt=K\!\int_0^T R_a(s)\,ds-\int_0^T R_a(s)\,\bigl(K-H(T-s)\bigr)\,ds,
 \qquad K=\lim_{t\to\infty}H(t),
 \end{equation}
-so the area over a window $T$ depends on the rates only through the second term, the part of the
-response that falls beyond the end of the window, and that dependence vanishes as $T\to\infty$.
+so at a finite window the area depends on the rates through the mass delivered inside the window, the first term, and
+through the part of the response that falls beyond its end, the second. As $T\to\infty$ the first term tends to the
+total mass, which is the same for every pair of rates, and the second vanishes.
 \end{proposition}
 
 Moment theory for absorption data is classical in pharmacokinetics, where the mean absorption time is estimated from
@@ -69,8 +70,8 @@ plasma-concentration moments \citep{cutler1978theory,yamaoka1978statistical,rieg
 moments for the two-compartment cascade so that the argument is self-contained, and claim no novelty for them.
 
 Proposition~\ref{prop:moments} orders the observables. An area over a long window sees the total mass delivered, the
-zeroth moment, which is the same for every pair of rates. At a finite window it sees timing only through what leaks past
-the window's end. The centroid adds the first moment, and so $\tau_1$. Only the shape of the trace, with its rise, peak
+zeroth moment, which is the same for every pair of rates. At a finite window it sees timing only through the share of the
+mass delivered by the window's end and through what leaks past it. The centroid adds the first moment, and so $\tau_1$. Only the shape of the trace, with its rise, peak
 and decay, can carry the second moment and hence $p$. The empirical results quantify each statement. The sensitivity of
 the area to timing, relative to its sensitivity to $\SI$, falls with the window (Figure~\ref{fig:window}). The weakest
 Fisher direction is the $\tau_1$-preserving direction, which is the exchange direction to first order

@@ -50,7 +50,7 @@ import jax.numpy as jnp         # noqa: E402
 import optax                     # noqa: E402
 
 from evaluation.cohort_data import load_cohort                          # noqa: E402
-from evaluation.cv_utils import make_folds                              # noqa: E402
+from evaluation.cv_utils import make_folds, make_time_folds                              # noqa: E402
 from evaluation.subject_source import get_subject, window_for           # noqa: E402
 from personalization.fit_general import _optimizer, _project_gradient   # noqa: E402
 from personalization.objectives import (                                # noqa: E402
@@ -102,6 +102,9 @@ def default_config() -> dict:
         "beta": 10.0,
         "carb_scale": None,
         "replica": None,
+        # Amendment 14: "random" is the protocol of every earlier result; "blocked" and "forward" use contiguous blocks of
+        # meals in time order (use repeats = 1: the folds do not depend on the repeat).
+        "fold_scheme": "random",
     }
 
 
@@ -417,7 +420,13 @@ def run_unit(unit: str, config: dict) -> dict:
     ctx = _context(config, subject_id)
     n = ctx.n
     started = time.perf_counter()
-    folds = make_folds(subject_id, n, k=config["folds"], seed=repeat)
+    scheme = config.get("fold_scheme", "random")
+    if scheme == "random":
+        folds = make_folds(subject_id, n, k=config["folds"], seed=repeat)
+    elif scheme in ("blocked", "forward"):
+        folds = make_time_folds(n, k=config["folds"])
+    else:
+        raise ValueError(f"unknown fold_scheme {scheme!r}")
     cells = {c: _empty(n) for c in config["cells"]}
     timing = {c: 0.0 for c in config["cells"]}
     lam = config["lam"]
@@ -427,7 +436,7 @@ def run_unit(unit: str, config: dict) -> dict:
 
     for fold in range(config["folds"]):
         test = np.flatnonzero(folds == fold)
-        train = np.flatnonzero(folds != fold)
+        train = np.flatnonzero(folds < fold) if scheme == "forward" else np.flatnonzero(folds != fold)
         if len(test) == 0 or len(train) == 0:
             continue
         train_records = [ctx.records[i] for i in train]
@@ -517,7 +526,7 @@ def run_unit(unit: str, config: dict) -> dict:
     return {
         "subject_id": subject_id, "repeat": repeat, "cohort": config["cohort"], "n_meals": n,
         "replica": config.get("replica"), "carb_scale": config.get("carb_scale"),
-        "folds": folds.tolist(), "obs_iauc": ctx.obs_iauc.tolist(),
+        "fold_scheme": scheme, "folds": folds.tolist(), "obs_iauc": ctx.obs_iauc.tolist(),
         "obs_peak": ctx.obs_peak.tolist(), "carbs_g": [r["carbs_g"] for r in ctx.records],
         "fit_settings": {k: config[k] for k in ("steps", "learning_rate", "lam", "beta")},
         "cells": payload_cells, "wall_seconds": round(time.perf_counter() - started, 2),

@@ -260,7 +260,7 @@ exactly zero, which are kept for the area objective and excluded from the centro
 Every analysis is a resumable runner module writing one result file per work unit under
 `results/<analysis>/<config hash>/`, with the code version, configuration and environment recorded.
 Deterministic folds (SHA-256), a content-hashed cohort cache (no raw data needed on a node), an end-to-end
-`reproduce_all_aistats` script with a three-subject smoke test (run successfully on the compute node),
+`reproduce_pipeline` script with a three-subject smoke test (run successfully on the compute node),
 `make_paper_assets` which fails if a number is typed by hand or a banned term appears, and an anonymized
 package builder that refuses to write an archive if it finds a name, address, home directory or key. The
 whole compute queue (225 cross-validation units, nine profile runs, six ladder Fisher runs, diagnostics, the

@@ -1,8 +1,8 @@
 # Evidence ledger
 
-Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T09:59:41-0800, combined SHA-256 `ed4a1a0401a5991bc3825d14ab6539d1ccee6f5c2bbe987481ece0649d0c2543`; repository commit `0be22f2` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
+Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T21:57:07-0800, combined SHA-256 `5b2dffac519221bb95d9a6abc9adf15a5fd9ddef337f649ccd564ffcd96a4eca`; repository commit `d736db1` when this file was generated. Every value below is a macro written from that index by `evaluation/make_macros.py`; the code that computes each macro is in `evaluation/paper_numbers.py` and the summaries under `results/`. The ledger lists the macros that the manuscript text uses.
 
-660 macros used, 0 used but undefined.
+678 macros used, 0 used but undefined.
 
 | macro | value | analysis | used in |
 |---|---|---|---|
@@ -14,6 +14,18 @@ Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T09:59:4
 | `resBootstrapResamples` | 2000 | phase 2 summary | app_setting.tex |
 | `resBoundaryCoords` | 65 | phase 2 summary | app_results.tex |
 | `resBoundaryCoordsTrace` | 51 | phase 2 summary | app_results.tex |
+| `resBoxRealKaBounded` | 11 | phase 2 summary | sec_discussion.tex |
+| `resBoxRealKaInside` | 11 | phase 2 summary | sec_discussion.tex |
+| `resBoxRealKeBounded` | 8 | phase 2 summary | sec_discussion.tex |
+| `resBoxRealKeInside` | 8 | phase 2 summary | sec_discussion.tex |
+| `resBoxTenKaBounded` | 2 | phase 2 summary | sec_discussion.tex |
+| `resBoxTenKaInside` | 0 | phase 2 summary | sec_discussion.tex |
+| `resBoxTenKeBounded` | 4 | phase 2 summary | sec_discussion.tex |
+| `resBoxTenKeInside` | 3 | phase 2 summary | sec_discussion.tex |
+| `resBoxZeroKaBounded` | 1 | phase 2 summary | sec_discussion.tex |
+| `resBoxZeroKaInside` | 1 | phase 2 summary | sec_discussion.tex |
+| `resBoxZeroKeBounded` | 1 | phase 2 summary | sec_discussion.tex |
+| `resBoxZeroKeInside` | 1 | phase 2 summary | sec_discussion.tex |
 | `resCalQuarterGapMax` | 0.00 | phase 2 summary | sec_results.tex |
 | `resCalQuarterGapWithin` | 45 | phase 2 summary | sec_results.tex |
 | `resCalQuarterMedianLr` | 1.0 | phase 2 summary | sec_results.tex |
@@ -330,14 +342,20 @@ Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T09:59:4
 | `resPeakGradThreeTrace` | 41.6 | phase 2 summary | app_results.tex |
 | `resPeakPersonalMean` | 41.0 | phase 2 summary | app_results.tex |
 | `resPertBaseBias` | -0.19 | phase 2 summary | sec_results.tex |
+| `resPertBasePinned` | 11 | phase 2 summary | sec_results.tex |
 | `resPertBaseSIBounded` | 26 | phase 2 summary | sec_results.tex |
 | `resPertBaseSICover` | 87 | phase 2 summary | sec_results.tex |
 | `resPertGammaDownBias` | -0.31 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownPinned` | 18 | phase 2 summary | sec_results.tex |
 | `resPertGammaDownSIBounded` | 33 | phase 2 summary | sec_results.tex |
 | `resPertGammaDownSICovbd` | 44 | phase 2 summary | sec_results.tex |
 | `resPertGammaDownSICover` | 64 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownShiftExpected` | -0.36 | phase 2 summary | sec_results.tex |
+| `resPertGammaDownShiftObserved` | -0.22 | phase 2 summary | sec_results.tex |
 | `resPertGammaUpBias` | 0.02 | phase 2 summary | sec_results.tex |
 | `resPertGammaUpSICover` | 91 | phase 2 summary | sec_results.tex |
+| `resPertGammaUpShiftExpected` | 0.26 | phase 2 summary | sec_results.tex |
+| `resPertGammaUpShiftObserved` | 0.12 | phase 2 summary | sec_results.tex |
 | `resPertSameDown` | 44 | phase 2 summary | sec_results.tex |
 | `resPertSameDownN` | 45 | phase 2 summary | sec_results.tex |
 | `resPertSameUp` | 44 | phase 2 summary | sec_results.tex |
@@ -639,21 +657,21 @@ Frozen result index: `results/index.json`, 8331 files, frozen 2026-11-20T09:59:4
 | `resVerdictHSix` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTen` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHThirteen` | not met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
-| `resVerdictHThirty` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
-| `resVerdictHThirtyFour` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
-| `resVerdictHThirtyOne` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
-| `resVerdictHThirtyThree` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
-| `resVerdictHThirtyTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHThirty` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHThirtyFour` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHThirtyOne` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHThirtyThree` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHThirtyTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHThree` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |
 | `resVerdictHTwelve` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |
 | `resVerdictHTwenty` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
-| `resVerdictHTwentyEight` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHTwentyEight` | not met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHTwentyFive` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyFour` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
-| `resVerdictHTwentyNine` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHTwentyNine` | not met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHTwentyOne` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
-| `resVerdictHTwentySeven` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
-| `resVerdictHTwentySix` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_register.tex, sec_results.tex |
+| `resVerdictHTwentySeven` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
+| `resVerdictHTwentySix` | met | hypothesis verdicts (evaluation/hypotheses.py) | sec_results.tex |
 | `resVerdictHTwentyThree` | not met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwentyTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex, sec_results.tex |
 | `resVerdictHTwo` | met | hypothesis verdicts (evaluation/hypotheses.py) | app_results.tex |

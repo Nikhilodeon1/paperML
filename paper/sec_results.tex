@@ -116,15 +116,21 @@ absorbed by $\SI$. Scaling every logged carbohydrate by $0.75$ and $1.33$ moves 
 Two parameters of the glucose equations, $\gamma$ (insulin secretion) and $p_3$ (the gain of insulin action), are fixed
 at population values in every fit. To see what a wrong value does, we multiplied one of them in the truth of the
 standard replica by $1.3$ and by $0.7$ and kept the population value in the fit (Amendment eleven, post hoc). The two
-parameters act alike here: scaling $\gamma$ or scaling $p_3$ by the same factor gave the same estimate of $\SI$ in
-\resPertSameUp{} of \resPertSameUpN{} subjects at $1.3$ and \resPertSameDown{} of \resPertSameDownN{} at $0.7$, so we
-treat them as one test, a change in the scale of insulin action. On the unperturbed replica the nominal interval for
-$\SI$ contains the truth for \resPertBaseSICover\% of subjects, with a median signed log error of \resPertBaseBias{}.
-With the truth's insulin action raised by thirty percent the coverage is \resPertGammaUpSICover\% and the median
-signed log error \resPertGammaUpBias{}. Lowered by thirty percent, the coverage falls to \resPertGammaDownSICover\%, the
-bounded intervals contain the truth in \resPertGammaDownSICovbd\% of cases, and the median signed log error is
-\resPertGammaDownBias{}, close to the shift of the baseline by the logarithm of the factor. A wrong fixed parameter is
-absorbed by $\SI$, in the direction the scale predicts, and the interval for $\SI$ does not signal it: the share of
+parameters act alike by construction. In the equations, insulin above its basal level is proportional to $\gamma$ and
+drives the action state through $p_3\SI$, so the glucose trace depends on the three only through the product
+$\gamma\,p_3\,\SI$; scaling $\gamma$ or $p_3$ by a factor is the same as scaling $\SI$ by that factor. The fits agree:
+the estimate of $\SI$ is the same in \resPertSameUp{} of \resPertSameUpN{} subjects at $1.3$ and \resPertSameDown{} of
+\resPertSameDownN{} at $0.7$, the rest differing only through the optimizer and the box. We therefore treat the two as
+one test, a change in the scale of insulin action, and read $\SI$ as that scale. A wrong fixed parameter is absorbed by
+it one for one only while the estimate stays inside its box. At $0.7$, \resPertGammaDownPinned{} estimates end on a
+bound, against \resPertBasePinned{} on the unperturbed replica, and among the interior estimates the median error moves
+by \resPertGammaDownShiftObserved{} where the logarithm of the factor is \resPertGammaDownShiftExpected{}; at $1.3$ the
+shift is \resPertGammaUpShiftObserved{} against \resPertGammaUpShiftExpected{}. On the unperturbed replica the nominal
+interval for $\SI$ contains the truth for \resPertBaseSICover\% of subjects, with a median signed log error of
+\resPertBaseBias{} over all subjects. With the truth's insulin action raised by thirty percent the coverage is
+\resPertGammaUpSICover\% and the median signed log error \resPertGammaUpBias{}; lowered by thirty percent the coverage
+falls to \resPertGammaDownSICover\%, the bounded intervals contain the truth in \resPertGammaDownSICovbd\% of cases, and
+the median signed log error is \resPertGammaDownBias{}. The interval for $\SI$ does not signal the error: the share of
 bounded intervals is \resPertGammaDownSIBounded\% against \resPertBaseSIBounded\% on the unperturbed replica.
 
 \begin{figure}[t]
@@ -236,7 +242,7 @@ Blue: CGMacros; green: Shanghai.}
 \end{figure}
 
 
-\subsection{Whether a combination of the rates is recoverable is not established}
+\subsection{A combination of the rates is recoverable only with exact inputs and low noise}
 \label{sec:more}
 
 The exchange symmetry leaves a combination of the rates free, $\tau_1=1/\ke+1/\ka$ and $p=1/(\ke\ka)$. The full trace

@@ -89,6 +89,9 @@ def default_config() -> dict:
         # convergence (evaluation/profile_solver.py), with at most `lbfgsb_maxiter` iterations per point.
         "inner_solver": "adam",
         "lbfgsb_maxiter": 200,
+        # Amendment 14: "pilot" freezes the noise model at the pilot estimate (every earlier result); "final" estimates the
+        # residual standard deviation and autocorrelation again at the polished estimate and profiles with those.
+        "noise_source": "pilot",
     }
 
 
@@ -237,6 +240,24 @@ def _run_unit(unit: str, config: dict) -> dict:
         theta_hat = phi_hat if log_space else np.exp(phi_hat)
         polish = {k: v for k, v in polish.items() if k != "phi"}
     loss_at_hat = float(loss_fn(jnp.asarray(phi_hat)))
+    if config.get("noise_source", "pilot") == "final":
+        raw = build_objective(spec, base_params(subject.profile), subject_arrays(records),
+                              observed_values(records, spec.window), noise=None)
+        residuals = raw.residuals(jnp.asarray(phi_hat if log_space else np.exp(phi_hat)))
+        noise = nm.build(residuals, n_parameters=len(spec.free), whiten_trace=spec.whiten_trace)
+        objective = build_objective(spec, base_params(subject.profile), subject_arrays(records),
+                                    observed_values(records, spec.window), noise=noise)
+        if log_space:
+            loss_fn, project = objective.loss, objective.project
+        else:
+            def loss_fn(phi, _objective=objective):
+                return _objective.loss(jnp.exp(phi))
+        if config.get("polish"):
+            again = polish_estimate(loss_fn, phi_hat, phi_lower, phi_upper, project,
+                                    f"{unit}|{name}|{parameterization}|final", 0, int(config["polish_maxiter"]))
+            phi_hat = again["phi"]
+            theta_hat = phi_hat if log_space else np.exp(phi_hat)
+        loss_at_hat = float(loss_fn(jnp.asarray(phi_hat)))
     tolerance = config["drift_tolerance"]
     truth = None
     if config.get("replica"):
@@ -311,6 +332,7 @@ def _run_unit(unit: str, config: dict) -> dict:
         "parameterization": parameterization, "replica": config.get("replica"),
         "carb_scale": config.get("carb_scale"), "polish": polish, "inner_steps": int(config["steps"]),
         "inner_solver": config.get("inner_solver", "adam"), "grid_points": int(config["grid_points"]),
+        "noise_source": config.get("noise_source", "pilot"),
         "noise_structure": structure, "profile_only": list(only) if only else None,
         "noise": noise.as_dict(),
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
@@ -345,6 +367,7 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
             and int(payload.get("inner_steps", 100)) == int(config.get("steps", 100))
             and payload.get("inner_solver", "adam") == config.get("inner_solver", "adam")
+            and payload.get("noise_source", "pilot") == config.get("noise_source", "pilot")
             and int(payload.get("grid_points", 15)) == int(config.get("grid_points", 15))
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")

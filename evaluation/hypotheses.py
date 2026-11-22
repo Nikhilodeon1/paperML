@@ -54,6 +54,9 @@ def load_summary() -> dict:
     grid = RESULTS / "phase17_summary.json"
     if grid.exists():
         summary["phase17"] = json.loads(grid.read_text(encoding="utf-8"))
+    robust = RESULTS / "phase18_summary.json"
+    if robust.exists():
+        summary["phase18"] = json.loads(robust.read_text(encoding="utf-8"))
     return summary
 
 
@@ -477,6 +480,54 @@ def h34(summary):
     return _row(rule, block["status"], {f"{k}_difference_points": v for k, v in block["difference_points"].items()})
 
 
+def _phase18_row(summary, key, rule, note):
+    block = summary.get("phase18", {}).get(key)
+    if not block or block.get("status") in (None, "not evaluated"):
+        return None, _row(rule, "not evaluated", note=note)
+    return block, None
+
+
+def h35(summary):
+    rule = ("Carbohydrate error 0.25, trace coordinate profiles with the noise standard deviation and autocorrelation estimated "
+            "again at the polished estimate: the nominal interval covers the truth for >= 90% of subjects, for tau1 and p.")
+    block, empty = _phase18_row(summary, "h35", rule, "Re-estimated-noise profiles not run.")
+    return empty or _row(rule, block["status"], {f"{k}_coverage": v for k, v in block["coverage"].items()})
+
+
+def h36(summary):
+    rule = ("Replica seeds 1 and 2, carbohydrate error 0 against 0.75: for tau1 and p the bounded fraction rises by >= 30 points "
+            "and the nominal coverage falls by >= 30 points, on each seed.")
+    block, empty = _phase18_row(summary, "h36", rule, "Extra seeds not run.")
+    if empty:
+        return empty
+    observed = {}
+    for seed, result in block["results"].items():
+        for name, d in (result.get("detail") or {}).items():
+            observed[f"{seed}_{name}_rise"] = d["bounded_rise_points"]
+            observed[f"{seed}_{name}_drop"] = d["coverage_drop_points"]
+    return _row(rule, block["status"], observed)
+
+
+def h37(summary):
+    rule = ("A systematic carbohydrate error (one lognormal multiplier per subject, CV 0.25, no per-meal error): the nominal "
+            "interval covers the truth for >= 90% of subjects, for tau1 and p.")
+    block, empty = _phase18_row(summary, "h37", rule, "Systematic-error replica not run.")
+    return empty or _row(rule, block["status"], {f"{k}_coverage": v for k, v in block["coverage"].items()})
+
+
+def h38(summary):
+    rule = ("The pattern of H36 (bounded fraction up and coverage down by >= 30 points between carbohydrate error 0 and 0.75) on a "
+            "replica built from the Shanghai subjects, seed 0.")
+    block, empty = _phase18_row(summary, "h38", rule, "Shanghai replica not run.")
+    if empty:
+        return empty
+    observed = {}
+    for name, d in (block.get("detail") or {}).items():
+        observed[f"{name}_rise"] = d["bounded_rise_points"]
+        observed[f"{name}_drop"] = d["coverage_drop_points"]
+    return _row(rule, block["status"], observed)
+
+
 if (RESULTS / "phase14_summary.json").exists():            # H27 and H28 are listed once Amendment 10 has been run
     ALL.update({"H27": h27, "H28": h28})
 if (RESULTS / "phase15_summary.json").exists():            # H29 and H30 are listed once Amendment 11 has been run
@@ -485,6 +536,8 @@ if (RESULTS / "phase16_summary.json").exists():            # H31 to H33 are list
     ALL.update({"H31": h31, "H32": h32, "H33": h33})
 if (RESULTS / "phase17_summary.json").exists():            # H34 is listed once Amendment 13 has been run
     ALL.update({"H34": h34})
+if (RESULTS / "phase18_summary.json").exists():            # H35 to H38 are listed once Amendment 14 has been run
+    ALL.update({"H35": h35, "H36": h36, "H37": h37, "H38": h38})
 PRIMARY = ("H1", "H3", "H5", "H7", "H9")
 
 

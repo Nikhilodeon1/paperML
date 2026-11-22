@@ -8,8 +8,8 @@ settings that still exercise the whole code path, into a TEMPORARY results direc
 `results/` is touched, and the run fails if any unit fails. It proves the pipeline runs on the machine
 it is run on; it produces no number for the paper.
 
-Run:  python -m evaluation.reproduce_all_aistats --quick
-      python -m evaluation.reproduce_all_aistats --workers 30
+Run:  python -m evaluation.reproduce_pipeline --quick
+      python -m evaluation.reproduce_pipeline --workers 30
 """
 from __future__ import annotations
 

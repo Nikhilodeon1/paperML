@@ -32,7 +32,7 @@ def test_replica_arguments_separate_residual_and_perturbation():
     b = subject_source._replica_args(config, {**base, "residual_gut": 0.1}, "CGMacros-001")
     c = subject_source._replica_args(config, {**base, "perturb": {"x_gain": 1.3}}, "CGMacros-001")
     assert a != b and a != c and b != c
-    assert a[-2:] == (0.0, "") and b[-2] == 0.1 and "x_gain" in c[-1]
+    assert a[-3:] == (0.0, "", 0.0) and b[-3] == 0.1 and "x_gain" in c[-2]
 
 
 def _block(bounded_ke, cover_ke, bounded_ka, cover_ka) -> dict:

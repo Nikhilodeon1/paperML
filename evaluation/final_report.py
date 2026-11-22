@@ -42,7 +42,11 @@ def skipped(verdicts: dict) -> list[tuple[str, str]]:
                        ("H31", "Profile at the true value with a converged inner solve at low noise (Amendment 12)."),
                        ("H32", "Real-data trace fractions with a converged inner solver (Amendment 12)."),
                        ("H33", "Low-noise calibration with a converged inner solver and 29 grid points (Amendment 12)."),
-                       ("H34", "Real-data trace fractions on a 29-point grid (Amendment 13).")):
+                       ("H34", "Real-data trace fractions on a 29-point grid (Amendment 13)."),
+                       ("H35", "Carbohydrate-error calibration with the noise re-estimated at the fit (Amendment 14)."),
+                       ("H36", "Carbohydrate-error pattern on two more replica seeds (Amendment 14)."),
+                       ("H37", "Systematic carbohydrate error (Amendment 14)."),
+                       ("H38", "Carbohydrate-error pattern on a Shanghai replica (Amendment 14).")):
         if verdicts.get(name, {}).get("status") == "not evaluated":
             out.append((name, text))
     return out

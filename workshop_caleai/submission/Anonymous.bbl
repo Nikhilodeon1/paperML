@@ -1,0 +1,122 @@
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Bergman et~al.(1979)Bergman, Ider, Bowden, and Cobelli}]{bergman1979}
+Bergman, R.~N.; Ider, Y.~Z.; Bowden, C.~R.; and Cobelli, C. 1979.
+\newblock Quantitative Estimation of Insulin Sensitivity.
+\newblock \emph{American Journal of Physiology-Endocrinology and Metabolism},
+  236(6): E667--E677.
+
+\bibitem[{Berry et~al.(2020)Berry, Valdes, Drew, Asnicar, Mazidi, Wolf
+  et~al.}]{berry2020human}
+Berry, S.~E.; Valdes, A.~M.; Drew, D.~A.; Asnicar, F.; Mazidi, M.; Wolf, J.;
+  et~al. 2020.
+\newblock Human Postprandial Responses to Food and Potential for Precision
+  Nutrition.
+\newblock \emph{Nature Medicine}, 26: 964--973.
+
+\bibitem[{Boxenbaum(1998)}]{boxenbaum1998flipflop}
+Boxenbaum, H. 1998.
+\newblock Pharmacokinetics Tricks and Traps: Flip-Flop Models.
+\newblock \emph{Journal of Pharmacy and Pharmaceutical Sciences}, 1(3): 90--91.
+
+\bibitem[{Cobelli and DiStefano(1980)}]{cobelli1980parameter}
+Cobelli, C.; and DiStefano, J.~J. 1980.
+\newblock Parameter and Structural Identifiability Concepts and Ambiguities: A
+  Critical Review and Analysis.
+\newblock \emph{American Journal of Physiology-Regulatory, Integrative and
+  Comparative Physiology}, 239(1): R7--R24.
+
+\bibitem[{Cutler(1978)}]{cutler1978theory}
+Cutler, D.~J. 1978.
+\newblock Theory of the Mean Absorption Time, an Adjunct to Conventional
+  Bioavailability Studies.
+\newblock \emph{Journal of Pharmacy and Pharmacology}, 30(1): 476--478.
+
+\bibitem[{Dalla~Man, Rizza, and Cobelli(2007)}]{dallaman2007}
+Dalla~Man, C.; Rizza, R.~A.; and Cobelli, C. 2007.
+\newblock Meal Simulation Model of the Glucose-Insulin System.
+\newblock \emph{IEEE Transactions on Biomedical Engineering}, 54(10):
+  1740--1749.
+
+\bibitem[{Das et~al.(2025)Das, Kerr, Glantz, Bevier, Santiago, Gutierrez-Osuna,
+  and Mortazavi}]{das2025cgmacros}
+Das, A.; Kerr, D.; Glantz, N.; Bevier, W.; Santiago, R.; Gutierrez-Osuna, R.;
+  and Mortazavi, B.~J. 2025.
+\newblock {CGMacros}: A Pilot Scientific Dataset for Personalized Nutrition and
+  Diet Monitoring.
+\newblock \emph{Scientific Data}, 12(1): 1557.
+
+\bibitem[{Eisenberg and Hayashi(2014)}]{eisenberg2014determining}
+Eisenberg, M.~C.; and Hayashi, M. A.~L. 2014.
+\newblock Determining Identifiable Parameter Combinations Using Subset
+  Profiling.
+\newblock \emph{Mathematical Biosciences}, 256: 116--126.
+
+\bibitem[{Erd{\H o}s et~al.(2024)Erd{\H o}s, O'Donovan, Adriaens, Gijbels,
+  Trouwborst, Jardon, Goossens, Afman, Blaak, van Riel, and
+  Arts}]{erdos2024leveraging}
+Erd{\H o}s, B.; O'Donovan, S.~D.; Adriaens, M.~E.; Gijbels, A.; Trouwborst, I.;
+  Jardon, K.~M.; Goossens, G.~H.; Afman, L.~A.; Blaak, E.~E.; van Riel, N.
+  A.~W.; and Arts, I. C.~W. 2024.
+\newblock Leveraging Continuous Glucose Monitoring for Personalized Modeling of
+  Insulin-Regulated Glucose Metabolism.
+\newblock \emph{Scientific Reports}, 14: 8037.
+
+\bibitem[{Gutenkunst et~al.(2007)Gutenkunst, Waterfall, Casey, Brown, Myers,
+  and Sethna}]{gutenkunst2007universally}
+Gutenkunst, R.~N.; Waterfall, J.~J.; Casey, F.~P.; Brown, K.~S.; Myers, C.~R.;
+  and Sethna, J.~P. 2007.
+\newblock Universally Sloppy Parameter Sensitivities in Systems Biology Models.
+\newblock \emph{PLoS Computational Biology}, 3(10): e189.
+
+\bibitem[{Hall et~al.(2018)Hall, Perelman, Breschi, Limcaoco, Kellogg,
+  McLaughlin, and Snyder}]{hall2018glucotypes}
+Hall, H.; Perelman, D.; Breschi, A.; Limcaoco, P.; Kellogg, R.; McLaughlin, T.;
+  and Snyder, M. 2018.
+\newblock Glucotypes Reveal New Patterns of Glucose Dysregulation.
+\newblock \emph{PLOS Biology}, 16(7): e2005143.
+
+\bibitem[{Miao et~al.(2011)Miao, Xia, Perelson, and
+  Wu}]{miao2011identifiability}
+Miao, H.; Xia, X.; Perelson, A.~S.; and Wu, H. 2011.
+\newblock On Identifiability of Nonlinear {ODE} Models and Applications in
+  Viral Dynamics.
+\newblock \emph{SIAM Review}, 53(1): 3--39.
+
+\bibitem[{Raue et~al.(2009)Raue, Kreutz, Maiwald, Bachmann, Schilling,
+  Klingm{\"u}ller, and Timmer}]{raue2009structural}
+Raue, A.; Kreutz, C.; Maiwald, T.; Bachmann, J.; Schilling, M.;
+  Klingm{\"u}ller, U.; and Timmer, J. 2009.
+\newblock Structural and Practical Identifiability Analysis of Partially
+  Observed Dynamical Models by Exploiting the Profile Likelihood.
+\newblock \emph{Bioinformatics}, 25(15): 1923--1929.
+
+\bibitem[{Wieland et~al.(2021)Wieland, Hauber, Rosenblatt, T{\"o}nsing, and
+  Timmer}]{wieland2021structural}
+Wieland, F.-G.; Hauber, A.~L.; Rosenblatt, M.; T{\"o}nsing, C.; and Timmer, J.
+  2021.
+\newblock On Structural and Practical Identifiability.
+\newblock \emph{Current Opinion in Systems Biology}, 25: 60--69.
+
+\bibitem[{Yamaoka, Nakagawa, and Uno(1978)}]{yamaoka1978statistical}
+Yamaoka, K.; Nakagawa, T.; and Uno, T. 1978.
+\newblock Statistical Moments in Pharmacokinetics.
+\newblock \emph{Journal of Pharmacokinetics and Biopharmaceutics}, 6(6):
+  547--558.
+
+\bibitem[{Zeevi et~al.(2015)Zeevi, Korem, Zmora, Israeli, Rothschild,
+  Weinberger et~al.}]{zeevi2015personalized}
+Zeevi, D.; Korem, T.; Zmora, N.; Israeli, D.; Rothschild, D.; Weinberger, A.;
+  et~al. 2015.
+\newblock Personalized Nutrition by Prediction of Glycemic Responses.
+\newblock \emph{Cell}, 163(5): 1079--1094.
+
+\bibitem[{Zhao et~al.(2023)Zhao, Zhu, Shen, Lin, Zhang, Liang, Cao, Li, Liu,
+  Rao, and Wang}]{zhao2023shanghai}
+Zhao, Q.; Zhu, J.; Shen, X.; Lin, C.; Zhang, Y.; Liang, Y.; Cao, B.; Li, J.;
+  Liu, X.; Rao, W.; and Wang, C. 2023.
+\newblock Chinese Diabetes Datasets for Data-Driven Machine Learning.
+\newblock \emph{Scientific Data}, 10: 35.
+
+\end{thebibliography}
