@@ -16,10 +16,8 @@ plasma insulin $I$, remote insulin action $X$, and stomach and intestinal glucos
 \end{align}
 where $m(t)$ is a Gaussian pulse (width $2$\,min) delivering the glucose mass of the meal,
 $V_g=1.6\,W$ dL for body weight $W$, and $G_b$, $I_b$ are basal values. A softplus smooths the positive part.
-The full engine carries further slow substrate states (glycogen, ketones, energy expenditure), but in the
-postprandial window the glucose dynamics are carried by the five states of
-Eqs.~\eqref{eq:gut}--\eqref{eq:action}. Appendix~\ref{app:spec} gives the specification with every constant and
-the vector field.
+The postprandial glucose dynamics are carried by these five states; Appendix~\ref{app:spec} gives the full specification with every
+constant and the vector field.
 
 Each person has three free parameters, $\theta=(\SI,\ke,\ka)$, each confined to a box
 (Table~\ref{tab:bounds}); everything else is fixed at population values. The \emph{primary box} is the one fixed
@@ -27,7 +25,7 @@ in the analysis plan. We also report a box half as wide and one twice as wide, s
 centre of each interval. The gut starts empty at each meal, a convention that matters for the symmetry in
 Section~\ref{sec:theory}.
 
-\begin{table}[t]
+\begin{table}[tbp]
 \centering\small
 \begin{tabular}{lcccl}
 \toprule
@@ -50,8 +48,8 @@ A \emph{meal record} is a window of CGM samples around one meal, with the logged
 All observables are computed from the baseline-subtracted excursion $y(t)=[G(t)-\bar G_{\mathrm{pre}}]_+$, where
 $\bar G_{\mathrm{pre}}$ is the mean of the samples in the $30$ minutes before the meal.
 \begin{itemize}
-\item \emph{iAUC}: $\int y\,dt$ over the post-meal window, one number per meal. It is the target of the primary
-  analysis.
+\item \emph{iAUC}: $\int y\,dt$ over the post-meal window, one number per meal (three hours, and a shorter window in
+  the standardized-meal cohort, Table~\ref{tab:cohorts}). It is the target of the primary analysis.
 \item \emph{Centroid}: $\int t\,y\,dt \,/ \int y\,dt$, the time centre of mass of the excursion. It carries
   timing and almost no magnitude.
 \item \emph{Trace}: the baseline-subtracted curve itself, at the sampling resolution of the cohort.
@@ -63,14 +61,17 @@ one percent of the hard value.
 \subsection{Likelihood, estimation and the identifiability criterion}
 \label{sec:estimation}
 
-Every identifiability analysis uses the unregularized maximum-likelihood estimate, never the penalized
-prediction fit, because a penalty toward the population values would narrow every interval. Residuals are
+Every identifiability analysis uses the unregularized maximum-likelihood estimate, because a penalty toward the
+population values would narrow every interval. Held-out prediction uses a penalized fit (penalty weight $0.01$ on the
+squared distance to the population value in units of the box), because there the aim is error and a mild penalty
+lowers it. The two sets of results therefore describe different estimators of one model, and Section~\ref{sec:prediction}
+asks what the first reveals about the second. Residuals are
 Gaussian with a per-subject, per-observable variance estimated at a pilot fit and then held fixed; stacked
 observables are weighted by their inverse residual variance; and the trace is whitened for first-order
 autocorrelation (Prais--Winsten). The variances stay frozen because re-estimating them inside the optimization
 would let the fit lower its loss by declaring its errors noise. Estimates come from fixed-step Adam
-\citep{kingma2015adam} in log coordinates; Section~\ref{sec:more} replaces them by L-BFGS-B estimates
-\citep{byrd1995limited} for the coordinate fits.
+\citep{kingma2015adam} in log coordinates, and for the coordinate fits of Section~\ref{sec:more} from the best of
+several L-BFGS-B runs \citep{byrd1995limited}.
 
 \begin{definition}[Profile interval and its classes]
 \label{def:profile}
@@ -93,9 +94,9 @@ bounds.
 \end{definition}
 
 A parameter's interval can be bounded only if its estimate is off the bounds, so we report fractions of bounded
-intervals over all subjects and over subjects interior for the parameter. The plan first defined interior as ``no
-parameter on a bound'', which gives an empty set whenever one parameter is unidentified; Amendment two
-(Appendix~\ref{app:register}) replaced it.
+intervals over subjects interior for the parameter, and over all subjects where the count is small. Defining interior
+as ``no parameter on a bound'' would give an empty set whenever one parameter is unidentified, which is why the
+definition is per parameter.
 
 \subsection{Instruments}
 \label{sec:instruments}
@@ -108,14 +109,11 @@ parameters jointly. The \emph{exchange direction} is $(1/\ka,\,-1/\ke)$ in $(\lo
 along which $\tau_1=1/\ke+1/\ka$ is constant to first order. We report the absolute cosine between it and the
 weakest eigenvector of the timing block.
 
-\paragraph{Generic rank.}
-The rank of the stacked sensitivity matrix over many random parameter draws, at a relative tolerance of
-$10^{-6}$, separates a parameter set that is locally identifiable but ill-conditioned from one that is rank
-deficient.
-
-\paragraph{Structural identifiability.}
-Symbolic analysis with StructuralIdentifiability.jl \citep{dong2023differential}, under several formulations that
-differ in what is assumed known about the gut at the start of a meal (Section~\ref{sec:timing}).
+\paragraph{Generic rank and structure.}
+The rank of the stacked sensitivity matrix over many random parameter draws, at a relative tolerance of $10^{-6}$,
+separates a parameter set that is locally identifiable but ill-conditioned from one that is rank deficient. Symbolic analysis
+with StructuralIdentifiability.jl \citep{dong2023differential} runs under several formulations that differ in what is assumed
+known about the gut at the start of a meal (Section~\ref{sec:timing}).
 
 \paragraph{Replica and synthetic study.}
 In the \emph{replica}, each subject's regularized prediction-fit estimate, moved at least $5\%$ of the box width
@@ -125,13 +123,6 @@ carbohydrate multiplied by lognormal error of unit mean and coefficient of varia
 often the data would bound a parameter if the model were true, with this noise and this logging error. In the
 \emph{synthetic study} the true parameters are instead drawn independently and uniformly inside the box, so that
 recovery can be read against where the truth lies. In both, coverage of the bounded intervals can be checked.
-Random streams are seeded from a hash of the subject, the replica seed and the stream name, so switching one noise
-source off leaves the others' draws unchanged.
-
-\paragraph{Optimizer check.}
-For the rate-space fits we compare the Adam estimate with L-BFGS-B from five random starting points and read the
-gap in negative log-likelihood against $\delta$. Section~\ref{sec:more} uses the L-BFGS-B estimate itself for the
-coordinate fits.
 
 \paragraph{Data, protocol and statistics.}
 We use CGMacros \citep{das2025cgmacros}, a Shanghai cohort of people with type two diabetes \citep{zhao2023shanghai} and
@@ -142,7 +133,8 @@ every method. Two methods are called equivalent when the $90\%$ bootstrap interv
 inside $(-150,+150)$\,mg\,dL$^{-1}$\,min, by the two one-sided tests procedure \citep{schuirmann1987comparison}.
 Fractions carry Wilson intervals \citep{wilson1927probable}, paired differences carry subject-level BCa bootstrap
 intervals \citep{efron1987better}, and families of comparisons carry Holm correction \citep{holm1979simple}.
-Hypotheses H1--H10 were fixed in version control before the analyses, H11--H12 were declared before their
-analyses, and H13--H34 were declared after earlier results had been seen; the last group is marked post hoc
-wherever it appears. Appendices~\ref{app:setting} and~\ref{app:register} give the cohorts, the protocol and every
-hypothesis.
+\paragraph{Analysis status.}
+Ten hypotheses (H1--H10) were fixed in version control before any analysis was run, and H11 and H12 were added before
+the identifiability analyses. H13 to H38 were declared after earlier results had been seen, each with its rule fixed
+before its run, and are exploratory. Table~\ref{tab:register} (Appendix~\ref{app:register}) gives every rule, its origin
+and its status; the main text does not repeat the label. Appendix~\ref{app:setting} gives the cohorts and protocol.

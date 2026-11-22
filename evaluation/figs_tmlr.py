@@ -83,9 +83,9 @@ def _p9() -> dict:
     return _load("phase9_summary.json")
 
 
-def _wilson_bars(ax, x, fraction, wilson, color, width=0.18, alpha=1.0, label=None):
+def _wilson_bars(ax, x, fraction, wilson, color, width=0.18, alpha=1.0, label=None, whisker_alpha=1.0):
     ax.bar(x, 100 * fraction, width, color=color, alpha=alpha, label=label, linewidth=0)
-    ax.plot([x, x], [100 * wilson[0], 100 * wilson[1]], color=C["black"], lw=0.8)
+    ax.plot([x, x], [100 * wilson[0], 100 * wilson[1]], color=C["black"], lw=0.8, alpha=whisker_alpha)
 
 
 # --------------------------------------------------------------------------------------------------
@@ -132,6 +132,7 @@ def fig1_symmetry():
         plt.close(fig)
         return None
     ax.axvline(0.2, color=C["grey"], lw=0.8, ls="--")
+    ax.legend(frameon=False, fontsize=7, loc="upper left")
     ax.set_xscale("log")
     ax.set_xlim(1e-9, 1.0)
     ax.set_xlabel("1 - |cosine| of the weak Fisher direction\nwith the exchange direction")
@@ -312,8 +313,11 @@ def fig4_replica():
             if d["fraction"] is None:
                 continue
             x = t + (j - 1) * 0.27
+            # the rates are never bounded and have few interior subjects, so their upper Wilson limits reach far up the
+            # axis; draw those whiskers faintly so that they do not hide the bars of S_I
             _wilson_bars(ax, x, d["fraction"], d["wilson"], color, width=0.25,
-                         label=PARAM[parameter] if t == 0 else None)
+                         label=PARAM[parameter] if t == 0 else None,
+                         whisker_alpha=1.0 if parameter == "insulin_sensitivity" else 0.3)
             drawn = True
     ax.set_xticks(range(3))
     ax.set_xticklabels(["low", "middle", "high"])
@@ -578,7 +582,8 @@ def figA2_generic_rank():
     fig, ax = plt.subplots(figsize=(4.4, 2.6))
     for (name, d), color in zip(ranks.items(), (C["iauc"], C["iauc_centroid"], C["trace"], C["purple"])):
         ax.semilogy(range(1, 4), d["singular_values_median"][::-1], "-o", ms=3.5, color=color,
-                    label=name.replace("_", " "))
+                    label={"iauc": "iAUC", "iauc_centroid": "iAUC with centroid", "iauc_peak": "iAUC with peak time",
+                           "trace": "trace"}.get(name, name.replace("_", " ")))
     ax.set_xticks([1, 2, 3])
     ax.set_xlabel("singular value index (smallest first)")
     ax.set_ylabel("median singular value (scaled)")

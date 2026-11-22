@@ -389,6 +389,41 @@ def extra_numbers() -> None:
     if a and b:
         NUM["SweepSigmaChangePct"] = 100 * (b / a - 1)
     NUM["RealIaucSIInterior"] = len(bounded_rows(real))
+    phase18_numbers()
+
+
+def phase18_numbers() -> None:
+    """Numbers of Amendment 14 for the text: re-estimated noise, extra seeds, a systematic error, chronological folds."""
+    path = RESULTS / "phase18_summary.json"
+    if not path.exists():
+        return
+    d = json.loads(path.read_text(encoding="utf-8"))
+    for cv, tag in (("0.25", "Quarter"), ("0.75", "ThreeQuarter")):
+        block = d["noise_final"][cv]
+        NUM[f"FinalCoverTau{tag}"] = 100 * block["tau1"]["nominal_coverage"]["fraction"]
+        NUM[f"FinalCoverQ{tag}"] = 100 * block["p"]["nominal_coverage"]["fraction"]
+    sysb = d["r17"]["trace"]
+    NUM["SysBoundedTau"] = 100 * sysb["tau1"]["bounded_interior"]["fraction"]
+    NUM["SysBoundedQ"] = 100 * sysb["p"]["bounded_interior"]["fraction"]
+    NUM["SysCoverTau"] = 100 * sysb["tau1"]["nominal_coverage"]["fraction"]
+    NUM["SysCoverQ"] = 100 * sysb["p"]["nominal_coverage"]["fraction"]
+    rise_q, drop_q = [], []
+    for seed, word_ in (("seed1", "One"), ("seed2", "Two")):
+        blocks = d["seeds"][seed]
+        NUM[f"Seed{word_}TauBoundedZero"] = 100 * blocks["0"]["tau1"]["bounded_interior"]["fraction"]
+        NUM[f"Seed{word_}TauBoundedHigh"] = 100 * blocks["0.75"]["tau1"]["bounded_interior"]["fraction"]
+        NUM[f"Seed{word_}TauCoverZero"] = 100 * blocks["0"]["tau1"]["nominal_coverage"]["fraction"]
+        NUM[f"Seed{word_}TauCoverHigh"] = 100 * blocks["0.75"]["tau1"]["nominal_coverage"]["fraction"]
+        detail = d["h36"]["results"][seed]["detail"]["p"]
+        rise_q.append(detail["bounded_rise_points"])
+        drop_q.append(detail["coverage_drop_points"])
+    NUM["SeedMinRiseQ"] = min(rise_q)
+    NUM["SeedMinDropQ"] = min(drop_q)
+    for scheme, tag in (("blocked", "Blocked"), ("forward", "Forward")):
+        block = d["r19"][scheme]
+        NUM[f"Chrono{tag}PersonalMean"] = block["grad3_minus_personal_mean"]["mean"]
+        NUM[f"Chrono{tag}PersonalMeanLow"] = block["grad3_minus_personal_mean"]["ci95"][0]
+        NUM[f"Chrono{tag}PersonalMeanHigh"] = block["grad3_minus_personal_mean"]["ci95"][1]
 
 
 def bounded_rows(rows):

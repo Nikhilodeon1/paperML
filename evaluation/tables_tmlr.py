@@ -94,7 +94,9 @@ def origin(name: str) -> str:
         return "amendment eleven (post hoc)"
     if n <= 33:
         return "amendment twelve (post hoc)"
-    return "amendment thirteen (post hoc)"
+    if n == 34:
+        return "amendment thirteen (post hoc)"
+    return "amendment fourteen (post hoc)"
 
 
 def _esc(text) -> str:
@@ -223,10 +225,12 @@ def scorecard_table(verdicts: dict) -> None:
 def register_table(verdicts: dict) -> None:
     rows = [f"{name} & {origin(name)} & {_esc(row['rule'])} & {_esc(row['status'])} \\\\"
             for name, row in verdicts.items()]
-    tex = ("{\\small\n\\begin{longtable}{lp{0.17\\linewidth}p{0.45\\linewidth}p{0.17\\linewidth}}\n\\toprule\n& origin & rule & status \\\\\n\\midrule\n"
-           "\\endhead\n" + "\n".join(rows) + "\n\\bottomrule\n\\caption{The hypothesis register: rule as written "
-           "in the plan or amendment, origin, and the status computed from the stored results.}\n"
-           "\\label{tab:register}\n\\end{longtable}\n}\n")
+    head = "\\toprule\n& origin & rule & status \\\\\n\\midrule\n"
+    tex = ("{\\footnotesize\n\\begin{longtable}{lp{0.16\\linewidth}p{0.52\\linewidth}p{0.16\\linewidth}}\n"
+           "\\caption{The hypothesis register: the rule as written in the plan or amendment, its origin, and the status "
+           "computed from the stored results. The five primary endpoints of the plan are H1, H3, H5, H7 and H9.}"
+           "\\label{tab:register}\\\\\n" + head + "\\endfirsthead\n" + head + "\\endhead\n" + "\n".join(rows) +
+           "\n\\bottomrule\n\\end{longtable}\n}\n")
     _write("register.tex", tex)
 
 
@@ -341,7 +345,7 @@ def main() -> int:
     summary = load_summary()
     verdicts = evaluate_all(summary)
     for fn in (lambda: cohorts_table(), lambda: cohort_results_table(),
-               lambda: prediction_compact_table(summary), lambda: scorecard_table(verdicts),
+               lambda: prediction_compact_table(summary),
                lambda: register_table(verdicts), lambda: noise_budget_table(summary), lambda: replica_factorial_table(summary),
                lambda: levels_table(summary),
                lambda: correlates_table(summary)):

@@ -45,6 +45,10 @@ def figure_macros() -> dict[str, str]:
             text = f"{value:.2f}" if key.startswith("AbsorbMedian") else f"{int(value)}"
         elif key.startswith(("SweepAll", "RealIauc", "SweepCalBounded")):
             text = f"{float(value):.0f}"
+        elif key.startswith(("Seed", "Sys", "Final")):
+            text = f"{float(value):.0f}"
+        elif key.startswith("Chrono"):
+            text = f"${float(value):.0f}$"
         elif key.startswith(("SweepSigma",)):
             text = f"{float(value):.1f}"
         elif key.startswith("Eig"):

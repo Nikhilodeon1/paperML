@@ -1,5 +1,10 @@
-{\small
-\begin{longtable}{lp{0.17\linewidth}p{0.45\linewidth}p{0.17\linewidth}}
+{\footnotesize
+\begin{longtable}{lp{0.16\linewidth}p{0.52\linewidth}p{0.16\linewidth}}
+\caption{The hypothesis register: the rule as written in the plan or amendment, its origin, and the status computed from the stored results. The five primary endpoints of the plan are H1, H3, H5, H7 and H9.}\label{tab:register}\\
+\toprule
+& origin & rule & status \\
+\midrule
+\endfirsthead
 \toprule
 & origin & rule & status \\
 \midrule
@@ -38,8 +43,10 @@ H31 & amendment twelve (post hoc) & Exact carbohydrate and a quarter of the CGM 
 H32 & amendment twelve (post hoc) & Real data, trace coordinate profiles: the bounded fractions of tau1 and p with a converged inner solver stay within 10 points of those of the default Adam profiles. & met \\
 H33 & amendment twelve (post hoc) & Exact carbohydrate and a quarter of the CGM noise, 29 grid points, converged inner solver: nominal coverage $\ge$ 90\% for tau1 and p. & met \\
 H34 & amendment thirteen (post hoc) & Real data, trace coordinate profiles, Adam inner solver: the bounded fractions of tau1 and p on a 29-point grid stay within 10 points of those on the 15-point grid of the paper. & met \\
+H35 & amendment fourteen (post hoc) & Carbohydrate error 0.25, trace coordinate profiles with the noise standard deviation and autocorrelation estimated again at the polished estimate: the nominal interval covers the truth for $\ge$ 90\% of subjects, for tau1 and p. & not met \\
+H36 & amendment fourteen (post hoc) & Replica seeds 1 and 2, carbohydrate error 0 against 0.75: for tau1 and p the bounded fraction rises by $\ge$ 30 points and the nominal coverage falls by $\ge$ 30 points, on each seed. & met \\
+H37 & amendment fourteen (post hoc) & A systematic carbohydrate error (one lognormal multiplier per subject, CV 0.25, no per-meal error): the nominal interval covers the truth for $\ge$ 90\% of subjects, for tau1 and p. & not met \\
+H38 & amendment fourteen (post hoc) & The pattern of H36 (bounded fraction up and coverage down by $\ge$ 30 points between carbohydrate error 0 and 0.75) on a replica built from the Shanghai subjects, seed 0. & met \\
 \bottomrule
-\caption{The hypothesis register: rule as written in the plan or amendment, origin, and the status computed from the stored results.}
-\label{tab:register}
 \end{longtable}
 }

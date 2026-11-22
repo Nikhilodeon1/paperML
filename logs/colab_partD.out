@@ -1,0 +1,59 @@
+=== 2026-11-22 05:58:35 evaluation.prediction_cv --set fold_scheme="blocked" --set repeats=1 --set cells=["grad3","grad1","personal_mean","population"]
+2026-11-22 05:58:37 [A9_prediction_cv] start: 45 units, 0 already done, 0 previously failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  1/45 done, 0 failed, 8 workers, eta 1.9h
+  5/45 done, 0 failed, 8 workers, eta 0.4h
+  7/45 done, 0 failed, 8 workers, eta 0.3h
+  8/45 done, 0 failed, 8 workers, eta 0.3h
+  8/45 done, 0 failed, 8 workers, eta 0.4h
+  9/45 done, 0 failed, 8 workers, eta 0.3h
+  13/45 done, 0 failed, 8 workers, eta 0.2h
+  15/45 done, 0 failed, 8 workers, eta 0.2h
+  15/45 done, 0 failed, 8 workers, eta 0.2h
+  16/45 done, 0 failed, 8 workers, eta 0.2h
+  16/45 done, 0 failed, 8 workers, eta 0.2h
+  18/45 done, 0 failed, 8 workers, eta 0.2h
+  22/45 done, 0 failed, 8 workers, eta 0.2h
+  23/45 done, 0 failed, 8 workers, eta 0.1h
+  24/45 done, 0 failed, 8 workers, eta 0.1h
+  24/45 done, 0 failed, 8 workers, eta 0.1h
+  28/45 done, 0 failed, 8 workers, eta 0.1h
+  30/45 done, 0 failed, 8 workers, eta 0.1h
+  30/45 done, 0 failed, 8 workers, eta 0.1h
+  31/45 done, 0 failed, 8 workers, eta 0.1h
+  33/45 done, 0 failed, 8 workers, eta 0.1h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  38/45 done, 0 failed, 7 workers, eta 0.0h
+  39/45 done, 0 failed, 6 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 45/45 done, 0 failed in 0.25h
+==============================================================================
+=== 2026-11-22 06:13:40 evaluation.prediction_cv --set fold_scheme="forward" --set repeats=1 --set cells=["grad3","grad1","personal_mean","population"]
+2026-11-22 06:13:42 [A9_prediction_cv] start: 45 units, 0 already done, 0 previously failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  0/45 done, 0 failed, 8 workers
+  1/45 done, 0 failed, 8 workers, eta 0.8h
+  4/45 done, 0 failed, 8 workers, eta 0.3h
+  7/45 done, 0 failed, 8 workers, eta 0.2h
+  8/45 done, 0 failed, 8 workers, eta 0.2h
+  11/45 done, 0 failed, 8 workers, eta 0.2h
+  15/45 done, 0 failed, 8 workers, eta 0.1h
+  16/45 done, 0 failed, 8 workers, eta 0.1h
+  18/45 done, 0 failed, 8 workers, eta 0.1h
+  22/45 done, 0 failed, 8 workers, eta 0.1h
+  24/45 done, 0 failed, 8 workers, eta 0.1h
+  28/45 done, 0 failed, 8 workers, eta 0.1h
+  30/45 done, 0 failed, 8 workers, eta 0.1h
+  33/45 done, 0 failed, 8 workers, eta 0.0h
+  37/45 done, 0 failed, 8 workers, eta 0.0h
+  38/45 done, 0 failed, 8 workers, eta 0.0h
+  44/45 done, 0 failed, 1 workers, eta 0.0h
+==============================================================================
+A9_prediction_cv: 45/45 done, 0 failed in 0.14h
+==============================================================================
+=== 2026-11-22 06:22:20 part D finished

@@ -45,7 +45,7 @@ The state vector has 21 entries; this stage of the engine evolves
 | `x_decay` | $p_2$ | 0.028 | -- | no |
 | `x_gain` | $p_3$ | 1.3e-05 | -- | no |
 | `insulin_clearance` | $n$ | 0.16 | -- | no |
-| `insulin_secretion` | $\beta$ | 0.16 | -- | no |
+| `insulin_secretion` | $\gamma$ | 0.16 | -- | no |
 | `gastric_emptying` | $k_e$ | 0.026 | [0.015, 0.04] | yes |
 | `carb_absorption` | $k_a$ | 0.022 | [0.012, 0.032] | yes |
 

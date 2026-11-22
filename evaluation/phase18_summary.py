@@ -10,6 +10,8 @@ H38  the pattern of H36 on a replica built from the Shanghai subjects (seed 0)
 R17  the bounded fractions, coverage and S_I error under the systematic error
 R18  the Shanghai real-data bounded fractions: iAUC profiles (S_I, k_e, k_a) and trace coordinate profiles (tau1, p)
 R19  held-out iAUC error under random, blocked and forward (chronological) folds on CGMacros
+R20  per carbohydrate error (seed 0): the pilot noise standard deviation, the factor on it that the 90% coverage cutoff implies,
+     the bounded fraction at that cutoff and the all-subject bounded counts (stored results only, no new fits)
 
 Nothing is fitted here. A missing result set gives `{"n": 0}` for its block.
 
@@ -164,6 +166,28 @@ def r19() -> dict:
     return out
 
 
+def r20() -> dict:
+    """Per carbohydrate error on seed 0 (trace coordinate profiles): the median pilot noise standard deviation, the factor on it that
+    a cutoff covering the truth for 90% of subjects corresponds to, the bounded fraction at that cutoff, and the all-subject counts."""
+    from evaluation.recalibration import calibrated_cutoff
+    out = {}
+    for cv in (0.0, 0.1, 0.25, 0.5, 0.75):
+        rows = _rows(_cfg(_replica(0, cv)))
+        if not rows:
+            out[f"{cv:g}"] = {"n": 0}
+            continue
+        sigma = [float(list(r["noise"]["sigma"].values())[0]) for r in rows
+                 if r.get("noise") and isinstance(r["noise"].get("sigma"), dict)]
+        block = {"n": len(rows), "median_sigma": float(np.median(sigma)) if sigma else None}
+        for name, key in (("tau1", "log_tau1"), ("p", "log_p")):
+            cutoff = calibrated_cutoff(rows, key).get("cutoff")
+            block[name] = {"all_bounded": int(sum(r["profiles"][key]["classification"]["verdict"] == "identifiable" for r in rows)),
+                           "sigma_factor": float(np.sqrt(cutoff / CHI2_DELTA)) if cutoff else None,
+                           "bounded_at_cutoff": (bounded_among_interior(rows, key, cutoff)["fraction"] if cutoff else None)}
+        out[f"{cv:g}"] = block
+    return out
+
+
 def summarize() -> dict:
     by_seed = {f"seed{s}": pattern("cgmacros", s) for s in (1, 2)}
     shanghai = pattern("shanghai", 0)
@@ -172,7 +196,7 @@ def summarize() -> dict:
     systematic = r17()
     return {"seeds": by_seed, "h36": h36(by_seed), "shanghai_replica": shanghai, "h38": h38(shanghai),
             "noise_final": {"0.25": final, "0.75": final_high}, "h35": h35(final),
-            "r17": systematic, "h37": h37(systematic["trace"]), "r18": r18(), "r19": r19()}
+            "r17": systematic, "h37": h37(systematic["trace"]), "r18": r18(), "r19": r19(), "r20": r20()}
 
 
 def main() -> int:

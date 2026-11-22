@@ -1,6 +1,6 @@
 # Evidence ledger for the workshop paper
 
-Every number in the paper is a macro. The result macros come from the frozen result index of the main manuscript; the figure macros are computed from the same stored results when the figures are drawn. 121 macros are used.
+Every number in the paper is a macro. The result macros come from the frozen result index of the main manuscript; the figure macros are computed from the same stored results when the figures are drawn. 146 macros are used.
 
 | macro | value | source |
 |---|---|---|
@@ -10,9 +10,19 @@ Every number in the paper is a macro. The result macros come from the frozen res
 | `figAbsorbPinnedExact` | 19 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figAbsorbPinnedOne` | 11 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figAbsorbPinnedZeroSeven` | 18 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoBlockedPersonalMean` | $-220$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoBlockedPersonalMeanHigh` | $-73$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoBlockedPersonalMeanLow` | $-360$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoForwardPersonalMean` | $-249$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoForwardPersonalMeanHigh` | $-118$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figChronoForwardPersonalMeanLow` | $-377$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figEigTraceMedianOne` | $2.8\times10^{-6}$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figEigTraceMedianThree` | $3.2\times10^{2}$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figEigTraceMedianTwo` | $4.5\times10^{1}$ | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figFinalCoverQQuarter` | 82 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figFinalCoverQThreeQuarter` | 31 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figFinalCoverTauQuarter` | 62 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figFinalCoverTauThreeQuarter` | 11 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figIaucNoiseSd` | 3229 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figIaucRangeOverNoise` | 0.33 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figIaucSurfaceRange` | 1068 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
@@ -31,6 +41,16 @@ Every number in the paper is a macro. The result macros come from the frozen res
 | `figRealIaucKeBoundedAll` | 0 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figRealIaucN` | 45 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figRealIaucSIBoundedAll` | 3 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedMinDropQ` | 67 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedMinRiseQ` | 51 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedOneTauBoundedHigh` | 89 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedOneTauBoundedZero` | 18 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedOneTauCoverHigh` | 13 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedOneTauCoverZero` | 93 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedTwoTauBoundedHigh` | 91 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedTwoTauBoundedZero` | 17 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedTwoTauCoverHigh` | 20 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSeedTwoTauCoverZero` | 96 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figSweepAllNExact` | 45 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figSweepAllNQuarter` | 45 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figSweepAllNThreeQuarter` | 45 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
@@ -45,6 +65,10 @@ Every number in the paper is a macro. The result macros come from the frozen res
 | `figSweepSigmaChangePct` | 0.1 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figSweepSigmaTauQuarter` | 3.4 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figSweepSigmaTauThreeQuarter` | 16.8 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSysBoundedQ` | 50 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSysBoundedTau` | 62 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSysCoverQ` | 62 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
+| `figSysCoverTau` | 56 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figTraceNoiseSd` | 5.2 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `figWindowMin` | 180 | `workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results |
 | `resCohortCgmMealsMedian` | 36 | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
@@ -76,6 +100,7 @@ Every number in the paper is a macro. The result macros come from the frozen res
 | `resDiffGradThreeVsGridThree` | -1 | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
 | `resDiffGradThreeVsGridThreeHigh` | 1 | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
 | `resDiffGradThreeVsGridThreeLow` | -3 | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
+| `resDiffGradThreeVsPersonalMean` | -232 | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
 | `resEigMedianOne` | $3.9\times10^{-8}$ | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
 | `resEigMedianThree` | $1.5\times10^{1}$ | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |
 | `resEigMedianTwo` | $7.1\times10^{-3}$ | `paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json` |

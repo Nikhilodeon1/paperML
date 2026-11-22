@@ -1,14 +1,17 @@
-\section{Full results and the analysis trail}
+\section{Further results}
 \label{app:results}
 
 This appendix gives the analyses summarized in Section~\ref{sec:results}, with the tables and figures that the main
 text omits. Figures~\ref{fig:symmetry}, \ref{fig:replica} and \ref{fig:prediction} are in the main text. Every number
 is a macro written from the frozen result files.
 
+\FloatBarrier
 \subsection{Structural identifiability and rank}
-\label{apx:structural}
+\label{apx:structural}\label{app:structural}
 
-StructuralIdentifiability.jl (Appendix~\ref{app:structural}) asks what an ideal observation of glucose determines. The
+StructuralIdentifiability.jl, in versions \texttt{\juliaversion} and \texttt{\siversion} and with glucose as the output, asks
+what an ideal observation of glucose determines. Seven formulations were run; the four of Table~\ref{tab:structural} differ in
+outcome, and the raw output of every run is archived with the code. The
 answer depends on what is assumed about the gut at the start of a meal, an assumption the data cannot settle
 (Table~\ref{tab:structural}). With a generic, known intestinal content the tool reports $\ke$ and $\ka$ globally
 identifiable, which is the formulation fixed in the plan. With the gut state unconstrained or unknown they are only
@@ -43,6 +46,7 @@ smallest to the largest singular value is \resRankRatioIauc{} for iAUC, \resRank
 \resRankRatioTrace{} for the trace. We call iAUC locally identifiable but ill-conditioned and claim nothing stronger
 than the exchange symmetry.
 
+\FloatBarrier
 \subsection{Timing: estimates, Fisher information, profiles and cohorts}
 \label{apx:timing}
 
@@ -106,6 +110,7 @@ intervals. No interval for $\ke$ or $\ka$ is bounded in any cohort.}
 \label{fig:cohorts}
 \end{figure}
 
+\FloatBarrier
 \subsection{Insulin sensitivity: further detail}
 \label{apx:si}
 
@@ -162,6 +167,7 @@ those interior for $\SI$, these tests have little power, and a small relation wo
 on its upper bound tracks the mean observed iAUC ($\rho=\resCorrMeanIaucPinned$) and a low $\SI$ estimate
 ($\resCorrEstimatePinned$), which is the area deficit (exploratory; Table~\ref{tab:correlates}).
 
+\FloatBarrier
 \subsection{Held-out prediction: further detail}
 \label{apx:prediction}
 
@@ -183,7 +189,39 @@ Against the baselines the gradient fit has lower iAUC error than the personal me
 than a random forest (\resDiffGradThreeVsRf) and than SNPE (\resDiffGradThreeVsSnpe). Those differences from the
 amortized methods are not equivalences, and the grid-versus-forest and grid-versus-SNPE pairs were not planned.
 
+\begin{figure}[t]
+\centering
+\safefigure[width=0.9\linewidth]{f10_prediction_vs_parameters}
+\caption{Held-out iAUC error of the three-parameter fit relative to the error of the model at the true parameters,
+on the true-model replica with fitted truths (seed zero) and with random truths (seeds zero and one).
+\textbf{(a)} Per subject, against the root mean squared log error of $\ke$ and $\ka$ in the iAUC estimate. A model
+whose error rose with its parameter error would slope upward. \textbf{(b)} Distribution over subjects; diamonds:
+median error of the personal mean relative to the same floor.}
+\label{fig:pvp}
+\end{figure}
+
+\paragraph{Shanghai and the full-trace objective.}
+On Shanghai (\resShCvSubjects{} subjects) the interval for the three-parameter fit against the personal mean includes zero
+(\resShCvDiffGradThreeVsPersonalMean{}, \resShCvDiffGradThreeVsPersonalMeanLow{} to \resShCvDiffGradThreeVsPersonalMeanHigh), and
+the two timing-parameter comparisons (\resShCvDiffGradThreeVsGridThree{} and \resShCvDiffGradThreeVsGradOne{}) lie inside the
+margin, which is \resShCvMarginShare\% of the personal-mean error. A full-trace objective is \resDiffGradThreeTraceVsGradThree{}
+worse than the iAUC objective on iAUC error although it improves the quantities it targets.
+
+\paragraph{Chronological folds.}
+Folds that respect time give the same comparison. The three-parameter fit differs from the personal mean by
+\resChronoRandomDiffMean{} mg\,dL$^{-1}$\,min with random folds, by \resChronoBlockedDiffMean{}
+(\resChronoBlockedDiffMeanLow{} to \resChronoBlockedDiffMeanHigh) with contiguous blocks of meals held out, and by
+\resChronoForwardDiffMean{} (\resChronoForwardDiffMeanLow{} to \resChronoForwardDiffMeanHigh) when only earlier meals train.
+
 \input{generated/prediction_compact}
+
+\begin{figure}[t]
+\centering
+\safefigure[width=\linewidth]{f7_prediction}
+\caption{Paired differences in held-out iAUC error between cells (first minus second; negative favours the first), with
+$95\%$ bootstrap intervals over subjects. Shaded: the equivalence margin of $150$. Blue: CGMacros; green: Shanghai.}
+\label{fig:prediction}
+\end{figure}
 
 \paragraph{The same on another cohort.}
 In the Shanghai cohort (\resShCvSubjects{} subjects, \resShCvRepeats{} repeats) the three-parameter fit is lower than
@@ -205,6 +243,7 @@ thresholds of $0.7$ and $0.9$, which the plan labelled mixed (H14). Grid search 
 error on the replica, so the optimizer is not the source. The CGM noise is estimated from the residuals of the real
 fit, which contain model misfit, so these settings are an upper bound on what sensor noise alone would explain.
 
+\FloatBarrier
 \subsection{What a richer target buys, and the combination of the rates}
 \label{apx:more}
 
@@ -259,83 +298,59 @@ of interior subjects under iAUC with the centroid (H12, \resVerdictHTwelve). The
 boundary $p=\tau_1^2/4$ in \resBoundaryCoords\% of cross-validation folds under iAUC and \resBoundaryCoordsTrace\% under
 the trace, so for many subjects the data are consistent with equal rates and not with a particular split.
 
-\paragraph{Does the coordinate result survive the controls?}
-In the coordinate fits the profile found a lower negative log-likelihood than the Adam estimate for a large share of
-subjects, so the estimate was not an optimum. We replaced it by the best of six L-BFGS runs. The gap between the two is
-below $\delta$ for all subjects under iAUC and under the centroid (\resPolishWithinCentroid\%; largest gap
-\resPolishMaxGapCentroid). Under the trace it is below $\delta$ for \resPolishWithinTrace\% only, with a median gap of
-\resPolishMedianGapTrace{} and a largest of \resPolishMaxGapTrace{} (H21, \resVerdictHTwentyOne). The trace fits of the
-main analysis are thus limited by the optimizer for four subjects in ten, and we do not know how far the polished
-estimates are from the global optimum. On the polished estimates the bounded fractions under the trace are
-\resPolishedBoundedTauTrace\% for $\tau_1$ and \resPolishedBoundedPTrace\% for $p$ (centroid:
-\resPolishedBoundedTauCentroid\% and \resPolishedBoundedPCentroid\%).
-
-The replica is the control that matters more. With the model exactly true and the subject's own noise, the polished
-fits bound $\tau_1$ in \resReplicaCoordsTauTrace\% and $p$ in \resReplicaCoordsPTrace\% of interior subjects under the
-trace, below the real-data fractions and below the $70\%$ and $50\%$ of the rule (H18, \resVerdictHEighteen). Under the
-centroid the figures are \resReplicaCoordsTauCentroid\% and \resReplicaCoordsPCentroid\%, and under iAUC none. Of the
-bounded trace intervals, \resReplicaCoordsCoverTauTrace\% for $\tau_1$ and \resReplicaCoordsCoverPTrace\% for $p$
-contain the true value, against \resReplicaCoordsCoverSITrace\% for $\SI$ under the same objective. Real data therefore
-show more bounded coordinate intervals under the trace than a true model with this noise would give, and the bounded
-intervals of a true model miss the true value for most subjects in the case of $\tau_1$ and for half in the case of
-$p$. The ordering of the targets, trace above centroid above area, is reproduced by the replica, so it is not an
-artefact of the data. The absolute trace fractions are not a reliable measure of identifiability. Three reasons were
-candidates: that the $\chi^2$ calibration of the threshold fails near the tied boundary, that the replica noise is too
-large, and that the noise model is misspecified for the trace. The next paragraphs examine the first two. The last was
-not tested.
+\paragraph{Polished estimates and the replica.}
+The Adam estimates of the coordinate fits are not likelihood optima for \resPolishNotWithinTrace\% of subjects under the
+trace, so the profiles start from the best of six L-BFGS-B runs. The gap between the two is below $\delta$ for all subjects
+under iAUC and under the centroid (largest gap \resPolishMaxGapCentroid) and for \resPolishWithinTrace\% only under the
+trace, with a median gap of \resPolishMedianGapTrace{} and a largest of \resPolishMaxGapTrace. On the polished estimates the
+bounded fractions under the trace are \resPolishedBoundedTauTrace\% for $\tau_1$ and \resPolishedBoundedPTrace\% for $p$
+(centroid: \resPolishedBoundedTauCentroid\% and \resPolishedBoundedPCentroid\%). On the true-model replica the polished fits
+bound $\tau_1$ in \resReplicaCoordsTauTrace\% and $p$ in \resReplicaCoordsPTrace\% of interior subjects under the trace
+(centroid: \resReplicaCoordsTauCentroid\% and \resReplicaCoordsPCentroid\%, iAUC: none), and the bounded trace intervals
+contain the true value in \resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\% of cases, against
+\resReplicaCoordsCoverSITrace\% for $\SI$ under the same objective. The ordering of the targets, trace above centroid above
+area, is reproduced by the replica, so it is not an artefact of the data. The absolute trace fractions are not a reliable
+measure of identifiability.
 
 \paragraph{A recalibrated cutoff.}
-The nominal interval uses a rise of \resDeltaThreshold{} in the negative log-likelihood. On the replica the true value
-lies inside it for \resRecalCoverNominalSI\% of subjects for $\SI$ under iAUC, \resRecalCoverNominalTau\% for $\tau_1$
-and \resRecalCoverNominalP\% for $p$ under the trace. The empirical quantile of the rise at the true value that covers
-it at the nominal level is \resRecalCutoffSI{} (interval \resRecalCutoffSILow{} to \resRecalCutoffSIHigh) for $\SI$,
-\resRecalCutoffTau{} (\resRecalCutoffTauLow{} to \resRecalCutoffTauHigh) for $\tau_1$ and \resRecalCutoffP{}
-(\resRecalCutoffPLow{} to \resRecalCutoffPHigh) for $p$. Applied to the real-data profiles among subjects interior for
-the parameter, the bounded fractions fall from \resRecalRealNominalTau\% to \resRecalRealCalibratedTau\% for $\tau_1$
-and from \resRecalRealNominalP\% to \resRecalRealCalibratedP\% for $p$. The clause of $70\%$ for $\tau_1$ fails and that
-of $50\%$ for $p$ holds, so H23 is \resVerdictHTwentyThree. For $\SI$ under iAUC the fraction falls from
-\resRecalRealNominalSI\% to \resRecalRealCalibratedSI\%, and the conclusion about $\SI$ stands. Two limits apply. The
-real-data fractions at the calibrated cutoffs remain above those of the replica (\resRecalReplicaCalibratedTau\% and
-\resRecalReplicaCalibratedP\%), which we cannot explain. And the coordinate cutoffs rest on \resRecalNTau{} replica
-subjects with wide intervals, so the calibrated fractions are uncertain. Pooling replica seeds zero to two
-(\resPooledN{} replica subjects) narrows the cutoffs to \resPooledCutoffTau{} (\resPooledCutoffTauLow{} to
-\resPooledCutoffTauHigh) for $\tau_1$ and \resPooledCutoffP{} (\resPooledCutoffPLow{} to \resPooledCutoffPHigh) for $p$.
-At them the real-data fractions are \resPooledRealTau\% and \resPooledRealP\%, and the verdict does not change.
+On the replica the nominal interval of rise \resDeltaThreshold{} contains the true value for \resRecalCoverNominalSI\% of
+subjects for $\SI$ under iAUC, and for \resRecalCoverNominalTau\% ($\tau_1$) and \resRecalCoverNominalP\% ($p$) under the
+trace. The empirical rise that covers at the nominal level is \resRecalCutoffSI{} (interval \resRecalCutoffSILow{} to
+\resRecalCutoffSIHigh) for $\SI$, \resRecalCutoffTau{} (\resRecalCutoffTauLow{} to \resRecalCutoffTauHigh) for $\tau_1$ and
+\resRecalCutoffP{} (\resRecalCutoffPLow{} to \resRecalCutoffPHigh) for $p$. Applied to the real-data profiles among interior
+subjects, the bounded fractions fall from \resRecalRealNominalTau\% to \resRecalRealCalibratedTau\% for $\tau_1$ and from
+\resRecalRealNominalP\% to \resRecalRealCalibratedP\% for $p$, and for $\SI$ from \resRecalRealNominalSI\% to
+\resRecalRealCalibratedSI\%. At the calibrated cutoffs the real-data fractions remain above those of the replica
+(\resRecalReplicaCalibratedTau\% and \resRecalReplicaCalibratedP\%), which the replica does not explain. The cutoffs rest on
+\resRecalNTau{} replica subjects with wide intervals; pooling seeds zero to two (\resPooledN{} replica subjects) gives
+\resPooledCutoffTau{} (\resPooledCutoffTauLow{} to \resPooledCutoffTauHigh) for $\tau_1$ and \resPooledCutoffP{}
+(\resPooledCutoffPLow{} to \resPooledCutoffPHigh) for $p$, and real-data fractions of \resPooledRealTau\% and
+\resPooledRealP\%.
 
-\paragraph{Is the replica noise too large?}
-The replica noise comes from the residuals of the real fit, which contain model misfit, so it overstates the sensor
-noise. If that explained the gap between the replica and the real data, a smaller noise would raise the replica's
-fractions and the nominal interval would then cover. We scaled the CGM noise of replica seed zero to one half and one
-quarter, keeping the random draws and the carbohydrate error (H24, \resVerdictHTwentyFour). Under the trace the bounded
-fraction of $\tau_1$ goes from \resNoiseOneTraceTau\% to \resNoiseHalfTraceTau\% and \resNoiseQuarterTraceTau\%, and
-that of $p$ from \resNoiseOneTraceP\% to \resNoiseHalfTraceP\% and \resNoiseQuarterTraceP\%, against
-\resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% on the real data. The fractions do rise. But the nominal
-interval covers the truth less often as the noise falls: for $\tau_1$ in \resNoiseOneCoverTau\%, \resNoiseHalfCoverTau\%
-and \resNoiseQuarterCoverTau\% of subjects, for $p$ in \resNoiseOneCoverP\%, \resNoiseHalfCoverP\% and
-\resNoiseQuarterCoverP\%. The cutoff that would cover rises for $\tau_1$ from \resNoiseOneCutoffTau{} to
-\resNoiseHalfCutoffTau{} and \resNoiseQuarterCutoffTau. The rule asked for both conditions at one scale, and it is not
-met. The intervals shrink faster than the estimates approach the truth, which is what an error that the noise does not
-remove would produce. The replica contains one such error, the carbohydrate logging error, and the next analysis tests
-it. Under iAUC the same scales raise the bounded fraction of $\SI$ among interior subjects from
-\resNoiseOneIaucSI\% to \resNoiseHalfIaucSI\% and \resNoiseQuarterIaucSI\% (\resNoiseQuarterIaucSICount{} of
-\resNoiseQuarterIaucSIN{} at a quarter), with no bounded interval for $\ke$ or $\ka$. At a quarter of the estimated
-noise about half of the subjects would have a bounded interval, still below the $80\%$ of the plan.
+\paragraph{Replica noise.}
+The replica noise comes from the residuals of the real fit, which contain misfit, so it overstates the sensor noise. Scaling
+it to one half and one quarter on seed zero, with the same random draws and carbohydrate error, raises the trace bounded
+fraction of $\tau_1$ from \resNoiseOneTraceTau\% to \resNoiseHalfTraceTau\% and \resNoiseQuarterTraceTau\% and that of $p$
+from \resNoiseOneTraceP\% to \resNoiseHalfTraceP\% and \resNoiseQuarterTraceP\%, against \resPolishedBoundedTauTrace\% and
+\resPolishedBoundedPTrace\% on the real data. The nominal interval covers the truth less often as the noise falls: for
+$\tau_1$ in \resNoiseOneCoverTau\%, \resNoiseHalfCoverTau\% and \resNoiseQuarterCoverTau\% of subjects, for $p$ in
+\resNoiseOneCoverP\%, \resNoiseHalfCoverP\% and \resNoiseQuarterCoverP\%. The intervals shrink faster than the estimates
+approach the truth, which is what an error that the noise does not remove would produce. Under iAUC the same scales raise
+the bounded fraction of $\SI$ among interior subjects from \resNoiseOneIaucSI\% to \resNoiseHalfIaucSI\% and
+\resNoiseQuarterIaucSI\% (\resNoiseQuarterIaucSICount{} of \resNoiseQuarterIaucSIN{} at a quarter), with no bounded interval
+for $\ke$ or $\ka$.
 
 \paragraph{Exact carbohydrate.}
-With the carbohydrate given to the fit equal to the truth and the estimated noise (H25, \resVerdictHTwentyFive), the
-nominal interval covers the true value for \resExactOneCoverTau\% of subjects for $\tau_1$ and \resExactOneCoverP\% for
-$p$. The cutoff that would cover is \resExactOneCutoffTau{} and \resExactOneCutoffP{}, close to the nominal
-\resDeltaThreshold. The profile threshold is adequate when the inputs are exact. The trace then bounds $\tau_1$ in only
-\resExactOneTraceBoundedTau\% and $p$ in \resExactOneTraceBoundedP\% of interior subjects, against
-\resNoiseOneTraceTau\% and \resNoiseOneTraceP\% with the logging error and \resPolishedBoundedTauTrace\% and
-\resPolishedBoundedPTrace\% on the real data (Table~\ref{tab:factorial}). An input error makes the trace intervals more
-often bounded and less often right. That is what a misspecified input does to a profile: it narrows it around a value
-that is not the truth. The real-data fractions are consistent with the same mechanism, which we cannot show is the one
-at work. A second source acts at low noise. With exact carbohydrate and a quarter of the noise the coverage falls again
-(\resExactQuarterCoverTau\% and \resExactQuarterCoverP\%) while the bounded fractions rise
-(\resExactQuarterTraceBoundedTau\% and \resExactQuarterTraceBoundedP\%). It comes from the grid on which the profile is read, not from the optimizer or the likelihood: computed directly at the
-true value the profile covers the truth, and a finer grid restores the coverage (Section~ef{sec:more}). Under iAUC, exact carbohydrate does not make $\SI$ more often bounded
-(\resExactOneIaucSI\% against \resNoiseOneIaucSI\% with the logging error).
+With the carbohydrate given to the fit equal to the truth and the estimated noise, the nominal interval covers the true value
+for \resExactOneCoverTau\% of subjects for $\tau_1$ and \resExactOneCoverP\% for $p$, and the cutoff that would cover is
+\resExactOneCutoffTau{} and \resExactOneCutoffP{}, close to the nominal \resDeltaThreshold. The trace then bounds $\tau_1$ in
+only \resExactOneTraceBoundedTau\% and $p$ in \resExactOneTraceBoundedP\% of interior subjects, against
+\resNoiseOneTraceTau\% and \resNoiseOneTraceP\% with the logging error (Table~\ref{tab:factorial}). With exact carbohydrate
+and a quarter of the noise the coverage on the stored grid falls again (\resExactQuarterCoverTau\% and
+\resExactQuarterCoverP\%) while the bounded fractions rise (\resExactQuarterTraceBoundedTau\% and
+\resExactQuarterTraceBoundedP\%); Appendix~\ref{apx:numerics} shows that this comes from the grid on which the profile is
+read. Under iAUC, exact carbohydrate does not make $\SI$ more often bounded (\resExactOneIaucSI\% against
+\resNoiseOneIaucSI\% with the logging error).
 
 \input{generated/replica_factorial}
 
@@ -348,6 +363,103 @@ true-model replica, polished.}
 \label{fig:coords}
 \end{figure}
 
+\FloatBarrier
+\subsection{Numerical sensitivity of the profiles}
+\label{apx:numerics}
+
+The profiles of Section~\ref{sec:more} are read on a grid of fifteen points, with a fixed-step inner solver (Adam, $100$
+steps from the estimate) for the other two coordinates. We checked each of these choices, because the bounded fractions and the
+coverage are read off the grid.
+
+\paragraph{Inner budget.}
+Table~\ref{tab:inner} compares the profiles at $100$ and $500$ inner steps (same estimates, same grids). A grid point is flagged
+when its inner optimization was still improving by more than $0.05$ in negative log-likelihood. The longer run settles nearly
+every point and changes no profile class (\resInnerQuarterChanged{} of \resInnerQuarterChangedOf{} at a quarter of the noise,
+\resInnerRealChanged{} of \resInnerRealChangedOf{} on the real data), and the real-data bounded fractions stay at
+\resInnerRealFiveHundredBoundedTau\% and \resInnerRealFiveHundredBoundedP\%. It does not restore coverage at a quarter of the
+noise with exact carbohydrate (\resInnerQuarterFiveHundredCoverTau\% and \resInnerQuarterFiveHundredCoverP\%).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{flagged points (\%)} & profile classes & \multicolumn{2}{c}{covers truth, long run (\%)} \\
+setting & default & long & changed & $\tau_1$ & $p$ \\
+\midrule
+real data & \resInnerRealHundredUnsettled & \resInnerRealFiveHundredUnsettled & \resInnerRealChanged{} of \resInnerRealChangedOf & --- & --- \\
+replica, error $0.25$ & \resInnerRepHundredUnsettled & \resInnerRepFiveHundredUnsettled & \resInnerRepChanged{} of \resInnerRepChangedOf & \resInnerRepFiveHundredCoverTau & \resInnerRepFiveHundredCoverP \\
+replica, exact carbohydrate & \resInnerExactHundredUnsettled & \resInnerExactFiveHundredUnsettled & \resInnerExactChanged{} of \resInnerExactChangedOf & \resInnerExactFiveHundredCoverTau & \resInnerExactFiveHundredCoverP \\
+exact, quarter noise & \resInnerQuarterHundredUnsettled & \resInnerQuarterFiveHundredUnsettled & \resInnerQuarterChanged{} of \resInnerQuarterChangedOf & \resInnerQuarterFiveHundredCoverTau & \resInnerQuarterFiveHundredCoverP \\
+\bottomrule
+\end{tabular}
+\caption{Trace coordinate profiles with polished estimates at $100$ and $500$ inner steps, primary box. Profile classes
+are bounded, one-sided or flat; each setting has $45$ subjects and two profiles per subject.}
+\label{tab:inner}
+\end{table}
+
+\paragraph{The likelihood at the true value.}
+At a quarter of the noise with exact carbohydrate the likelihood at the true parameters is calibrated: half the
+likelihood-ratio statistic has median \resCalQuarterMedianLr{} and ninetieth percentile \resCalQuarterQNinetyLr{}, against
+\resCalRefMedian{} and \resCalRefQNinety{} for half a chi-square with three degrees of freedom, and exceeds the cutoff in
+\resCalQuarterOver\% of subjects. The stored polished estimate is within the cutoff of the best optimum found from the truth
+in \resCalQuarterGapWithin{} of \resCalQuarterN{} subjects, with a largest gap of \resCalQuarterGapMax. With the logging error
+the likelihood at the truth is not calibrated (\resCalRepOver\% of subjects above the cutoff).
+
+\paragraph{The profile at the true value.}
+Table~\ref{tab:truthprofile} gives the excess of the profile above its reference at the true value of $\tau_1$ and $p$, read
+off the stored grid and computed directly there with the other two coordinates solved to convergence. Computed directly, the
+excess is within the cutoff for \resTruthQuarterTauDirectWithinCount{} of \resTruthQuarterTauDirectN{} subjects for $\tau_1$
+and \resTruthQuarterPDirectWithinCount{} of \resTruthQuarterPDirectN{} for $p$ at a quarter of the noise, whether the solve
+starts at the estimate or at the truth and whether it uses Adam or L-BFGS-B; those choices change the median excess by
+\resTruthQuarterTauSolver{} (solver) and \resTruthQuarterTauStart{} (start). The excess read off the grid has median
+\resTruthQuarterTauStoredMedian{} for $\tau_1$ and \resTruthQuarterPStoredMedian{} for $p$, against
+\resTruthQuarterTauDirectMedian{} and \resTruthQuarterPDirectMedian{} computed directly. The difference is linear
+interpolation across a grid that is wide relative to a narrow profile (median \resTruthQuarterTauInterp{} for $\tau_1$ and
+\resTruthQuarterPInterp{} for $p$). At the estimated noise the comparison gives \resTruthExactTauStoredMedian{} against
+\resTruthExactTauDirectMedian{} for $\tau_1$, a smaller overstatement that leaves coverage near its nominal level.
+
+
+\paragraph{The profile at the true value.}
+Table~\ref{tab:truthprofile} gives the excess of the profile above its reference at the true value of $\tau_1$ and $p$, read
+off the stored grid and computed directly there with the other two coordinates solved to convergence. At a quarter of the
+noise the stored value is several times the direct one and above the cutoff in most subjects; at the estimated noise the
+two are close (H31, Section~\ref{sec:more}). The direct values are the same for Adam and L-BFGS-B and for a start at the
+estimate or at the truth to the digits shown elsewhere in the text.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llrrrr}
+\toprule
+ & & \multicolumn{2}{c}{median excess} & \multicolumn{2}{c}{above the cutoff (\%)} \\
+replica & coordinate & grid & direct & grid & direct \\
+\midrule
+exact, quarter noise & $\tau_1$ & \resTruthQuarterTauStoredMedian & \resTruthQuarterTauDirectMedian & \resTruthQuarterTauStoredOver & \resTruthQuarterTauDirectOver \\
+ & $p$ & \resTruthQuarterPStoredMedian & \resTruthQuarterPDirectMedian & \resTruthQuarterPStoredOver & \resTruthQuarterPDirectOver \\
+exact carbohydrate & $\tau_1$ & \resTruthExactTauStoredMedian & \resTruthExactTauDirectMedian & \resTruthExactTauStoredOver & \resTruthExactTauDirectOver \\
+ & $p$ & \resTruthExactPStoredMedian & \resTruthExactPDirectMedian & \resTruthExactPStoredOver & \resTruthExactPDirectOver \\
+error $0.25$ & $\tau_1$ & \resTruthRepTauStoredMedian & \resTruthRepTauDirectMedian & \resTruthRepTauStoredOver & \resTruthRepTauDirectOver \\
+ & $p$ & \resTruthRepPStoredMedian & \resTruthRepPDirectMedian & \resTruthRepPStoredOver & \resTruthRepPDirectOver \\
+\bottomrule
+\end{tabular}
+\caption{Excess of the trace coordinate profile at the true value of $\tau_1$ and $p$ (negative log-likelihood units),
+interpolated on the stored fifteen-point grid and computed directly at the true value. The cutoff is the $1.92$ of the
+interval criterion; each row has $45$ subjects.}
+\label{tab:truthprofile}
+\end{table}
+
+\paragraph{Converged solver and finer grid.}
+A converged inner solver (L-BFGS-B at every grid point) changes no profile class (\resConvRealChanged{} of
+\resConvRealChangedOf{} on the real data, \resConvQuarterChanged{} of \resConvQuarterChangedOf{} at a quarter of the noise)
+and leaves the real-data bounded fractions at \resConvRealTauBounded\% and \resConvRealPBounded\%. A grid of twenty-nine
+points in place of fifteen leaves them at \resGridRealTwentyNineTauBounded\% and \resGridRealTwentyNinePBounded\%, changing no
+class on the real data or on the exact-carbohydrate and carbohydrate-error replicas (\resGridRealChanged{}, \resGridExactChanged{}
+and \resGridRepChanged{} of \resGridRealChangedOf{}). Only the narrow profiles of the low-noise replica depend on the grid. On
+the twenty-nine-point grid with the converged solver the nominal interval at a quarter of the noise contains the truth for
+\resConvFineTauCover\% and \resConvFinePCover\% of subjects, the detector bounds $\tau_1$ and $p$ in \resConvFineTauBounded\%
+and \resConvFinePBounded\% of interior subjects, and the bounded intervals contain the truth in \resConvFineTauCovbd\% and
+\resConvFinePCovbd\%.
+
+\FloatBarrier
 \subsection{The gradient diagnostic}
 \label{apx:diagnostic}
 
@@ -369,6 +481,7 @@ change is that of the two timing rates, which is what the exchange symmetry pred
 apart. A Spearman coefficient over three parameters takes few values, so the agreements are weaker evidence than the
 numbers suggest, and a diagnostic that agrees with the profile does not make the profile unnecessary.
 
+\FloatBarrier
 \subsection{A second model class}
 \label{apx:dm}
 
@@ -386,6 +499,7 @@ parameters are not recovered from these subjects. It does not say that the excha
 Fisher rank of \resDmRankMedian{} of six shows only that most directions are poorly determined. We ran neither the
 replica nor the synthetic study for this model.
 
+\FloatBarrier
 \subsection{An external-generalization check}
 \label{apx:leakage}
 
@@ -410,3 +524,4 @@ bootstrap intervals over subjects, for the amortized (SNPE) and gradient estimat
 glucose partialled out, and the correlation of the SNPE estimate with its own baseline feature.}
 \label{fig:leakage}
 \end{figure}
+\FloatBarrier

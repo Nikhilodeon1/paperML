@@ -8,7 +8,7 @@ the code and settings that produced it, and an interrupted run resumes instead o
 typed by hand. Every quantity reaches the text through a macro generated from a frozen index of result files, each with
 its own SHA-256 and one hash over all of them, recorded in the header of the macro file. A lint fails the build on a
 hand-typed number or on wording that the analyses do not support. The supplement holds an anonymized package with the
-code, the tests and the cohort cache. It contains no raw data and no identifier of the authors.
+code, the tests and the cohort cache. It contains no raw data, no version-control history and no identifier of the authors.
 
 \paragraph{Data.}
 The three cohorts are public \citep{das2025cgmacros,zhao2023shanghai,hall2018glucotypes}. Their licences are those of
@@ -39,10 +39,14 @@ bash scripts/pod_phase16.sh      # Amendment 12
 python -m evaluation.phase16_summary     # summary of the Amendment 12 checks
 bash scripts/pod_phase17.sh      # Amendment 13
 python -m evaluation.phase17_summary     # summary of the Amendment 13 checks
+bash scripts/pod_phase18.sh      # Amendment 14
+python -m evaluation.phase18_summary     # summary of the Amendment 14 checks
+python -m evaluation.runner evaluation.carb_curvature --set 'replica={"seed":0,"cgm":true,"carb_cv":0.25}'   # Amendment 15, per error
+python -m evaluation.phase19_summary     # summary of the Amendment 15 report-only numbers
 python -m evaluation.make_paper_assets   # macros, figures, tables
 \end{verbatim}
 
 \paragraph{The analysis plan.}
 The plan and its amendments are text files in the repository with their commit identifiers, and each amendment states
-what had been seen when it was written. One function per hypothesis computes the verdicts in Appendix~\ref{app:scorecard}
-and the register in Appendix~\ref{app:register} from the stored results.
+what had been seen when it was written. One function per hypothesis computes the verdicts of the register
+(Table~\ref{tab:register}) from the stored results.

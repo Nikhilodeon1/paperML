@@ -18,9 +18,19 @@
 \newcommand{\figAbsorbPinnedExact}{19}
 \newcommand{\figAbsorbPinnedOne}{11}
 \newcommand{\figAbsorbPinnedZeroSeven}{18}
+\newcommand{\figChronoBlockedPersonalMean}{$-220$}
+\newcommand{\figChronoBlockedPersonalMeanHigh}{$-73$}
+\newcommand{\figChronoBlockedPersonalMeanLow}{$-360$}
+\newcommand{\figChronoForwardPersonalMean}{$-249$}
+\newcommand{\figChronoForwardPersonalMeanHigh}{$-118$}
+\newcommand{\figChronoForwardPersonalMeanLow}{$-377$}
 \newcommand{\figEigTraceMedianOne}{$2.8\times10^{-6}$}
 \newcommand{\figEigTraceMedianThree}{$3.2\times10^{2}$}
 \newcommand{\figEigTraceMedianTwo}{$4.5\times10^{1}$}
+\newcommand{\figFinalCoverQQuarter}{82}
+\newcommand{\figFinalCoverQThreeQuarter}{31}
+\newcommand{\figFinalCoverTauQuarter}{62}
+\newcommand{\figFinalCoverTauThreeQuarter}{11}
 \newcommand{\figIaucNoiseSd}{3229}
 \newcommand{\figIaucRangeOverNoise}{0.33}
 \newcommand{\figIaucSurfaceRange}{1068}
@@ -39,6 +49,16 @@
 \newcommand{\figRealIaucKeBoundedAll}{0}
 \newcommand{\figRealIaucN}{45}
 \newcommand{\figRealIaucSIBoundedAll}{3}
+\newcommand{\figSeedMinDropQ}{67}
+\newcommand{\figSeedMinRiseQ}{51}
+\newcommand{\figSeedOneTauBoundedHigh}{89}
+\newcommand{\figSeedOneTauBoundedZero}{18}
+\newcommand{\figSeedOneTauCoverHigh}{13}
+\newcommand{\figSeedOneTauCoverZero}{93}
+\newcommand{\figSeedTwoTauBoundedHigh}{91}
+\newcommand{\figSeedTwoTauBoundedZero}{17}
+\newcommand{\figSeedTwoTauCoverHigh}{20}
+\newcommand{\figSeedTwoTauCoverZero}{96}
 \newcommand{\figSweepAllNExact}{45}
 \newcommand{\figSweepAllNQuarter}{45}
 \newcommand{\figSweepAllNThreeQuarter}{45}
@@ -53,6 +73,10 @@
 \newcommand{\figSweepSigmaChangePct}{0.1}
 \newcommand{\figSweepSigmaTauQuarter}{3.4}
 \newcommand{\figSweepSigmaTauThreeQuarter}{16.8}
+\newcommand{\figSysBoundedQ}{50}
+\newcommand{\figSysBoundedTau}{62}
+\newcommand{\figSysCoverQ}{62}
+\newcommand{\figSysCoverTau}{56}
 \newcommand{\figTraceNoiseSd}{5.2}
 \newcommand{\figWindowMin}{180}
 \newcommand{\resCohortCgmMealsMedian}{36}
@@ -84,6 +108,7 @@
 \newcommand{\resDiffGradThreeVsGridThree}{-1}
 \newcommand{\resDiffGradThreeVsGridThreeHigh}{1}
 \newcommand{\resDiffGradThreeVsGridThreeLow}{-3}
+\newcommand{\resDiffGradThreeVsPersonalMean}{-232}
 \newcommand{\resEigMedianOne}{$3.9\times10^{-8}$}
 \newcommand{\resEigMedianThree}{$1.5\times10^{1}$}
 \newcommand{\resEigMedianTwo}{$7.1\times10^{-3}$}
@@ -210,7 +235,7 @@ We see the same thing in the Fisher information, subject by subject. Its median 
 
 \section{Prediction Does Not See It}\label{sec:prediction}
 
-The fits in this section are to the iAUC, and we evaluate them on the iAUC and on two targets they were not trained on, the peak time and the trace. On the real data, the twin predicts the held-out iAUC better than a model-free personal mean, with a mean absolute error of \resMaeGradThree{} against \resMaePersonalMean{} mg\,min\,dL$^{-1}$. Fitting the full trace instead of the iAUC gives \resMaeGradThreeTrace{}. Gradient fitting and a grid search over the parameters differ by $\resDiffGradThreeVsGridThree{}$ mg\,min\,dL$^{-1}$ (95\% interval $\resDiffGradThreeVsGridThreeLow{}$ to $\resDiffGradThreeVsGridThreeHigh{}$), and fitting all three parameters instead of $S_I$ alone changes the error by $\resDiffGradThreeVsGradOne{}$ ($\resDiffGradThreeVsGradOneLow{}$ to $\resDiffGradThreeVsGradOneHigh{}$), a small gain. Real data cannot say what these small differences hide, because the true parameters are unknown.
+The fits in this section are to the iAUC, and we evaluate them on the iAUC and on two targets they were not trained on, the peak time and the trace. On the real data, the twin predicts the held-out iAUC better than a model-free personal mean, with a mean absolute error of \resMaeGradThree{} against \resMaePersonalMean{} mg\,min\,dL$^{-1}$. Fitting the full trace instead of the iAUC gives \resMaeGradThreeTrace{}. The advantage over the personal mean does not depend on random folds. The error of the three-parameter fit differs from that of the personal mean by $\resDiffGradThreeVsPersonalMean{}$ with random folds, by $\figChronoBlockedPersonalMean{}$ ($\figChronoBlockedPersonalMeanLow{}$ to $\figChronoBlockedPersonalMeanHigh{}$) with blocked chronological folds, and by $\figChronoForwardPersonalMean{}$ ($\figChronoForwardPersonalMeanLow{}$ to $\figChronoForwardPersonalMeanHigh{}$) when only earlier meals train. Gradient fitting and a grid search over the parameters differ by $\resDiffGradThreeVsGridThree{}$ mg\,min\,dL$^{-1}$ (95\% interval $\resDiffGradThreeVsGridThreeLow{}$ to $\resDiffGradThreeVsGridThreeHigh{}$), and fitting all three parameters instead of $S_I$ alone changes the error by $\resDiffGradThreeVsGradOne{}$ ($\resDiffGradThreeVsGradOneLow{}$ to $\resDiffGradThreeVsGradOneHigh{}$), a small gain. Real data cannot say what these small differences hide, because the true parameters are unknown.
 
 The replica can. We drew true parameters at random across the box and fitted the replica data. On each of two seeds the fitted model's held-out iAUC error is \resPvpRandomZeroRatio{} and \resPvpRandomOneRatio{} times the floor, while the rates are off by a median root mean squared log error of \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{} (Figure~\ref{fig:prediction}a). Across subjects the ratio is unrelated to the rate error: the Spearman correlation is $\resPvpRandomZeroRhoTimingRatio{}$ ($\resPvpRandomZeroRhoTimingRatioLow{}$ to $\resPvpRandomZeroRhoTimingRatioHigh{}$) on seed zero and \figPvpRhoIauc{} pooled over both seeds. With \resPvpRandomZeroN{} subjects per seed, a moderate correlation cannot be excluded, but the median ratio stays near one across the whole range of rate error we drew.
 
@@ -234,7 +259,7 @@ The exchange symmetry leaves a combination of the rates free, $\tau_1$ and $q$, 
 \label{fig:sweep}
 \end{figure}
 
-Why does input error make intervals narrower and wrong? The fitted parameters absorb a mismatch in the carbohydrate input, so the residual does not grow: the median pilot noise estimate changes by \figSweepSigmaChangePct\% between exact carbohydrate and an error of 0.1. The likelihood is as curved as before, and its interval does not widen, while the estimate moves by more than the interval. We make this concrete by asking what interval would cover the truth. For a cutoff that covers the truth for 90\% of subjects, the noise standard deviation would have to be \figSweepSigmaTauQuarter{} times larger at an error of $0.25$ and \figSweepSigmaTauThreeQuarter{} times larger at $0.75$ for $\tau_1$, and at those cutoffs the intervals are bounded for only \figSweepCalBoundedTauQuarter\% and \figSweepCalBoundedTauThreeQuarter\% of interior subjects. The bounded intervals at the nominal level reflect the likelihood treating the logged carbohydrate as exact. We have no mechanism for why the bounded share rises with the error, as well as for why the coverage falls. A sandwich or bootstrap interval is the natural repair, and we did not test one.
+Why does input error make intervals narrower and wrong? The fitted parameters absorb a mismatch in the carbohydrate input, so the residual does not grow: the median pilot noise estimate changes by \figSweepSigmaChangePct\% between exact carbohydrate and an error of 0.1. The likelihood is as curved as before, and its interval does not widen, while the estimate moves by more than the interval. We make this concrete by asking what interval would cover the truth. For a cutoff that covers the truth for 90\% of subjects, the noise standard deviation would have to be \figSweepSigmaTauQuarter{} times larger at an error of $0.25$ and \figSweepSigmaTauThreeQuarter{} times larger at $0.75$ for $\tau_1$, and at those cutoffs the intervals are bounded for only \figSweepCalBoundedTauQuarter\% and \figSweepCalBoundedTauThreeQuarter\% of interior subjects. The bounded intervals at the nominal level reflect the likelihood treating the logged carbohydrate as exact. Two further checks agree. Estimating the noise standard deviation and autocorrelation again at the polished estimate changes nothing: the nominal interval covers the truth for \figFinalCoverTauQuarter\% and \figFinalCoverQQuarter\% of subjects at an error of $0.25$ and for \figFinalCoverTauThreeQuarter\% and \figFinalCoverQThreeQuarter\% at $0.75$, the same as with the pilot estimate. And a systematic error, one multiplier per subject shared by every meal, with a coefficient of variation of $0.25$, breaks the intervals as well: they are bounded for \figSysBoundedTau\% and \figSysBoundedQ\% and cover for \figSysCoverTau\% and \figSysCoverQ\%, so an error that only rescales the carbohydrate is not absorbed by $S_I$ either. The pattern replicates on two further replica seeds. For $\tau_1$ the bounded share rises from \figSeedOneTauBoundedZero\% and \figSeedTwoTauBoundedZero\% at exact carbohydrate to \figSeedOneTauBoundedHigh\% and \figSeedTwoTauBoundedHigh\% at $0.75$ while coverage falls from \figSeedOneTauCoverZero\% and \figSeedTwoTauCoverZero\% to \figSeedOneTauCoverHigh\% and \figSeedTwoTauCoverHigh\%, and for $q$ the rise is at least \figSeedMinRiseQ{} points and the fall at least \figSeedMinDropQ{} points. We have no mechanism for why the bounded share rises with the error, as well as for why the coverage falls. A sandwich or bootstrap interval is the natural repair, and we did not test one.
 
 On the real data the intervals are bounded for \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of interior subjects, which is what a replica with a large input error produces. We cannot say that input error is the cause, because misfit or sensor lag would produce the same pattern, but it shows that a bounded interval on real data is not evidence that the quantity is known.
 
@@ -302,13 +327,13 @@ A prediction metric is a surrogate for the thing a system shows a person, and he
 
 \paragraph{One model family, one estimator class.} We study a single Bergman-type simulator, the iAUC and the full trace, and three small cohorts, and the replica reuses CGMacros meal schedules. Only CGMacros enters the replica and profile analyses; Shanghai and Hall enter only the Fisher analysis. We tested a classical maximum-likelihood estimator and no learned or amortized estimator, so we cannot say whether those fail in the same way.
 
-\paragraph{Seeds.} The sweep over input error, the perturbation of $\gamma$, the residual-content control and the check against the likelihood at the truth each use one replica seed. Only the fraction for $S_I$ is pooled over five seeds.
+\paragraph{Seeds.} The sweep over input error replicates on three replica seeds. The perturbation of $\gamma$, the residual-content control and the check against the likelihood at the truth each use one seed, and only the fraction for $S_I$ is pooled over five seeds.
 
 \paragraph{Input error.} The replica draws an independent lognormal error with coefficient of variation 0.25. Real logging error is probably systematic, and the sweep shows that the answer depends on its size. We did not test a systematic error model or a sandwich interval.
 
 \paragraph{Fixed physiology.} Basal glucose is a constant in the simulator, and the model has no sensor lag. A timing parameter can absorb either, which would affect the real-data fractions but not the replica, where the model is true by construction.
 
-\paragraph{Splits.} Cross-validation folds are random within subject and not chronological, so autocorrelation between neighboring meals is not removed.
+\paragraph{Splits.} Most cross-validation folds are random within subject, so autocorrelation between neighboring meals is not removed. The chronological folds of Section~\ref{sec:prediction} are on one cohort.
 
 \paragraph{Scope of the human claim.} We measure the validity of a displayed quantity and no human outcome. We do not show that a person who sees an unreliable parameter is harmed, or that a reliable one helps.
 

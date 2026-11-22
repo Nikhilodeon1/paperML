@@ -55,6 +55,8 @@ def main(argv=None) -> int:
                     help="also build results/phase16_summary.json (Amendment 12; only after the amendment is committed)")
     ap.add_argument("--phase17", action="store_true",
                     help="also build results/phase17_summary.json (Amendment 13; only after the amendment is committed)")
+    ap.add_argument("--phase19", action="store_true",
+                    help="also build results/phase19_summary.json (Amendment 15, report-only)")
     ap.add_argument("--phase18", action="store_true",
                     help="also build results/phase18_summary.json (Amendment 14; only after the amendment is committed)")
     ap.add_argument("--no-freeze", action="store_true",
@@ -62,7 +64,7 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     from evaluation import (figs_tmlr, freeze_results, lint_numbers, lint_terms, make_macros, paper_numbers,
-                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, phase13_summary, phase14_summary, phase15_summary, phase16_summary, phase17_summary, phase18_summary, tables_tmlr,
+                            phase2_summary, phase8_summary, phase9_summary, recalibration, noise_scale, phase13_summary, phase14_summary, phase15_summary, phase16_summary, phase17_summary, phase18_summary, phase19_summary, tables_tmlr,
                             tmlr_build)
 
     def freeze():
@@ -109,7 +111,8 @@ def main(argv=None) -> int:
                 [("summary 15", phase15_summary.main)] if args.phase15 else []) + (
                 [("summary 16", phase16_summary.main)] if args.phase16 else []) + (
                 [("summary 17", phase17_summary.main)] if args.phase17 else []) + (
-                [("summary 18", phase18_summary.main)] if args.phase18 else []) + [
+                [("summary 18", phase18_summary.main)] if args.phase18 else []) + (
+                [("summary 19", phase19_summary.main)] if args.phase19 else []) + [
              ("numbers", paper_numbers.main), ("freeze", freeze),
              ("macros", macros), ("figures", figs_tmlr.main), ("tables", tables_tmlr.main)]
     if not args.skip_lint:

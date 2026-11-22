@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.8.24)  21 NOV 2026 17:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.8.24)  21 NOV 2026 23:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -216,31 +216,31 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisrulewidth=\dimen186
 )
 LaTeX Font Info:    Trying to load font information for T1+ntxtlf on input line
- 145.
+ 170.
 
 (C:\Users\nikhi\AppData\Local\Programs\MiKTeX\tex/latex/newtx\t1ntxtlf.fd
 File: t1ntxtlf.fd 2021/05/24 v1.1 font definition file for T1/ntx/tlf
 )
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 10.0pt on input line 145.
+(Font)              scaled to size 10.0pt on input line 170.
 
 (Anonymous.aux)
 \openout1 = `Anonymous.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 145.
-LaTeX Font Info:    ... okay on input line 145.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 170.
+LaTeX Font Info:    ... okay on input line 170.
 
 (C:\Users\nikhi\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -275,26 +275,26 @@ Package caption Info: End \AtBeginDocument code.
 \c@aaai@corrfn=\count306
 \titlearea=\box54
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 14.4pt on input line 147.
+(Font)              scaled to size 14.4pt on input line 172.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 14.4pt on input line 147.
+(Font)              scaled to size 14.4pt on input line 172.
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 12.0pt on input line 147.
+(Font)              scaled to size 12.0pt on input line 172.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 147.
+(Font)              scaled to size 12.0pt on input line 172.
 \actualheight=\skip54
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/n' will be
-(Font)              scaled to size 9.0pt on input line 147.
+(Font)              scaled to size 9.0pt on input line 172.
 LaTeX Font Info:    Font shape `T1/ntxtlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 149.
+(Font)              scaled to size 10.0pt on input line 174.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 150.
+(Font)              <9> on input line 175.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 150.
+(Font)              <6> on input line 175.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 150.
+(Font)              <5> on input line 175.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 159.
+(Font)              <7> on input line 184.
  [1{C:/Users/nikhi/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/n
 ikhi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
 
@@ -304,28 +304,31 @@ ikhi/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}
 <figures/fig_area.pdf, id=14, 439.28116pt x 196.63937pt>
 File: figures/fig_area.pdf Graphic file (type pdf)
 <use figures/fig_area.pdf>
-Package pdftex.def Info: figures/fig_area.pdf  used on input line 204.
+Package pdftex.def Info: figures/fig_area.pdf  used on input line 229.
 (pdftex.def)             Requested size: 480.59395pt x 215.14578pt.
 
 [2]
 <figures/fig_prediction.pdf, id=23, 456.16707pt x 189.12654pt>
 File: figures/fig_prediction.pdf Graphic file (type pdf)
 <use figures/fig_prediction.pdf>
-Package pdftex.def Info: figures/fig_prediction.pdf  used on input line 221.
+Package pdftex.def Info: figures/fig_prediction.pdf  used on input line 246.
 (pdftex.def)             Requested size: 480.59395pt x 199.25533pt.
+
+Underfull \vbox (badness 1072) has occurred while \output is active []
+
 <figures/fig_sweep.pdf, id=24, 212.58049pt x 211.41537pt>
 File: figures/fig_sweep.pdf Graphic file (type pdf)
 <use figures/fig_sweep.pdf>
-Package pdftex.def Info: figures/fig_sweep.pdf  used on input line 232.
+Package pdftex.def Info: figures/fig_sweep.pdf  used on input line 257.
 (pdftex.def)             Requested size: 232.21283pt x 230.94144pt.
  [3]
 <figures/fig_absorption.pdf, id=28, 218.58664pt x 210.84772pt>
 File: figures/fig_absorption.pdf Graphic file (type pdf)
 <use figures/fig_absorption.pdf>
-Package pdftex.def Info: figures/fig_absorption.pdf  used on input line 253.
+Package pdftex.def Info: figures/fig_absorption.pdf  used on input line 278.
 (pdftex.def)             Requested size: 232.21283pt x 223.9994pt.
- [4 <./figures/fig_area.pdf>] [5 <./figures/fig_prediction.pdf>]
-(Anonymous.bbl
+
+[4 <./figures/fig_area.pdf>] [5 <./figures/fig_prediction.pdf>] (Anonymous.bbl
 LaTeX Font Info:    Font shape `T1/ntxtlf/m/it' will be
 (Font)              scaled to size 10.0pt on input line 7.
 
@@ -354,13 +357,13 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 6072 strings out of 467871
- 103965 string characters out of 5418376
- 528335 words of memory out of 5000000
- 34877 multiletter control sequences out of 15000+600000
+ 6097 strings out of 467871
+ 104545 string characters out of 5418376
+ 529460 words of memory out of 5000000
+ 34902 multiletter control sequences out of 15000+600000
  653249 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,10n,117p,1478b,375s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,10n,117p,2418b,375s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/nikhi/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmex10.pfb><C:/Users/nikhi/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmmi10.pfb><C:/Users/nikhi/AppData/Local/Programs/MiKTeX/fonts/type1/p
@@ -379,7 +382,7 @@ blic/amsfonts/cm/cmsy9.pfb><C:/Users/nikhi/AppData/Local/Programs/MiKTeX/fonts/
 type1/public/newtx/ztmb.pfb><C:/Users/nikhi/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/newtx/ztmr.pfb><C:/Users/nikhi/AppData/Local/Programs/MiKTeX/font
 s/type1/public/newtx/ztmri.pfb>
-Output written on Anonymous.pdf (7 pages, 476988 bytes).
+Output written on Anonymous.pdf (7 pages, 477994 bytes).
 PDF statistics:
  206 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

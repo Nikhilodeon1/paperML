@@ -57,6 +57,9 @@ def load_summary() -> dict:
     robust = RESULTS / "phase18_summary.json"
     if robust.exists():
         summary["phase18"] = json.loads(robust.read_text(encoding="utf-8"))
+    report_only = RESULTS / "phase19_summary.json"
+    if report_only.exists():
+        summary["phase19"] = json.loads(report_only.read_text(encoding="utf-8"))
     return summary
 
 

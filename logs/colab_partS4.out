@@ -1,0 +1,10 @@
+=== 2026-11-22 07:05:29 evaluation.profile_lik --set cohort="shanghai" --set min_meals=10 --set objective="trace" --set parameterization="coords" --set bounds_scale=1.0 --set polish=true --set replica={"seed":0,"cgm":true,"carb_cv":0.75}
+2026-11-22 07:05:31 [A5_profile] start: 87 units, 0 already done, 0 previously failed, 8 workers
+  0/87 done, 0 failed, 8 workers
+==============================================================================
+A5_profile: 0/87 done, 87 failed in 0.00h
+  FAILED: Shanghai-2000_0_20201230, Shanghai-2001_0_20201102, Shanghai-2001_1_20201117, Shanghai-2002_0_20210513, Shanghai-2003_0_20210615, Shanghai-2004_0_20211028, Shanghai-2005_0_20211201, Shanghai-2006_0_20211112, Shanghai-2008_0_20220118, Shanghai-2009_0_20211103, Shanghai-2014_0_20201224, Shanghai-2014_1_20210317, Shanghai-2015_0_20210203, Shanghai-2015_1_20210219, Shanghai-2016_0_20201224, Shanghai-2017_0_20210102, Shanghai-2017_1_20201118, Shanghai-2018_0_20210420, Shanghai-2019_0_20210513, Shanghai-2021_0_20211013
+  tracebacks in /content/paperML/results/A5_profile/70940bbe6783
+==============================================================================
+!!! failed; continuing
+=== 2026-11-22 07:05:40 part S4 finished

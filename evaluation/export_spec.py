@@ -33,7 +33,7 @@ PAPER_SYMBOLS = {
     "x_decay": r"p_2",
     "x_gain": r"p_3",
     "insulin_clearance": r"n",
-    "insulin_secretion": r"\beta",
+    "insulin_secretion": r"\gamma",
     "circadian_amp": r"c_{\mathrm{circ}}",
     "weight_kg": r"W",
     "rmr_kcal_min": r"\mathrm{RMR}",

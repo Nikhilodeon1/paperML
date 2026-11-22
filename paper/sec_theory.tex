@@ -66,19 +66,15 @@ total mass, which is the same for every pair of rates, and the second vanishes.
 \end{proposition}
 
 Moment theory for absorption data is classical in pharmacokinetics, where the mean absorption time is estimated from
-plasma-concentration moments \citep{cutler1978theory,yamaoka1978statistical,riegelman1980application}. We restate the
-moments for the two-compartment cascade so that the argument is self-contained, and claim no novelty for them.
+plasma-concentration moments \citep{cutler1978theory,yamaoka1978statistical,riegelman1980application}; we restate it for the
+two-compartment cascade so that the argument is self-contained, and claim no novelty. Proposition~\ref{prop:moments} orders the
+observables. An area over a long window sees the total mass delivered, the zeroth moment, which is the same for every pair of
+rates; at a finite window it sees timing only through the share of the mass delivered by the window's end and through what leaks
+past it. The centroid adds the first moment, and so $\tau_1$. Only the shape of the trace, with its rise, peak and decay, can
+carry the second moment and hence $p$. The sensitivity of the area to timing, relative to its sensitivity to $\SI$, falls with the
+window (Figure~\ref{fig:window}), and the weakest Fisher direction is the $\tau_1$-preserving direction, which is the exchange
+direction to first order (Figure~\ref{fig:symmetry}).
 
-Proposition~\ref{prop:moments} orders the observables. An area over a long window sees the total mass delivered, the
-zeroth moment, which is the same for every pair of rates. At a finite window it sees timing only through the share of the
-mass delivered by the window's end and through what leaks past it. The centroid adds the first moment, and so $\tau_1$. Only the shape of the trace, with its rise, peak
-and decay, can carry the second moment and hence $p$. The empirical results quantify each statement. The sensitivity of
-the area to timing, relative to its sensitivity to $\SI$, falls with the window (Figure~\ref{fig:window}). The weakest
-Fisher direction is the $\tau_1$-preserving direction, which is the exchange direction to first order
-(Figure~\ref{fig:symmetry}). The information about $\tau_1$ and $p$ rises only as the target is enriched, although
-whether they are identified is not established (Section~\ref{sec:more}).
-
-The three propositions describe a two-compartment gut cascade, not this particular simulator. Any linear series cascade
-with an empty downstream compartment has a transfer function that is symmetric in its rate constants. A model with a
-different gut (Section~\ref{sec:dm}) does not inherit an exact symmetry, and what survives there is an empirical
-question.
+The three propositions describe a two-compartment gut cascade, not this particular simulator: any linear series cascade with an
+empty downstream compartment has a transfer function that is symmetric in its rate constants. A model with a different gut
+(Section~\ref{sec:dm}) does not inherit an exact symmetry, and what survives there is an empirical question.

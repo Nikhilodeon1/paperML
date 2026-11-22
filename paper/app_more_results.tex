@@ -1,38 +1,26 @@
 \section{Additional results}
 \label{app:more}
 
-\subsection{Structural identifiability runs}
-\label{app:structural}
-
-The symbolic analyses used Julia and the package StructuralIdentifiability.jl in the versions
-\texttt{\juliaversion} and \texttt{\siversion}, on the Bergman-type model with the two-compartment gut cascade in its
-active regime and glucose as the output. Seven formulations were run; the four of Table~\ref{tab:structural} are the ones
-that differ in outcome, and the raw output of every run is archived with the code. The tool's local assessment
-reports all three parameters locally identifiable. Where the gut initial conditions were left free or
-unknown the rates were reported locally but not globally identifiable; in canonical coordinates
-$\sigma_1=\ke+\ka$ and $c=\ke\ka$ the two combinations were globally identifiable.
-
+\FloatBarrier
 \subsection{Tables of the main analyses}
 
-\input{generated/bounds}
+The numbers of these tables are also in the text of Appendix~\ref{app:results}; the full set of bounded fractions, the paired comparisons and the
+interval levels are collected here.
+
 \input{generated/profiles}
-\input{generated/ladder}
 \input{generated/comparisons}
 \input{generated/levels}
 
-\subsection{Noise budgets on the replica}
-
-\input{generated/noise_budget}
-
+\FloatBarrier
 \subsection{Subject-level correlates}
 
 \input{generated/correlates}
 
-\subsection{Checks added in amendment nine}
+\FloatBarrier
+\subsection{Further checks}
 \label{apx:phase13}
 
-These analyses were declared before they were run (Appendix~\ref{app:register}) and have no pass-or-fail rule, except
-H26, which is reported in Section~\ref{sec:more}.
+These analyses have no pass-or-fail rule; Appendix~\ref{app:register} records when each was declared.
 
 \paragraph{Clustered intervals.}
 The replica seeds reuse the same subjects, so the pooled fractions are clustered by subject. Resampling subjects, the
@@ -45,8 +33,7 @@ that ignore the clustering are \resClustSINaiveLow\ to \resClustSINaiveHigh\%, \
 \resClustTauNaiveHigh\% and \resClustPNaiveLow\ to \resClustPNaiveHigh\%.
 
 \paragraph{Carbohydrate-error sweep.}
-Table~\ref{tab:cvsweep} gives the polished trace coordinate profiles of replica seed zero at five coefficients of
-variation of the logging error and, in the last row, the real data. The bounded fraction rises and the share of subjects whose
+Table~\ref{tab:cvsweepfull} extends Table~\ref{tab:cvsweep} with the coverage of the bounded intervals. The bounded fraction rises and the share of subjects whose
 nominal interval contains the truth falls as the error grows; among the bounded intervals the coverage is lower still.
 
 \begin{table}[t]
@@ -68,59 +55,7 @@ real data & \resPolishedBoundedTauTrace & \resPolishedBoundedPTrace & --- & --- 
 \caption{Polished trace coordinate profiles on replica seed zero, by coefficient of variation of the carbohydrate
 logging error, among subjects interior for the parameter. ``Covers truth'' is over all \resPvpFitTruthN{} subjects;
 ``covers, of the bounded'' is the share of the bounded intervals that contain the truth. The truth is unknown for real data.}
-\label{tab:cvsweep}
-\end{table}
-
-\paragraph{Inner-optimizer budget.}
-Table~\ref{tab:inner} compares the polished trace coordinate profiles at $100$ inner steps with the same profiles at $500$
-(same estimates, same grids). A grid point is flagged when its inner optimization was still improving by more than $0.05$
-in negative log-likelihood. The longer run settles nearly every point and changes no class, and the bounded fractions and
-the coverage are the same to the digit shown at both budgets (H27 and H28, Section~\ref{sec:more}).
-
-\begin{table}[t]
-\centering\small
-\begin{tabular}{lrrrrrr}
-\toprule
- & \multicolumn{2}{c}{flagged points (\%)} & profile classes & \multicolumn{2}{c}{covers truth, long run (\%)} \\
-setting & default & long & changed & $\tau_1$ & $p$ \\
-\midrule
-real data & \resInnerRealHundredUnsettled & \resInnerRealFiveHundredUnsettled & \resInnerRealChanged{} of \resInnerRealChangedOf & --- & --- \\
-replica, error $0.25$ & \resInnerRepHundredUnsettled & \resInnerRepFiveHundredUnsettled & \resInnerRepChanged{} of \resInnerRepChangedOf & \resInnerRepFiveHundredCoverTau & \resInnerRepFiveHundredCoverP \\
-replica, exact carbohydrate & \resInnerExactHundredUnsettled & \resInnerExactFiveHundredUnsettled & \resInnerExactChanged{} of \resInnerExactChangedOf & \resInnerExactFiveHundredCoverTau & \resInnerExactFiveHundredCoverP \\
-exact, quarter noise & \resInnerQuarterHundredUnsettled & \resInnerQuarterFiveHundredUnsettled & \resInnerQuarterChanged{} of \resInnerQuarterChangedOf & \resInnerQuarterFiveHundredCoverTau & \resInnerQuarterFiveHundredCoverP \\
-\bottomrule
-\end{tabular}
-\caption{Trace coordinate profiles with polished estimates at $100$ and $500$ inner steps, primary box. Profile classes
-are bounded, one-sided or flat; each setting has $45$ subjects and two profiles per subject.}
-\label{tab:inner}
-\end{table}
-
-\paragraph{The profile at the true value.}
-Table~\ref{tab:truthprofile} gives the excess of the profile above its reference at the true value of $\tau_1$ and $p$, read
-off the stored grid and computed directly there with the other two coordinates solved to convergence. At a quarter of the
-noise the stored value is several times the direct one and above the cutoff in most subjects; at the estimated noise the
-two are close (H31, Section~\ref{sec:more}). The direct values are the same for Adam and L-BFGS-B and for a start at the
-estimate or at the truth to the digits shown elsewhere in the text.
-
-\begin{table}[t]
-\centering\small
-\begin{tabular}{llrrrr}
-\toprule
- & & \multicolumn{2}{c}{median excess} & \multicolumn{2}{c}{above the cutoff (\%)} \\
-replica & coordinate & grid & direct & grid & direct \\
-\midrule
-exact, quarter noise & $\tau_1$ & \resTruthQuarterTauStoredMedian & \resTruthQuarterTauDirectMedian & \resTruthQuarterTauStoredOver & \resTruthQuarterTauDirectOver \\
- & $p$ & \resTruthQuarterPStoredMedian & \resTruthQuarterPDirectMedian & \resTruthQuarterPStoredOver & \resTruthQuarterPDirectOver \\
-exact carbohydrate & $\tau_1$ & \resTruthExactTauStoredMedian & \resTruthExactTauDirectMedian & \resTruthExactTauStoredOver & \resTruthExactTauDirectOver \\
- & $p$ & \resTruthExactPStoredMedian & \resTruthExactPDirectMedian & \resTruthExactPStoredOver & \resTruthExactPDirectOver \\
-error $0.25$ & $\tau_1$ & \resTruthRepTauStoredMedian & \resTruthRepTauDirectMedian & \resTruthRepTauStoredOver & \resTruthRepTauDirectOver \\
- & $p$ & \resTruthRepPStoredMedian & \resTruthRepPDirectMedian & \resTruthRepPStoredOver & \resTruthRepPDirectOver \\
-\bottomrule
-\end{tabular}
-\caption{Excess of the trace coordinate profile at the true value of $\tau_1$ and $p$ (negative log-likelihood units),
-interpolated on the stored fifteen-point grid and computed directly at the true value. The cutoff is the $1.92$ of the
-interval criterion; each row has $45$ subjects.}
-\label{tab:truthprofile}
+\label{tab:cvsweepfull}
 \end{table}
 
 \paragraph{The positive control for the gut rates.}
@@ -172,6 +107,29 @@ carbohydrate has a Pearson correlation of \resProxyRaw{} (\resProxyRawLow{} to \
 \resProxyPartial{} (\resProxyPartialLow{} to \resProxyPartialHigh) with fasting glucose partialled out. The proxy has
 no mechanism and no correlation to lose, which is the comparison point for the raw correlation of the amortized estimate.
 
+\paragraph{Cutoff and systematic error.}
+A cutoff that covers the truth for $90\%$ of subjects needs a noise standard deviation
+\resCutQuarterSigmaTau{} times larger at $0.25$ and \resCutThreeQuarterSigmaTau{} times larger at $0.75$ for $\tau_1$, and at
+those cutoffs only \resCutQuarterBoundedTau\% and \resCutThreeQuarterBoundedTau\% of interior subjects are bounded. A systematic
+error, one multiplier per subject shared by every meal with coefficient of variation $0.25$, breaks the intervals as well:
+they are bounded for \resSysTauBounded\% and \resSysPBounded\% of interior subjects and contain the truth for \resSysTauCover\%
+and \resSysPCover\%, so an error that only rescales the carbohydrate is not absorbed by $\SI$ in these profiles.
+
+\paragraph{Replication of the carbohydrate-error sweep.}
+For $\tau_1$ the bounded share rises from \resSeedOneZeroTauBounded\% and \resSeedTwoZeroTauBounded\% at exact carbohydrate to
+\resSeedOneHighTauBounded\% and \resSeedTwoHighTauBounded\% at $0.75$ on replica seeds one and two, while coverage falls from
+\resSeedOneZeroTauCover\% and \resSeedTwoZeroTauCover\% to \resSeedOneHighTauCover\% and \resSeedTwoHighTauCover\%. On the replica
+built from the \resShanghaiN{} Shanghai subjects the $\tau_1$ bounded share rises from \resShanghaiRepZeroTauBounded\% to
+\resShanghaiRepHighTauBounded\% and coverage falls from \resShanghaiRepZeroTauCover\% to \resShanghaiRepHighTauCover\%. For $p$ the bounded share rises by \resSeedOneRiseP{} and \resSeedTwoRiseP{} points between exact carbohydrate and a logging
+error of $0.75$ on replica seeds one and two, while coverage falls by \resSeedOneDropP{} and \resSeedTwoDropP{} points. On the
+Shanghai replica the bounded share of $p$ rises from \resShanghaiRepZeroPBounded\% to \resShanghaiRepHighPBounded\% and
+coverage falls from \resShanghaiRepZeroPCover\% to \resShanghaiRepHighPCover\%. On the real Shanghai data the trace intervals
+for $\tau_1$ and $p$ are bounded for \resShanghaiTraceTauBounded\% and \resShanghaiTracePBounded\% of interior subjects and
+the iAUC interval for $\SI$ for \resShanghaiIaucSIBounded\% (\resShanghaiIaucSIBoundedCount{} of
+\resShanghaiIaucSIBoundedN); only \resShanghaiIaucKeBoundedN{} and \resShanghaiIaucKaBoundedN{} subjects are interior for
+$\ke$ and $\ka$, too few to report a fraction.
+
+\FloatBarrier
 \subsection{Further figures}
 
 \begin{figure}[t]
@@ -205,3 +163,4 @@ log coordinates, over subjects. \textbf{(b)} Subjects with a bounded $95\%$ prof
 gradient diagnostic and the ordering under each factor of H10; dotted: the threshold $0.8$.}
 \label{fig:robustness}
 \end{figure}
+\FloatBarrier

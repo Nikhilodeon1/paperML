@@ -134,6 +134,8 @@ def build(summary: dict, verdicts: dict) -> dict:
     m.update(_phase15_macros(summary.get("phase15", {})))
     m.update(_phase16_macros(summary.get("phase16", {})))
     m.update(_phase17_macros(summary.get("phase17", {})))
+    m.update(_phase18_macros(summary.get("phase18", {})))
+    m.update(_phase19_macros(summary.get("phase19", {})))
     m.update(_cohort_macros())
     m.update(_extra_macros(summary, verdicts))
     m.update(_stored_macros(summary.get("phase8", {})))
@@ -866,6 +868,122 @@ def _phase17_macros(p17: dict) -> dict:
     if diff:
         m["resGridRealDiffTau"] = {"value": diff["tau1"], "fmt": ".0f"}
         m["resGridRealDiffP"] = {"value": diff["p"], "fmt": ".0f"}
+    return m
+
+
+def _phase19_macros(p19: dict) -> dict:
+    """Amendment 15 (report-only): curvature against the logging error, the bias at exact carbohydrate, overall counts."""
+    m: dict = {}
+    if not p19:
+        return m
+    bias = p19.get("r22", {})
+    if bias.get("n"):
+        m["resExactSIBias"] = {"value": bias["median_log_error"], "fmt": ".2f"}
+        m["resExactSIPinned"] = {"value": bias["pinned"], "fmt": ".0f"}
+        m["resExactSIN"] = {"value": bias["n"], "fmt": ".0f"}
+    real = p19.get("r23", {})
+    if real.get("n"):
+        m["resRealIaucN"] = {"value": real["n"], "fmt": ".0f"}
+        for name, tag in (("S_I", "SI"), ("k_e", "Ke"), ("k_a", "Ka")):
+            m[f"resRealIauc{tag}BoundedAll"] = {"value": real[name], "fmt": ".0f"}
+    for cv, tag in (("0.0", "Zero"), ("0.1", "Tenth"), ("0.25", "Quarter"), ("0.5", "Half"), ("0.75", "ThreeQuarter")):
+        block = p19.get("r24", {}).get(cv, {})
+        for name, coord in (("tau1", "Tau"), ("p", "P")):
+            d = block.get(name)
+            if not d:
+                continue
+            m[f"resCvError{tag}{coord}"] = {"value": d["median_error"], "fmt": ".2f"}
+            m[f"resCvPinned{tag}{coord}"] = {"value": d["pinned"], "fmt": ".0f"}
+            m[f"resCvBoundedAll{tag}{coord}"] = {"value": d["bounded"], "fmt": ".0f"}
+            if d.get("median_max_rise") is not None:
+                m[f"resCvRise{tag}{coord}"] = {"value": d["median_max_rise"], "fmt": ".0f"}
+            if d.get("median_width") is not None:
+                m[f"resCvWidth{tag}{coord}"] = {"value": d["median_width"], "fmt": ".2f"}
+                m[f"resCvZ{tag}{coord}"] = {"value": d["median_error_over_half_width"], "fmt": ".1f"}
+    for cv, tag in (("0.0", "Zero"), ("0.25", "Quarter"), ("0.75", "ThreeQuarter")):
+        block = p19.get("r21", {}).get(cv, {})
+        if not block.get("n"):
+            continue
+        m[f"resCurv{tag}N"] = {"value": block["n"], "fmt": ".0f"}
+        m[f"resCurv{tag}Load"] = {"value": block["load_ratio_squared"], "fmt": ".2f"}
+        m[f"resCurv{tag}Sigma"] = {"value": block["median_sigma"], "fmt": ".2f"}
+        m[f"resCurv{tag}SchurLow"] = {"value": block["schur_eig_median"][0], "fmt": ".0f"}
+        m[f"resCurv{tag}SchurHigh"] = {"value": block["schur_eig_median"][1], "fmt": ".0f"}
+        if block.get("schur_trace_ratio_median") is not None:
+            m[f"resCurv{tag}TraceRatio"] = {"value": block["schur_trace_ratio_median"], "fmt": ".2f"}
+        if block.get("schur_ratio_median"):
+            m[f"resCurv{tag}SchurLowRatio"] = {"value": block["schur_ratio_median"][0], "fmt": ".2f"}
+            m[f"resCurv{tag}SchurHighRatio"] = {"value": block["schur_ratio_median"][1], "fmt": ".2f"}
+    return m
+
+
+def _phase18_macros(p18: dict) -> dict:
+    """Amendment 14: noise re-estimated at the fit, two more seeds, a systematic carbohydrate error, Shanghai, chronological folds."""
+    m: dict = {}
+    if not p18:
+        return m
+    coords = {"tau1": "Tau", "p": "P"}
+    for cv, tag in (("0.25", "Quarter"), ("0.75", "ThreeQuarter")):
+        block = p18.get("noise_final", {}).get(cv, {})
+        if block.get("n"):
+            _bounded_cells(m, f"resFinal{tag}", block, coords)
+    for seed, word in (("seed1", "One"), ("seed2", "Two")):
+        for cv, tag in (("0", "Zero"), ("0.25", "Quarter"), ("0.75", "High")):
+            block = p18.get("seeds", {}).get(seed, {}).get(cv, {})
+            if block.get("n"):
+                _bounded_cells(m, f"resSeed{word}{tag}", block, coords)
+        detail = (p18.get("h36", {}).get("results", {}).get(seed, {}) or {}).get("detail", {})
+        for name, coord in (("tau1", "Tau"), ("p", "P")):
+            if name in detail:
+                m[f"resSeed{word}Rise{coord}"] = {"value": detail[name]["bounded_rise_points"], "fmt": ".0f"}
+                m[f"resSeed{word}Drop{coord}"] = {"value": detail[name]["coverage_drop_points"], "fmt": ".0f"}
+    sysb = p18.get("r17", {}).get("trace", {})
+    if sysb.get("n"):
+        _bounded_cells(m, "resSys", sysb, coords)
+    if p18.get("r17", {}).get("iauc_S_I_median_log_error") is not None:
+        m["resSysSIError"] = {"value": p18["r17"]["iauc_S_I_median_log_error"], "fmt": ".2f"}
+    for scheme, tag in (("random", "Random"), ("blocked", "Blocked"), ("forward", "Forward")):
+        block = p18.get("r19", {}).get(scheme, {})
+        if not block.get("n"):
+            continue
+        for cell, word in (("grad3", "GradThree"), ("grad1", "GradOne"), ("personal_mean", "Mean"), ("population", "Population")):
+            m[f"resChrono{tag}{word}"] = {"value": block[cell], "fmt": ".0f"}
+        for key, word in (("grad3_minus_personal_mean", "DiffMean"), ("grad3_minus_grad1", "DiffGradOne")):
+            d = block[key]
+            m[f"resChrono{tag}{word}"] = _ci(d["mean"], d["ci95"][0], d["ci95"][1], ".0f")
+    words = {"0": "Zero", "0.1": "Tenth", "0.25": "Quarter", "0.5": "Half", "0.75": "ThreeQuarter"}
+    scale = p18.get("r20", {})
+    for cv, tag in words.items():
+        block = scale.get(cv, {})
+        if not block.get("n"):
+            continue
+        m[f"resAll{tag}N"] = {"value": block["n"], "fmt": ".0f"}
+        for name, coord in (("tau1", "Tau"), ("p", "P")):
+            d = block[name]
+            m[f"resAll{tag}Bounded{coord}"] = {"value": d["all_bounded"], "fmt": ".0f"}
+            if d.get("sigma_factor") is not None:
+                m[f"resCut{tag}Sigma{coord}"] = {"value": d["sigma_factor"], "fmt": ".1f"}
+                m[f"resCut{tag}Bounded{coord}"] = {"value": 100 * d["bounded_at_cutoff"], "fmt": ".0f"}
+    a, b = (scale.get("0") or {}).get("median_sigma"), (scale.get("0.1") or {}).get("median_sigma")
+    if a and b:
+        m["resNoiseSigmaChange"] = {"value": 100 * (b / a - 1), "fmt": ".1f"}
+    shanghai = p18.get("r18", {})
+    iauc = shanghai.get("iauc", {})
+    if iauc.get("n"):
+        m["resShanghaiN"] = {"value": iauc["n"], "fmt": ".0f"}
+        for name, tag in (("S_I", "SI"), ("k_e", "Ke"), ("k_a", "Ka")):
+            d = iauc.get(name) or {}
+            if d.get("n"):
+                m[f"resShanghaiIauc{tag}Bounded"] = {"value": 100 * d["fraction"], "fmt": ".0f"}
+                m[f"resShanghaiIauc{tag}BoundedCount"] = {"value": d["bounded"], "fmt": ".0f"}
+                m[f"resShanghaiIauc{tag}BoundedN"] = {"value": d["n"], "fmt": ".0f"}
+    trace = shanghai.get("trace", {})
+    if trace.get("n"):
+        _bounded_cells(m, "resShanghaiTrace", trace, coords)
+    for cv, tag in (("0", "Zero"), ("0.75", "High")):
+        block = p18.get("shanghai_replica", {}).get(cv, {})
+        if block.get("n"):
+            _bounded_cells(m, f"resShanghaiRep{tag}", block, coords)
     return m
 
 

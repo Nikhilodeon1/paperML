@@ -2,132 +2,72 @@
 \label{sec:discussion}
 
 \paragraph{What the results say about twins.}
-Held-out iAUC error could not tell a determined parameter from an undetermined one. On replicas with random truths the
-fit comes within \resPvpRandomZeroRatio{} and \resPvpRandomOneRatio{} times the error of the model at the true
-parameters while its rates are off by a median root mean squared log error of \resPvpRandomZeroTiming{} and
-\resPvpRandomOneTiming{}, and across subjects the ratio is unrelated to that error (Section~\ref{sec:prediction}). The iAUC carries little
-information about the gut rates, the data bound insulin sensitivity for a minority of subjects even when the model is
-true, and whether they determine a combination of the rates is not established (Sections~\ref{sec:timing},
-\ref{sec:si} and \ref{sec:more}); none of this changes how well the fitted model predicts the held-out area
-(Section~\ref{sec:prediction}). A model whose $\ke$ and $\ka$ are held at population values predicts the held-out
-area about as well as one whose values were fitted, within the margin and with a small advantage for the fitted values
-(H8, and H20 in a second cohort), as Proposition~\ref{prop:moments} leads one to expect of an area. That statement is
-about the target. Held-out peak time and trace error are worse with the fitted timing parameters, and on replicas their excess over the
-floor of the true model rises with the timing error (Section~\ref{sec:prediction}), so a check on a different target
-would register a cost that the iAUC check hides. A twin that shows a person a fitted gut rate or
-insulin sensitivity should therefore carry an identifiability analysis, and the analysis needs controls of its own.
+Held-out iAUC error could not tell a determined parameter from an undetermined one: on replicas with random truths the fit's
+held-out error is \resPvpRandomZeroRatio{} (seed zero) and \resPvpRandomOneRatio{} (seed one) times that of the true model while
+the median root mean squared log error of its rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}. The iAUC carries
+little information about the gut rates and bounds insulin sensitivity for a minority of subjects even when the model is true,
+yet the fitted model predicts the held-out area as well as any fit we tried, as Proposition~\ref{prop:moments} leads one to
+expect of an area. Held-out peak time and trace error do register the cost of the fitted timing parameters. A twin that shows a
+person a fitted gut rate or insulin sensitivity should therefore carry an identifiability analysis, and the analysis needs
+controls of its own.
 
-\paragraph{Recommendations for fitting a twin to free-living data.}
-Report profile intervals rather than point estimates, classify each as bounded, one-sided or flat, and report it at
-more than one parameter range, because a one-sided interval is the prior range speaking. Define the set of subjects
-over which a fraction is taken: parameters that are not identified sit on bounds, so a definition that excludes every
-subject with a parameter on a bound selects an empty set. Run a replica in which the model is true, give it the input
-error you expect, here the carbohydrate log, and check the interval cutoff there. In our replica an input error made
-trace intervals more often bounded and less often right, and the effect grew with the size of the error: the bounded
-fraction for $\tau_1$ rose from \resCvZeroBoundedTau\% at exact carbohydrate to \resCvThreeQuarterBoundedTau\% at an
-error of $0.75$, while the coverage fell from \resCvZeroCoverTau\% to \resCvThreeQuarterCoverTau\%. A real-data
-result that exceeds the replica should not be taken at face value. Check the optimizer against a better-conditioned one, because a fixed-step estimate that is
-not an optimum produces profile minima below the estimate, as it did for \resPolishNotWithinTrace\% of our trace
-fits. Treat clinical correlations of a fitted parameter with care: the correlation we examined survives only until the
-fasting level is partialled out (Appendix~\ref{apx:leakage}).
-
-\paragraph{Design.}
-Proposition~\ref{prop:moments} says what a target must carry to identify the timing parameters: the first moment for
-$\tau_1$ and the second for $p$. An area over a long window carries neither, and a short window carries some timing at
-the price of information about $\SI$. The full trace carries both and its Fisher information about timing is far
-larger, but our controls do not let us say that it identifies the combination. The proposition also suggests, though
-we did not test it, that an intervention changing the gastric step without changing absorption, such as a liquid meal
-beside a solid one, would break the exchange symmetry by design rather than by assumption.
+\paragraph{Recommendations.}
+Report profile intervals rather than point estimates, classify each as bounded, one-sided or flat, and report it at more than
+one parameter range, because a one-sided interval is the prior range speaking. State the set of subjects over which a fraction
+is taken and give the overall count beside the interior one. Run a replica in which the model is true, give it the input error
+you expect, here the carbohydrate log, and check the interval cutoff there: a real-data result that exceeds the replica should
+not be taken at face value. Check the optimizer against a better-conditioned one, and treat clinical correlations of a fitted
+parameter with care (Appendix~\ref{apx:leakage}).
 
 \subsection{Limitations}
 \label{sec:limits}
 
-\paragraph{One model family and one target.}
-Everything rests on a Bergman-type model with a two-compartment gut and the iAUC, with two richer targets for the
-combination. The exchange symmetry holds for any such cascade, but the second gut model was fitted to iAUC only, on
-CGMacros, and has no replica. A replica for it would show how much of its non-identification belongs to the target.
+\paragraph{Model and target.}
+Everything rests on a Bergman-type model with a two-compartment gut, the iAUC and the trace. The exchange symmetry holds for any
+such cascade, but the second gut model was fitted to iAUC only and has no replica. Basal glucose is fixed at a population value
+and the sensor is treated as an unlagged reading of plasma glucose, so a mismatch in either would enter the residual as misfit.
 
 \paragraph{Cohorts.}
-The cohorts are small (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{} subjects) and
-differ in sensor, window and carbohydrate source. Prediction results come from two of them, and the replica and
-synthetic studies use CGMacros meal schedules. In the other two cohorts most estimates sit on a bound at the primary
-box, which limits what interior fractions can say. A larger free-living cohort with weighed meals would settle it.
+The cohorts are small and differ in sensor, window and carbohydrate source. Prediction results come from two of them, the replica
+and synthetic studies use CGMacros meal schedules, and in the other two cohorts most estimates sit on a bound, which limits
+what interior fractions can say.
 
-\paragraph{The replica.}
-Its truths are fitted values near the upper bound of the timing rates, its noise is estimated from the residuals of
-the real fit and so includes misfit, and its carbohydrate error is lognormal with a fixed coefficient of variation of
-$0.25$. The synthetic study removes the first limitation only; H24 and H25 vary the second and the third on one seed.
+\paragraph{The replica and the interval.}
+The replica's truths are fitted values near the upper bound of the timing rates, its noise includes misfit, and its logging error
+is lognormal. The carbohydrate-error sweep replicates on three seeds and on Shanghai; the grid and solver checks ran on one seed
+and one cohort. A rise of $\delta$ in the likelihood is an asymptotic criterion, and the likelihood treats the logged carbohydrate
+as exact, so its intervals are too narrow when the log is not. A sandwich or bootstrap interval is the obvious repair and we did
+not test it, so on real data, where the input error is unknown, a nominal interval for the combination cannot be taken as
+calibrated. Noise is one variance per subject and observable with first-order autocorrelation for the trace; other noise models
+were not tested for the trace.
 
-\paragraph{Noise models.}
-We use one variance per subject and observable, frozen at a pilot fit, with first-order autocorrelation for the trace.
-Two heteroskedastic variants for the iAUC left the result for $\SI$ unchanged. We did not test heteroskedastic noise
-for the trace or non-Gaussian noise.
-
-\paragraph{The interval criterion.}
-A rise of $\delta$ is an asymptotic criterion, and with a few tens of meals per subject and a hard box it can
-undercover. Under the trace with the logging error the nominal interval covered the truth for \resReplicaCoordsCoverTauTrace\% and
-\resReplicaCoordsCoverPTrace\% of bounded intervals, coverage fell further as the replica noise fell, and it was
-adequate (\resExactOneCoverTau\% and \resExactOneCoverP\%) only with exact carbohydrate at the estimated noise. The
-Adam estimate misses the optimum for \resPolishNotWithinTrace\% of trace fits, which is why the coordinate profiles
-start from a polished estimate, and thirty random starts do not improve that estimate (H26). The inner optimizer of each
-profile is a fixed-step run, and a longer one ($500$ steps in place of $100$) changes no profile class and does not
-restore coverage at low noise (H27 and H28). The low-noise undercoverage came from reading the profile off a fifteen-point
-grid: computed directly at the true value, the profile excess is within the cutoff for nearly every subject, the polished
-estimate is the optimum relative to the truth (H30), and a finer grid with a converged solver restores the coverage
-(H31 and H33). The bounded fractions we report on real data do not change with the inner solver or with a grid of
-twenty-nine points (H32 and H34). What remains is narrower. The grid and solver checks were run on one replica seed and
-one cohort. The likelihood at the true parameters is calibrated at the estimated noise and at a quarter of it, and it is
-not once the replica carries the logging error (\resCalRepOver\% of subjects above the cutoff), so on real data, where the
-input error is unknown, a nominal interval for the combination cannot be taken as calibrated, whatever the grid.
-
-\paragraph{Isolated meals and fixed parameters.}
-Every meal starts with an empty gut, and each meal is simulated alone. Residual content breaks the symmetry in
-proportion to its size (Proposition~\ref{prop:breaking}). A day-continuous replica, in which a snack or a long previous
-meal leaves a residue, was not run, and a protocol with fasting periods before each meal would measure the residue.
-Meals follow one another closely in these logs, so a residue is possible for many of them: among \resOverlapGaps{} gaps between consecutive logged meals in CGMacros
-the median is \resOverlapMedianGap{} hours, and \resOverlapWithinThree\%, \resOverlapWithinFour\% and
-\resOverlapWithinSix\% of the gaps are under three, four and six hours (Appendix~\ref{apx:phase13}).
-Two parameters of the glucose equations, $\gamma$ and $p_3$, are fixed at population values. Perturbing either in the
-truth of a replica by thirty percent shifts the estimate of $\SI$ by about the logarithm of the factor without a
-warning from its interval (Section~\ref{sec:si}), so a wrong fixed value is absorbed by the fitted ones. The positive
-control for the gut rates used a residual gut content that is a design choice, and a liquid and a solid meal, or a
-protocol with fasting before each meal, would test the same question with a physical design that we did not run.
-
-\paragraph{The two boxes.}
-The boxes for $\ke$ and $\ka$ differ, so the swap partner of an estimate can lie outside them, and an interval that
-looks bounded could then reflect the box and not the data. A check from stored results (post hoc, no rule) finds the
-swap partner inside the box for \resBoxRealKeInside{} of \resBoxRealKeBounded{} bounded $\ke$ intervals and
-\resBoxRealKaInside{} of \resBoxRealKaBounded{} bounded $\ka$ intervals of the real-data trace profiles in rate
-coordinates, and for \resBoxZeroKeInside{} of \resBoxZeroKeBounded{} and \resBoxZeroKaInside{} of \resBoxZeroKaBounded{}
-in the positive control without residual content, so the box does not explain them. At a residual content of ten percent
-the partner is inside for \resBoxTenKeInside{} of \resBoxTenKeBounded{} and \resBoxTenKaInside{} of
-\resBoxTenKaBounded{}, where the symmetry is broken in any case. We did not recompute the tables with a common box.
-
-\paragraph{Post hoc hypotheses.}
-H13 to H34 were declared after earlier results were seen. Their thresholds were fixed before each run but chosen
-knowing the direction of the earlier results. We report all of them. Of the \resPlannedGraded{} planned hypotheses with
-a pass-or-fail rule, \resPlannedMet{} were met; of the \resLaterGraded{} graded hypotheses added after the plan (H11 onward), \resLaterMet{} were met. Of
-the primary endpoints, which are planned, \resPrimaryNotMet{} were not met. Appendix~\ref{app:register} marks each
-hypothesis as planned or post hoc.
-
-\paragraph{Not run.}
-A design sweep over meal size and timing, and a replica or synthetic study for the second gut model, were not run
-(Appendix~\ref{app:notrun}).
+\paragraph{Isolated meals, fixed parameters and boxes.}
+Every meal starts with an empty gut, but consecutive logged meals are close (median gap \resOverlapMedianGap{} hours,
+\resOverlapWithinThree\% under three hours; Appendix~\ref{apx:phase13}), and residual content breaks the symmetry in proportion to
+its size (Proposition~\ref{prop:breaking}). A day-continuous replica was not run. The fixed $\gamma$ and $p_3$ are absorbed by
+$\SI$ when wrong (Section~\ref{sec:si}). The boxes for $\ke$ and $\ka$ differ, so the swap partner of an estimate can lie outside
+them; for the bounded real-data trace intervals in rate coordinates it lies inside for \resBoxRealKeInside{} of
+\resBoxRealKeBounded{} ($\ke$) and \resBoxRealKaInside{} of \resBoxRealKaBounded{} ($\ka$), and we did not recompute the tables with
+a common box.
 
 \subsection{Conclusion}
 
-A twin fitted to the iAUC of postprandial CGM can predict the held-out area about as well as any fit we tried while the
-data leave its gut rates undetermined and bound its insulin sensitivity for a minority of people; a good fit is not a
-measurement. We recommend that any twin whose parameters are shown to a person ship with a profile-likelihood analysis
-that has been checked on a replica carrying the input error to be expected. The open question is whether a richer
-target, or a protocol that separates gastric emptying from absorption, can make the gut rates identifiable.
+A twin fitted to the iAUC of postprandial CGM can predict the held-out area about as well as any fit we tried while the data
+leave its gut rates undetermined and bound its insulin sensitivity for a minority of people; a good fit is not a measurement.
+We recommend that any twin whose parameters are shown to a person ship with a profile-likelihood analysis that has been
+checked on a replica carrying the input error to be expected. The open question is whether a richer target, or a protocol that separates gastric emptying from absorption, for
+example a liquid meal beside a solid one, can make the gut rates identifiable.
 
-\paragraph{Use of an AI coding agent.}
-The analysis code, the pipeline that inserts every number into the text (macros, linters, figure and table
-generators), the compute job scripts and first drafts of the manuscript text were produced by a large-language-model
-coding agent (Claude Code, Anthropic) working in the authors' repository on their instructions. The authors posed the
-questions, decided which analyses to run and in what order, approved the analysis plan and each amendment, and take
-responsibility for the content. The agent also checked bibliographic entries against Crossref, arXiv and the
-publishers' pages. It made mistakes that were found and corrected (a statistic described in the text that differed
-from the code, and errors in the titles and author lists of three bibliography entries), which is why every
-numerical claim is generated from stored results by code that is released in the supplementary material.
+\subsection*{Broader impact}
+The simulator is a research model and has not been validated for clinical use. The risk we document is that a twin which
+predicts well can lead a user or clinician to read its parameters as physiology: a wrong insulin sensitivity could shape diet or
+dosing advice, and carbohydrate logging error shifts it without any warning in the interval. The analyses use public,
+de-identified cohorts and no new data were collected.
+
+\subsection*{Use of an AI coding agent}
+A large-language-model coding agent (Claude Code, Anthropic) wrote the analysis code, the pipeline that inserts every number into
+the text, the compute scripts and first drafts of the manuscript, in the authors' repository and on their instructions. The authors
+posed the questions, chose and ordered the analyses, approved the analysis plan and each amendment, and take responsibility for the
+content. The agent also checked bibliography entries against Crossref, arXiv and publisher pages. Mistakes found and corrected
+include a statistic described differently in the text and in the code and errors in three entries, so every numerical claim is
+generated from stored results.

@@ -1,39 +1,21 @@
-Parameters of a mechanistic model fitted to wearable data are routinely read as physiology, and held-out
+Parameters of a mechanistic simulator fitted to a person's wearable data are routinely read as physiology, and held-out
 prediction is the usual evidence that this is safe.
-We ask which parameters of a differentiable Bergman-type glucose--insulin simulator the incremental area
-under the curve (iAUC) of postprandial continuous glucose monitoring (CGM) can determine, and whether
-held-out iAUC prediction would reveal what it cannot.
-We combine symbolic analysis, Fisher information, profile likelihood, a replica in which the model is true,
-a synthetic study with known truths and cross-validated prediction on three cohorts (\resCohortCgmSubjects,
-\resCohortShanghaiSubjects{} and \resCohortHallSubjects{} subjects).
-Hypotheses \mbox{H1--H10} were fixed in version control before the analyses, \mbox{H11} and \mbox{H12} before their own runs, and the rest are marked post hoc.
-A single area carries little information about timing. The Fisher information of three parameters has median
-eigenvalues of \resEigMedianOne, \resEigMedianTwo{} and \resEigMedianThree, and no profile interval for gastric
-emptying or carbohydrate absorption is bounded in any subject, consistent with an exact exchange symmetry of the
-empty-gut model.
-Insulin sensitivity is bounded in \resProfileIaucSIInteriorBoundedOne{} of \resProfileIaucSIInteriorNOne{} subjects with
-an interior estimate at the primary parameter box, in \resProfileIaucSIInteriorBoundedHalf{} of
-\resProfileIaucSIInteriorNHalf{} at half the box and in \resProfileIaucSIInteriorBoundedTwo{} of
-\resProfileIaucSIInteriorNTwo{} at twice the box. When the model is exactly true the figure is \resSeedsSIBounded\% over five replica seeds. On one seed it is
-\resNoiseOneIaucSI\% at the estimated noise and \resNoiseQuarterIaucSI\% with the noise cut to a quarter.
-Held-out iAUC error does not separate gradient fitting from grid search
-(\resDiffGradThreeVsGridThree\ mg\,dL$^{-1}$\,min, $95\%$ interval \resDiffGradThreeVsGridThreeLow\ to
-\resDiffGradThreeVsGridThreeHigh, on a mean error of \resMaeGradThree), and three fitted parameters match insulin
-sensitivity alone within a margin of $150$ in two cohorts, so this prediction check does not reveal either failure.
-On true-model replicas with random truths the held-out error of the fit is \resPvpRandomZeroRatio{} and
-\resPvpRandomOneRatio{} times that of the model at the true parameters, while the root mean squared log error of the
-two rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}. Held-out peak-time and trace error, which the fits
-were not trained on, do rise with the timing error.
-Recovery of a combination of the two rates from the full glucose trace is not established on real data. Polished
-fits bound it in \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of real subjects and in
-\resReplicaCoordsTauTrace\% and \resReplicaCoordsPTrace\% of true-model replicas, where the bounded intervals cover the
-truth in \resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\%. With exact carbohydrate at the
-estimated noise the replica intervals are calibrated and rarely bounded, and only with exact carbohydrate and a
-quarter of the noise are they both bounded (\resConvFineTauBounded\% and \resConvFinePBounded\%) and calibrated; the
-undercoverage there came from the profile grid and not from the likelihood or the optimizer.
-A positive control that breaks the exchange symmetry by design bounds the gut rates in only
-\resResTenKeBounded\% and \resResTenKaBounded\% of subjects at a residual content of a tenth of the meal.
-Of the planned hypotheses with a pass-or-fail rule, \resPlannedMet{} of \resPlannedGraded{} were met, and
-\resPrimaryNotMet{} of the primary endpoints were not.
-For this model, this target and these cohorts, a good fit to postprandial CGM is not evidence that the fitted
-parameters mean what their names say. Code and frozen results are in the supplement.
+We ask what the incremental area under the curve (iAUC) of postprandial continuous glucose monitoring, and the full trace,
+determine about the insulin sensitivity and the gastric emptying and absorption rates of a differentiable Bergman-type
+simulator, and whether held-out iAUC prediction would reveal what they do not.
+We combine symbolic analysis, Fisher information, profile likelihood, a replica in which the model is true and a synthetic
+study with known truths, on three cohorts (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{}
+subjects).
+We find that the iAUC carries little information about timing: the weakest Fisher direction is the exchange of the two gut rates,
+an exact symmetry of the empty-gut model, and no profile interval for either rate is bounded.
+The interval for insulin sensitivity is bounded for \resProfileIaucSIInteriorBoundedOne{} of
+\resProfileIaucSIInteriorNOne{} subjects with an interior estimate (\resRealIaucSIBoundedAll{} of \resRealIaucN{} overall) and
+for \resSeedsSIBounded\% of interior subjects when the model is exactly true.
+On replicas with random truths the held-out iAUC error is \resPvpRandomZeroRatio{} times that of the true model while the rates
+are off by a median root mean squared log error of \resPvpRandomZeroTiming, so prediction does not reveal the failure, although
+held-out peak-time and trace error rise with it.
+From the full trace, a combination of the two rates is bounded for \resPolishedBoundedTauTrace\% and
+\resPolishedBoundedPTrace\% of real subjects, but on true-model replicas the bounded intervals contain the truth in only
+\resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\% of cases, and carbohydrate logging error shifts the
+estimate while the interval does not widen.
+For this model, these targets and these cohorts, a good fit is not evidence that the fitted parameters mean what their names say.
