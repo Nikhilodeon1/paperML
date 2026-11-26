@@ -1,0 +1,109 @@
+# Decision rules for the pending and planned runs
+
+Written on 26 November 2026, after the reviewer's second-round plan (`REPORTS/reviewer_plan_2026-11-26.md`) and before
+any result named below was summarised. Each rule says what the paper will claim under each outcome. A rule may be
+tightened later only if the change is recorded here with its date and reason; no rule is loosened after its result is
+seen.
+
+## What had already been seen
+
+- Complete and read: real CGMacros and standardized-meal trace sweeps; fitted truths (seed 0) at CV 0 and 0.25;
+  random truths (seeds 0 and 1) at CV 0, 0.25 and 0.75; the unperturbed iAUC replica; all old-protocol results already
+  in the paper.
+- On disk but only counted, never summarised or opened: partial units of fitted truths seed 0 at CV 0.75 (11 of 45,
+  run on the authors' machine), Shanghai real traces (30 of 87) and the `glucose_effectiveness` 0.7 perturbation
+  (23 of 45). Run-time lines of those logs were seen; no parameter value, interval or coverage was.
+- Not yet downloaded: everything else.
+
+## Common definitions
+
+`tau1`, coverage, bounded, narrow, interior and signed log error are as defined in the paper and in
+`evaluation/coverage_metrics.py`. "Shift" is the median over all subjects of log estimate minus log truth for `tau1`.
+A sweep is used only when `evaluation.manifest` reports it complete.
+
+## Stage 1: pending runs
+
+**R1. Fitted truths, seed 0, CV 0.75.** If the shift is larger than at CV 0.25 (0.064), the account stands: one shift
+toward slower absorption closes intervals near the lower edge and opens them mid-range. Otherwise the paragraph that
+explains the two directions is cut, and only the observation that bounded counts moved in opposite directions between
+CV 0 and 0.25 is kept. Separately, if coverage at CV 0.75 is not lower than with exact inputs, the sentence "coverage
+falls on every truth set" is replaced by the counts per truth set.
+
+**R2. Fitted truths, seeds 1 and 2, CV 0 and 0.75.** Each seed agrees if coverage is lower and the shift is larger at
+CV 0.75 than at CV 0. If both agree, the paper says the pattern held on every fitted-truth seed run. If either does not,
+the paper reports the disagreement as seed dependence, with the counts.
+
+**R3. Shanghai replica, CV 0 and 0.75.** It replicates if coverage is lower and the shift larger at CV 0.75 than at
+CV 0; then one sentence says so. If not, it is reported as a limit on generality in Limitations. In either case, if
+coverage with exact inputs is below 80%, the near-nominal best case is stated for CGMacros only. Shanghai real-data
+counts are reported whatever they are.
+
+**R4. Pod perturbation runs (old protocol).** These ran with the 15-point grid and fixed-step solver. They are not
+reported; the converged rerun under R8 replaces them.
+
+## Stage 2: one protocol (L-BFGS-B at every point, 29-point grid, polished estimates)
+
+A note on direction: at a fixed reference value, solving the inner problem further can only lower a profile, which can
+only remove bounded intervals. The rerun also changes the estimate (polishing), the grid, and the reference, so counts
+can move either way. These are reruns, not relabels.
+
+**R5. iAUC, rates, boxes 1x, 2x, 4x.** If no interval for k_e or k_a is bounded at any width, the abstract keeps its
+statement. If any is bounded at 2x or 4x only, the abstract says "at most X of 45" and keeps the zero statement for the
+primary box. If any is bounded at the primary box, the abstract states the count and the zero statement is removed.
+
+**R6. S_I counts.** The claim stays "box-dependent" if the bounded count differs between the primary box and either wider
+box. If the three counts are equal, "box-dependent" is removed. All counts are reported.
+
+**R7. S_I replica (seeds 0 to 4) and noise variants.** Reported as they come out. The sentence that the bias is also
+present with exact carbohydrate stays only if the exact-input shift has the same sign and at least half the size of
+the shift at CV 0.25. The bias is attributed to boundary pinning only if the median shift among estimates not on a bound
+is below one third of the overall median shift in absolute value; otherwise it is listed as unexplained.
+
+**R8. Fixed-constant perturbations (p1, p2, n at 0.7 and 1.3; gamma and p3 as before).** The paper says a constant
+materially affects S_I if its perturbation moves S_I coverage by 15 percentage points or more from the unperturbed
+replica, or changes the median signed log error of S_I by 0.2 or more. If any perturbation yields a bounded k_e or k_a
+interval, the count is reported next to the claim under R5.
+
+**R9. Centroid (coordinates).** If tau1 is bounded for at least half of interior subjects, the sentence that the
+centroid did not deliver what the moment argument promises is removed and the information-limit reading is rewritten.
+Otherwise it stays, with the new count.
+
+**R10. Residual gut content (10%, and the 0%, 5%, 20% dose points).** The information-limit reading is rewritten if at
+10% both k_e and k_a are bounded for at least half of interior subjects with coverage of at least 90% (the original
+positive-control criterion). Otherwise it stays, with the new counts. If this rerun cannot be completed, the residual-gut
+argument is cut rather than labelled.
+
+**R11. Dalla Man generator.** Bounded counts, coverage of the pseudo-true tau1 and coverage of the generator's value are
+reported. "No interval covers the generator's value" stays only if the count is zero; otherwise the count is given. The
+sentence that intervals fall short about the estimator's own target stays only if pseudo-true coverage among bounded
+intervals is below 90%. The Dalla Man model fitted to real data under iAUC is rerun if the code allows it; otherwise its
+claim is cut.
+
+**R12. Exact-domain results** are deleted whatever any rerun would show.
+
+## Stage 3: experiments that can change claims
+
+**R13. Regression calibration on the random-truth replica (seeds 0 and 1, CV 0.25 and 0.75).** The calibrated carbohydrate
+value is E[X | W] under a lognormal model for the true load X, with the mean and variance of log X estimated per subject
+from the logged loads W and the error CV taken as known (variance of log X floored at 1e-4). Intervals are not otherwise
+corrected. The attenuation account is called **supported** if, at CV 0.75 on both seeds, calibration removes at least half
+of the absolute shift and recovers at least half of the coverage lost relative to exact inputs. In any other case the paper
+says the mechanism was not established, and reports the counts. Knowing the CV makes this a best case for the remedy, and
+the paper says so.
+
+**R14. Isolated meals** (more than 4 h since the previous logged meal; 6 h as a second cut; subjects keep at least 10
+meals). Overlap is called material if any k_e or k_a iAUC interval becomes bounded, or if the share of interior subjects
+with a bounded trace tau1 interval differs by 15 percentage points or more from the same subjects with all meals.
+Otherwise one sentence reports that the result did not depend on it.
+
+**R15. Subject-specific basal glucose.** Same criterion as R14, against the 90 mg/dL runs, for CGMacros and Shanghai.
+
+**R16. Sensor lag in the Bergman fit.** Run only if it needs a small code change. If run, the change in the Dalla Man
+bias is reported. If not run, it is stated as a limitation.
+
+## Reporting rules
+
+**R17. The 0.99 ratio.** "Floor" is renamed "true-parameter reference", because a fit can absorb input error through S_I
+and so can beat the true parameters. A bootstrap interval is reported with the ratio.
+
+**R18. Rank correlation** is shown as a function of CV, and no recommendation to rank subjects is made for real data.
