@@ -452,6 +452,10 @@ class Supervisor:
 
 # --- entry point ---------------------------------------------------------------------------------
 
+def exit_code(state: dict) -> int:
+    """0 only when every unit has a result. A unit left claimed by a dead run is as unfinished as a failed one."""
+    return 0 if len(state["done"]) == state["total"] and not state["failed"] else 1
+
 def _overrides(pairs: list[str]) -> dict:
     out = {}
     for pair in pairs or []:
@@ -541,8 +545,11 @@ def main() -> None:
         print(f"  tracebacks in {analysis_dir(module.ANALYSIS_ID, config)}")
     if state["pending"]:
         print(f"  {len(state['pending'])} still pending — re-run the same command to resume")
+    if state["claimed"]:
+        print(f"  INCOMPLETE: {len(state['claimed'])} units are held by claim files from another or a dead run. If no "
+              f"other run is active, re-run with --restart to clear them.")
     print("=" * 78)
-    sys.exit(1 if state["failed"] else 0)
+    sys.exit(exit_code(state))
 
 
 if __name__ == "__main__":

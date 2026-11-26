@@ -8,9 +8,8 @@ R26  coordinate profiles with the converged inner solver (L-BFGS-B at every grid
      (replica truth: fitted or random; carbohydrate error) and coordinate, the metrics of `coverage_metrics`;
      bounded counts among interior subjects and overall; and the same on the real CGMacros data.
      Every sweep of the pod split is read: both truths at every seed that was run, the Shanghai and standardized-meal
-     cohorts, and (R30) the iAUC replicas whose generator has one fixed constant multiplied by 1.3 or 0.7. A sweep is
-     summarised only when every subject of its cohort has a result; a partial sweep is listed as incomplete and writes
-     no macro.
+     cohorts. The run stops if any sweep of the completeness manifest is missing a unit. `--draft` instead writes macros
+     for the complete sweeps only, lists the others, and marks the macro file as a draft.
 R27  the pseudo-true tau1 of the Bergman-type fit to noise-free Dalla Man output (A28): its bias against the Dalla Man mean
      appearance time, coverage of the pseudo-true value by the A27 intervals, and rank agreement.
 R28  the Fisher spectrum recomputed at a solver tolerance of 1e-8 for all 45 subjects (A17 with n_subjects = 45).
@@ -20,6 +19,7 @@ Run:  python -m evaluation.phase21_summary
 """
 from __future__ import annotations
 
+import argparse
 import json
 import math
 from functools import lru_cache
@@ -27,7 +27,7 @@ from functools import lru_cache
 import numpy as np
 
 from evaluation import coverage_metrics as cm
-from evaluation import profile_lik
+from evaluation import manifest, profile_lik
 from evaluation.identifiability_tools import CHI2_DELTA
 from evaluation.recalibration import _rows
 from evaluation.results_io import RESULTS, ROOT
@@ -38,10 +38,6 @@ CV_WORD = {0.0: "Zero", 0.1: "Tenth", 0.25: "Quarter", 0.5: "Half", 0.75: "Three
 INTERIOR = 0.01          # fraction of the box width, the paper's definition of an interior estimate
 SEEDS = (0, 1, 2)
 SEED_WORD = {0: "", 1: "SeedOne", 2: "SeedTwo"}   # seed 0 keeps the short macro names
-PERTURB = (("Base", None),
-           ("GeUp", {"glucose_effectiveness": 1.3}), ("GeDown", {"glucose_effectiveness": 0.7}),
-           ("XdUp", {"x_decay": 1.3}), ("XdDown", {"x_decay": 0.7}),
-           ("ClUp", {"insulin_clearance": 1.3}), ("ClDown", {"insulin_clearance": 0.7}))
 
 
 def _config(replica: dict | None, **extra) -> dict:
@@ -119,33 +115,6 @@ def cohorts() -> dict:
     return out
 
 
-def perturbations() -> dict:
-    """R30: iAUC profiles on replicas whose generator has one fixed constant changed (the fit keeps the population value)."""
-    from evaluation.phase15_summary import _covered_of_bounded
-    from evaluation.recalibration import bounded_among_interior, coverage_at
-
-    out = {}
-    for tag, perturb in PERTURB:
-        replica = {"seed": 0, "cgm": True, "carb_cv": 0.25}
-        if perturb:
-            replica["perturb"] = perturb
-        config = {**profile_lik.default_config(), "objective": "iauc", "bounds_scale": 1.0, "replica": replica}
-        rows, expected = _complete(config)
-        if len(rows) != expected:
-            out[tag] = {"n": 0, "found": len(rows), "expected": expected}
-            continue
-        rates = {k: sum(r["profiles"][k]["classification"]["verdict"] == "identifiable" for r in rows)
-                 for k in ("gastric_emptying", "carb_absorption")}
-        signed = [math.log(r["theta_ml"]["insulin_sensitivity"] / r["replica_truth"]["theta_true"]["insulin_sensitivity"])
-                  for r in rows]
-        out[tag] = {"n": len(rows), "expected": expected,
-                    "si_bounded_interior": bounded_among_interior(rows, "insulin_sensitivity", CHI2_DELTA),
-                    "si_coverage": coverage_at(rows, "insulin_sensitivity", CHI2_DELTA),
-                    "si_covered_of_bounded": _covered_of_bounded(rows, "insulin_sensitivity"),
-                    "rate_bounded": rates, "si_median_signed_log_error": float(np.median(signed))}
-    return out
-
-
 def pseudo_true() -> dict:
     path = RESULTS / "phase20_amendment16" / "a28_dm_pseudo_true.json"
     if not path.exists():
@@ -189,8 +158,7 @@ def numerics() -> dict:
 
 
 def summarize() -> dict:
-    return {"r26": settings(), "r26_cohorts": cohorts(), "r27": pseudo_true(), "r28": numerics(), "r29": box_four(),
-            "r30": perturbations()}
+    return {"r26": settings(), "r26_cohorts": cohorts(), "r27": pseudo_true(), "r28": numerics(), "r29": box_four()}
 
 
 def _put(m: dict, name: str, value, fmt: str) -> None:
@@ -267,22 +235,6 @@ def macros(d: dict) -> dict:
     for tag, setting in d["r26_cohorts"].items():
         if setting.get("n"):
             _sweep_macros(m, tag, setting)
-    for tag, block in d["r30"].items():
-        if not block.get("n"):
-            continue
-        pre = f"resPb{tag}"
-        _put(m, pre + "N", block["n"], "d")
-        inner = block["si_bounded_interior"]
-        _put(m, pre + "SIBd", inner.get("bounded"), "d")
-        _put(m, pre + "SIInt", inner.get("n"), "d")
-        if inner.get("fraction") is not None:
-            _put(m, pre + "SIBdPct", 100 * inner["fraction"], ".0f")
-        cover = block["si_coverage"].get("fraction")
-        if cover is not None:
-            _put(m, pre + "SICoverPct", 100 * cover, ".0f")
-        _put(m, pre + "KeBd", block["rate_bounded"]["gastric_emptying"], "d")
-        _put(m, pre + "KaBd", block["rate_bounded"]["carb_absorption"], "d")
-        _put(m, pre + "SIBias", block["si_median_signed_log_error"], ".2f")
     pt = d["r27"]
     if pt.get("n"):
         for k, name, fmt in (("n", "N", "d"), ("bounded", "Bounded", "d"), ("bounded_covers_pseudo", "CoversPseudo", "d"),
@@ -308,15 +260,21 @@ def macros(d: dict) -> dict:
     return m
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--draft", action="store_true", help="allow incomplete sweeps (no macros are written for them)")
+    args = ap.parse_args(argv)
+    if not args.draft:
+        manifest.require(manifest.phase21_sweeps())
     d = summarize()
-    for group in ("r26", "r26_cohorts", "r30"):
+    for group in ("r26", "r26_cohorts"):
         for key, block in d[group].items():
             if not block.get("n") and block.get("found"):
                 print(f"incomplete, no macros: {group} {key}: {block['found']}/{block['expected']}")
     OUT.write_text(json.dumps(d, indent=2, default=float), encoding="utf-8")
     m = macros(d)
-    lines = ["% Generated by evaluation/phase21_summary.py from results/phase21_summary.json -- DO NOT EDIT.", ""]
+    lines = ["% Generated by evaluation/phase21_summary.py from results/phase21_summary.json -- DO NOT EDIT."]
+    lines += ["% DRAFT: built with --draft; at least one sweep may be incomplete.", ""] if args.draft else [""]
     lines += [f"\\providecommand{{\\{k}}}{{{v}}}" for k, v in sorted(m.items())]
     MACROS.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {OUT} and {len(m)} macros")

@@ -107,3 +107,11 @@ bias is reported. If not run, it is stated as a limitation.
 and so can beat the true parameters. A bootstrap interval is reported with the ratio.
 
 **R18. Rank correlation** is shown as a function of CV, and no recommendation to rank subjects is made for real data.
+
+## Recorded changes
+
+- 26 November 2026, before any Stage 2 sweep was run or inspected (applies to R5 to R10): Stage 2 profile grids stop at
+  the edge of the box (`extension_points` 0). Earlier iAUC runs added six points beyond the upper bound for k_e and k_a,
+  and the reference value of the in-box interval was taken over those points too. With the extension a lower value
+  outside the box can change the in-box class. This is a tightening of the protocol, not of any outcome rule. One
+  solver-health test of one subject was run before this note; it printed solver status and run time, no class.

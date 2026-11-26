@@ -300,3 +300,13 @@ def test_a_stale_claim_is_reclaimed(tmp_path, monkeypatch):
     old = path.stat().st_mtime - 7200
     os.utime(path, (old, old))
     assert runner.try_claim(selftest.ANALYSIS_ID, config, "u000", 1, stale_after=3600) is True
+
+
+def test_exit_code_fails_when_units_are_left_unfinished():
+    """A sweep whose remaining units are claimed by a dead run once exited 0 with 'done 23/45, 0 failed'."""
+    from evaluation.runner import exit_code
+    done = {"done": ["a", "b"], "failed": [], "claimed": [], "pending": [], "total": 2}
+    assert exit_code(done) == 0
+    assert exit_code({**done, "done": ["a"], "claimed": ["b"]}) == 1
+    assert exit_code({**done, "done": ["a"], "pending": ["b"]}) == 1
+    assert exit_code({**done, "done": ["a"], "failed": ["b"]}) == 1
