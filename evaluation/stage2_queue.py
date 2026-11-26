@@ -1,4 +1,5 @@
-"""Run one pod's share of the Stage 2 reruns. The sweep definitions live in `evaluation.manifest.stage2_sweeps`.
+"""Run one pod's share of the reruns under the one converged protocol: the trace sweeps and the Stage 2 reruns of
+the earlier old-protocol results. The sweep definitions live in `evaluation.manifest`.
 
 Each sweep is run with `--restart`, which clears claim and failure files left by an interrupted run (one runner per pod
 at a time). Finished units are kept, so after a disconnect the same command resumes. A sweep that does not finish is
@@ -19,18 +20,28 @@ import time
 from pathlib import Path
 
 from evaluation import profile_lik
-from evaluation.manifest import PERTURBED, stage2_sweeps
+from evaluation.manifest import PERTURBED, phase21_sweeps, stage2_sweeps
 from evaluation.results_io import ROOT
 
-# Three pods with about equal numbers of subject-profiles; within a pod, what the abstract rests on comes first.
+# Three pods with about equal expected time (an iAUC rate profile costs about twice a trace one). Within a pod, what
+# the abstract rests on comes first.
+_TRACE_FIRST = ["real", "rand0.0_s0", "rand0.0_s1", "rand0.75_s0", "rand0.75_s1", "rand0.25_s0", "rand0.25_s1",
+                "fit0.0_s0", "fit0.25_s0", "fit0.75_s0", "fit0.5_s0", "fit0.1_s0"]
 PODS = {
-    1: ["iauc_box1", "iauc_box4", "iauc_box2", "iauc_shanghai_box1", "iauc_shanghai_box2", "iauc_hall_box1",
-        "iauc_hall_box2", "centroid_real", "centroid_rep", "iauc_synth_s0", "iauc_synth_s1"],
-    2: [f"iauc_rep_s{seed}" for seed in range(5)] + ["iauc_rep_exact", "iauc_rep_noise0.5", "iauc_rep_noise0.25"]
-       + [f"iauc_pert_{c}_{f:g}" for c in ("insulin_secretion", "x_gain") for f in (0.7, 1.3)],
-    3: [f"iauc_pert_{c}_{f:g}" for c in PERTURBED[:3] for f in (0.7, 1.3)]
-       + ["residual0.1_s0", "residual0_s0", "residual0.05_s0", "residual0.2_s0", "residual0.1_s1"],
+    1: _TRACE_FIRST + ["hall_real", "shanghai_real", "shanghai_rep0.0", "shanghai_rep0.75",
+                       "fit0.0_s1", "fit0.75_s1", "fit0.0_s2", "fit0.75_s2", "centroid_real", "centroid_rep",
+                       "residual0.1_s0", "residual0_s0", "residual0.05_s0", "residual0.2_s0", "residual0.1_s1"],
+    2: ["iauc_box1", "iauc_box4", "iauc_box2"] + [f"iauc_rep_s{seed}" for seed in range(5)]
+       + ["iauc_shanghai_box1", "iauc_shanghai_box2", "iauc_hall_box1", "iauc_hall_box2"],
+    3: ["iauc_synth_s0", "iauc_synth_s1", "iauc_rep_exact", "iauc_rep_noise0.5", "iauc_rep_noise0.25"]
+       + [f"iauc_pert_{c}_{f:g}" for c in PERTURBED for f in (0.7, 1.3)],
 }
+
+
+def all_sweeps() -> dict[str, dict]:
+    return {**phase21_sweeps(), **stage2_sweeps()}
+
+
 UNIT_TIMEOUT = 7200
 
 
@@ -60,7 +71,7 @@ def main(argv=None) -> int:
     ap.add_argument("--drive", default="/content/drive/MyDrive", help="copy the archive here if the folder exists")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
-    sweeps = stage2_sweeps()
+    sweeps = all_sweeps()
     environment = {**os.environ, "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
     unfinished = []
     for number, name in enumerate(PODS[args.pod], start=1):

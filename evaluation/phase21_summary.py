@@ -41,8 +41,7 @@ SEED_WORD = {0: "", 1: "SeedOne", 2: "SeedTwo"}   # seed 0 keeps the short macro
 
 
 def _config(replica: dict | None, **extra) -> dict:
-    return {**profile_lik.default_config(), "bounds_scale": 1.0, "objective": "trace", "parameterization": "coords",
-            "polish": True, "grid_points": 29, "inner_solver": "lbfgsb", "replica": replica, **extra}
+    return manifest.converged(replica, **extra)
 
 
 @lru_cache(maxsize=None)

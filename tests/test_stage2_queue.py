@@ -2,23 +2,25 @@
 import json
 
 from evaluation import profile_lik, stage2_queue
-from evaluation.manifest import stage2_sweeps
+from evaluation.manifest import phase21_sweeps, stage2_sweeps
 
 
-def test_every_sweep_uses_the_converged_protocol():
-    for name, config in stage2_sweeps().items():
-        assert config["inner_solver"] == "lbfgsb", name
+def test_every_sweep_uses_the_one_converged_protocol():
+    for name, config in stage2_queue.all_sweeps().items():
+        assert config["inner_solver"] == "lbfgsb" and config["lbfgsb_restarts"] == 2, name
         assert config["grid_points"] == 29 and config["polish"] is True, name
-        assert config["extension_points"] == 0 and config["lbfgsb_restarts"] == 2, name
+    for name, config in stage2_sweeps().items():
+        assert config["extension_points"] == 0, name
 
 
 def test_pods_partition_the_sweeps():
     queued = [name for names in stage2_queue.PODS.values() for name in names]
-    assert sorted(queued) == sorted(stage2_sweeps())
+    assert sorted(queued) == sorted(stage2_queue.all_sweeps())
+    assert len(stage2_queue.all_sweeps()) == len(phase21_sweeps()) + len(stage2_sweeps()), "a name is used twice"
 
 
 def test_runner_arguments_rebuild_the_exact_configuration():
-    for name, config in stage2_sweeps().items():
+    for name, config in stage2_queue.all_sweeps().items():
         rebuilt = profile_lik.default_config()
         args = stage2_queue.runner_args(config, workers=8)
         for flag, value in zip(args, args[1:]):

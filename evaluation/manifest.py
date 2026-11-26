@@ -27,7 +27,8 @@ class IncompleteSweep(RuntimeError):
 def converged(replica: dict | None, **extra) -> dict:
     """The trace-coordinate profile configuration of the converged protocol."""
     return {**profile_lik.default_config(), "bounds_scale": 1.0, "objective": "trace", "parameterization": "coords",
-            "polish": True, "grid_points": 29, "inner_solver": "lbfgsb", "replica": replica, **extra}
+            "polish": True, "grid_points": 29, "inner_solver": "lbfgsb", "lbfgsb_restarts": 2, "replica": replica,
+            **extra}
 
 
 def phase21_sweeps() -> dict[str, dict]:
@@ -53,7 +54,7 @@ def _stage2(objective: str, replica: dict | None = None, parameterization: str =
     """A rate-coordinate (or centroid, or residual-gut) profile under the converged protocol. The grid stops at the box:
     points beyond it would lower the reference value that the in-box interval is read against."""
     return {**converged(replica), "objective": objective, "parameterization": parameterization, "extension_points": 0,
-            "lbfgsb_restarts": 2, **extra}
+            **extra}
 
 
 PERTURBED = ("glucose_effectiveness", "x_decay", "insulin_clearance", "insulin_secretion", "x_gain")

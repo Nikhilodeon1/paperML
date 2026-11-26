@@ -126,3 +126,19 @@ and so can beat the true parameters. A bootstrap interval is reported with the r
   also solved from two other starting points and the lowest value kept (`lbfgsb_restarts` = 2). On one test subject all
   39 such points had stopped on a failed line search; restarting in place gained nothing, and another start lowered one
   point by 0.31. The solver test printed solver status and loss differences only.
+
+- **The trace sweeps are rerun too (recorded 26 November 2026, before the rerun).** The solver test found that the problem
+  is not specific to iAUC: on one unit of a trace sweep already run without restarts, 3 flagged points could be lowered
+  by up to 0.94 by an independent method, and with restarts none remained. So every number of Section 5.4 is replaced by
+  the rerun with `lbfgsb_restarts` = 2, whatever it shows. The trace results seen so far (including the R1 outcome
+  above) came from the solver without restarts; R1 to R3 are applied again to the rerun. The fitted-truth runs of seeds
+  1 and 2 and the Shanghai runs without restarts are not used for any claim.
+
+**R19. Statements of Section 5.4, applied to the rerun.**
+"With exact inputs the intervals are close to nominal" stays if the `tau1` interval covers the truth in at least 41 of 45
+subjects on both random-truth seeds; otherwise the counts are stated without that phrase. "Coverage falls with logging
+error on every truth set" stays if coverage at CV 0.75 is below coverage with exact inputs on every truth set run.
+"Without widening the intervals" stays if the median log width at CV 0.75 is not larger than with exact inputs on both
+random-truth seeds. "A bounded count moves in opposite directions" stays if bounded `tau1` counts rise from CV 0 to 0.25
+on fitted truths (seed 0) and fall from CV 0 to 0.75 on both random-truth seeds. The ordering statement stays if rank
+correlation at CV 0.75 is at least 0.6 on both random-truth seeds.
