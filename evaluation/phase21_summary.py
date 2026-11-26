@@ -7,6 +7,10 @@ R26  coordinate profiles with the converged inner solver (L-BFGS-B at every grid
      estimates, hull coordinates (log S_I, log tau1, log p), real-pole projection respecting the fixed coordinate. Per setting
      (replica truth: fitted or random; carbohydrate error) and coordinate, the metrics of `coverage_metrics`;
      bounded counts among interior subjects and overall; and the same on the real CGMacros data.
+     Every sweep of the pod split is read: both truths at every seed that was run, the Shanghai and standardized-meal
+     cohorts, and (R30) the iAUC replicas whose generator has one fixed constant multiplied by 1.3 or 0.7. A sweep is
+     summarised only when every subject of its cohort has a result; a partial sweep is listed as incomplete and writes
+     no macro.
 R27  the pseudo-true tau1 of the Bergman-type fit to noise-free Dalla Man output (A28): its bias against the Dalla Man mean
      appearance time, coverage of the pseudo-true value by the A27 intervals, and rank agreement.
 R28  the Fisher spectrum recomputed at a solver tolerance of 1e-8 for all 45 subjects (A17 with n_subjects = 45).
@@ -18,6 +22,7 @@ from __future__ import annotations
 
 import json
 import math
+from functools import lru_cache
 
 import numpy as np
 
@@ -31,6 +36,12 @@ OUT = RESULTS / "phase21_summary.json"
 MACROS = ROOT / "paper" / "amendment17_macros.tex"
 CV_WORD = {0.0: "Zero", 0.1: "Tenth", 0.25: "Quarter", 0.5: "Half", 0.75: "ThreeQuarter"}
 INTERIOR = 0.01          # fraction of the box width, the paper's definition of an interior estimate
+SEEDS = (0, 1, 2)
+SEED_WORD = {0: "", 1: "SeedOne", 2: "SeedTwo"}   # seed 0 keeps the short macro names
+PERTURB = (("Base", None),
+           ("GeUp", {"glucose_effectiveness": 1.3}), ("GeDown", {"glucose_effectiveness": 0.7}),
+           ("XdUp", {"x_decay": 1.3}), ("XdDown", {"x_decay": 0.7}),
+           ("ClUp", {"insulin_clearance": 1.3}), ("ClDown", {"insulin_clearance": 0.7}))
 
 
 def _config(replica: dict | None, **extra) -> dict:
@@ -38,11 +49,21 @@ def _config(replica: dict | None, **extra) -> dict:
             "polish": True, "grid_points": 29, "inner_solver": "lbfgsb", "replica": replica, **extra}
 
 
-def _setting(replica: dict | None) -> dict:
-    rows = _rows(_config(replica))
-    if not rows:
-        return {"n": 0}
-    out = {"n": len(rows)}
+@lru_cache(maxsize=None)
+def _expected(cohort: str, min_meals: int) -> int:
+    return len(profile_lik.units({**profile_lik.default_config(), "cohort": cohort, "min_meals": min_meals}))
+
+
+def _complete(config: dict) -> tuple[list[dict], int]:
+    return _rows(config), _expected(config["cohort"], config["min_meals"])
+
+
+def _setting(replica: dict | None, **extra) -> dict:
+    config = _config(replica, **extra)
+    rows, expected = _complete(config)
+    if len(rows) != expected:
+        return {"n": 0, "found": len(rows), "expected": expected}
+    out = {"n": len(rows), "expected": expected}
     for key, name in (("log_tau1", "tau1"), ("log_p", "p")):
         interior = [r for r in rows if r["distance_to_bound"][key] > INTERIOR]
         bounded_int = sum(r["profiles"][key]["classification"]["verdict"] == "identifiable" for r in interior)
@@ -50,18 +71,78 @@ def _setting(replica: dict | None) -> dict:
         block = {"interior": len(interior), "bounded_interior": int(bounded_int), "bounded_all": int(bounded_all)}
         if replica is not None:
             block.update(cm.metrics(rows, key))
+            block.update(_shift(rows, key))
         out[name] = block
     return out
+
+
+def _shift(rows: list[dict], key: str) -> dict:
+    """Where the estimate lands against the truth, where the truth sits in the box, and which side open intervals miss."""
+    from scipy.stats import spearmanr
+    error, position, open_low, open_high, estimates, truths = [], [], 0, 0, [], []
+    for r in rows:
+        entry = r["profiles"][key]
+        truth = math.log(entry["truth"])
+        lo, hi = r["box"][key]
+        error.append(r["theta_ml"][key] - truth)
+        estimates.append(r["theta_ml"][key])
+        truths.append(truth)
+        position.append((truth - lo) / (hi - lo))
+        cls = entry["classification"]
+        if cls["verdict"] == "one-sided":
+            open_low += cls.get("ci_low") is None
+            open_high += cls.get("ci_high") is None
+    return {"median_signed_error": float(np.median(error)), "median_truth_position": float(np.median(position)),
+            "open_low": int(open_low), "open_high": int(open_high),
+            "rank_rho": float(spearmanr(estimates, truths)[0])}
 
 
 def settings() -> dict:
     out = {"real": _setting(None)}
     for truth, tag in (("fit", "fit"), ("random", "rand")):
-        for cv in CV_WORD:
-            replica = {"seed": 0, "cgm": True, "carb_cv": cv}
-            if truth == "random":
-                replica["truth"] = "random"
-            out[f"{tag}_{cv}"] = _setting(replica)
+        for seed in SEEDS:
+            for cv in CV_WORD:
+                replica = {"seed": seed, "cgm": True, "carb_cv": cv}
+                if truth == "random":
+                    replica["truth"] = "random"
+                out[f"{tag}_{cv}_{seed}"] = _setting(replica)
+    return out
+
+
+def cohorts() -> dict:
+    out = {}
+    for name, tag, min_meals in (("shanghai", "Shanghai", 10), ("hall", "Hall", 5)):
+        extra = {"cohort": name, "min_meals": min_meals}
+        out[f"{tag}Real"] = _setting(None, **extra)
+    for cv in (0.0, 0.75):
+        out[f"ShanghaiFit{CV_WORD[cv]}"] = _setting({"seed": 0, "cgm": True, "carb_cv": cv}, cohort="shanghai", min_meals=10)
+    return out
+
+
+def perturbations() -> dict:
+    """R30: iAUC profiles on replicas whose generator has one fixed constant changed (the fit keeps the population value)."""
+    from evaluation.phase15_summary import _covered_of_bounded
+    from evaluation.recalibration import bounded_among_interior, coverage_at
+
+    out = {}
+    for tag, perturb in PERTURB:
+        replica = {"seed": 0, "cgm": True, "carb_cv": 0.25}
+        if perturb:
+            replica["perturb"] = perturb
+        config = {**profile_lik.default_config(), "objective": "iauc", "bounds_scale": 1.0, "replica": replica}
+        rows, expected = _complete(config)
+        if len(rows) != expected:
+            out[tag] = {"n": 0, "found": len(rows), "expected": expected}
+            continue
+        rates = {k: sum(r["profiles"][k]["classification"]["verdict"] == "identifiable" for r in rows)
+                 for k in ("gastric_emptying", "carb_absorption")}
+        signed = [math.log(r["theta_ml"]["insulin_sensitivity"] / r["replica_truth"]["theta_true"]["insulin_sensitivity"])
+                  for r in rows]
+        out[tag] = {"n": len(rows), "expected": expected,
+                    "si_bounded_interior": bounded_among_interior(rows, "insulin_sensitivity", CHI2_DELTA),
+                    "si_coverage": coverage_at(rows, "insulin_sensitivity", CHI2_DELTA),
+                    "si_covered_of_bounded": _covered_of_bounded(rows, "insulin_sensitivity"),
+                    "rate_bounded": rates, "si_median_signed_log_error": float(np.median(signed))}
     return out
 
 
@@ -108,7 +189,8 @@ def numerics() -> dict:
 
 
 def summarize() -> dict:
-    return {"r26": settings(), "r27": pseudo_true(), "r28": numerics(), "r29": box_four()}
+    return {"r26": settings(), "r26_cohorts": cohorts(), "r27": pseudo_true(), "r28": numerics(), "r29": box_four(),
+            "r30": perturbations()}
 
 
 def _put(m: dict, name: str, value, fmt: str) -> None:
@@ -125,6 +207,34 @@ def _paper_macro(name: str) -> float | None:
         return float(hit.group(1)) if hit else None
     except ValueError:
         return None
+
+
+def _sweep_macros(m: dict, word: str, setting: dict) -> None:
+    for name, tag in (("tau1", "Tau"), ("p", "P")):
+        b = setting[name]
+        pre = f"resC{word}{tag}"
+        _put(m, pre + "N", setting["n"], "d")
+        _put(m, pre + "Int", b["interior"], "d")
+        _put(m, pre + "BdInt", b["bounded_interior"], "d")
+        if b["interior"]:
+            _put(m, pre + "BdIntPct", 100 * b["bounded_interior"] / b["interior"], ".0f")
+        _put(m, pre + "Bd", b["bounded_all"], "d")
+        _put(m, pre + "BdPct", 100 * b["bounded_all"] / setting["n"], ".0f")
+        if "covers" in b:
+            _put(m, pre + "Cover", b["covers"], "d")
+            _put(m, pre + "CoverPct", 100 * b["covers"] / b["n"], ".0f")
+            _put(m, pre + "Narrow", b["narrow"], "d")
+            _put(m, pre + "NarrowCovers", b["narrow_covers"], "d")
+            if b["covers_given_narrow"] is not None:
+                _put(m, pre + "NarrowCoverPct", 100 * b["covers_given_narrow"], ".0f")
+            _put(m, pre + "Score", b["median_score"], ".2f")
+            _put(m, pre + "Width", b["median_log_width"], ".2f")
+            _put(m, pre + "BoxRange", b["box_log_range"], ".2f")
+            _put(m, pre + "Shift", b["median_signed_error"], ".2f")
+            _put(m, pre + "TruthPosPct", 100 * b["median_truth_position"], ".0f")
+            _put(m, pre + "OpenLow", b["open_low"], "d")
+            _put(m, pre + "OpenHigh", b["open_high"], "d")
+            _put(m, pre + "RankRho", b["rank_rho"], ".2f")
 
 
 def macros(d: dict) -> dict:
@@ -151,27 +261,28 @@ def macros(d: dict) -> dict:
     for key, setting in d["r26"].items():
         if key == "real" or not setting.get("n"):
             continue
-        truth, cv = key.split("_")
-        word = ("Fit" if truth == "fit" else "Rand") + CV_WORD[float(cv)]
-        for name, tag in (("tau1", "Tau"), ("p", "P")):
-            b = setting[name]
-            pre = f"resC{word}{tag}"
-            _put(m, pre + "N", setting["n"], "d")
-            _put(m, pre + "Int", b["interior"], "d")
-            _put(m, pre + "BdInt", b["bounded_interior"], "d")
-            if b["interior"]:
-                _put(m, pre + "BdIntPct", 100 * b["bounded_interior"] / b["interior"], ".0f")
-            _put(m, pre + "Bd", b["bounded_all"], "d")
-            _put(m, pre + "BdPct", 100 * b["bounded_all"] / setting["n"], ".0f")
-            if "covers" in b:
-                _put(m, pre + "CoverPct", 100 * b["covers"] / b["n"], ".0f")
-                _put(m, pre + "Narrow", b["narrow"], "d")
-                _put(m, pre + "NarrowCovers", b["narrow_covers"], "d")
-                if b["covers_given_narrow"] is not None:
-                    _put(m, pre + "NarrowCoverPct", 100 * b["covers_given_narrow"], ".0f")
-                _put(m, pre + "Score", b["median_score"], ".2f")
-                _put(m, pre + "Width", b["median_log_width"], ".2f")
-                _put(m, pre + "BoxRange", b["box_log_range"], ".2f")
+        truth, cv, seed = key.split("_")
+        word = ("Fit" if truth == "fit" else "Rand") + CV_WORD[float(cv)] + SEED_WORD[int(seed)]
+        _sweep_macros(m, word, setting)
+    for tag, setting in d["r26_cohorts"].items():
+        if setting.get("n"):
+            _sweep_macros(m, tag, setting)
+    for tag, block in d["r30"].items():
+        if not block.get("n"):
+            continue
+        pre = f"resPb{tag}"
+        _put(m, pre + "N", block["n"], "d")
+        inner = block["si_bounded_interior"]
+        _put(m, pre + "SIBd", inner.get("bounded"), "d")
+        _put(m, pre + "SIInt", inner.get("n"), "d")
+        if inner.get("fraction") is not None:
+            _put(m, pre + "SIBdPct", 100 * inner["fraction"], ".0f")
+        cover = block["si_coverage"].get("fraction")
+        if cover is not None:
+            _put(m, pre + "SICoverPct", 100 * cover, ".0f")
+        _put(m, pre + "KeBd", block["rate_bounded"]["gastric_emptying"], "d")
+        _put(m, pre + "KaBd", block["rate_bounded"]["carb_absorption"], "d")
+        _put(m, pre + "SIBias", block["si_median_signed_log_error"], ".2f")
     pt = d["r27"]
     if pt.get("n"):
         for k, name, fmt in (("n", "N", "d"), ("bounded", "Bounded", "d"), ("bounded_covers_pseudo", "CoversPseudo", "d"),
@@ -199,6 +310,10 @@ def macros(d: dict) -> dict:
 
 def main() -> int:
     d = summarize()
+    for group in ("r26", "r26_cohorts", "r30"):
+        for key, block in d[group].items():
+            if not block.get("n") and block.get("found"):
+                print(f"incomplete, no macros: {group} {key}: {block['found']}/{block['expected']}")
     OUT.write_text(json.dumps(d, indent=2, default=float), encoding="utf-8")
     m = macros(d)
     lines = ["% Generated by evaluation/phase21_summary.py from results/phase21_summary.json -- DO NOT EDIT.", ""]

@@ -690,7 +690,48 @@ def fig10_prediction_vs_parameters():
     return _save(fig, "f10_prediction_vs_parameters")
 
 
-ALL = {"f1": fig1_symmetry, "f2": fig2_fisher, "f3": fig3_profiles, "f4": fig4_replica, "f5": fig5_coordinates,
+def fig11_cv_sweep():
+    sweeps = _load("phase21_summary.json").get("r26", {})
+    series = (("rand", 0, "random truths, seed 0", C["iauc"], "o", "-"),
+              ("rand", 1, "random truths, seed 1", C["sky"], "s", "--"),
+              ("fit", 0, "fitted truths, seed 0", C["red"], "^", ":"))
+    if not sweeps.get("rand_0.0_0", {}).get("n"):
+        return None
+    plt = _plt()
+    fig, axes = plt.subplots(2, 3, figsize=(6.6, 3.9), sharex=True)
+    panels = (("covers", "intervals covering\nthe truth (%)"), ("bounded_all", "bounded intervals (%)"),
+              ("median_signed_error", "median signed\nlog error"))
+    for row, (coord, name) in enumerate((("tau1", r"$\tau_1$"), ("p", r"$p$"))):
+        for col, (field, ylabel) in enumerate(panels):
+            ax = axes[row][col]
+            for truth, seed, label, color, marker, line in series:
+                points = []
+                for cv in (0.0, 0.1, 0.25, 0.5, 0.75):
+                    block = sweeps.get(f"{truth}_{cv}_{seed}", {})
+                    if block.get("n"):
+                        value = block[coord][field]
+                        points.append((cv, value if field == "median_signed_error" else 100 * value / block["n"]))
+                if points:
+                    x, y = zip(*points)
+                    ax.plot(x, y, color=color, marker=marker, ls=line, ms=3.8, label=label)
+            if field == "median_signed_error":
+                ax.axhline(0, color=C["grey"], lw=0.7)
+            else:
+                ax.set_ylim(0, 105)
+            if field == "covers":
+                ax.axhline(95, color=C["grey"], lw=0.7, ls="--")
+            ax.set_ylabel(f"{name}: {ylabel}", fontsize=7.5)
+            ax.set_xticks([0.0, 0.25, 0.5, 0.75])
+            if row == 1:
+                ax.set_xlabel("logging error (CV)")
+            _panel(ax, "abcdef"[3 * row + col])
+    handles, labels = axes[0][0].get_legend_handles_labels()
+    fig.legend(handles, labels, frameon=False, loc="lower center", ncol=3, fontsize=7.5, bbox_to_anchor=(0.5, -0.04))
+    fig.tight_layout(w_pad=2.0)
+    return _save(fig, "f11_cv_sweep")
+
+
+ALL = {"f11": fig11_cv_sweep, "f1": fig1_symmetry, "f2": fig2_fisher, "f3": fig3_profiles, "f4": fig4_replica, "f5": fig5_coordinates,
        "f6": fig6_cohorts, "f7": fig7_prediction, "f8": fig8_window, "f9": fig9_leakage,
        "f10": fig10_prediction_vs_parameters,
        "a1": figA1_gut_and_boxes, "a2": figA2_generic_rank, "a3": figA3_dalla_man, "a4": figA4_robustness}

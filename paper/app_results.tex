@@ -342,9 +342,10 @@ true-model replica, polished.}
 \subsection{Numerical sensitivity of the profiles}
 \label{apx:numerics}
 
-The profiles of Section~\ref{sec:more} are read on a $15$-point grid, with a fixed-step inner solver (Adam, $100$
-steps from the estimate) for the other two coordinates. We checked each of these choices, because the bounded fractions and the
-coverage are read off the grid.
+The trace profiles of Section~\ref{sec:more} use a $29$-point grid with every point solved to convergence.
+The exact-domain, centroid, residual-gut, and Dalla Man profiles ran under an earlier protocol: a $15$-point grid and a
+fixed-step inner solver (Adam, $100$ steps from the estimate) for the other two coordinates.
+This subsection reports the checks on that protocol, which show where it can be relied on.
 
 \paragraph{Inner budget.}
 Table~\ref{tab:inner} compares the profiles at $100$ and $500$ inner steps (same estimates, same grids). A grid point is flagged

@@ -1,10 +1,8 @@
-Parameters of mechanistic simulators fitted to wearable data are often read as physiology, and held-out prediction is the usual justification.
-We ask what the incremental area under the glucose curve (iAUC) and the full continuous glucose monitoring (CGM) trace after a meal determine about insulin sensitivity ($\SI$), gastric emptying ($\ke$) and carbohydrate absorption ($\ka$) in a differentiable Bergman-type simulator.
-We use three cohorts (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{} subjects) and simulated controls with known truth.
-Under iAUC, no profile-likelihood interval for $\ke$ or $\ka$ is bounded at any window from $60$ to $180$\,min, and the interval for $\SI$ is bounded for \resProfileIaucSIInteriorFracOne\% of subjects with an interior estimate at the primary parameter box (\resSeedsSIBounded\% when the model is exactly true).
-Held-out iAUC error does not reveal this. On random-truth replicas, fits whose gut rates are pinned to deliberately wrong box corners, with $\SI$ refitted, stay within \resNegZeroSlowRefitIauc{} to \resPvpRandomZeroRatio{} times the error of the true model, whereas held-out peak-time and trace errors do rise.
-The full trace bounds a symmetric combination of the two rates, the sum $\tau_1$ and the product $p$ of their reciprocals, for \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of interior CGMacros subjects, and for \resExactDRealTauIntPct\% when the search is confined to the exactly feasible rate region.
-Boundedness is not calibration, however.
-On replicas, a $25\%$ carbohydrate logging error raises the bounded share from \resExactDZeroTauIntPct\% to \resExactDQuarterTauIntPct\% while nominal coverage falls from \resExactDZeroTauCovNom\% to \resExactDQuarterTauCovNom\%, and a meal-clustered sandwich correction restores it only in part.
-Traces generated from a nonlinear Dalla Man model give bounded Bergman intervals for \resMisspecTauPct\% of subjects that cover the true mean appearance time in \resMisspecCovDm\% of them, although they preserve the order of subjects (Spearman $\rho=\resMisspecRhoDm$).
-For these models, targets and cohorts, neither held-out accuracy nor a bounded profile shows that a fitted parameter measures physiology.
+Fitted parameters of a mechanistic glucose simulator are easy to read as physiology, and accurate prediction of held-out meals seems to support that reading.
+We test it on a differentiable Bergman-type simulator that personalizes insulin sensitivity ($\SI$), gastric emptying ($\ke$), and carbohydrate absorption ($\ka$) from continuous glucose monitoring (CGM) after meals, using three cohorts and simulations with known truth.
+When the target is the area under the postprandial curve, no profile-likelihood interval for $\ke$ or $\ka$ is bounded.
+Held-out area error does not show this: on simulated subjects, fits with both rates pinned to wrong extremes stay within a factor of \resNegZeroFastRefitIauc{} of the error of the true model.
+With exact inputs, the full trace recovers two combinations of the rates, and intervals for the summed transit time $\tau_1$ contain the truth in \resCRandZeroTauCover{} of \resCRandZeroTauN{} simulated subjects.
+Carbohydrate logging error shifts the estimates toward slower absorption without widening the intervals; at a coefficient of variation of $0.75$, only \resCRandThreeQuarterTauCover{} of \resCRandThreeQuarterTauN{} contain the truth.
+The same shift raises or lowers the number of bounded intervals, depending on where the truths lie.
+Subject ordering degrades less than coverage, so in these simulations $\hat\tau_1$ is better suited to ranking subjects than to measuring timing.

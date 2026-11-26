@@ -22,8 +22,10 @@ from evaluation.results_io import ROOT
 
 PAPER = ROOT / "paper"
 USED = re.compile(r"\\(res[A-Za-z]+)")
-DEFINED = re.compile(r"\\newcommand\{\\(res[A-Za-z]+)\}")
-GENERATED = ("results_macros.tex", "pending_macros.tex", "spec_table.tex", "preamble_defs.tex", "amendment16_macros.tex")
+DEFINED = re.compile(r"\\(?:new|provide)command\{\\(res[A-Za-z]+)\}")
+GENERATED = ("results_macros.tex", "pending_macros.tex", "spec_table.tex", "preamble_defs.tex", "amendment16_macros.tex",
+             "amendment17_macros.tex")
+DEFINING = ("results_macros.tex", "amendment16_macros.tex", "amendment17_macros.tex")
 
 
 def manuscript_files() -> list:
@@ -32,9 +34,9 @@ def manuscript_files() -> list:
 
 def pending_macros() -> list[str]:
     defined = set()
-    macros = PAPER / "results_macros.tex"
-    if macros.exists():
-        defined = set(DEFINED.findall(macros.read_text(encoding="utf-8")))
+    for name in DEFINING:
+        if (PAPER / name).exists():
+            defined |= set(DEFINED.findall((PAPER / name).read_text(encoding="utf-8")))
     used = set()
     for path in manuscript_files():
         for line in path.read_text(encoding="utf-8").splitlines():

@@ -10,7 +10,7 @@ Everything below is exploratory except the ten hypotheses of Table~\ref{tab:plan
 At the primary box and a $180$\,min window, the Fisher information of $(\log\SI,\log\ke,\log\ka)$ has median eigenvalues \resEigMedianOne, \resEigMedianTwo, and \resEigMedianThree: one direction is essentially null and a second is weak.
 The weakest eigenvector of the timing block lies along the exchange tangent $(1/\ka,-1/\ke)$ with a median $|\cos|$ of \resCosineIaucOne, and every subject of all three cohorts exceeds $0.8$ (Figure~\ref{fig:symmetry}b).
 The alignment is not specific to iAUC, since it is also found under the full trace (\resCosineTraceOne); what iAUC changes is the size of the smallest eigenvalue.
-Recomputing the spectrum at a solver tolerance of $10^{-8}$ for all \resTolN{} subjects changes the eigenvalues by a median of \resTolMedianRelChange\% (largest change \resTolMaxRelChange\%, in subjects whose smallest eigenvalue is numerically zero) and keeps the cosine above \resTolMinCosine.
+Recomputing the spectrum at a solver tolerance of $10^{-8}$ for all \resTolN{} subjects changes the eigenvalues by a median of \resTolMedianRelChange\% (largest change \resTolMaxRelChange\%) and keeps the cosine above \resTolMinCosine.
 
 Table~\ref{tab:box} counts bounded profile intervals for the three parameters under iAUC at three box widths.
 No interval for $\ke$ or $\ka$ is bounded at any width.
@@ -53,7 +53,7 @@ The count depends on the prior range: it is \resBoxTwoSIBdAllCount{} of \resBoxT
 On the true-model replica, with the subject's own noise and a $25\%$ carbohydrate error, the interval is bounded for \resSeedsSIBounded\% of interior subjects pooled over five seeds (\resSeedsSIBoundedCount{} of \resSeedsSIInterior{}, subject-clustered interval \resClustSILow--\resClustSIHigh\%) and never for $\ke$ or $\ka$.
 With true values drawn at random through the box the bounded share falls with the true $\SI$ (\resSynthTercileSILow\%, \resSynthTercileSIMid\% and \resSynthTercileSIHigh\% across terciles of $90$ subjects), because the response saturates (Figure~\ref{fig:replica}).
 Halving or quartering the replica noise raises the share on seed $0$ from \resNoiseOneIaucSI\% to \resNoiseHalfIaucSI\% and \resNoiseQuarterIaucSI\%.
-The estimate is also biased downward on the unperturbed replica (median signed log error \resPertBaseBias), and the bias is the same without carbohydrate error (\resExactSIBias, with \resExactSIPinned{} of \resExactSIN{} estimates on a bound), so it comes from the box and not from the logging error.
+The estimate is also biased downward on the unperturbed replica (median signed log error \resPertBaseBias), and the bias is the same without carbohydrate error (\resExactSIBias, with \resExactSIPinned{} of \resExactSIN{} estimates on a bound), so the logging error does not cause it.
 
 The fixed constants matter in a way the interval cannot show.
 Insulin secretion $\gamma$ and the action gain $p_3$ enter the glucose equations only through the product $\gamma\,p_3\,\SI$, so $\hat\SI$ estimates that product and not an isolated sensitivity; multiplying either constant by $0.7$ in the replica truth leaves the interval no less often bounded (\resPertGammaDownSIBounded\% against \resPertBaseSIBounded\%) while the interval covers the truth for only \resPertGammaDownSICover\% of subjects.
@@ -128,6 +128,6 @@ That is close to definitional, because Bergman's $\tau_1$ is not the Dalla Man a
 Under misspecification a maximum-likelihood fit converges to a pseudo-true value, which we obtained by fitting the Bergman model to the noise-free Dalla Man output.
 That value has a median of \resPtMedianPseudo{}\,min against \resPtMedianDm{}\,min for $\tau_{1,\mathrm{DM}}$, a model bias of \resPtBias{}\,min (\resPtBiasTd{}\,min if the sensor lag is added), and all \resPtTied{} pseudo-true fits sit at equal rates $\ke=\ka$.
 The estimator itself lands within \resPtAbsGap{}\,min of its pseudo-true value, but the intervals are narrow (median log width \resPtWidth) and cover it in \resPtCoversPseudo{} of the \resPtBounded{} bounded cases.
-The two failures are separate: the model biases the target by tens of minutes, and the profile interval is too narrow for the estimator even about its own target.
+So there are two shortfalls: the model biases the target by tens of minutes, and in this run the intervals also cover the estimator's own target well below the nominal rate.
 Subject order is preserved (Spearman $\rho$ of \resPtRhoEstPseudo{} between estimate and pseudo-true value, \resMisspecRhoDm{} against $\tau_{1,\mathrm{DM}}$), so $\hat\tau_1$ can rank subjects when it cannot measure timing.
 These intervals come from the exact-domain profiles of the earlier protocol (a $15$-point grid), so the coverage of the pseudo-true value is probably understated; a Bergman variant with sensor lag and a free $p_2$, a Dalla Man-on-Dalla-Man replica and a second generator distribution were not run.

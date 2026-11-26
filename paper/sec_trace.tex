@@ -1,0 +1,110 @@
+\subsection{The full trace bounds \texorpdfstring{$\tau_1$ and $p$}{tau1 and p}, and logging error moves the intervals off the truth}
+\label{sec:more}
+
+The exchange symmetry leaves $\tau_1=1/\ke+1/\ka$ and $p=1/(\ke\ka)$ unchanged, so we fit the trace in $(\log\SI,\log\tau_1,\log p)$.
+The search region is the smallest rectangle in these coordinates that contains the primary box.
+Where $p>\tau_1^2/4$ no real rates exist, and the fit projects onto the equal-rate boundary while holding any profiled coordinate fixed.
+Estimates are polished by multi-start L-BFGS-B, and every point of a $29$-point profile grid is solved to convergence with the same optimizer.
+A coarser grid with a fixed number of optimizer steps, which we used first, overstates the excess likelihood at the truth and therefore understates coverage (Appendix~\ref{apx:numerics}).
+
+On real CGMacros traces the interval for $\tau_1$ is bounded in \resCRealNTauBd{} of \resCRealNTauInt{} interior subjects, and the interval for $p$ in \resCRealNPBd{} of \resCRealNPInt{} (Table~\ref{tab:coords}).
+By comparison, the iAUC with the excursion centroid bounded $\tau_1$ in only \resCoordsBoundedTauCentroid\% of interior subjects, although the centroid carries the first moment of the gut input (that run used the coarser protocol; Appendix~\ref{apx:more}).
+These counts say that the likelihood closes inside the search region.
+They do not say that the interval contains the right value, which only a simulation with known truth can test.
+
+\begin{table}[tbp]
+\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{3}{c}{$\tau_1$} & \multicolumn{3}{c}{$p$} \\
+cohort, real traces & interior & bounded, interior & bounded, all & interior & bounded, interior & bounded, all \\
+\midrule
+CGMacros ($n=\resCRealN$) & \resCRealNTauInt & \resCRealNTauBd & \resCRealNTauBdAll & \resCRealNPInt & \resCRealNPBd & \resCRealNPBdAll \\
+Shanghai ($n=\resCohortShanghaiSubjects$) & \resCShanghaiRealTauInt & \resCShanghaiRealTauBdInt & \resCShanghaiRealTauBd & \resCShanghaiRealPInt & \resCShanghaiRealPBdInt & \resCShanghaiRealPBd \\
+standardized meal ($n=\resCohortHallSubjects$) & \resCHallRealTauInt & \resCHallRealTauBdInt & \resCHallRealTauBd & \resCHallRealPInt & \resCHallRealPBdInt & \resCHallRealPBd \\
+\bottomrule
+\end{tabular}
+\caption{Subjects whose $95\%$ profile interval for $\tau_1$ or $p$ is bounded under the full trace, with converged profiles. An estimate is interior when it lies more than $1\%$ of the search range from both edges. The standardized-meal cohort has fewer than $10$ interior estimates for $\tau_1$, so we read its counts and not a fraction.}
+\label{tab:coords}
+\end{table}
+
+\paragraph{With exact inputs the intervals are close to nominal.}
+In the replicas the truth is known and the fitted model is the one that generated the data.
+We use two sets of truths: random draws through the box, with two seeds, and each subject's fitted values.
+With exact carbohydrate and the subject's own estimated sensor noise, the $\tau_1$ interval contains the truth in \resCRandZeroTauCover{} of \resCRandZeroTauN{} subjects on random-truth seed~$0$ (seed~$1$: \resCRandZeroSeedOneTauCover), and the $p$ interval in \resCRandZeroPCover{} (seed~$1$: \resCRandZeroSeedOnePCover).
+Many of these intervals are informative.
+For $\tau_1$, \resCRandZeroTauNarrow{} (seed~$0$) and \resCRandZeroSeedOneTauNarrow{} (seed~$1$) are bounded and narrower than $0.5$ log units, and \resCRandZeroTauNarrowCovers{} and \resCRandZeroSeedOneTauNarrowCovers{} of those contain the truth (Table~\ref{tab:cvsweep}).
+So the trace can identify the two combinations when the simulator and its inputs are right.
+
+\paragraph{Logging error lowers coverage without widening the intervals.}
+We then give the estimator carbohydrate values multiplied by lognormal noise with unit mean.
+As its coefficient of variation (CV) grows, coverage falls on every truth set (Figure~\ref{fig:cvsweep}).
+At a CV of $0.25$ the effect is visible for $\tau_1$ and small for $p$.
+At $0.75$ most intervals for $\tau_1$ miss: \resCRandThreeQuarterTauCover{} and \resCRandThreeQuarterSeedOneTauCover{} of \resCRandThreeQuarterTauN{} contain the truth.
+The estimate moves toward slower absorption.
+The median signed log error of $\tau_1$ on seed~$0$ rises from \resCRandZeroTauShift{} with exact carbohydrate to \resCRandQuarterTauShift{} at $0.25$ and \resCRandThreeQuarterTauShift{} at $0.75$, where it reaches \resCRandThreeQuarterSeedOneTauShift{} on seed~$1$.
+The median interval width does not grow to match; it is \resCRandZeroTauWidth{} log units with exact carbohydrate and \resCRandThreeQuarterTauWidth{} at $0.75$.
+At the larger error the typical shift therefore exceeds half the typical width.
+The likelihood treats the logged load as exact, so the interval reflects sensor noise and has no term for the input error.
+We have not established why the shift is toward slower absorption.
+
+The order of subjects survives better than the coverage does.
+On seed~$0$ the rank correlation between estimated and true $\tau_1$ is \resCRandZeroTauRankRho{} with exact carbohydrate, \resCRandQuarterTauRankRho{} at a CV of $0.25$, and \resCRandThreeQuarterTauRankRho{} at $0.75$, and on seed~$1$ it is \resCRandZeroSeedOneTauRankRho, \resCRandQuarterSeedOneTauRankRho, and \resCRandThreeQuarterSeedOneTauRankRho.
+With fitted truths, which are bunched near one edge, it is lower even with exact inputs (\resCFitZeroTauRankRho).
+
+\begin{table}[tbp]
+\centering\footnotesize\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{llrrrrr}
+\toprule
+truths & CV & covers truth & narrow: covers / all & bounded & signed error & width \\
+\midrule
+\multicolumn{7}{l}{$\tau_1$} \\
+random, seed $0$ & $0$ & \resCRandZeroTauCover & \resCRandZeroTauNarrowCovers{} / \resCRandZeroTauNarrow & \resCRandZeroTauBd & \resCRandZeroTauShift & \resCRandZeroTauWidth \\
+ & $0.25$ & \resCRandQuarterTauCover & \resCRandQuarterTauNarrowCovers{} / \resCRandQuarterTauNarrow & \resCRandQuarterTauBd & \resCRandQuarterTauShift & \resCRandQuarterTauWidth \\
+ & $0.75$ & \resCRandThreeQuarterTauCover & \resCRandThreeQuarterTauNarrowCovers{} / \resCRandThreeQuarterTauNarrow & \resCRandThreeQuarterTauBd & \resCRandThreeQuarterTauShift & \resCRandThreeQuarterTauWidth \\
+random, seed $1$ & $0$ & \resCRandZeroSeedOneTauCover & \resCRandZeroSeedOneTauNarrowCovers{} / \resCRandZeroSeedOneTauNarrow & \resCRandZeroSeedOneTauBd & \resCRandZeroSeedOneTauShift & \resCRandZeroSeedOneTauWidth \\
+ & $0.25$ & \resCRandQuarterSeedOneTauCover & \resCRandQuarterSeedOneTauNarrowCovers{} / \resCRandQuarterSeedOneTauNarrow & \resCRandQuarterSeedOneTauBd & \resCRandQuarterSeedOneTauShift & \resCRandQuarterSeedOneTauWidth \\
+ & $0.75$ & \resCRandThreeQuarterSeedOneTauCover & \resCRandThreeQuarterSeedOneTauNarrowCovers{} / \resCRandThreeQuarterSeedOneTauNarrow & \resCRandThreeQuarterSeedOneTauBd & \resCRandThreeQuarterSeedOneTauShift & \resCRandThreeQuarterSeedOneTauWidth \\
+fitted, seed $0$ & $0$ & \resCFitZeroTauCover & \resCFitZeroTauNarrowCovers{} / \resCFitZeroTauNarrow & \resCFitZeroTauBd & \resCFitZeroTauShift & \resCFitZeroTauWidth \\
+ & $0.25$ & \resCFitQuarterTauCover & \resCFitQuarterTauNarrowCovers{} / \resCFitQuarterTauNarrow & \resCFitQuarterTauBd & \resCFitQuarterTauShift & \resCFitQuarterTauWidth \\
+ & $0.75$ & \resCFitThreeQuarterTauCover & \resCFitThreeQuarterTauNarrowCovers{} / \resCFitThreeQuarterTauNarrow & \resCFitThreeQuarterTauBd & \resCFitThreeQuarterTauShift & \resCFitThreeQuarterTauWidth \\
+\midrule
+\multicolumn{7}{l}{$p$} \\
+random, seed $0$ & $0$ & \resCRandZeroPCover & \resCRandZeroPNarrowCovers{} / \resCRandZeroPNarrow & \resCRandZeroPBd & \resCRandZeroPShift & \resCRandZeroPWidth \\
+ & $0.25$ & \resCRandQuarterPCover & \resCRandQuarterPNarrowCovers{} / \resCRandQuarterPNarrow & \resCRandQuarterPBd & \resCRandQuarterPShift & \resCRandQuarterPWidth \\
+ & $0.75$ & \resCRandThreeQuarterPCover & \resCRandThreeQuarterPNarrowCovers{} / \resCRandThreeQuarterPNarrow & \resCRandThreeQuarterPBd & \resCRandThreeQuarterPShift & \resCRandThreeQuarterPWidth \\
+random, seed $1$ & $0$ & \resCRandZeroSeedOnePCover & \resCRandZeroSeedOnePNarrowCovers{} / \resCRandZeroSeedOnePNarrow & \resCRandZeroSeedOnePBd & \resCRandZeroSeedOnePShift & \resCRandZeroSeedOnePWidth \\
+ & $0.25$ & \resCRandQuarterSeedOnePCover & \resCRandQuarterSeedOnePNarrowCovers{} / \resCRandQuarterSeedOnePNarrow & \resCRandQuarterSeedOnePBd & \resCRandQuarterSeedOnePShift & \resCRandQuarterSeedOnePWidth \\
+ & $0.75$ & \resCRandThreeQuarterSeedOnePCover & \resCRandThreeQuarterSeedOnePNarrowCovers{} / \resCRandThreeQuarterSeedOnePNarrow & \resCRandThreeQuarterSeedOnePBd & \resCRandThreeQuarterSeedOnePShift & \resCRandThreeQuarterSeedOnePWidth \\
+fitted, seed $0$ & $0$ & \resCFitZeroPCover & \resCFitZeroPNarrowCovers{} / \resCFitZeroPNarrow & \resCFitZeroPBd & \resCFitZeroPShift & \resCFitZeroPWidth \\
+ & $0.25$ & \resCFitQuarterPCover & \resCFitQuarterPNarrowCovers{} / \resCFitQuarterPNarrow & \resCFitQuarterPBd & \resCFitQuarterPShift & \resCFitQuarterPWidth \\
+ & $0.75$ & \resCFitThreeQuarterPCover & \resCFitThreeQuarterPNarrowCovers{} / \resCFitThreeQuarterPNarrow & \resCFitThreeQuarterPBd & \resCFitThreeQuarterPShift & \resCFitThreeQuarterPWidth \\
+\bottomrule
+\end{tabular}
+\caption{Trace profiles on replicas of the \resCRandZeroTauN{} CGMacros subjects, by coefficient of variation (CV) of the carbohydrate logging error. ``Covers truth'' counts all subjects whose $95\%$ interval, clipped to the search range, contains the truth. ``Narrow'' intervals are bounded and at most $0.5$ log units wide (the search range spans \resCRandZeroTauBoxRange{} for $\tau_1$ and \resCRandZeroPBoxRange{} for $p$). ``Signed error'' is the median of log estimate minus log truth over all subjects, and ``width'' is the median log width of all clipped intervals. Coverage falls and the signed error rises with the error.}
+\label{tab:cvsweep}
+\end{table}
+
+\begin{figure}[tbp]
+\centering
+\safefigure[width=\linewidth]{f11_cv_sweep}
+\caption{Trace profiles for $\tau_1$ (top) and $p$ (bottom) against the coefficient of variation of the carbohydrate logging error. \textbf{(a, d)} Share of intervals that contain the truth (dashed: $95\%$). \textbf{(b, e)} Share of bounded intervals. \textbf{(c, f)} Median signed log error of the estimate. Coverage falls on all three truth sets, whereas the bounded share falls with random truths and rises with fitted truths.}
+\label{fig:cvsweep}
+\end{figure}
+
+\paragraph{A bounded interval is not a sign of better data.}
+The number of bounded intervals responds to the same error in opposite directions.
+With random truths it falls for $\tau_1$, from \resCRandZeroTauBd{} subjects with exact carbohydrate to \resCRandThreeQuarterTauBd{} at a CV of $0.75$ on seed~$0$.
+With fitted truths it rises, from \resCFitZeroTauBd{} to \resCFitQuarterTauBd{} between exact carbohydrate and $0.25$.
+The difference lies in where the truths are.
+The fitted truths of $\tau_1$ sit at a median of \resCFitZeroTauTruthPosPct\% of the search range above its lower edge, and the random truths at \resCRandZeroTauTruthPosPct\%.
+Near the edge, \resCFitZeroTauOpenLow{} intervals are open on the lower side with exact carbohydrate.
+The shift toward larger $\tau_1$ carries estimates away from that edge, and only \resCFitQuarterTauOpenLow{} remain open below at $0.25$.
+In the middle of the range the same shift moves estimates toward the upper edge, where the number of intervals open above grows from \resCRandZeroTauOpenHigh{} to \resCRandThreeQuarterTauOpenHigh.
+Hence the bounded count on real data cannot be turned into a statement about the size of the logging error, and a noisier input can produce more bounded intervals with fewer correct ones.
+
+\paragraph{Breaking the symmetry by design.}
+If the exchange symmetry alone kept $\ke$ and $\ka$ unbounded, a known residue in the gut should bound them (Proposition~\ref{prop:breaking}).
+We added a residue of $10\%$ of each meal, equal in the truth and in the fit, to a random-truth replica with exact carbohydrate.
+The interval is then bounded for $\ke$ in \resResTenKeBoundedCount{} of \resResTenKeBoundedN{} interior subjects and for $\ka$ in \resResTenKaBoundedCount{} of \resResTenKaBoundedN.
+This control ran only under the coarser protocol (Appendix~\ref{apx:phase13}), so we read it as a direction and not as a calibrated count: removing the symmetry helps a few subjects, and most rates stay unbounded at this noise level.

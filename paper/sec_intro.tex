@@ -1,22 +1,30 @@
 \section{Introduction}
 \label{sec:intro}
 
-A glucose digital twin can tell a user that their insulin sensitivity is low or their gastric emptying is slow.
-Such statements rest on parameters of a mechanistic simulator fitted to continuous glucose monitoring (CGM) records and meal logs, usually justified by held-out predictive accuracy.
-Predictive fit, however, does not guarantee parameter identification.
-When an observation constrains only a combination of parameters, the optimizer still returns individual point estimates, whose split reflects initialization and box bounds rather than physiology.
+A glucose digital twin can report that a user has low insulin sensitivity or slow gastric emptying.
+Such a report treats parameters of a mechanistic simulator, fitted to continuous glucose monitoring (CGM) traces and meal logs, as measurements of that person.
+A natural check on a fitted twin is whether it predicts meals it has not seen.
+That check constrains whatever combination of parameters drives the prediction.
+It need not constrain each parameter, because an optimizer returns a value for every parameter whether or not the data determine it.
 
-Identifiability analysis separates what the data constrain from what the estimator supplies \citep[see][for reviews]{cobelli1980parameter,miao2011identifiability,villaverde2016structural}.
-Related ambiguities are classical in pharmacokinetics and clinical metabolic modeling, including flip-flop kinetics in oral absorption \citep{boxenbaum1998flipflop,yanez2011flipflop}, zero insulin sensitivity estimates in minimal-model fits \citep{pillonetto2002minimal}, and recent practical-identifiability studies on clinical oral glucose tolerance tests with plasma insulin \citep{erdos2024leveraging}.
-Here we study the free-living regime in which consumer digital twins operate: self-logged meals, continuous glucose monitoring (CGM) without plasma insulin, and an end-to-end differentiable Bergman-type simulator \citep{kidger2021diffrax,bradbury2018jax} evaluated under both incremental area under the curve (iAUC) and full postprandial traces.
+Identifiability analysis separates what the data determine from what the estimator supplies \citep[see][for reviews]{cobelli1980parameter,miao2011identifiability,villaverde2016structural}.
+The ambiguities in question have long histories: flip-flop kinetics in oral absorption \citep{boxenbaum1998flipflop,yanez2011flipflop} and zero estimates of insulin sensitivity in minimal-model fits \citep{pillonetto2002minimal}.
+The closest recent study we know calibrates personalized models on oral glucose tolerance tests with CGM and plasma insulin, and reports better practical identifiability with CGM than with venous glucose \citep{erdos2024leveraging}.
+Our setting differs in what is observed and in how the answer is checked.
+The meals are free-living and self-logged, there is no insulin measurement, and every identifiability claim is tested against simulations whose true parameters we know.
 
-We ask which of insulin sensitivity $\SI$, gastric emptying $\ke$, and carbohydrate absorption $\ka$ are constrained by free-living CGM data, how identification depends on target, window, box, noise, and input error, and whether held-out prediction exposes poorly recovered parameters.
-To separate target limitations from model misfit, we pair three public cohorts with a \emph{true-model replica}, a random-truth synthetic study, and a Dalla Man $\to$ Bergman misspecified-generator control.
-Throughout, we distinguish three levels of evidence: (i) \emph{observed likelihood boundedness} (whether a profile interval closes inside the parameter domain), (ii) \emph{conditional simulation calibration} (whether intervals cover known truth under specified noise, input-error, and model assumptions), and (iii) \emph{real physiological identification} (whether fitted parameters measure human physiology, which observational CGM logs alone do not establish).
+We study a Bergman-type simulator, implemented in JAX with differentiable ODE solvers \citep{bradbury2018jax,kidger2021diffrax}, with three personalized parameters: insulin sensitivity $\SI$, gastric emptying $\ke$, and carbohydrate absorption $\ka$.
+We ask which of them are determined by two targets, the incremental area under the glucose curve (iAUC) and the full postprandial trace, and whether held-out prediction reveals the ones that are not.
+We keep apart two things that are easy to merge.
+A profile-likelihood interval is \emph{bounded} when the likelihood closes it inside the search range.
+It is \emph{calibrated} when intervals of that kind contain the true value as often as they claim to, which only data with known truth can show.
+Neither one establishes that a parameter fitted to real CGM data measures physiology.
 
-We make three main contributions:
+Our contributions are the following.
 \begin{enumerate}
-\item \textbf{Observable-dependent identifiability and moment structure.} Moment analysis of the two-compartment gut explains why finite-window area weakly constrains the transit-time-preserving tangent direction, while an empty gut adds a discrete exchange symmetry (Section~\ref{sec:theory}). Empirically, zero profile intervals for $\ke$ or $\ka$ are bounded under iAUC across three cohorts, $60$--$180$\,min windows, and a nonlinear Dalla Man model (Sections~\ref{sec:timing} and~\ref{sec:dm}), whereas $\SI$ is bounded only for a box-dependent minority (\resProfileIaucSIInteriorFracOne\% of interior CGMacros subjects at the primary box) and identifies a lumped gain $\gamma p_3 \SI$ conditional on fixed constants (Section~\ref{sec:si}).
-\item \textbf{Held-out prediction conceals severe parameter error.} Across CGMacros and Shanghai cross-validation, fitting $(\ke,\ka)$ matches fitting $\SI$ alone within $\pm 150$\,mg\,dL$^{-1}$\,min. On random-truth replicas, both three-parameter fits and an adversarial control pinning $(\ke,\ka)$ to opposite box corners (with $\SI$ refitted) stay within \resNegZeroSlowRefitIauc--\resPvpRandomZeroRatio{} times the oracle iAUC floor, whereas held-out peak-time and full-trace errors expose the timing failure (Section~\ref{sec:prediction}).
-\item \textbf{Identifiability diagnostics are fragile to input error and structural misspecification.} Full-trace profiles achieve high likelihood boundedness for symmetric combinations $(\tau_1, p)$ even when restricted strictly to the original feasible rate domain $\mathcal{D}$ (\resExactDRealTauIntPct\% of interior CGMacros subjects; Section~\ref{sec:more}). Yet strictly inside $\mathcal{D}$, carbohydrate logging error shifts the estimates upward and off the lower box wall, which coincides with more bounded profiles and much lower coverage (only partially repaired by meal-clustered sandwich scaling). Even with exact carbohydrates, generating traces from a nonlinear Dalla Man model yields \resMisspecTauPct\% bounded Bergman intervals with \resMisspecCovDm\% absolute coverage of true mean appearance times despite preserving cross-subject rank order (Section~\ref{sec:dm}).
+\item \textbf{The area does not determine the gut rates, and held-out area error does not show it.} No interval for $\ke$ or $\ka$ is bounded at windows from $60$ to $180$\,min or in search ranges up to four times the primary one. On simulated subjects, fits with both rates pinned to wrong extremes and $\SI$ refitted stay within a factor of \resNegZeroFastRefitIauc{} of the error of the true model. Of the other held-out targets we tried, only the time of the glucose peak separates them from the fitted twin, and only in part (Sections~\ref{sec:timing} and~\ref{sec:prediction}).
+\item \textbf{The full trace can recover two rate combinations, and carbohydrate logging error takes that away.} With exact inputs, intervals for $\tau_1=1/\ke+1/\ka$ and $p=1/(\ke\ka)$ are close to nominal. Logging error moves the estimates without widening the intervals. Because the same shift can close intervals or open them, a count of bounded intervals does not indicate which data are better (Section~\ref{sec:more}).
+\item \textbf{A different gut model moves the target itself.} When a Dalla Man model generates the data, the value of $\tau_1$ that the Bergman model converges to without noise differs from the generator's mean appearance time by a median of \resPtBias{}\,min. The order of subjects is largely preserved nonetheless (Section~\ref{sec:dm}).
 \end{enumerate}
+Ten hypotheses were fixed before any analysis, and Table~\ref{tab:plan} reports all of them.
+Most results above come from analyses added later, which we treat as exploratory.

@@ -2,23 +2,27 @@
 \label{sec:related}
 
 \paragraph{Identifiability and profile likelihood.}
-Structural identifiability concerns unique parameter recovery from noise-free trajectories, whereas practical identifiability concerns finite, noisy data \citep{bellman1970structural,rothenberg1971identification,chis2011structural,wieland2021structural}.
-Profile likelihood diagnoses both structural and practical non-identifiability \citep{raue2009structural} and can be paired with Fisher subset selection to locate identifiable combinations \citep{eisenberg2014determining}.
-The multi-decade eigenvalue spread in Section~\ref{sec:timing} mirrors sloppy parameter spectra in systems biology \citep{brown2003statistical,gutenkunst2007universally}.
-For symbolic analysis, software packages include SIAN \citep{hong2019sian} and StructuralIdentifiability.jl \citep{dong2023differential}; we run the latter.
-Recent work also inverts non-identifiable hemodynamic models with neural networks \citep{tong2025invaert}.
-We extend these diagnostic tools with matched ground-truth controls (true-model replicas and random-truth studies) to test directly whether bounded profile intervals on real data are calibrated under input error.
+Structural identifiability asks whether parameters can be recovered from noise-free outputs, and practical identifiability asks the same of finite, noisy data \citep{bellman1970structural,rothenberg1971identification,chis2011structural,wieland2021structural}.
+Profile likelihood diagnoses both \citep{raue2009structural}, and combined with Fisher-information subset selection it locates identifiable parameter combinations \citep{eisenberg2014determining}.
+Wide eigenvalue spectra like the one in Section~\ref{sec:timing} are the signature of sloppy models in systems biology \citep{brown2003statistical,gutenkunst2007universally}.
+Symbolic tools include SIAN \citep{hong2019sian} and StructuralIdentifiability.jl \citep{dong2023differential}; we run the latter.
+Recent work also studies non-identifiable hemodynamic models by neural inversion \citep{tong2025invaert}.
+To these diagnostics we add simulations with known truth, which test whether a bounded interval is also a calibrated one.
 
-\paragraph{Glucose--insulin modeling and CGM prediction.}
-The minimal model estimates insulin sensitivity from intravenous glucose decay \citep{bergman1979,bergman1981}, where nonlinear least squares frequently returns zero $\SI$ in type~$2$ diabetes \citep{pillonetto2002minimal}.
-Meal simulators add multi-compartment gastrointestinal dynamics \citep{dallaman2007,dallaman2014uva,cobelli2009diabetes}.
-\citet{erdos2024leveraging} evaluated practical identifiability of personalized models calibrated on clinical oral glucose tolerance tests with CGM and plasma insulin, finding improved identifiability with CGM relative to venous samples.
-We instead evaluate free-living self-logged meals without plasma insulin under iAUC and full-trace targets.
-Data-driven models predict postprandial responses from meal logs and subject features \citep{zeevi2015personalized,berry2020human}, and GlucoBench standardizes CGM forecasting datasets \citep{sergazinov2024glucobench}; because they do not infer physiological parameters, parameter identifiability is specific to mechanistic digital twins.
+\paragraph{Glucose models and personalization.}
+The minimal model estimates insulin sensitivity from intravenous glucose data \citep{bergman1979,bergman1981}; for meals, see also the oral glucose minimal model \citep{dallaman2002oral}.
+Bayesian estimation has been proposed as a remedy for the zero-sensitivity estimates that least squares can return in type~$2$ diabetes \citep{pillonetto2002minimal}.
+Meal simulators add gastrointestinal dynamics with several compartments \citep{dallaman2007,dallaman2014uva,cobelli2009diabetes}.
+\citet{erdos2024leveraging} examine practical identifiability during an oral glucose tolerance test with plasma insulin; we have free-living meals and no insulin.
+For data assimilation applied to personalized glucose forecasting, see \citet{albers2017personalized}.
 
-\paragraph{Differentiable simulation, SBI, and digital twins.}
-Differentiable ODE solvers in JAX and Diffrax \citep{bradbury2018jax,kidger2021diffrax} support gradient-based biophysical calibration \citep{jaxley2025}, alongside probabilistic ODE filtering \citep{kersting2020differentiable}, diffusion tempering for ODE problems with many local minima \citep{beck2024diffusion}, and neural-operator surrogates \citep{liu2026ino}.
-In simulation-based inference (SBI), neural density estimators learn amortized posteriors \citep{greenberg2019automatic,tejerocantero2020sbi}, recent work diagnoses simulation-to-reality misspecification \citep{ward2022robust,schmitt2023detecting}, and simulation-based calibration checks posterior validity \citep{talts2018sbc}.
-Our replica plays an analogous validation role for frequentist profile intervals.
-For diabetes and medical digital twins, \citet{hoang2025t1dsbi} apply neural posterior estimation, \citet{tran2026physioseq2seq} pair matched physiological twins with sequence models, \citet{li2026glucofm} pretrain a CGM foundation model, \citet{kuang2024medreal2sim} infer twin parameters via physics-informed self-supervised learning, and \citet{pan2026hipno} quotient out scale symmetries in hemodynamic operators.
-Our focus is complementary: auditing whether free-living postprandial CGM data identify individual parameters of a fitted mechanistic twin and whether held-out prediction exposes non-identifiability.
+\paragraph{Input error and misspecification.}
+In our setting the carbohydrate content of a meal is an input that the user estimates; on the accuracy of carbohydrate counting, see \citet{brazeau2013carbohydrate}.
+For a measurement-error remedy, simulation-extrapolation, see \citet{cook1994simulation}, and for maximum likelihood under a misspecified model, see \citet{white1982maximum}.
+In simulation-based inference \citep{greenberg2019automatic,tejerocantero2020sbi}, recent work studies and detects gaps between simulator and data \citep{ward2022robust,schmitt2023detecting}, and simulation-based calibration checks the validity of posterior computations \citep{talts2018sbc}.
+Our replicas play a similar role for frequentist profile intervals.
+
+\paragraph{Digital twins and glucose prediction.}
+\citet{hoang2025t1dsbi} apply neural posterior estimation to a type~$1$ diabetes twin, and \citet{kuang2024medreal2sim} infer the parameters of a medical twin from noninvasive data with physics-informed self-supervised learning.
+Data-driven models predict postprandial responses from meals and subject features \citep{zeevi2015personalized,berry2020human}, and GlucoBench collects CGM forecasting benchmarks \citep{sergazinov2024glucobench}.
+Our question applies where a model's parameters are reported as quantities about a person: whether the data determine them, and whether predictive accuracy would show that they do not.

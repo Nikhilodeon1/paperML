@@ -31,32 +31,6 @@ For the polished trace coordinates pooled over seeds~$0$--$2$, $\tau_1$ is bound
 that ignore the clustering are \resClustSINaiveLow\ to \resClustSINaiveHigh\%, \resClustTauNaiveLow\ to
 \resClustTauNaiveHigh\%, and \resClustPNaiveLow\ to \resClustPNaiveHigh\%.
 
-\paragraph{Carbohydrate-error sweep.}
-Table~\ref{tab:cvsweepfull} extends Table~\ref{tab:cvsweep} with the coverage of the bounded intervals. The bounded fraction rises and the share of subjects whose
-nominal interval contains the truth falls as the error grows; among the bounded intervals the coverage is lower still.
-
-\begin{table}[tbp]
-\centering\footnotesize
-\begin{tabular}{lrrrrrr}
-\toprule
- & \multicolumn{2}{c}{bounded (\%)} & \multicolumn{2}{c}{covers truth (\%)} & \multicolumn{2}{c}{covers, of the bounded (\%)} \\
-logging error & $\tau_1$ & $p$ & $\tau_1$ & $p$ & $\tau_1$ & $p$ \\
-\midrule
-exact & \resCvZeroBoundedTau & \resCvZeroBoundedP & \resCvZeroCoverTau & \resCvZeroCoverP & \resCvZeroCovbdTau & \resCvZeroCovbdP \\
-$0.1$ & \resCvTenthBoundedTau & \resCvTenthBoundedP & \resCvTenthCoverTau & \resCvTenthCoverP & \resCvTenthCovbdTau & \resCvTenthCovbdP \\
-$0.25$ & \resCvQuarterBoundedTau & \resCvQuarterBoundedP & \resCvQuarterCoverTau & \resCvQuarterCoverP & \resCvQuarterCovbdTau & \resCvQuarterCovbdP \\
-$0.5$ & \resCvHalfBoundedTau & \resCvHalfBoundedP & \resCvHalfCoverTau & \resCvHalfCoverP & \resCvHalfCovbdTau & \resCvHalfCovbdP \\
-$0.75$ & \resCvThreeQuarterBoundedTau & \resCvThreeQuarterBoundedP & \resCvThreeQuarterCoverTau & \resCvThreeQuarterCoverP & \resCvThreeQuarterCovbdTau & \resCvThreeQuarterCovbdP \\
-\midrule
-real data & \resPolishedBoundedTauTrace & \resPolishedBoundedPTrace & --- & --- & --- & --- \\
-\bottomrule
-\end{tabular}
-\caption{Polished trace coordinate profiles on replica seed~$0$, by coefficient of variation of the carbohydrate
-logging error, among subjects interior for the parameter. ``Covers truth'' is over all \resPvpFitTruthN{} subjects;
-``covers, of the bounded'' is the share of the bounded intervals that contain the truth. The truth is unknown for real data.}
-\label{tab:cvsweepfull}
-\end{table}
-
 \paragraph{The positive control for the gut rates.}
 Table~\ref{tab:posctrl} gives the bounded fraction among interior subjects and the coverage of the nominal interval for
 $\SI$, $\ke$, and $\ka$ on the random-truth replica with exact carbohydrate and a known residual gut content (H29,
