@@ -115,3 +115,14 @@ and so can beat the true parameters. A bootstrap interval is reported with the r
   and the reference value of the in-box interval was taken over those points too. With the extension a lower value
   outside the box can change the in-box class. This is a tightening of the protocol, not of any outcome rule. One
   solver-health test of one subject was run before this note; it printed solver status and run time, no class.
+
+## Outcomes
+
+- **R1 (applied 26 November 2026; sweep complete, 45/45).** The shift of `tau1` at CV 0.75 is 0.187, larger than 0.064 at
+  CV 0.25: **the two-direction account stands.** Coverage at CV 0.75 is 6 of 45 against 44 of 45 with exact inputs, so
+  "coverage falls on every truth set" stays. Fitted truths, seed 0, CV 0 / 0.1 / 0.25 / 0.5 / 0.75: coverage 44, 43, 32,
+  15, 6; bounded 6, 13, 22, 28, 28; shift 0.016, 0.030, 0.064, 0.126, 0.187.
+- A solver change was recorded before any Stage 2 sweep ran: a grid point where L-BFGS-B stops without success is now
+  also solved from two other starting points and the lowest value kept (`lbfgsb_restarts` = 2). On one test subject all
+  39 such points had stopped on a failed line search; restarting in place gained nothing, and another start lowered one
+  point by 0.31. The solver test printed solver status and loss differences only.

@@ -53,7 +53,7 @@ def _stage2(objective: str, replica: dict | None = None, parameterization: str =
     """A rate-coordinate (or centroid, or residual-gut) profile under the converged protocol. The grid stops at the box:
     points beyond it would lower the reference value that the in-box interval is read against."""
     return {**converged(replica), "objective": objective, "parameterization": parameterization, "extension_points": 0,
-            **extra}
+            "lbfgsb_restarts": 2, **extra}
 
 
 PERTURBED = ("glucose_effectiveness", "x_decay", "insulin_clearance", "insulin_secretion", "x_gain")

@@ -9,7 +9,7 @@ def test_every_sweep_uses_the_converged_protocol():
     for name, config in stage2_sweeps().items():
         assert config["inner_solver"] == "lbfgsb", name
         assert config["grid_points"] == 29 and config["polish"] is True, name
-        assert config["extension_points"] == 0, name
+        assert config["extension_points"] == 0 and config["lbfgsb_restarts"] == 2, name
 
 
 def test_pods_partition_the_sweeps():

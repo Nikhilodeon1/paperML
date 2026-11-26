@@ -72,8 +72,13 @@ def fixed_coordinate_minimum(value_and_grad, free_index, start, index: int, valu
     return {"loss": float(result.fun), "theta": theta, "converged": bool(result.success), "iterations": int(result.nit)}
 
 
-def profile_lbfgsb(loss_fn, phi_hat, index: int, grid, lower, upper, project=None, maxiter: int = 200) -> dict:
-    """Profile over `grid` (log coordinates) with a converged inner solve; the same keys as `profile_likelihood`."""
+def profile_lbfgsb(loss_fn, phi_hat, index: int, grid, lower, upper, project=None, maxiter: int = 200,
+                   restarts: int = 0) -> dict:
+    """Profile over `grid` (log coordinates) with a converged inner solve; the same keys as `profile_likelihood`.
+
+    A point where L-BFGS-B stops without success (in practice a failed line search on the adaptive ODE solver's
+    gradient) is solved again from `restarts` points spread evenly through the box, and the lowest value is kept.
+    Restarting from where it stopped gains nothing; a different starting point can."""
     phi_hat = np.asarray(phi_hat, dtype=float)
     grid = np.asarray(grid, dtype=float)
     n = phi_hat.shape[0]
@@ -83,10 +88,18 @@ def profile_lbfgsb(loss_fn, phi_hat, index: int, grid, lower, upper, project=Non
     converged = np.zeros(len(grid), dtype=bool)
     order = np.argsort(np.abs(grid - phi_hat[index]), kind="stable")
     previous = {-1: phi_hat, +1: phi_hat}                 # the nearest solved point on each side of the estimate
+    fractions = [(2 * i + 1) / (2 * restarts) for i in range(restarts)]          # 2 restarts: 25% and 75%
+    low, high = np.asarray(lower, dtype=float), np.asarray(upper, dtype=float)
     for k in order:
         side = -1 if grid[k] < phi_hat[index] else +1
         out = fixed_coordinate_minimum(value_and_grad, free_index, previous[side], index, float(grid[k]), lower, upper,
                                        maxiter, project=project)
+        if not out["converged"]:
+            for fraction in fractions:
+                other = fixed_coordinate_minimum(value_and_grad, free_index, low + fraction * (high - low), index,
+                                                 float(grid[k]), lower, upper, maxiter, project=project)
+                if other["loss"] < out["loss"]:
+                    out = other
         losses[k], thetas[k], converged[k] = out["loss"], out["theta"], out["converged"]
         previous[side] = out["theta"]
     return {"index": int(index), "grid": grid.tolist(), "profile": losses.tolist(),

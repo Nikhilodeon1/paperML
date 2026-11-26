@@ -88,6 +88,8 @@ def default_config() -> dict:
         # Amendment 12: "adam" is the fixed-step inner solver of every earlier result; "lbfgsb" solves each grid point to
         # convergence (evaluation/profile_solver.py), with at most `lbfgsb_maxiter` iterations per point.
         "inner_solver": "adam",
+        # Extra starting points for a grid point where L-BFGS-B stops without success (profile_solver.profile_lbfgsb).
+        "lbfgsb_restarts": 0,
         "lbfgsb_maxiter": 200,
         # Amendment 14: "pilot" freezes the noise model at the pilot estimate (every earlier result); "final" estimates the
         # residual standard deviation and autocorrelation again at the polished estimate and profiles with those.
@@ -281,7 +283,7 @@ def _run_unit(unit: str, config: dict) -> dict:
         if config.get("inner_solver", "adam") == "lbfgsb":
             from evaluation.profile_solver import profile_lbfgsb
             raw = profile_lbfgsb(loss_fn, phi_hat, index, phi_grid, phi_lower, phi_upper, project,
-                                 int(config.get("lbfgsb_maxiter", 200)))
+                                 int(config.get("lbfgsb_maxiter", 200)), int(config.get("lbfgsb_restarts", 0)))
         else:
             raw = profile_likelihood(loss_fn, phi_hat, index, phi_grid, lower=phi_lower, upper=phi_upper,
                                      steps=config["steps"], learning_rate=config["learning_rate"],
@@ -332,6 +334,7 @@ def _run_unit(unit: str, config: dict) -> dict:
         "parameterization": parameterization, "replica": config.get("replica"),
         "carb_scale": config.get("carb_scale"), "polish": polish, "inner_steps": int(config["steps"]),
         "inner_solver": config.get("inner_solver", "adam"), "grid_points": int(config["grid_points"]),
+        "lbfgsb_restarts": int(config.get("lbfgsb_restarts", 0)),
         "noise_source": config.get("noise_source", "pilot"),
         "noise_structure": structure, "profile_only": list(only) if only else None,
         "noise": noise.as_dict(),
@@ -367,6 +370,7 @@ def _matches(payload: dict, config: dict) -> bool:
             and payload.get("parameterization", "rates") == config.get("parameterization", "rates")
             and int(payload.get("inner_steps", 100)) == int(config.get("steps", 100))
             and payload.get("inner_solver", "adam") == config.get("inner_solver", "adam")
+            and int(payload.get("lbfgsb_restarts", 0)) == int(config.get("lbfgsb_restarts", 0))
             and payload.get("noise_source", "pilot") == config.get("noise_source", "pilot")
             and int(payload.get("grid_points", 15)) == int(config.get("grid_points", 15))
             and payload.get("replica") == config.get("replica")
