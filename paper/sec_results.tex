@@ -1,287 +1,133 @@
 \section{Results}
 \label{sec:results}
 
-Fractions carry Wilson intervals and paired differences carry subject-level bootstrap intervals. Table~\ref{tab:register}
-marks which analyses were planned and which were added later; Appendix~\ref{app:results} holds the tables and figures
-omitted here.
+Proportions carry $95\%$ Wilson intervals and paired differences carry $95\%$ subject-level BCa bootstrap intervals.
+Everything below is exploratory except the ten hypotheses of Table~\ref{tab:plan}; Appendix~\ref{app:register} gives the origin of every other check, and Appendix~\ref{app:results} holds the supporting tables.
 
-\subsection{An iAUC carries little information about $\ke$ and $\ka$}
+\subsection{The gut rates are not bounded under iAUC}
 \label{sec:timing}\label{sec:structural}
 
-At the primary box we find that the Fisher information of $(\log\SI,\log\ke,\log\ka)$ under iAUC has median eigenvalues
-\resEigMedianOne, \resEigMedianTwo{} and \resEigMedianThree. One direction is essentially null and a second is weak, so
-the area carries between one and two effective dimensions of the three. The weakest eigenvector of the timing block lies
-along the exchange direction, with a median absolute cosine of \resCosineIaucOne{} against the planned threshold of
-$0.8$, and it does so in every subject of all three cohorts (Figure~\ref{fig:symmetry}b). We find no bounded profile interval for $\ke$
-or $\ka$: the fractions are \resProfileIaucKeOne\% and \resProfileIaucKaOne\% of the \resSubjectsOne{}
-CGMacros subjects at the primary box, with upper Wilson limits of \resProfileIaucKeOneHigh\% and
-\resProfileIaucKaOneHigh\%. The same holds at half and twice the box and with the grid extended to four times the upper
-bound.
+At the primary box and a $180$\,min window, the Fisher information of $(\log\SI,\log\ke,\log\ka)$ has median eigenvalues \resEigMedianOne, \resEigMedianTwo, and \resEigMedianThree: one direction is essentially null and a second is weak.
+The weakest eigenvector of the timing block lies along the exchange tangent $(1/\ka,-1/\ke)$ with a median $|\cos|$ of \resCosineIaucOne, and every subject of all three cohorts exceeds $0.8$ (Figure~\ref{fig:symmetry}b).
+The alignment is not specific to iAUC, since it is also found under the full trace (\resCosineTraceOne); what iAUC changes is the size of the smallest eigenvalue.
+Recomputing the spectrum at a solver tolerance of $10^{-8}$ for all \resTolN{} subjects changes the eigenvalues by a median of \resTolMedianRelChange\% (largest change \resTolMaxRelChange\%, in subjects whose smallest eigenvalue is numerically zero) and keeps the cosine above \resTolMinCosine.
 
-The Shanghai (\resRepShanghaiOneN{} subjects) and standardized-meal (\resRepHallOneN{} subjects) cohorts agree, but most
-of their estimates sit on a bound at the primary box. Only \resRepShanghaiOneInteriorKe{} and \resRepShanghaiOneInteriorKa{}
-Shanghai subjects and \resRepHallOneInteriorKe{} and \resRepHallOneInteriorKa{} subjects of the third cohort are interior
-for $\ke$ and $\ka$, so the replication there rests on the Fisher alignment and the flat profiles, not on interior
-fractions. The optimizer is not the cause of the pinning: the Adam estimate exceeds the best of six L-BFGS runs by at
-most \resOptGapMaxOne{} in negative log-likelihood, below the interval criterion $\delta$. Part of the pinning is an area deficit, which Appendix~\ref{apx:timing} describes.
+Table~\ref{tab:box} counts bounded profile intervals for the three parameters under iAUC at three box widths.
+No interval for $\ke$ or $\ka$ is bounded at any width.
+At the primary box only \resBoxOneKeInt{} and \resBoxOneKaInt{} subjects have an interior estimate, so that row cannot support a fraction; at twice the width the counts are \resBoxTwoKeInt{} and \resBoxTwoKaInt, and at four times \resBoxFourKeInt{} and \resBoxFourKaInt.
+A box this wide is the more informative test, because a narrow box forces most estimates onto a wall (\resPinnedFracKeOne\% of $\ke$ and \resPinnedFracKaOne\% of $\ka$ estimates at $1\times$, against \resPinnedFracKeTwo\% and \resPinnedFracKaTwo\% at $2\times$).
+Shortening the window moves estimates off the wall (\resWinProfSixtyKeInt{} and \resWinProfSixtyKaInt{} interior subjects at $60$\,min) without producing a bounded interval at $60$, $90$, $120$ or $180$\,min (Appendix~\ref{apx:more}).
+The Shanghai and standardized-meal cohorts also have no bounded interval, but with only \resRepShanghaiOneInteriorKe{} and \resRepShanghaiOneInteriorKa{} interior subjects in one and \resRepHallOneInteriorKe{} and \resRepHallOneInteriorKa{} in the other they add little.
 
-Symbolic analysis with StructuralIdentifiability.jl (Appendix~\ref{app:structural}) gives an answer that depends on the
-intestinal content at the start of a meal. With a known generic nonzero content the rates are globally identifiable, which
-is the formulation the plan specified. With the content unconstrained, which includes the empty gut that the simulator
-assumes, only the unordered pair is determined: $\ke+\ka$ and $\ke\ka$ are globally identifiable and the rates themselves
-locally. We therefore record the planned symbolic test as formulation-dependent. Proposition~\ref{prop:exchange}
-gives the empty-gut case exactly, and exchanging the rates changes simulated glucose by at most $\resGutSweepMaxZero$\,mg\,dL$^{-1}$.
-The stacked sensitivity matrix has generic rank three in \resRankFullIauc{} of \resRankDrawsIauc{} random draws, so
-under iAUC the parameters are locally identifiable but ill-conditioned.
+\begin{table}[tbp]
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{$\ke$} & \multicolumn{2}{c}{$\ka$} & \multicolumn{2}{c}{$\SI$} \\
+box & interior & bounded & interior & bounded & interior & bounded \\
+\midrule
+$1\times$ (primary) & \resBoxOneKeInt & \resBoxOneKeBdAllCount & \resBoxOneKaInt & \resBoxOneKaBdAllCount & \resBoxOneSIInt & \resBoxOneSIBdAllCount \\
+$2\times$ & \resBoxTwoKeInt & \resBoxTwoKeBdAllCount & \resBoxTwoKaInt & \resBoxTwoKaBdAllCount & \resBoxTwoSIInt & \resBoxTwoSIBdAllCount \\
+$4\times$ & \resBoxFourKeInt & \resBoxFourKeBdAllCount & \resBoxFourKaInt & \resBoxFourKaBdAllCount & \resBoxFourSIInt & \resBoxFourSIBdAllCount \\
+\bottomrule
+\end{tabular}
+\caption{Subjects with an interior estimate and subjects with a bounded $95\%$ profile interval, among the \resRealIaucN{} CGMacros subjects, under the $180$\,min iAUC at three box widths. All bounded counts are over all subjects; a bounded interval needs an interior estimate.}
+\label{tab:box}
+\end{table}
+
+Symbolic analysis with StructuralIdentifiability.jl (Appendix~\ref{app:structural}) finds $\ke$ and $\ka$ globally identifiable for a known, nonzero initial gut content and only locally identifiable when the content is unconstrained, which includes the empty gut the simulator assumes; the sum and product of the rates stay globally identifiable.
+Consecutive meals in the logs are only approximately isolated (median gap \resOverlapMedianGap{}\,h, \resOverlapWithinFour\% under $4$\,h; Appendix~\ref{apx:phase13}), so the empty-gut assumption is an approximation.
 
 \begin{figure}[tbp]
 \centering
 \safefigure[width=0.72\linewidth]{f1_symmetry}
-\caption{\textbf{(a)} Rate of gut appearance for a meal at two rate pairs related by exchange, in an empty
-gut (the curves coincide) and with $5\%$ of the meal left in the intestine (dotted; the symmetry is
-broken). This panel is analytic, not data. \textbf{(b)} Cumulative distribution over subjects of
-$1-|\cos|$ between the weakest Fisher direction of the timing block and the exchange direction
-$(1/\ka,-1/\ke)$, iAUC objective, primary box. The dashed line marks $|\cos|=0.8$; every subject of every cohort lies far
-on the near side of it.}
+\caption{\textbf{(a)} Appearance rate $R_a(t)$ for two exchanged rate pairs, in an empty gut (the curves coincide) and with $5\%$ residual intestinal content (dotted curves separate early). \textbf{(b)} Cumulative distribution of $1-|\cos|$ between the weakest timing-block Fisher eigenvector and the exchange tangent under the $180$\,min iAUC at $1\times$ (dashed: $|\cos|=0.8$).}
 \label{fig:symmetry}
 \end{figure}
 
-\subsection{$\SI$ is recoverable for some subjects and not others}
+\subsection{Insulin sensitivity is bounded for a minority, and only conditionally on fixed constants}
 \label{sec:si}
 
-\paragraph{Real data.}
-At the primary box the interval for $\SI$ is bounded in \resProfileIaucSIInteriorBoundedOne{} of the
-\resProfileIaucSIInteriorNOne{} subjects with an interior estimate (\resProfileIaucSIInteriorFracOne\%, Wilson interval
-\resProfileIaucSIInteriorFracOneLow\ to \resProfileIaucSIInteriorFracOneHigh\%), which is \resRealIaucSIBoundedAll{} of
-\resRealIaucN{} subjects overall. At half the box we find \resProfileIaucSIInteriorBoundedHalf{} of
-\resProfileIaucSIInteriorNHalf{} and at twice the box \resProfileIaucSIInteriorBoundedTwo{} of \resProfileIaucSIInteriorNTwo{}
-(\resProfileIaucSIInteriorFracTwo\%). A wider box lets more profiles close but also changes which subjects count as interior, so
-the denominators differ and the fractions describe what the data support within a stated range, not a property of the subject.
-The plan asked for at least $80\%$ at every box width, and no width reaches it.
+Under the iAUC at the primary box, $\SI$ is bounded for \resProfileIaucSIInteriorBoundedOne{} of the \resProfileIaucSIInteriorNOne{} subjects with an interior estimate (\resProfileIaucSIInteriorFracOne\%, Wilson interval \resProfileIaucSIInteriorFracOneLow--\resProfileIaucSIInteriorFracOneHigh\%), which is \resRealIaucSIBoundedAll{} of \resRealIaucN{} subjects overall.
+The count depends on the prior range: it is \resBoxTwoSIBdAllCount{} of \resBoxTwoSIInt{} interior subjects at $2\times$ (Table~\ref{tab:box}), because a wider box lets more profiles close while also changing which subjects are interior.
+On the true-model replica, with the subject's own noise and a $25\%$ carbohydrate error, the interval is bounded for \resSeedsSIBounded\% of interior subjects pooled over five seeds (\resSeedsSIBoundedCount{} of \resSeedsSIInterior{}, subject-clustered interval \resClustSILow--\resClustSIHigh\%) and never for $\ke$ or $\ka$.
+With true values drawn at random through the box the bounded share falls with the true $\SI$ (\resSynthTercileSILow\%, \resSynthTercileSIMid\% and \resSynthTercileSIHigh\% across terciles of $90$ subjects), because the response saturates (Figure~\ref{fig:replica}).
+Halving or quartering the replica noise raises the share on seed $0$ from \resNoiseOneIaucSI\% to \resNoiseHalfIaucSI\% and \resNoiseQuarterIaucSI\%.
+The estimate is also biased downward on the unperturbed replica (median signed log error \resPertBaseBias), and the bias is the same without carbohydrate error (\resExactSIBias, with \resExactSIPinned{} of \resExactSIN{} estimates on a bound), so it comes from the box and not from the logging error.
 
-\paragraph{When the model is true.}
-In the replica we make the model exactly true, give each subject their own noise and add a carbohydrate logging error of $25\%$.
-The interval for $\SI$ is bounded in \resSeedsSIBounded\% of interior subjects pooled over five seeds
-(\resSeedsSIBoundedCount{} of \resSeedsSIInterior{}; \resClustSILow\ to \resClustSIHigh\% when we resample subjects, since the
-seeds reuse them), with coverage \resSeedsCoverSI\%, and the interval for $\ke$ or $\ka$ is never bounded. With true parameters
-drawn across the box (the synthetic study, \resSynthN{} subjects) the $\SI$ interval is bounded for \resSynthTercileSILow\%,
-\resSynthTercileSIMid\% and \resSynthTercileSIHigh\% of interior subjects in the lower, middle and upper third of the true value
-(Figure~\ref{fig:replica}b), with coverage \resSynthCoverSI\%.
-
-We estimate the replica noise from real residuals, which include model misfit, so it overstates the sensor noise. Scaling it to
-one half and one quarter raises the bounded fraction on seed zero from \resNoiseOneIaucSI\% to \resNoiseHalfIaucSI\% and
-\resNoiseQuarterIaucSI\%, still below the planned $80\%$, so we read the weakness as partly a property of the noise level and
-partly of the target. Carbohydrate logging error does not cause it (\resExactOneIaucSI\% are bounded with exact carbohydrate),
-and heteroskedastic variants of the likelihood do not help (Appendix~\ref{apx:si}). A systematic error in the carbohydrate log is absorbed by $\SI$ (Appendix~\ref{apx:si}). The median signed log error of $\hat\SI$ on the unperturbed replica is
-\resPertBaseBias{} (\resPertBaseInteriorBias{} among interior estimates). Logging error is not its source: with exact
-carbohydrate the median is \resExactSIBias, with \resExactSIPinned{} of \resExactSIN{} estimates on a bound.
-
-\paragraph{A wrong fixed parameter.}
-Two parameters of the glucose equations, $\gamma$ (insulin secretion) and $p_3$ (the gain of insulin action), are fixed at
-population values in every fit. The glucose trace depends on them and on $\SI$ only through the product $\gamma\,p_3\,\SI$, so
-scaling $\gamma$ or $p_3$ is the same as scaling $\SI$: multiplying either by $1.3$ or $0.7$ in the truth of the replica gives
-the same estimate of $\SI$ in \resPertSameUp{} of \resPertSameUpN{} and \resPertSameDown{} of \resPertSameDownN{} subjects. We
-therefore read $\SI$ as the scale of insulin action. A wrong fixed parameter is absorbed one for one only while the estimate stays
-inside its box. At $0.7$, \resPertGammaDownPinned{} estimates end on a bound against \resPertBasePinned{} on the unperturbed
-replica and the nominal interval covers the truth for \resPertGammaDownSICover\% of subjects, while the share of bounded
-intervals (\resPertGammaDownSIBounded\% against \resPertBaseSIBounded\%) gives no signal.
+The fixed constants matter in a way the interval cannot show.
+Insulin secretion $\gamma$ and the action gain $p_3$ enter the glucose equations only through the product $\gamma\,p_3\,\SI$, so $\hat\SI$ estimates that product and not an isolated sensitivity; multiplying either constant by $0.7$ in the replica truth leaves the interval no less often bounded (\resPertGammaDownSIBounded\% against \resPertBaseSIBounded\%) while the interval covers the truth for only \resPertGammaDownSICover\% of subjects.
+Perturbing $p_1$, $p_2$ and $n$ in the generator and not in the fit would test the remaining constants; we did not run it (Section~\ref{sec:limits}).
 
 \begin{figure}[tbp]
 \centering
 \safefigure[width=0.74\linewidth]{f4_replica}
-\caption{Identifiability of $\SI$ when the model is true, and what the noise explains. \textbf{(a)} Subjects
-with a bounded $\SI$ interval among those interior for $\SI$: real data and replica seeds. The dotted line
-is the planned $50\%$. \textbf{(b)} Synthetic study with random truths: bounded fraction by tercile of the
-true value, for $\SI$, $\ke$ and $\ka$. \textbf{(c)} Ratio of held-out iAUC error on replica data to that on
-real data under the noise settings named on the axis; dashed: the planned $0.7$ and $0.9$ thresholds.}
+\caption{Identifiability of $\SI$ under exact-model controls. \textbf{(a)} Share of interior subjects with a bounded $\SI$ interval under iAUC on real data and five replica seeds (dotted: $50\%$). \textbf{(b)} Random-truth synthetic study: bounded fraction by tercile of the true value for $\SI$, $\ke$ and $\ka$ (thin grey lines: $95\%$ Wilson upper bounds where none is bounded). \textbf{(c)} Ratio of held-out iAUC error on replica data to that on real data across noise settings (dashed: $0.7$ and $0.9$).}
 \label{fig:replica}
 \end{figure}
 
-\subsection{Held-out iAUC prediction does not reveal the failures}
+\subsection{Held-out iAUC prediction does not reveal the unidentified rates}
 \label{sec:prediction}
 
-Gradient fitting and exhaustive grid search of the same loss differ in held-out iAUC error by
-\resDiffGradThreeVsGridThree{} mg\,dL$^{-1}$\,min ($95\%$ interval \resDiffGradThreeVsGridThreeLow{} to
-\resDiffGradThreeVsGridThreeHigh) with three parameters, on a mean error of \resMaeGradThree{} (CGMacros, five repeats of
-five-fold cross-validation, Table~\ref{tab:prediction}). Three parameters and $\SI$ alone differ by
-\resDiffGradThreeVsGradOne{} (\resDiffGradThreeVsGradOneLow{} to \resDiffGradThreeVsGradOneHigh). Both $90\%$ intervals lie
-inside the equivalence margin of $150$ mg\,dL$^{-1}$\,min, so the timing parameters add less than a stated margin to held-out
-iAUC error; the interval excludes zero, so the gain is small and not nil. Folds that respect time give the same picture, and
-so does the Shanghai cohort, where the twin is at best a modest gain over a subject's own average (Appendix~\ref{apx:prediction}).
-We find that the gradient fit beats the personal mean on CGMacros (\resDiffGradThreeVsPersonalMean{},
-\resDiffGradThreeVsPersonalMeanLow{} to \resDiffGradThreeVsPersonalMeanHigh, on a personal-mean error of \resMaePersonalMean), a
-random forest and a simulation-based-inference estimate, as differences and not equivalences.
+On the real data the fitted twin is a modest predictor.
+Across $5\times5$-fold cross-validation on CGMacros its mean iAUC error is \resMaeGradThree{} mg\,dL$^{-1}$\,min, \resDiffGradThreeVsPersonalMean{} (\resDiffGradThreeVsPersonalMeanLow{} to \resDiffGradThreeVsPersonalMeanHigh) below that of a subject's own mean (\resMaePersonalMean), a gain of about \resGainPct\%.
+It does worse than the personal mean on the peak time (\resPeakGradThree{} against \resPeakPersonalMean{} min) and on the trace (\resTraceRmseGradThree{} against \resTraceRmsePersonalMean{} mg\,dL$^{-1}$), and on Shanghai its interval against the personal mean includes zero (Appendix~\ref{apx:prediction}).
+So held-out accuracy does not make the real twin look good, and the real-data comparison cannot tell what the rates add.
+The replica can: it asks whether a model that predicts as well as the true model still leaves the rates unidentified.
 
-Other targets point the same way, more sharply. On CGMacros the three-parameter fit predicts the time of the peak with an error
-of \resPeakGradThree{} minutes and the whole trace with a root mean squared error of \resTraceRmseGradThree{} mg\,dL$^{-1}$,
-against \resPeakGradOne{} minutes and \resTraceRmseGradOne{} for the fit of $\SI$ alone with the timing held at population values.
-Fitting the two timing parameters from the iAUC makes these held-out predictions worse, which is what fitted values that reflect
-the optimizer's choice more than the subject's physiology would do. Our claim that prediction does not reveal the failures is
-therefore limited to the target the model was fitted to.
+The timing parameters do add a small, real gain on real data.
+Fitting $\ke$ and $\ka$ as well as $\SI$ lowers the iAUC error by \resDiffGradThreeVsGradOne{} (\resDiffGradThreeVsGradOneLow{} to \resDiffGradThreeVsGradOneHigh) on CGMacros and by \resShCvDiffGradThreeVsGradOne{} on Shanghai, and both intervals exclude zero.
+The $150$ mg\,dL$^{-1}$\,min equivalence margin is \resMarginShareGain\% of the whole gain over the personal mean, so passing it, as the fit does, says little; we read the differences themselves.
+Gradient fitting and exhaustive grid search of the same loss differ by \resDiffGradThreeVsGridThree{} (\resDiffGradThreeVsGridThreeLow{} to \resDiffGradThreeVsGridThreeHigh).
+Fitting the rates from the iAUC makes the held-out peak time and trace worse than fixing them at population values (peak \resPeakGradThree{} against \resPeakGradOne{} min; trace \resTraceRmseGradThree{} against \resTraceRmseGradOne{} mg\,dL$^{-1}$).
 
-\paragraph{Held-out error against parameter error.}
-A replica knows the truth, so we can measure the claim. For each subject we compare the held-out error of the three-parameter fit
-with the error of the model at the true parameters on the same meals and the same logged carbohydrate (the floor). On the two
-replicas with truths drawn at random across the box the median ratio of fit to floor is \resPvpRandomZeroRatio{} and
-\resPvpRandomOneRatio{}, while the median root mean squared log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and
-\resPvpRandomOneTiming{}: the fit comes within a few percent of the true model's error with rates that are far from the truth,
-and across subjects the ratio is unrelated to the timing error (Table~\ref{tab:floor}; Figure~\ref{fig:pvp} in
-Appendix~\ref{apx:prediction} adds the replica whose truths are the fitted values, ratio \resPvpFitTruthRatio{}, against
-\resPvpFitTruthMean{} for the personal mean). Fits scored on other targets can see the error. The held-out peak-time and trace
-errors of the same fits exceed their floors, and the excess rises with the timing error, while the fit of $\SI$ alone with the
-timing held at population values stays close to the floor. A check on the peak time or the trace would therefore see the failure
-that the iAUC check hides. This is a statement about replicas, where the floor is observable; on real data it is not.
-
-\begin{table}[tbp]
-\centering\small
-\begin{tabular}{lrrrr}
-\toprule
- & \multicolumn{2}{c}{random truths, seed zero} & \multicolumn{2}{c}{random truths, seed one} \\
-held-out target & ratio to floor & Spearman $\rho$ & ratio to floor & Spearman $\rho$ \\
-\midrule
-iAUC & \resPvpRandomZeroRatio & \resPvpRandomZeroRhoTimingRatio & \resPvpRandomOneRatio & \resPvpRandomOneRhoTimingRatio \\
-peak time & \resFloorPeakRandomZeroThreeRatio & \resFloorPeakRandomZeroThreeRho & \resFloorPeakRandomOneThreeRatio & \resFloorPeakRandomOneThreeRho \\
-trace & \resFloorTraceRandomZeroThreeRatio & \resFloorTraceRandomZeroThreeRho & \resFloorTraceRandomOneThreeRatio & \resFloorTraceRandomOneThreeRho \\
-\midrule
-peak time, $\SI$ alone & \resFloorPeakRandomZeroOneRatio & n/a & \resFloorPeakRandomOneOneRatio & n/a \\
-trace, $\SI$ alone & \resFloorTraceRandomZeroOneRatio & n/a & \resFloorTraceRandomOneOneRatio & n/a \\
-\bottomrule
-\end{tabular}
-\caption{Held-out error of the three-parameter fit, as a median ratio to the error of the model at the true parameters on
-the same meals, and the Spearman correlation across subjects between that ratio and the root mean squared log error of
-$\ke$ and $\ka$. Replicas with truths drawn at random across the box. The fits were trained on the iAUC; the last two rows
-fit $\SI$ alone with the timing held at population values.}
-\label{tab:floor}
-\end{table}
-
-
-\subsection{The combination of the rates from the full trace}
-\label{sec:more}
-
-\paragraph{Protocol.}
-The exchange symmetry leaves $\tau_1$ and $p$ free, and the full trace carries far more timing information than the area
-(Appendix~\ref{apx:more}). We fit in the coordinates $(\log\SI,\log\tau_1,\log p)$ and polish each estimate by the best of
-several L-BFGS-B runs, because the fixed-step Adam fits are not likelihood optima for \resPolishNotWithinTrace\% of subjects
-under the trace. Profiles are read on a grid of fifteen points with a fixed-step inner solver; a converged solver, a longer inner
-run and a grid of twenty-nine points change no profile class on the real data or on the carbohydrate-error replicas
-(Appendix~\ref{apx:numerics}) and matter only for the narrow profiles of the low-noise replica.
-
-\paragraph{Real data and the true-model replica.}
-Table~\ref{tab:coords} gives, for each target, the share of subjects interior for the coordinate whose interval is bounded.
-The centroid and the trace raise the shares above the iAUC, and with polished estimates the trace bounds $\tau_1$ in
-\resPolishedBoundedTauTraceCount{} of \resPolishedBoundedTauTraceN{} subjects  and $p$ in \resPolishedBoundedPTraceCount{} of \resPolishedBoundedPTraceN{}. With thirty random starts in place of five we find the polished
-likelihood within the cutoff for \resGlobalWithinCount{} of \resGlobalN{} subjects, so the polish is a global optimum by that
-check. If these shares meant identifiability, a replica in which the model is true should reproduce them. At the estimated
-noise it does not: the shares are lower, and the bounded replica intervals contain the truth in only
-\resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\% of cases.
-
-\begin{table}[tbp]
-\centering\small
-\begin{tabular}{lrrrr}
-\toprule
- & \multicolumn{2}{c}{bounded (\% of interior)} & \multicolumn{2}{c}{truth inside, of the bounded (\%)} \\
-target and data & $\tau_1$ & $p$ & $\tau_1$ & $p$ \\
-\midrule
-iAUC, CGMacros & \resCoordsBoundedTauIauc & \resCoordsBoundedPIauc & n/a & n/a \\
-iAUC with centroid, CGMacros & \resCoordsBoundedTauCentroid & \resCoordsBoundedPCentroid & n/a & n/a \\
-trace, CGMacros, Adam estimates & \resCoordsBoundedTauTrace & \resCoordsBoundedPTrace & n/a & n/a \\
-trace, CGMacros, polished & \resPolishedBoundedTauTrace & \resPolishedBoundedPTrace & n/a & n/a \\
-trace, Shanghai, polished & \resShanghaiTraceTauBounded & \resShanghaiTracePBounded & n/a & n/a \\
-trace, true-model replica, polished & \resReplicaCoordsTauTrace & \resReplicaCoordsPTrace & \resReplicaCoordsCoverTauTrace & \resReplicaCoordsCoverPTrace \\
-\bottomrule
-\end{tabular}
-\caption{Bounded profile intervals for the exchange-invariant coordinates under three targets, among subjects whose estimate is
-interior for the coordinate. The truth is known only on the replica (seed zero, estimated noise, carbohydrate error $0.25$); n/a otherwise.}
-\label{tab:coords}
-\end{table}
-
-\paragraph{Carbohydrate logging error.}
-When we remove the carbohydrate logging error, coverage returns. With exact carbohydrate at the estimated noise the nominal
-interval contains the truth for \resExactOneCoverTau\% and \resExactOneCoverP\% of subjects and the trace bounds $\tau_1$
-and $p$ in only \resExactOneTraceBoundedTau\% and \resExactOneTraceBoundedP\%. An input error therefore makes the trace
-intervals more often bounded and less often right, and Table~\ref{tab:cvsweep} shows that the effect grows with the size of
-the error. The real-data fractions are reached on the replica for $\tau_1$ at a logging error of $0.5$ to $0.75$ and are
-above every replica value for $p$, so the real-data pattern is what a larger input error than we assumed would produce. We
-cannot show that it is the cause, since a mechanism outside the replica would look the same. The pattern replicates on two further replica seeds and on a replica built from the \resShanghaiN{} Shanghai subjects (Appendix~\ref{apx:phase13}).
+\paragraph{The floor and a negative control.}
+On a replica the error of the true model, the floor, is known.
+On the two random-truth replicas, the three-parameter fit has a median held-out iAUC error of \resPvpRandomZeroRatio{} times the floor (seed $0$) and \resPvpRandomOneRatio{} times (seed $1$), while the median log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming.
+The correlation across subjects between the ratio and the timing error is weak, and its interval straddles zero (Table~\ref{tab:floor}).
+To see how much timing error the iAUC can hide, we pinned $(\ke,\ka)$ to the slowest and fastest corners of the box and refitted $\SI$ on each training fold.
+The iAUC error stays within \resNegZeroSlowRefitIauc{} to \resNegZeroFastRefitIauc{} times the floor on seed $0$, as for the fitted rates (\resNegOneSlowRefitIauc{} on seed $1$).
+Of the two other held-out targets, only the peak time discriminates, and only partly: its ratio is \resFloorPeakRandomZeroThreeRatio{} for the fit, \resNegZeroSlowRefitPeak{} for the slow corner and \resNegZeroFastRefitPeak{} for the fast one, and for the fit it rises with the timing error (Spearman $\rho$ \resFloorPeakRandomZeroThreeRho).
+The trace ratio is about \resFloorTraceRandomZeroThreeRatio{} for the fit and for both corners, so it does not discriminate.
+One out-of-target check, the peak time, is therefore informative on replicas, and no check we ran is informative on real data, where the floor is not observable.
 
 \begin{table}[tbp]
 \centering\footnotesize\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lrrrrrrr}
+\begin{tabular}{lcccc}
 \toprule
- & \multicolumn{2}{c}{bounded (\% of interior)} & \multicolumn{2}{c}{truth in interval (\%)} & \multicolumn{3}{c}{$\tau_1$, bounded intervals} \\
-logging error (CV) & $\tau_1$ & $p$ & $\tau_1$ & $p$ & median error & median width & error / half-width \\
+ & \multicolumn{2}{c}{random truths, seed $0$} & \multicolumn{2}{c}{random truths, seed $1$} \\
+held-out target and model & ratio to floor & Spearman $\rho$ [$95\%$ CI] & ratio to floor & Spearman $\rho$ [$95\%$ CI] \\
 \midrule
-exact & \resCvZeroBoundedTau & \resCvZeroBoundedP & \resCvZeroCoverTau & \resCvZeroCoverP & \resCvErrorZeroTau & \resCvWidthZeroTau & \resCvZZeroTau \\
-$0.1$ & \resCvTenthBoundedTau & \resCvTenthBoundedP & \resCvTenthCoverTau & \resCvTenthCoverP & \resCvErrorTenthTau & \resCvWidthTenthTau & \resCvZTenthTau \\
-$0.25$ & \resCvQuarterBoundedTau & \resCvQuarterBoundedP & \resCvQuarterCoverTau & \resCvQuarterCoverP & \resCvErrorQuarterTau & \resCvWidthQuarterTau & \resCvZQuarterTau \\
-$0.5$ & \resCvHalfBoundedTau & \resCvHalfBoundedP & \resCvHalfCoverTau & \resCvHalfCoverP & \resCvErrorHalfTau & \resCvWidthHalfTau & \resCvZHalfTau \\
-$0.75$ & \resCvThreeQuarterBoundedTau & \resCvThreeQuarterBoundedP & \resCvThreeQuarterCoverTau & \resCvThreeQuarterCoverP & \resCvErrorThreeQuarterTau & \resCvWidthThreeQuarterTau & \resCvZThreeQuarterTau \\
+iAUC, $3$-parameter fit & \resPvpRandomZeroRatio & \resPvpRandomZeroRhoTimingRatio{} [\resPvpRandomZeroRhoTimingRatioLow, \resPvpRandomZeroRhoTimingRatioHigh] & \resPvpRandomOneRatio & \resPvpRandomOneRhoTimingRatio{} [\resPvpRandomOneRhoTimingRatioLow, \resPvpRandomOneRhoTimingRatioHigh] \\
+peak time, $3$-parameter fit & \resFloorPeakRandomZeroThreeRatio & \resFloorPeakRandomZeroThreeRho{} [\resFloorPeakRandomZeroThreeRhoLow, \resFloorPeakRandomZeroThreeRhoHigh] & \resFloorPeakRandomOneThreeRatio & \resFloorPeakRandomOneThreeRho{} [\resFloorPeakRandomOneThreeRhoLow, \resFloorPeakRandomOneThreeRhoHigh] \\
+trace, $3$-parameter fit & \resFloorTraceRandomZeroThreeRatio & \resFloorTraceRandomZeroThreeRho{} [\resFloorTraceRandomZeroThreeRhoLow, \resFloorTraceRandomZeroThreeRhoHigh] & \resFloorTraceRandomOneThreeRatio & \resFloorTraceRandomOneThreeRho{} [\resFloorTraceRandomOneThreeRhoLow, \resFloorTraceRandomOneThreeRhoHigh] \\
 \midrule
-real data & \resPolishedBoundedTauTrace & \resPolishedBoundedPTrace & n/a & n/a & n/a & n/a & n/a \\
+iAUC, slow / fast corner ($\SI$ refit) & \resNegZeroSlowRefitIauc{} / \resNegZeroFastRefitIauc & n/a & \resNegOneSlowRefitIauc{} / \resNegOneFastRefitIauc & n/a \\
+peak time, slow / fast corner ($\SI$ refit) & \resNegZeroSlowRefitPeak{} / \resNegZeroFastRefitPeak & n/a & \resNegOneSlowRefitPeak{} / \resNegOneFastRefitPeak & n/a \\
+trace, slow / fast corner ($\SI$ refit) & \resNegZeroSlowRefitTrace{} / \resNegZeroFastRefitTrace & n/a & \resNegOneSlowRefitTrace{} / \resNegOneFastRefitTrace & n/a \\
+peak / trace, $\SI$ alone (population rates) & \resFloorPeakRandomZeroOneRatio{} / \resFloorTraceRandomZeroOneRatio & n/a & \resFloorPeakRandomOneOneRatio{} / \resFloorTraceRandomOneOneRatio & n/a \\
 \bottomrule
 \end{tabular}
-\caption{Polished trace coordinate profiles on replica seed zero (\resPvpFitTruthN{} subjects) by coefficient of variation of
-the lognormal carbohydrate logging error. The bounded fraction rises and coverage falls as the error grows. The last three
-columns are the median absolute log error of the estimate over all subjects, the median log width of the bounded intervals, and
-the median ratio of error to half-width over those intervals; the interval does not widen while the error grows. n/a: the truth
-is unknown for real data.}
-\label{tab:cvsweep}
+\caption{Median held-out error as a ratio to the error of the true-parameter model on random-truth replicas, with the Spearman correlation (and $95\%$ interval) of the ratio against the root mean squared log error of $\ke$ and $\ka$. The lower block pins $(\ke,\ka)$ to the slowest $(0.015,0.012)$ or fastest $(0.040,0.032)$ box corner with $\SI$ refitted on the iAUC, and shows the $\SI$-only fit with population rates.}
+\label{tab:floor}
 \end{table}
 
-\paragraph{Why the error does not widen the interval.}
-The likelihood treats the logged carbohydrate as exact, and the fit absorbs part of an input error in the parameters, so the
-residual barely grows and the interval does not widen. The median width of the bounded $\tau_1$ intervals stays near
-\resCvWidthZeroTau{} in log units while the median error of the estimate rises from \resCvErrorZeroTau{} to
-\resCvErrorThreeQuarterTau{} (Table~\ref{tab:cvsweep}), so the ratio of error to half-width, which is the loss of coverage,
-goes from \resCvZZeroTau{} to \resCvZThreeQuarterTau{} for $\tau_1$ and from \resCvZZeroP{} to \resCvZThreeQuarterP{} for $p$:
-the estimate moves and the interval stays. Re-estimating the noise standard deviation and autocorrelation at the polished
-estimate leaves the coverage where it was (\resFinalQuarterTauCover\% and \resFinalQuarterPCover\% at $0.25$,
-\resFinalThreeQuarterTauCover\% and \resFinalThreeQuarterPCover\% at $0.75$).
+\input{sec_trace}
 
-One account of the narrow intervals is arithmetic. A logged load that is the true load times a unit-mean multiplier has second
-moment $1+\mathrm{CV}^2$ times the squared true load, so sensitivities, and with them the Fisher information measured against
-an unchanged noise level, could grow with the error. We measured it. The median squared load ratio is \resCurvQuarterLoad{} at
-$0.25$ and \resCurvThreeQuarterLoad{} at $0.75$, but the information about $(\tau_1,p)$ does not grow: the smaller eigenvalue of
-its block after profiling out $\SI$ has median \resCurvZeroSchurLow{} at exact carbohydrate, \resCurvQuarterSchurLow{} at $0.25$
-and \resCurvThreeQuarterSchurLow{} at $0.75$, because the noise standard deviation estimated at the fit rises from
-\resCurvZeroSigma{} to \resCurvThreeQuarterSigma. Local curvature therefore explains neither the narrow intervals nor the rise of
-the bounded share, which has no mechanism we can show: the profiles are not steeper over the box (median maximum rise
-\resCvRiseZeroTau{} at exact carbohydrate, \resCvRiseThreeQuarterTau{} at $0.75$ for $\tau_1$) and the number of estimates on a
-bound barely changes, yet \resAllZeroBoundedTau{} of \resAllZeroN{} $\tau_1$ intervals are bounded at exact carbohydrate and
-\resAllThreeQuarterBoundedTau{} at $0.75$. A cutoff that covers the truth and a systematic per-subject error, two further tests of
-the account, are in Appendix~\ref{apx:phase13}.
-
-\paragraph{When the combination is recovered.}
-We find one setting in which the trace returns intervals for $\tau_1$ and $p$ that are both often bounded and calibrated: the
-replica with exact carbohydrate and a quarter of the noise, read on the finer grid with the converged solver. There the nominal
-interval contains the truth for \resConvFineTauCover\% and \resConvFinePCover\% of subjects, the detector bounds $\tau_1$ and $p$
-in \resConvFineTauBounded\% and \resConvFinePBounded\% of interior subjects, and the bounded intervals contain the truth in
-\resConvFineTauCovbd\% and \resConvFinePCovbd\%. Read off the coarse grid the same profiles undercover
-(\resInnerQuarterFiveHundredCoverTau\% and \resInnerQuarterFiveHundredCoverP\%), because linear interpolation across a grid that is
-wide relative to a narrow profile overstates the excess at the truth (Appendix~\ref{apx:numerics}). The detector can therefore
-identify the combination when the data and the inputs are good enough. The real data are not that setting: the real bounded
-fractions of \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% are consistent with a larger input error or a smaller
-noise than we assumed and cannot be assigned to either.
-
-\paragraph{Breaking the symmetry by design.}
-If the exchange symmetry were the only reason the gut rates are not bounded, a design that breaks it should bound them. We gave
-every meal of a random-truth replica with exact carbohydrate a known residual intestinal content, equal in the truth and in the
-fit so that the model stays exactly true. At a content of $10\%$ of the meal, $\ke$ and $\ka$ are bounded in
-\resResTenKeBoundedCount{} of \resResTenKeBoundedN{} and \resResTenKaBoundedCount{} of \resResTenKaBoundedN{} interior subjects
-(\resResTenKeBounded\% and \resResTenKaBounded\%) and covered for \resResTenKeCover\% and \resResTenKaCover\%, against the planned
-half bounded and ninety percent covered. The bounded fraction rises with the content, for $\ke$ from \resResZeroKeBounded\% at none
-to \resResTwentyKeBounded\% at $20\%$ and for $\ka$ from \resResZeroKaBounded\% to \resResTwentyKaBounded\%
-(Appendix~\ref{apx:phase13}). Breaking the symmetry helps in proportion to the residue, but a tenth of the meal does not make
-the rates identifiable from these data: Proposition~\ref{prop:breaking} is necessary for a bounded interval and, at this noise, not
-sufficient. The residue is a design choice for a control and not a model of free-living meals.
-
-\subsection{A second model class}
+\subsection{A second gut model, and a structural misspecification control}
 \label{sec:dm}
 
-The Dalla Man meal model \citep{dallaman2007}, in our implementation, has a three-compartment gut with a nonlinear emptying law
-and so inherits no exact exchange symmetry. Fitted to the same iAUC data of the same \resDmN{} subjects, its Fisher information
-has median effective rank \resDmRankMedian{} of six parameters, the profile interval is bounded for $k_{abs}$, $k_{max}$ and
-$k_{min}$ in \resDmBoundedKabs\%, \resDmBoundedKmax\% and \resDmBoundedKmin\% of subjects, and the estimates sit on a bound of
-their range in \resDmPinnedKabs, \resDmPinnedKmax{} and \resDmPinnedKmin{} subjects. Under the iAUC target, in two models that
-differ in the structure of the gut, the gut parameters are not recovered. We ran no replica for this model, so we cannot say
-how much of its non-identification belongs to the target and how much to misfit.
+The Dalla Man meal model \citep{dallaman2007} has a nonlinear, three-compartment gut and no exact exchange symmetry.
+Fitted to the same iAUC records, its Fisher information has median effective rank \resDmRankMedian{} of six parameters, no interval for $k_{abs}$, $k_{max}$ or $k_{min}$ is bounded, and the estimates sit on a bound for \resDmPinnedKabs, \resDmPinnedKmax{} and \resDmPinnedKmin{} of \resDmN{} subjects.
+A gut without the symmetry is therefore not recovered either, which supports the reading that the iAUC lacks the information.
+
+The same model serves as a generator.
+We simulated traces from it for the \resMisspecN{} CGMacros meal schedules with exact carbohydrates, sampled Dalla Man parameters (one distribution; median mean appearance time $\tau_{1,\mathrm{DM}}$ of \resMisspecTrueTauMed{}\,min), matched subject weights and AR($1$) CGM noise, and fitted the Bergman-type simulator.
+The Bergman intervals for $\tau_1$ are bounded in \resMisspecTauBd{} of \resMisspecN{} subjects and cover $\tau_{1,\mathrm{DM}}$ in \resMisspecCovDm\%.
+That is close to definitional, because Bergman's $\tau_1$ is not the Dalla Man appearance time: it absorbs the sensor lag, the fixed insulin-action constants and the gut structure the model lacks.
+Under misspecification a maximum-likelihood fit converges to a pseudo-true value, which we obtained by fitting the Bergman model to the noise-free Dalla Man output.
+That value has a median of \resPtMedianPseudo{}\,min against \resPtMedianDm{}\,min for $\tau_{1,\mathrm{DM}}$, a model bias of \resPtBias{}\,min (\resPtBiasTd{}\,min if the sensor lag is added), and all \resPtTied{} pseudo-true fits sit at equal rates $\ke=\ka$.
+The estimator itself lands within \resPtAbsGap{}\,min of its pseudo-true value, but the intervals are narrow (median log width \resPtWidth) and cover it in \resPtCoversPseudo{} of the \resPtBounded{} bounded cases.
+The two failures are separate: the model biases the target by tens of minutes, and the profile interval is too narrow for the estimator even about its own target.
+Subject order is preserved (Spearman $\rho$ of \resPtRhoEstPseudo{} between estimate and pseudo-true value, \resMisspecRhoDm{} against $\tau_{1,\mathrm{DM}}$), so $\hat\tau_1$ can rank subjects when it cannot measure timing.
+These intervals come from the exact-domain profiles of the earlier protocol (a $15$-point grid), so the coverage of the pseudo-true value is probably understated; a Bergman variant with sensor lag and a free $p_2$, a Dalla Man-on-Dalla-Man replica and a second generator distribution were not run.

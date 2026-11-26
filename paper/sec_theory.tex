@@ -1,80 +1,36 @@
-\section{Why an area is nearly blind to the split between $\ke$ and $\ka$}
+\section{What the gut moments predict}
 \label{sec:theory}
 
-Three facts about the gut explain the empirical results of Section~\ref{sec:results}; Appendix~\ref{app:proofs} gives
-the proofs. Let the gut be Eq.~\eqref{eq:gut} with initial contents $Q_1(0)=D_0$ and $Q_2(0)=Q_0$. Let
-$R_a(t)=\ka Q_2(t)$ be the rate at which glucose enters the plasma. The rates $\ke$ and $\ka$ enter the remaining
-equations only through $R_a$.
+This section restates textbook structure so that the results of Section~\ref{sec:results} can be read against it; proofs are in Appendix~\ref{app:proofs}.
+In Eq.~\eqref{eq:gut} with initial contents $Q_1(0)=D_0$ and $Q_2(0)=Q_0$, let $R_a(t)=\ka Q_2(t)$ be the rate at which glucose appears in plasma.
+The rates enter Eqs.~\eqref{eq:glucose}--\eqref{eq:action} only through $R_a$.
 
-\begin{proposition}[Exchange symmetry]
-\label{prop:exchange}
-If the intestine is empty at the start ($Q_0=0$), whatever the stomach content $D_0$, then the Laplace
-transform of $R_a$ is
-\begin{equation}
-\hat R_a(s)=\frac{\ke\,\ka\,\bigl(D_0+\hat m(s)\bigr)}{(s+\ke)(s+\ka)},
-\end{equation}
-which is symmetric in $(\ke,\ka)$. Hence exchanging the two rates leaves $R_a$, the trajectory of
-$(G,I,X)$ and every observable computed from it unchanged.
+\begin{proposition}[Moments of the gut input]
+\label{prop:moments}
+For a unit instantaneous meal into an empty intestine ($Q_0=0$), the appearance density has mean $\tau_1=1/\ke+1/\ka$ and second moment $2\tau_1^2-2p$, with $p=1/(\ke\ka)$ and $p\le\tau_1^2/4$ (equality at $\ke=\ka$).
+Hence the first two moments fix the unordered pair $\{\ke,\ka\}$, and the first moment alone fixes only $\tau_1$.
+In the linearized glucose system, the iAUC over a window $T$ depends on the rates only through the mass delivered before $T$ and the tail of the response past $T$; as $T\to\infty$ it depends on neither.
 \end{proposition}
 
-The symmetry is not new in spirit. Oral pharmacokinetics has a related ambiguity: flip-flop occurs when absorption is
-slower than elimination, and the terminal slope after extravascular dosing then reflects absorption rather than
-disposition \citep{boxenbaum1998flipflop,yanez2011flipflop}. What the paper adds is a measurement of what stays
-identifiable when such a model is fitted per person to free-living data, with a replica and a synthetic study to say how
-much of the failure belongs to the target.
+Moment methods for absorption are classical in pharmacokinetics \citep{cutler1978theory,yamaoka1978statistical,riegelman1980application}.
+Their consequence here is an ordering of the targets: a long-window area sees the delivered mass, the centroid adds the first moment and so $\tau_1$, and only the shape of the trace can carry the second moment and so $p$.
 
-A discrete symmetry does not make the information matrix singular at a point with $\ke\ne\ka$, and the sensitivity
-matrix indeed has full generic rank (Section~\ref{sec:structural}). It makes the likelihood a function of the unordered
-pair $\{\ke,\ka\}$. A profile over $\ke$ with $\ka$ re-optimized then has two equal minima, unless the swapped point
-lies outside the box. The natural coordinates are the symmetric functions
-\begin{equation}
-\tau_1=\frac1{\ke}+\frac1{\ka},\qquad p=\frac1{\ke\ka},
-\end{equation}
-the mean transit time through the gut and its companion. They determine the pair, and in them the real-pole condition
-reads $p\le\tau_1^2/4$, with equality at $\ke=\ka$.
+\begin{proposition}[Exchange symmetry of an empty gut]
+\label{prop:exchange}
+If the intestine starts empty, the Laplace transform of $R_a$ is $\ke\ka\,(D_0+\hat m(s))/((s+\ke)(s+\ka))$, which is symmetric in $(\ke,\ka)$.
+Exchanging the two rates therefore leaves $R_a$, the trajectory of $(G,I,X)$ and every observable unchanged.
+\end{proposition}
+
+This is the flip-flop ambiguity of oral pharmacokinetics \citep{boxenbaum1998flipflop,yanez2011flipflop} in the gut cascade.
+It does not make the information matrix singular at a point with $\ke\ne\ka$; it makes the likelihood a function of the unordered pair, so a profile over $\ke$ has two equal minima unless the swapped point lies outside the box.
+The boxes are asymmetric, so the swap partner of an upper-pinned estimate often lies outside, and the symmetry cannot by itself explain flat profiles.
 
 \begin{proposition}[Breaking by residual intestinal content]
 \label{prop:breaking}
-If $Q_0>0$, the appearance rates under the two orderings differ by
-\begin{equation}
-R_a^{(\ke,\ka)}(t)-R_a^{(\ka,\ke)}(t)=Q_0\bigl(\ka e^{-\ka t}-\ke e^{-\ke t}\bigr),
-\end{equation}
-which has zero integral. The exchange then changes the timing of glucose entry, linearly in $Q_0$, and
-not the total.
+If $Q_0>0$, the two orderings differ by $Q_0\bigl(\ka e^{-\ka t}-\ke e^{-\ke t}\bigr)$ in $R_a(t)$, which integrates to zero: residual content changes the timing of appearance, linearly in $Q_0$, and not the total mass.
 \end{proposition}
 
-The simulator, and every analysis here, starts each meal with an empty intestine. Free-living meals are not isolated, and
-a snack or a long previous meal leaves a residue. Proposition~\ref{prop:breaking} says the symmetry is then partly
-broken, and by how much. The largest glucose change under the exchange grows linearly in the residual content, from
-$\resGutSweepMaxHalf$\,mg\,dL$^{-1}$ at one half of one percent of the meal to $\resGutSweepMaxFive$ at five percent and
-$\resGutSweepMaxTen$ at ten percent (Appendix, Figure~\ref{fig:gutsweep}). With an empty gut, exchanging the rates changes
-the simulated glucose by at most $\resGutSweepMaxZero$\,mg\,dL$^{-1}$, the solver tolerance.
+Numerically, the largest glucose change under exchange grows from $\resGutSweepMaxHalf$\,mg\,dL$^{-1}$ at $0.5\%$ residual content to $\resGutSweepMaxFive$ at $5\%$ and $\resGutSweepMaxTen$ at $10\%$ (Figure~\ref{fig:gutsweep} in Appendix~\ref{app:more}), against $\resGutSweepMaxZero$ for an empty gut.
 
-\begin{proposition}[What the moments of the gut input determine]
-\label{prop:moments}
-For a unit instantaneous meal and an empty intestine, the density $\phi$ of the gut appearance has
-$m_0=1$, $m_1=\tau_1$ and $m_2=2\tau_1^2-2p$. Hence $(m_1,m_2)$ determine the unordered pair
-$\{\ke,\ka\}$, while $m_1$ alone determines only $\tau_1$. For the linearized model with impulse response
-$h$ from $R_a$ to glucose and $H(t)=\int_0^t h$,
-\begin{equation}
-\int_0^T y\,dt=K\!\int_0^T R_a(s)\,ds-\int_0^T R_a(s)\,\bigl(K-H(T-s)\bigr)\,ds,
-\qquad K=\lim_{t\to\infty}H(t),
-\end{equation}
-so at a finite window the area depends on the rates through the mass delivered inside the window, the first term, and
-through the part of the response that falls beyond its end, the second. As $T\to\infty$ the first term tends to the
-total mass, which is the same for every pair of rates, and the second vanishes.
-\end{proposition}
-
-Moment theory for absorption data is classical in pharmacokinetics, where the mean absorption time is estimated from
-plasma-concentration moments \citep{cutler1978theory,yamaoka1978statistical,riegelman1980application}; we restate it for the
-two-compartment cascade so that the argument is self-contained, and claim no novelty. Proposition~\ref{prop:moments} orders the
-observables. An area over a long window sees the total mass delivered, the zeroth moment, which is the same for every pair of
-rates; at a finite window it sees timing only through the share of the mass delivered by the window's end and through what leaks
-past it. The centroid adds the first moment, and so $\tau_1$. Only the shape of the trace, with its rise, peak and decay, can
-carry the second moment and hence $p$. The sensitivity of the area to timing, relative to its sensitivity to $\SI$, falls with the
-window (Figure~\ref{fig:window}), and the weakest Fisher direction is the $\tau_1$-preserving direction, which is the exchange
-direction to first order (Figure~\ref{fig:symmetry}).
-
-The three propositions describe a two-compartment gut cascade, not this particular simulator: any linear series cascade with an
-empty downstream compartment has a transfer function that is symmetric in its rate constants. A model with a different gut
-(Section~\ref{sec:dm}) does not inherit an exact symmetry, and what survives there is an empirical question.
+These statements describe any linear two-compartment cascade, and they make three predictions that the data can contradict: the centroid should bound $\tau_1$, a gut model without the symmetry should be recoverable, and a known residue should make the rates identifiable.
+Section~\ref{sec:results} finds that none of the three holds in full, which points to the information in the data, and not to the symmetry, as the main limit.

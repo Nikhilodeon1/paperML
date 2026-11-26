@@ -16,14 +16,15 @@ enter the glucose equation only through terms that are numerically negligible fo
 \begin{table}[h]
 \centering\small
 \input{spec_table}
-\caption{Left: the free parameters (rows one to three) and the fixed parameters of the model, with
-population values and inference bounds. Right: the fixed constants.}
+\caption{Left: the free parameters (rows one to three) and the non-fitted parameters of the model, with
+reference population values and inference bounds; body weight $W$ is populated from each subject's recorded weight
+rather than held constant across subjects (the listed $78$\,kg is the reference-profile default). Right: the fixed constants.}
 \label{tab:spec}
 \end{table}
 
 \paragraph{Meal input.}
-A meal of $c$ grams of carbohydrate, $f$ of fat and $b$ of fibre delivers a glucose mass
-$M=0.9\cdot 1000\,c\,/(1+0.08\,b+0.005\,f)$\,mg as a Gaussian rate pulse of width $2$\,min centred on the
+A meal of $c$ grams of carbohydrate, $f$ of fat, and $b$ of fiber delivers a glucose mass
+$M=0.9\cdot 1000\,c\,/(1+0.08\,b+0.005\,f)$\,mg as a Gaussian rate pulse of width $2$\,min centered on the
 meal, integrating to $M$. The simulation lasts $210$\,min with the meal at $30$\,min and is saved every
 $5$\,min.
 

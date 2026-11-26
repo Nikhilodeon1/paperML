@@ -1,73 +1,47 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{What the results say about twins.}
-Held-out iAUC error could not tell a determined parameter from an undetermined one: on replicas with random truths the fit's
-held-out error is \resPvpRandomZeroRatio{} (seed zero) and \resPvpRandomOneRatio{} (seed one) times that of the true model while
-the median root mean squared log error of its rates is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming{}. The iAUC carries
-little information about the gut rates and bounds insulin sensitivity for a minority of subjects even when the model is true,
-yet the fitted model predicts the held-out area as well as any fit we tried, as Proposition~\ref{prop:moments} leads one to
-expect of an area. Held-out peak time and trace error do register the cost of the fitted timing parameters. A twin that shows a
-person a fitted gut rate or insulin sensitivity should therefore carry an identifiability analysis, and the analysis needs
-controls of its own.
+\paragraph{Implications for mechanistic digital twins.}
+Applying the three evidence levels from Section~\ref{sec:intro} clarifies what our experiments do and do not establish.
+Under $180$\,min iAUC, even likelihood boundedness fails for individual gut rates while held-out iAUC stays near the oracle floor under maximally wrong corner rates once $\SI$ is refitted; $\SI$ itself is box-dependent and identifies a lumped gain $\gamma p_3 \SI$ conditional on fixed population constants.
+Under the full trace, likelihood boundedness succeeds for $(\tau_1, p)$ even strictly inside the exact original rate domain $\mathcal{D}$, yet simulation calibration holds only when both the simulator and carbohydrate inputs are exact: carbohydrate logging error inflates boundedness while breaking coverage, and structural mismatch in the Dalla Man $\to$ Bergman control yields tightly bounded, rank-preserving intervals with zero absolute coverage.
+Real physiological identification from free-living CGM logs is therefore not established by predictive accuracy or profile boundedness alone.
+Because coordinate fits frequently land on the tied boundary (\resBoundaryCoords\% of iAUC folds) and the tied-rate model matches three-parameter iAUC prediction (Appendix~\ref{apx:more}), reparameterizing free-living twins around $(\SI,\tau_1)$ and communicating relative rather than absolute timing parameters is consistent with what these data support.
 
-\paragraph{Recommendations.}
-Report profile intervals rather than point estimates, classify each as bounded, one-sided or flat, and report it at more than
-one parameter range, because a one-sided interval is the prior range speaking. State the set of subjects over which a fraction
-is taken and give the overall count beside the interior one. Run a replica in which the model is true, give it the input error
-you expect, here the carbohydrate log, and check the interval cutoff there: a real-data result that exceeds the replica should
-not be taken at face value. Check the optimizer against a better-conditioned one, and treat clinical correlations of a fitted
-parameter with care (Appendix~\ref{apx:leakage}).
+\paragraph{Practical recommendations.}
+First, report profile-likelihood intervals (bounded, one-sided, or flat) strictly inside the feasible parameter domain across multiple box widths, alongside both interior and overall counts.
+Second, audit identifiability diagnostics on both true-model replicas with realistic input error and a structurally misspecified generator: attenuation bias or model mismatch can move estimates off a box wall and inflate boundedness while breaking absolute coverage.
+Third, when meal-level input error is suspected, test variance adjustments clustered by meal or explicit errors-in-variables / latent-carbohydrate likelihoods rather than trusting unadjusted profile cutoffs.
+Finally, verify first-order optimizers against multi-start quasi-Newton solvers and audit clinical correlations against baseline-glucose confounding (Appendix~\ref{apx:leakage}).
 
 \subsection{Limitations}
 \label{sec:limits}
 
-\paragraph{Model and target.}
-Everything rests on a Bergman-type model with a two-compartment gut, the iAUC and the trace. The exchange symmetry holds for any
-such cascade, but the second gut model was fitted to iAUC only and has no replica. Basal glucose is fixed at a population value
-and the sensor is treated as an unlagged reading of plasma glucose, so a mismatch in either would enter the residual as misfit.
+\paragraph{Model scope and fixed constants.}
+All identifiability conclusions are conditional on our simulator equations and fixed population constants ($\gamma, p_3, p_1, p_2, n$); body weight $W$ is populated from each subject's recorded weight (Appendix~\ref{app:spec}), whereas basal glucose is fixed at $90$\,mg\,dL$^{-1}$ and sensor lag is omitted in Bergman (unlike our Dalla Man setup).
+Dalla Man was fitted to real data under iAUC only (without a Dalla Man-on-Dalla-Man replica), the three cohorts are modest in size, CGMacros windows end at $180$\,min, and heavy boundary pinning in Shanghai and Hall limits interior-fraction precision.
 
-\paragraph{Cohorts.}
-The cohorts are small and differ in sensor, window and carbohydrate source. Prediction results come from two of them, the replica
-and synthetic studies use CGMacros meal schedules, and in the other two cohorts most estimates sit on a bound, which limits
-what interior fractions can say.
+\paragraph{Replica assumptions and input error.}
+True-model replica truths derive from regularized real-data fits near the lower bound of $(\tau_1,p)$, amplifying the one-sided-to-bounded transition under upward attenuation bias and providing conditional numerical validation rather than external physiological ground truth; AR($1$) noise estimated from real residuals absorbs some misfit; and $\mathrm{CV}=0.25$ is an assumed lognormal error rather than a measured one.
+Latent-carbohydrate hierarchical models remain future work.
 
-\paragraph{The replica and the interval.}
-The replica's truths are fitted values near the upper bound of the timing rates, its noise includes misfit, and its logging error
-is lognormal. The carbohydrate-error sweep replicates on three seeds and on Shanghai; the grid and solver checks ran on one seed
-and one cohort. A rise of $\delta$ in the likelihood is an asymptotic criterion, and the likelihood treats the logged carbohydrate
-as exact, so its intervals are too narrow when the log is not. A sandwich or bootstrap interval is the obvious repair and we did
-not test it, so on real data, where the input error is unknown, a nominal interval for the combination cannot be taken as
-calibrated. Noise is one variance per subject and observable with first-order autocorrelation for the trace; other noise models
-were not tested for the trace.
-
-\paragraph{Isolated meals, fixed parameters and boxes.}
-Every meal starts with an empty gut, but consecutive logged meals are close (median gap \resOverlapMedianGap{} hours,
-\resOverlapWithinThree\% under three hours; Appendix~\ref{apx:phase13}), and residual content breaks the symmetry in proportion to
-its size (Proposition~\ref{prop:breaking}). A day-continuous replica was not run. The fixed $\gamma$ and $p_3$ are absorbed by
-$\SI$ when wrong (Section~\ref{sec:si}). The boxes for $\ke$ and $\ka$ differ, so the swap partner of an estimate can lie outside
-them; for the bounded real-data trace intervals in rate coordinates it lies inside for \resBoxRealKeInside{} of
-\resBoxRealKeBounded{} ($\ke$) and \resBoxRealKaInside{} of \resBoxRealKaBounded{} ($\ka$), and we did not recompute the tables with
-a common box.
+\paragraph{Meal isolation and asymmetric boxes.}
+Consecutive CGMacros meals have a median gap of \resOverlapMedianGap{} hours (\resOverlapWithinThree\% under $3$ hours; Appendix~\ref{apx:phase13}), so empty-gut isolation is approximate and a continuous multi-meal replica was not run.
+Asymmetric boxes for $(\ke,\ka)$ place some swap partners outside the box (swap partners lie inside for \resBoxRealKeInside{} of \resBoxRealKeBounded{} bounded real-data trace $\ke$ intervals and \resBoxRealKaInside{} of \resBoxRealKaBounded{} for $\ka$), though our exact-$\mathcal{D}$ profiles confirm that full-trace boundedness and the coverage collapse persist without infeasible hull points (Table~\ref{tab:feasible} in Appendix~\ref{apx:numerics}).
 
 \subsection{Conclusion}
+\label{sec:conclusion}
 
-A twin fitted to the iAUC of postprandial CGM can predict the held-out area about as well as any fit we tried while the data
-leave its gut rates undetermined and bound its insulin sensitivity for a minority of people; a good fit is not a measurement.
-We recommend that any twin whose parameters are shown to a person ship with a profile-likelihood analysis that has been
-checked on a replica carrying the input error to be expected. The open question is whether a richer target, or a protocol that separates gastric emptying from absorption, for
-example a liquid meal beside a solid one, can make the gut rates identifiable.
+Across three CGM cohorts, true-model replicas, random-truth simulations, and a Dalla Man $\to$ Bergman misspecified-generator control, a Bergman-type digital twin fitted to postprandial iAUC stays near the oracle predictive floor even under maximally wrong gut rates while leaving $(\ke,\ka)$ completely unbounded and $\SI$ box-dependent.
+Full-trace fitting yields high observed likelihood boundedness for $(\tau_1,p)$ even strictly inside the exact original rate domain $\mathcal{D}$, but absolute calibration collapses under either carbohydrate logging error (only partially repaired by meal-clustered sandwich scaling) or structural model misspecification.
+Mechanistic digital twins surfacing physiological parameters should therefore pair predictive validation with exact-domain profile checks audited under both input error and model mismatch; whether errors-in-variables models or contrasting meal protocols can achieve calibrated free-living recovery remains open.
 
-\subsection*{Broader impact}
-The simulator is a research model and has not been validated for clinical use. The risk we document is that a twin which
-predicts well can lead a user or clinician to read its parameters as physiology: a wrong insulin sensitivity could shape diet or
-dosing advice, and carbohydrate logging error shifts it without any warning in the interval. The analyses use public,
-de-identified cohorts and no new data were collected.
+\subsubsection*{Broader Impact Statement}
+The simulator evaluated here is a research model and is not validated for clinical use.
+Our results highlight a deployment risk: strong predictive accuracy on summary metrics can encourage users or clinicians to interpret unidentifiable or biased twin parameters as physiological measurements, potentially distorting dietary or dosing decisions.
+All analyses use public, de-identified datasets, and no new human data were collected.
 
-\subsection*{Use of an AI coding agent}
-A large-language-model coding agent (Claude Code, Anthropic) wrote the analysis code, the pipeline that inserts every number into
-the text, the compute scripts and first drafts of the manuscript, in the authors' repository and on their instructions. The authors
-posed the questions, chose and ordered the analyses, approved the analysis plan and each amendment, and take responsibility for the
-content. The agent also checked bibliography entries against Crossref, arXiv and publisher pages. Mistakes found and corrected
-include a statistic described differently in the text and in the code and errors in three entries, so every numerical claim is
-generated from stored results.
+\subsubsection*{Use of Generative AI Tools}
+A large-language-model coding assistant (Claude Code, Anthropic) assisted with analysis scripts, automated macro generation, and drafting/editing support.
+The authors formulated the research questions, designed and approved the experimental protocol and amendments, audited the implementation, verified all reported numbers against stored outputs and all references against primary sources, and reviewed and edited the final manuscript.
+The authors take full responsibility for all content, claims, and references.

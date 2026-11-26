@@ -29,7 +29,7 @@ INCLUDE_FILES = ("data_paths.py", "paper_config.py", "pytest.ini", "requirements
                  "PREREG.md", "PREREG_AMENDMENT_1.md", "PREREG_AMENDMENT_2.md",
                  "PREREG_AMENDMENT_3.md", "PREREG_AMENDMENT_4.md", "PREREG_AMENDMENT_5.md",
                  "PREREG_AMENDMENT_6.md", "PREREG_AMENDMENT_7.md", "PREREG_AMENDMENT_8.md",
-                 "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "PREREG_AMENDMENT_12.md", "PREREG_AMENDMENT_13.md", "PREREG_AMENDMENT_14.md", "PREREG_AMENDMENT_15.md", "SPEC_EXPORT.md", "docs/POD.md",
+                 "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "PREREG_AMENDMENT_12.md", "PREREG_AMENDMENT_13.md", "PREREG_AMENDMENT_14.md", "PREREG_AMENDMENT_15.md", "PREREG_AMENDMENT_16.md", "SPEC_EXPORT.md", "docs/POD.md",
                  "docs/PHASE9.md")
 INCLUDE_TESTS = ("test_prediction_cv.py", "test_phase7.py", "test_phase8.py", "test_phase1.py", "test_phase2_modules.py", "test_lint_terms.py",
                  "test_runner.py", "test_results_pipeline.py", "test_cv_utils.py", "test_subject_loss.py",
@@ -145,7 +145,10 @@ the parsed cohorts are in `cohort_cache/` (checksummed in `cohort_cache/manifest
     pip install -r requirements-aistats.txt      # install the CPU build of PyTorch first on a node
     python -m evaluation.cohort_cache verify
     python -m pytest tests -q
-    python -m evaluation.make_paper_assets       # rebuild macros, figures and tables from results/
+    python -m evaluation.make_paper_assets          # rebuild core macros, figures and tables from results/
+    python -m evaluation.make_amendment16_macros    # rebuild Amendment 16 & A25-A27 macros from results/
+    python -m evaluation.a26_exact_domain_profiles  # exact original-box D full-trace profiles
+    python -m evaluation.a27_misspecified_dalla_man # Dalla Man -> Bergman misspecified-generator control
 
 Layout: `evaluation/` analyses and the resumable runner, `personalization/` objectives and fitting,
 `simulation/` the differentiable engine and its observables, `julia/` the structural-identifiability

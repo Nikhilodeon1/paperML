@@ -1,21 +1,10 @@
-Parameters of a mechanistic simulator fitted to a person's wearable data are routinely read as physiology, and held-out
-prediction is the usual evidence that this is safe.
-We ask what the incremental area under the curve (iAUC) of postprandial continuous glucose monitoring, and the full trace,
-determine about the insulin sensitivity and the gastric emptying and absorption rates of a differentiable Bergman-type
-simulator, and whether held-out iAUC prediction would reveal what they do not.
-We combine symbolic analysis, Fisher information, profile likelihood, a replica in which the model is true and a synthetic
-study with known truths, on three cohorts (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{}
-subjects).
-We find that the iAUC carries little information about timing: the weakest Fisher direction is the exchange of the two gut rates,
-an exact symmetry of the empty-gut model, and no profile interval for either rate is bounded.
-The interval for insulin sensitivity is bounded for \resProfileIaucSIInteriorBoundedOne{} of
-\resProfileIaucSIInteriorNOne{} subjects with an interior estimate (\resRealIaucSIBoundedAll{} of \resRealIaucN{} overall) and
-for \resSeedsSIBounded\% of interior subjects when the model is exactly true.
-On replicas with random truths the held-out iAUC error is \resPvpRandomZeroRatio{} times that of the true model while the rates
-are off by a median root mean squared log error of \resPvpRandomZeroTiming, so prediction does not reveal the failure, although
-held-out peak-time and trace error rise with it.
-From the full trace, a combination of the two rates is bounded for \resPolishedBoundedTauTrace\% and
-\resPolishedBoundedPTrace\% of real subjects, but on true-model replicas the bounded intervals contain the truth in only
-\resReplicaCoordsCoverTauTrace\% and \resReplicaCoordsCoverPTrace\% of cases, and carbohydrate logging error shifts the
-estimate while the interval does not widen.
-For this model, these targets and these cohorts, a good fit is not evidence that the fitted parameters mean what their names say.
+Parameters of mechanistic simulators fitted to wearable data are often read as physiology, and held-out prediction is the usual justification.
+We ask what the incremental area under the glucose curve (iAUC) and the full continuous glucose monitoring (CGM) trace after a meal determine about insulin sensitivity ($\SI$), gastric emptying ($\ke$) and carbohydrate absorption ($\ka$) in a differentiable Bergman-type simulator.
+We use three cohorts (\resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{} subjects) and simulated controls with known truth.
+Under iAUC, no profile-likelihood interval for $\ke$ or $\ka$ is bounded at any window from $60$ to $180$\,min, and the interval for $\SI$ is bounded for \resProfileIaucSIInteriorFracOne\% of subjects with an interior estimate at the primary parameter box (\resSeedsSIBounded\% when the model is exactly true).
+Held-out iAUC error does not reveal this. On random-truth replicas, fits whose gut rates are pinned to deliberately wrong box corners, with $\SI$ refitted, stay within \resNegZeroSlowRefitIauc{} to \resPvpRandomZeroRatio{} times the error of the true model, whereas held-out peak-time and trace errors do rise.
+The full trace bounds a symmetric combination of the two rates, the sum $\tau_1$ and the product $p$ of their reciprocals, for \resPolishedBoundedTauTrace\% and \resPolishedBoundedPTrace\% of interior CGMacros subjects, and for \resExactDRealTauIntPct\% when the search is confined to the exactly feasible rate region.
+Boundedness is not calibration, however.
+On replicas, a $25\%$ carbohydrate logging error raises the bounded share from \resExactDZeroTauIntPct\% to \resExactDQuarterTauIntPct\% while nominal coverage falls from \resExactDZeroTauCovNom\% to \resExactDQuarterTauCovNom\%, and a meal-clustered sandwich correction restores it only in part.
+Traces generated from a nonlinear Dalla Man model give bounded Bergman intervals for \resMisspecTauPct\% of subjects that cover the true mean appearance time in \resMisspecCovDm\% of them, although they preserve the order of subjects (Spearman $\rho=\resMisspecRhoDm$).
+For these models, targets and cohorts, neither held-out accuracy nor a bounded profile shows that a fitted parameter measures physiology.

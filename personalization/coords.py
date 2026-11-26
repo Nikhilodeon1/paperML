@@ -49,7 +49,8 @@ __all__ = [
     "COORD_NAMES", "TIED_COORD_NAMES", "TAU_RANGE", "P_RANGE", "SI_RANGE",
     "rates_to_tau_p", "tau_p_to_rates", "tau_p_to_canonical", "tied_to_canonical",
     "log_bounds", "project_log", "on_tied_boundary", "rates_in_original_box",
-    "tied_tau_range", "LOG_FOUR",
+    "tied_tau_range", "feasible_p_bounds", "feasible_tau1_bounds", "in_feasible_domain",
+    "LOG_FOUR",
 ]
 
 COORD_NAMES = ("log_insulin_sensitivity", "log_tau1", "log_p")
@@ -120,7 +121,7 @@ def log_bounds(tied: bool = False) -> tuple[np.ndarray, np.ndarray]:
             np.array([math.log(SI_RANGE[1]), math.log(TAU_RANGE[1]), math.log(P_RANGE[1])]))
 
 
-def project_log(theta_log, lower, upper, tied: bool = False):
+def project_log(theta_log, lower, upper, tied: bool = False, fixed_index: int | None = None):
     """Clip to the box, then enforce real poles by projecting onto the tied-rate boundary.
 
     In log coordinates the real-pole condition `p <= tau1^2 / 4` is linear:
@@ -131,12 +132,20 @@ def project_log(theta_log, lower, upper, tied: bool = False):
     legitimate model -- it is exactly `k_e = k_a` -- and because rejecting steps would stall the
     optimizer along the one direction the analysis cares most about.
 
+    When profiling `log p` (`fixed_index == 2`), `log p` is held fixed so the projection raises
+    `log tau1` to at least `0.5 * (log p + log 4)` instead of lowering `log p`.
+
     The tied parameterization has no `p`, so the constraint cannot be violated and only the box is
     applied.
     """
-    theta_log = jnp.clip(jnp.asarray(theta_log), jnp.asarray(lower), jnp.asarray(upper))
+    lower = jnp.asarray(lower)
+    upper = jnp.asarray(upper)
+    theta_log = jnp.clip(jnp.asarray(theta_log), lower, upper)
     if tied:
         return theta_log
+    if fixed_index == 2:
+        floor = 0.5 * (theta_log[2] + LOG_FOUR)
+        return theta_log.at[1].set(jnp.clip(jnp.maximum(theta_log[1], floor), lower[1], upper[1]))
     ceiling = 2.0 * theta_log[1] - LOG_FOUR
     return theta_log.at[2].set(jnp.minimum(theta_log[2], ceiling))
 
@@ -152,13 +161,55 @@ def on_tied_boundary(theta_log, tolerance: float = 1e-6) -> bool:
 def rates_in_original_box(tau1, p) -> dict:
     """Whether the rates implied by `(tau1, p)` lie inside the original `(k_e, k_a)` box.
 
-    The fitted box is the hull of the image of that box, so some of it corresponds to rate pairs the
-    original parameterization would have excluded. Reporting this per fit keeps the looseness visible.
+    Checks both orderings `(k_e, k_a)` and `(k_a, k_e)` since `(tau1, p)` is symmetric under exchange.
     """
-    k_e, k_a = tau_p_to_rates(np.asarray(tau1, dtype=float), np.asarray(p, dtype=float))
-    real = bool(np.all(np.isfinite([k_e, k_a])))
-    inside = bool(real
-                  and _KE_LO <= float(k_e) <= _KE_HI
-                  and _KA_LO <= float(k_a) <= _KA_HI)
-    return {"k_e": float(k_e) if real else None, "k_a": float(k_a) if real else None,
+    r_hi, r_lo = tau_p_to_rates(np.asarray(tau1, dtype=float), np.asarray(p, dtype=float))
+    real = bool(np.all(np.isfinite([r_hi, r_lo])))
+    inside = bool(
+        real
+        and (
+            (_KE_LO <= float(r_hi) <= _KE_HI and _KA_LO <= float(r_lo) <= _KA_HI)
+            or (_KE_LO <= float(r_lo) <= _KE_HI and _KA_LO <= float(r_hi) <= _KA_HI)
+        )
+    )
+    return {"k_e": float(r_hi) if real else None, "k_a": float(r_lo) if real else None,
             "real_poles": real, "inside_original_box": inside}
+
+
+def feasible_p_bounds(tau1: float) -> tuple[float, float]:
+    """Exact feasible `[p_min, p_max]` for fixed `tau1` inside the original `(k_e, k_a)` rate box."""
+    a1, b1 = 1.0 / _KE_HI, 1.0 / _KE_LO
+    a2, b2 = 1.0 / _KA_HI, 1.0 / _KA_LO
+    tau1 = float(np.clip(tau1, a1 + a2, b1 + b2))
+    lo = max(a1, tau1 - b2)
+    hi = min(b1, tau1 - a2)
+    p_min = min(lo * (tau1 - lo), hi * (tau1 - hi))
+    r_star = min(max(0.5 * tau1, lo), hi)
+    p_max = r_star * (tau1 - r_star)
+    return float(p_min), float(p_max)
+
+
+def feasible_tau1_bounds(p: float) -> tuple[float, float]:
+    """Exact feasible `[tau1_min, tau1_max]` for fixed `p` inside the original `(k_e, k_a)` rate box."""
+    a1, b1 = 1.0 / _KE_HI, 1.0 / _KE_LO
+    a2, b2 = 1.0 / _KA_HI, 1.0 / _KA_LO
+    p = float(np.clip(p, a1 * a2, b1 * b2))
+    lo = max(a1, p / b2)
+    hi = min(b1, p / a2)
+    r_star = min(max(math.sqrt(p), lo), hi)
+    tau_min = r_star + p / r_star
+    tau_max = max(lo + p / lo, hi + p / hi)
+    return float(tau_min), float(tau_max)
+
+
+def in_feasible_domain(tau1: float, p: float, tol: float = 1e-6) -> bool:
+    """Whether `(tau1, p)` lies in the exact image `D` of `[k_e_lo, k_e_hi] x [k_a_lo, k_a_hi]`."""
+    disc = tau1 * tau1 - 4.0 * p
+    if disc < -tol * tau1 * tau1:
+        return False
+    sq = math.sqrt(max(disc, 0.0))
+    r1 = (tau1 + sq) / (2.0 * p)
+    r2 = (tau1 - sq) / (2.0 * p)
+    c1 = (_KE_LO - tol <= r1 <= _KE_HI + tol) and (_KA_LO - tol <= r2 <= _KA_HI + tol)
+    c2 = (_KE_LO - tol <= r2 <= _KE_HI + tol) and (_KA_LO - tol <= r1 <= _KA_HI + tol)
+    return bool(c1 or c2)

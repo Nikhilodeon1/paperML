@@ -23,7 +23,7 @@ from evaluation.results_io import ROOT
 PAPER = ROOT / "paper"
 USED = re.compile(r"\\(res[A-Za-z]+)")
 DEFINED = re.compile(r"\\newcommand\{\\(res[A-Za-z]+)\}")
-GENERATED = ("results_macros.tex", "pending_macros.tex", "spec_table.tex", "preamble_defs.tex")
+GENERATED = ("results_macros.tex", "pending_macros.tex", "spec_table.tex", "preamble_defs.tex", "amendment16_macros.tex")
 
 
 def manuscript_files() -> list:

@@ -1,12 +1,11 @@
-\section{Setting: model, observations, estimators and instruments}
+\section{Setting: model, observations, estimators, and instruments}
 \label{sec:setting}
 
 \subsection{The simulator}
 \label{sec:model}
 
-The simulator is a Bergman-type glucose--insulin model written in JAX, integrated with the adaptive Tsit5 solver
-of Diffrax in double precision, with a two-compartment gut. After a meal at time $0$, with plasma glucose $G$,
-plasma insulin $I$, remote insulin action $X$, and stomach and intestinal glucose $Q_1$ and $Q_2$,
+Our primary simulator is a Bergman-type glucose--insulin ODE model implemented in JAX and integrated in double precision with Diffrax's adaptive Tsit5 solver, coupled to a two-compartment gut.
+After a meal at time $0$, plasma glucose $G$, plasma insulin $I$, remote insulin action $X$, stomach glucose $Q_1$, and intestinal glucose $Q_2$ evolve as
 \begin{align}
 \dot Q_1 &= -\ke\, Q_1 + m(t), &
 \dot Q_2 &= \ke\, Q_1 - \ka\, Q_2, \label{eq:gut}\\
@@ -14,16 +13,13 @@ plasma insulin $I$, remote insulin action $X$, and stomach and intestinal glucos
 \dot I &= -n\,(I - I_b) + \gamma\,[G - G_b]_+, \label{eq:glucose}\\
 \dot X &= -p_2 X + p_3\, \SI\,(I - I_b), \label{eq:action}
 \end{align}
-where $m(t)$ is a Gaussian pulse (width $2$\,min) delivering the glucose mass of the meal,
-$V_g=1.6\,W$ dL for body weight $W$, and $G_b$, $I_b$ are basal values. A softplus smooths the positive part.
-The postprandial glucose dynamics are carried by these five states; Appendix~\ref{app:spec} gives the full specification with every
-constant and the vector field.
+where $m(t)$ is a Gaussian rate pulse (width $2$\,min) delivering the meal's glucose mass, $V_g=1.6\,W$\,dL for each subject's recorded body weight $W$, and $G_b$ and $I_b$ are basal glucose and insulin levels.
+A softplus smooths $[\cdot]_+$.
+Appendix~\ref{app:spec} details the full vector field, fixed constants, and solver tolerances.
 
-Each person has three free parameters, $\theta=(\SI,\ke,\ka)$, each confined to a box
-(Table~\ref{tab:bounds}); everything else is fixed at population values. The \emph{primary box} is the one fixed
-in the analysis plan. We also report a box half as wide and one twice as wide, scaled in logarithms about the
-centre of each interval. The gut starts empty at each meal, a convention that matters for the symmetry in
-Section~\ref{sec:theory}.
+Each subject has three free parameters, $\theta=(\SI,\ke,\ka)$, constrained to a box (Table~\ref{tab:bounds}); all remaining physiological constants are fixed at population values (so all identifiability conclusions are conditional on these fixed constants and subject biometrics).
+Alongside the \emph{primary box} ($1\times$), we evaluate a half-width ($0.5\times$) and double-width ($2\times$) box, scaled logarithmically about each interval's center.
+Every meal simulation initializes an empty gut ($Q_1(0)=Q_2(0)=0$).
 
 \begin{table}[tbp]
 \centering\small
@@ -36,105 +32,71 @@ gastric emptying & $\ke$ & $0.026$ & $[0.015,\,0.04]$ & stomach $\to$ intestine 
 carbohydrate absorption & $\ka$ & $0.022$ & $[0.012,\,0.032]$ & intestine $\to$ plasma \\
 \bottomrule
 \end{tabular}
-\caption{The three personalised parameters and their primary parameter box. All other parameters are
-fixed.}
+\caption{The three personalized parameters and their primary parameter box. All other parameters are fixed at population values.}
 \label{tab:bounds}
 \end{table}
 
 \subsection{Observables}
 \label{sec:observables}
 
-A \emph{meal record} is a window of CGM samples around one meal, with the logged carbohydrate, fat and fibre.
-All observables are computed from the baseline-subtracted excursion $y(t)=[G(t)-\bar G_{\mathrm{pre}}]_+$, where
-$\bar G_{\mathrm{pre}}$ is the mean of the samples in the $30$ minutes before the meal.
+A \emph{meal record} comprises a CGM window around one meal plus logged carbohydrate, fat, and fiber.
+Observables are computed from the baseline-subtracted excursion $y(t)=[G(t)-\bar G_{\mathrm{pre}}]_+$, where $\bar G_{\mathrm{pre}}$ is the mean glucose in the $30$\,min before the meal:
 \begin{itemize}
-\item \emph{iAUC}: $\int y\,dt$ over the post-meal window, one number per meal (three hours, and a shorter window in
-  the standardized-meal cohort, Table~\ref{tab:cohorts}). It is the target of the primary analysis.
-\item \emph{Centroid}: $\int t\,y\,dt \,/ \int y\,dt$, the time centre of mass of the excursion. It carries
-  timing and almost no magnitude.
-\item \emph{Trace}: the baseline-subtracted curve itself, at the sampling resolution of the cohort.
+\item \emph{iAUC}: $\int_0^T y\,dt$ over the post-meal window ($T=180$\,min in CGMacros and Shanghai; $145$\,min in the standardized-meal cohort; Table~\ref{tab:cohorts} in Appendix~\ref{app:setting}).
+\item \emph{Centroid}: $\int_0^T t\,y\,dt \,/ \int_0^T y\,dt$, the temporal center of mass of the excursion.
+\item \emph{Trace}: the baseline-subtracted curve at the cohort's native sampling resolution.
 \end{itemize}
-The three form a \emph{ladder}: iAUC, iAUC with centroid, full trace. Each has a smooth form for gradients
-(softplus and softmax of sharpness $10$) and a hard form for scoring; on real excursions the two agree to within
-one percent of the hard value.
+These form an observable \emph{ladder} (iAUC, iAUC with centroid, full trace).
+Smooth versions (softplus/softmax, sharpness $10$) supply gradients and agree with hard evaluation forms within $1\%$ on real excursions.
 
-\subsection{Likelihood, estimation and the identifiability criterion}
+\subsection{Likelihood, estimation, and identifiability criteria}
 \label{sec:estimation}
 
-Every identifiability analysis uses the unregularized maximum-likelihood estimate, because a penalty toward the
-population values would narrow every interval. Held-out prediction uses a penalized fit (penalty weight $0.01$ on the
-squared distance to the population value in units of the box), because there the aim is error and a mild penalty
-lowers it. The two sets of results therefore describe different estimators of one model, and Section~\ref{sec:prediction}
-asks what the first reveals about the second. Residuals are
-Gaussian with a per-subject, per-observable variance estimated at a pilot fit and then held fixed; stacked
-observables are weighted by their inverse residual variance; and the trace is whitened for first-order
-autocorrelation (Prais--Winsten). The variances stay frozen because re-estimating them inside the optimization
-would let the fit lower its loss by declaring its errors noise. Estimates come from fixed-step Adam
-\citep{kingma2015adam} in log coordinates, and for the coordinate fits of Section~\ref{sec:more} from the best of
-several L-BFGS-B runs \citep{byrd1995limited}.
+Identifiability analyses use unregularized maximum likelihood ($\lambda=0$) with the Gaussian noise model below.
+The prediction fit of Section~\ref{sec:prediction} minimizes the mean squared iAUC error with a penalty of weight $0.01$ on the squared, box-normalized distance to the population value.
+That error is of order $\resPenaltyLossScale$ (mg\,dL$^{-1}$\,min)$^2$ at the fit, because the mean absolute error is \resMaeGradThree{} mg\,dL$^{-1}$\,min, whereas the penalty cannot exceed $0.03$.
+The penalty therefore acts only along directions in which the data are flat, and the prediction fit, and the replica truths taken from it, are in practice unregularized least-squares fits of the iAUC.
+Residuals are Gaussian with per-subject, per-observable variances estimated from a pilot fit and then frozen (preventing variance inflation inside optimization); stacked observables use inverse-variance weights, and trace residuals are Prais--Winsten whitened for lag-$1$ autocorrelation.
+Fits use fixed-step Adam \citep{kingma2015adam} in log coordinates, and the symmetric-coordinate trace fits of Section~\ref{sec:more} are polished with multi-start L-BFGS-B \citep{byrd1995limited}.
 
-\begin{definition}[Profile interval and its classes]
+\begin{definition}[Profile interval and classification]
 \label{def:profile}
-With negative log-likelihood $\NLL(\theta)$, the $95\%$ profile interval for $\theta_j$ is the set where
-$\min_{\theta_{-j}}\NLL(\theta_j,\theta_{-j})-\min_\theta \NLL(\theta) \le \delta$, with
-$\delta=\resDeltaThreshold$, half the $0.95$ quantile of $\chi^2_1$ (on profile-likelihood intervals see
-\citealp{venzon1988method}). The profile is
-\emph{bounded} if it rises above $\delta$ on both sides inside the box, \emph{one-sided} if on one side only,
-and \emph{flat} if it never reaches $\delta$ inside the box.
+For negative log-likelihood $\NLL(\theta)$, the $95\%$ profile interval for $\theta_j$ is $\{\theta_j : \min_{\theta_{-j}}\NLL(\theta_j,\theta_{-j})-\min_\theta \NLL(\theta) \le \delta\}$, with $\delta=\resDeltaThreshold$ (half the $0.95$ quantile of $\chi^2_1$; \citealp{venzon1988method}).
+A profile is \emph{bounded} if it exceeds $\delta$ on both sides of the optimum within the box, \emph{one-sided} if on one side only, and \emph{flat} if it stays below $\delta$ across the box.
 \end{definition}
 
-Only a bounded interval is called identified. A one-sided interval is constrained on its open side by the box,
-that is, by the prior range, which is why every result is also reported at three box widths. For the two rates
-the grid is also extended to four times the upper bound as a diagnostic outside the classification.
+A bounded interval is necessary for practical identifiability, not sufficient: it says that the likelihood closes inside the box, not that the estimate is accurate. We use \emph{identified} only for a parameter whose bounded interval also covers the truth in a simulation, and say \emph{bounded} otherwise.
+For $\ke$ and $\ka$ we also report the primary box, a box twice as wide, and a box four times as wide, because a bounded interval cannot be found for an estimate on the wall of a narrow box.
 
 \begin{definition}[Interior subject]
 \label{def:interior}
-Subject $i$ is \emph{interior for parameter $j$} when the estimate lies more than $1\%$ of the box width from both
-bounds.
+Subject $i$ is \emph{interior for parameter $j$} when $\hat\theta_{i,j}$ lies more than $1\%$ of the box width from both bounds.
 \end{definition}
 
-A parameter's interval can be bounded only if its estimate is off the bounds, so we report fractions of bounded
-intervals over subjects interior for the parameter, and over all subjects where the count is small. Defining interior
-as ``no parameter on a bound'' would give an empty set whenever one parameter is unidentified, which is why the
-definition is per parameter.
+Boundary-pinned estimates cannot yield bounded profiles, so we report bounded counts both among interior subjects and over all subjects, and we do not read a fraction from fewer than $10$ interior subjects.
 
-\subsection{Instruments}
+\subsection{Diagnostic instruments and data}
 \label{sec:instruments}
 
-\paragraph{Fisher information.}
-We compute $J=\partial(\text{weighted predictions})/\partial\log\theta$ by reverse-mode automatic
-differentiation, $F=J^\top J$, its eigenvalues and eigenvectors, and the Schur complement of the timing block
-$\{\ke,\ka\}$ after profiling out $\SI$, whose condition number measures how well the data constrain the timing
-parameters jointly. The \emph{exchange direction} is $(1/\ka,\,-1/\ke)$ in $(\log\ke,\log\ka)$, the direction
-along which $\tau_1=1/\ke+1/\ka$ is constant to first order. We report the absolute cosine between it and the
-weakest eigenvector of the timing block.
+\paragraph{Fisher information, generic rank, and symbolic structure.}
+We compute $J=\partial(\text{weighted predictions})/\partial\log\theta$ by reverse-mode autodiff, form $F=J^\top J$, and examine the Schur complement of the timing block $\{\ke,\ka\}$ after profiling out $\SI$.
+The \emph{exchange tangent} $(1/\ka,\,-1/\ke)$ in $(\log\ke,\log\ka)$ is the direction along which $\tau_1=1/\ke+1/\ka$ is locally constant; we measure its absolute cosine with the weakest timing-block eigenvector.
+Generic numerical rank of $J$ across random draws (tolerance $10^{-6}$) separates ill-conditioning from rank deficiency, while StructuralIdentifiability.jl \citep{dong2023differential} tests symbolic identifiability under alternative initial-gut assumptions.
 
-\paragraph{Generic rank and structure.}
-The rank of the stacked sensitivity matrix over many random parameter draws, at a relative tolerance of $10^{-6}$,
-separates a parameter set that is locally identifiable but ill-conditioned from one that is rank deficient. Symbolic analysis
-with StructuralIdentifiability.jl \citep{dong2023differential} runs under several formulations that differ in what is assumed
-known about the gut at the start of a meal (Section~\ref{sec:timing}).
+\paragraph{Replica and synthetic controls.}
+In the \emph{true-model replica}, each subject's prediction-fit estimate (moved at least $5\%$ inside the box) is the ground truth; real meals are simulated from that truth, corrupted with first-order autoregressive (AR($1$)) CGM noise matching the subject's empirical residual variance and lag-$1$ correlation, and fed to the estimator with lognormal carbohydrate logging error (unit mean, $\mathrm{CV}=0.25$).
+In the \emph{synthetic study}, truths are drawn independently and uniformly inside the box.
+The replica's fitted truths sit near the upper bound of the rates, which is the lower wall of $(\tau_1,p)$, so we also draw replica truths at random through the box (\emph{random-truth replica}).
+Both controls evaluate coverage conditional on their simulation assumptions and give no independent physiological validation.
+\emph{Coverage} means one thing throughout: the share of all subjects whose $95\%$ profile interval, clipped to the box, contains the true value.
+An interval open to the box edge covers the truth almost for free, so we also report the share of bounded intervals, the coverage of bounded intervals narrower than $0.5$ in log units, and the median interval score.
 
-\paragraph{Replica and synthetic study.}
-In the \emph{replica}, each subject's regularized prediction-fit estimate, moved at least $5\%$ of the box width
-inside the box, is the truth. Each real meal is simulated at it; autoregressive CGM noise with the subject's own
-variance and lag-one correlation, taken from the residual of the real fit, is added; and the fit receives the true
-carbohydrate multiplied by lognormal error of unit mean and coefficient of variation $0.25$. The replica asks how
-often the data would bound a parameter if the model were true, with this noise and this logging error. In the
-\emph{synthetic study} the true parameters are instead drawn independently and uniformly inside the box, so that
-recovery can be read against where the truth lies. In both, coverage of the bounded intervals can be checked.
+\paragraph{Cohorts, cross-validation, and statistics.}
+We use CGMacros \citep{das2025cgmacros}, a Shanghai type~$2$ diabetes cohort \citep{zhao2023shanghai}, and a standardized-meal cohort \citep{hall2018glucotypes}, retaining subjects with at least $10$ meals ($5$ for the standardized-meal cohort): \resCohortCgmSubjects, \resCohortShanghaiSubjects, and \resCohortHallSubjects{} subjects.
+The Shanghai carbohydrates are estimated by keyword from free-text dietary records and its sensor samples every $15$ minutes, so that cohort carries both a larger logging error and a coarser trace than CGMacros; we use it only for replication.
+Held-out prediction uses $5$ repeats of $5$-fold within-subject cross-validation with identical SHA-256-seeded folds across methods.
+Two fits are called equivalent when the $90\%$ bootstrap interval of their paired difference lies inside a margin (two one-sided tests; \citealp{schuirmann1987comparison}). The margin is $150$\,mg\,dL$^{-1}$\,min, which is \resMarginShareGain\% of the gain of the three-parameter fit over the personal mean, so Section~\ref{sec:prediction} also reports the differences themselves.
+Proportions report $95\%$ Wilson intervals \citep{wilson1927probable}, paired differences report subject-level BCa bootstrap intervals \citep{efron1987better}, and test families use Holm correction \citep{holm1979simple}.
+Ten hypotheses were fixed in version control before any analysis (Table~\ref{tab:plan}); everything from Section~\ref{sec:prediction} onward was added after earlier results had been seen and is exploratory (Appendix~\ref{app:register} lists all of it; cohort and protocol details are in Appendix~\ref{app:setting}).
 
-\paragraph{Data, protocol and statistics.}
-We use CGMacros \citep{das2025cgmacros}, a Shanghai cohort of people with type two diabetes \citep{zhao2023shanghai} and
-a cohort with standardized meals \citep{hall2018glucotypes}, keeping subjects with at least ten meals (five for the
-last): \resCohortCgmSubjects, \resCohortShanghaiSubjects{} and \resCohortHallSubjects{} subjects. Held-out
-prediction uses five repeats of five-fold cross-validation within subject, with SHA-256-seeded folds identical for
-every method. Two methods are called equivalent when the $90\%$ bootstrap interval of their paired difference lies
-inside $(-150,+150)$\,mg\,dL$^{-1}$\,min, by the two one-sided tests procedure \citep{schuirmann1987comparison}.
-Fractions carry Wilson intervals \citep{wilson1927probable}, paired differences carry subject-level BCa bootstrap
-intervals \citep{efron1987better}, and families of comparisons carry Holm correction \citep{holm1979simple}.
-\paragraph{Analysis status.}
-Ten hypotheses (H1--H10) were fixed in version control before any analysis was run, and H11 and H12 were added before
-the identifiability analyses. H13 to H38 were declared after earlier results had been seen, each with its rule fixed
-before its run, and are exploratory. Table~\ref{tab:register} (Appendix~\ref{app:register}) gives every rule, its origin
-and its status; the main text does not repeat the label. Appendix~\ref{app:setting} gives the cohorts and protocol.
+\input{generated/plan}

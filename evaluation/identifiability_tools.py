@@ -232,9 +232,17 @@ def profile_likelihood(loss_fn: Callable, theta_hat, index: int, grid,
     upper = jnp.full(n, jnp.inf) if upper is None else jnp.asarray(upper, dtype=jnp.float64)
     free = jnp.asarray([0.0 if i == index else 1.0 for i in range(n)], dtype=jnp.float64)
     opt = _inner_optimizer(optimizer, learning_rate)
+    if project is None:
+        _proj = None
+    else:
+        import inspect
+        _accepts_fixed = "fixed_index" in inspect.signature(project).parameters
+        _proj = (lambda t: project(t, fixed_index=index)) if _accepts_fixed else project
 
     def one_point(fixed_value):
         start = theta_hat.at[index].set(fixed_value)
+        if _proj is not None:
+            start = _proj(start).at[index].set(fixed_value)
 
         def body(carry, _):
             theta, state = carry
@@ -244,9 +252,9 @@ def profile_likelihood(loss_fn: Callable, theta_hat, index: int, grid,
                                        grad=grad, value_fn=loss_fn)
             theta = optax.apply_updates(theta, updates)
             theta = jnp.clip(theta, lower, upper)
-            if project is not None:
+            if _proj is not None:
                 # A constraint that is not a box (the real-pole region of the reparameterized fits).
-                theta = project(theta)
+                theta = _proj(theta)
             theta = theta.at[index].set(fixed_value)
             return (theta, state), value
 

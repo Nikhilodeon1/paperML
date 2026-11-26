@@ -425,8 +425,8 @@ def build_objective(spec: ObjectiveSpec, base, arrays: dict, observed: dict,
                  else [math.log(float(theta_full0[0])), math.log(tau0), math.log(p0)])
         theta_start = jnp.clip(jnp.asarray(start), lower, upper)
 
-        def project(theta):
-            return co.project_log(theta, lower, upper, tied=tied)
+        def project(theta, fixed_index: int | None = None):
+            return co.project_log(theta, lower, upper, tied=tied, fixed_index=fixed_index)
 
         def to_natural(theta):
             values = np.asarray(theta, dtype=float)

@@ -1,0 +1,5 @@
+{'subject_id': 'CGMacros-001', 'pseudo_tau1': 93.49867611082442, 'pseudo_p': 2185.5006086192116, 'pseudo_si': 0.33424223249186674, 'pseudo_ke': 0.021390676900325884, 'pseudo_ka': 0.021390677514348203, 'least_squares_value': 168212.97797493899, 'Td': 7.0913848799622405}
+
+real	0m28.847s
+user	0m0.030s
+sys	0m0.031s

@@ -222,6 +222,19 @@ def scorecard_table(verdicts: dict) -> None:
     _write("scorecard.tex", tex)
 
 
+def plan_table(verdicts: dict) -> None:
+    """The ten hypotheses fixed before any analysis, with their outcome, for the main text."""
+    names = [f"H{i}" for i in range(1, 11) if f"H{i}" in verdicts]
+    rows = [f"{n} & {TOPIC[n]} & {_esc(verdicts[n]['status']).replace('formulation-dependent', 'depends on the assumed initial gut state')} \\\\" for n in names]
+    lines = ["\\begin{table}[tbp]", "\\centering\\footnotesize", "\\begin{tabularx}{\\linewidth}{lXl}", "\\toprule",
+             "& question & outcome \\\\", "\\midrule"] + rows + [
+             "\\bottomrule", "\\end{tabularx}",
+             "\\caption{The ten hypotheses fixed in version control before any analysis was run, and what the stored results show. "
+             "H1, H3, H5, H7 and H9 are the primary endpoints. Every analysis in Section~\\ref{sec:prediction} onward is exploratory "
+             "(Appendix~\\ref{app:register}).}", "\\label{tab:plan}", "\\end{table}"]
+    _write("plan.tex", "\n".join(lines) + "\n")
+
+
 def register_table(verdicts: dict) -> None:
     rows = [f"{name} & {origin(name)} & {_esc(row['rule'])} & {_esc(row['status'])} \\\\"
             for name, row in verdicts.items()]
@@ -345,7 +358,7 @@ def main() -> int:
     summary = load_summary()
     verdicts = evaluate_all(summary)
     for fn in (lambda: cohorts_table(), lambda: cohort_results_table(),
-               lambda: prediction_compact_table(summary),
+               lambda: prediction_compact_table(summary), lambda: plan_table(verdicts),
                lambda: register_table(verdicts), lambda: noise_budget_table(summary), lambda: replica_factorial_table(summary),
                lambda: levels_table(summary),
                lambda: correlates_table(summary)):

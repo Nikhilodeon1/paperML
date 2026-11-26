@@ -271,29 +271,30 @@ def fig3_fractions():
 def fig4_replica():
     p8, p9 = _p8(), _p9()
     plt = _plt()
-    fig, axes = plt.subplots(1, 3, figsize=(6.9, 2.7), gridspec_kw={"width_ratios": [1.15, 1.0, 1.05]})
+    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.85), gridspec_kw={"width_ratios": [1.3, 1.0, 1.1]})
     # (a) S_I bounded among interior: real, replica seeds, pooled
     ax = axes[0]
     p2 = _p2().get("profile_likelihood", {}).get("1x", {}).get("S_I_bounded_among_interior_for_S_I")
     bars = []
     if p2:
-        bars.append(("real data", p2["fraction"], p2["wilson"], C["grey"]))
+        bars.append(("Real", p2["fraction"], p2["wilson"], C["grey"]))
     seeds = p9.get("h17", {}).get("per_seed", {})
     for seed, d in sorted(seeds.items()):
         si = d.get("S_I_interior_bounded") if d.get("n") else None
         if si:
-            bars.append((f"seed {seed}", si["fraction"], si["wilson"], C["iauc"]))
+            bars.append((f"S{seed}", si["fraction"], si["wilson"], C["iauc"]))
     pooled = p9.get("h17", {}).get("pooled_S_I_interior_bounded")
     if pooled:
-        bars.append(("pooled", pooled["fraction"], pooled["wilson"], C["black"]))
+        bars.append(("Pool", pooled["fraction"], pooled["wilson"], C["black"]))
     if not seeds:
         si = p8.get("h13", {}).get("S_I_interior_bounded")
         if si:
-            bars.append(("replica", si["fraction"], si["wilson"], C["iauc"]))
+            bars.append(("Rep", si["fraction"], si["wilson"], C["iauc"]))
     for i, (label, f, w, color) in enumerate(bars):
-        _wilson_bars(ax, i, f, w, color, width=0.65)
+        _wilson_bars(ax, i, f, w, color, width=0.62)
     ax.set_xticks(range(len(bars)))
-    ax.set_xticklabels([b[0] for b in bars], rotation=40, ha="right", fontsize=7.5)
+    ax.set_xticklabels([b[0] for b in bars], rotation=0, ha="center", fontsize=7.5)
+    ax.set_xlabel("cohort / replica seed (S0\u2013S4)")
     ax.axhline(50, color=C["red"], lw=0.9, ls=":")
     ax.set_ylabel(r"$S_I$ interval bounded" + "\n(% of interior subjects)")
     ax.set_ylim(0, 100)

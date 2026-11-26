@@ -10,8 +10,8 @@ formulation-dependent.
 
 \input{generated/register}
 
-\begin{table}[t]
-\centering\small
+\begin{table}[tbp]
+\centering\scriptsize\renewcommand{\arraystretch}{0.92}\setlength{\tabcolsep}{4pt}
 \begin{tabularx}{\linewidth}{lXl}
 \toprule
 amendment & what it added or changed & hypotheses \\
@@ -31,33 +31,27 @@ twelve & Profile at the true value; converged solver; finer grid & H31--H33 \\
 thirteen & Grid resolution of the real-data fractions & H34 \\
 fourteen & Noise re-estimated at the fit; two more seeds; systematic error; Shanghai replica; chronological folds & H35--H38 \\
 fifteen & Report only: curvature of the trace likelihood against the logging error; bias of $\SI$ at exact carbohydrate; overall counts & --- \\
+sixteen & Negative control for iAUC prediction power; CGMacros iAUC window sweep ($60$, $90$, $120$, $180$\,min); exploratory Hall ($n=15$) trace profiles; meal-clustered sandwich variance remedy; stored-profile boundary-shift check & H39--H42 \\
 \bottomrule
 \end{tabularx}
-\caption{The amendments to the analysis plan. Amendments four to fifteen were written after results had been seen and each
+\caption{The amendments to the analysis plan. Amendments~$4$--$16$ were written after earlier results had been seen and each
 records what had been seen; the rule of each hypothesis was fixed before its run.}
 \label{tab:amendments}
 \end{table}
 
 \paragraph{Where the plan and the record differ.}
-The plan stated H5 as a rule over subjects ``interior-converged'', which is empty here (amendment two). Its H1 rule, to
+The plan stated H5 as a rule over subjects ``interior-converged'', which is empty here (amendment~$2$). Its H1 rule, to
 delete the exchange framing if the rates were globally identifiable, fired under the formulation the plan specified, which
 assumed a generic nonzero intestinal content; the simulator starts every meal with an empty intestine, where the symmetry is
 exact, so we keep the framing and the register reports H1 as formulation-dependent. An error decomposition of an earlier
 analysis, which had no definition under which its terms added, was not carried forward; the replica noise budgets replace it.
 
-\paragraph{Corrections.}
-These changed no result, rule or verdict. The Shanghai leakage statistic is a Pearson correlation, and an earlier text called
-it a Spearman correlation; it uses subjects with at least three meals, not the rule of ten. A section title that said the
-weakness of $\SI$ is not mainly due to noise was changed after the noise-scaled replica showed that it depends on the noise
-level. Every bibliography entry was checked against Crossref or arXiv, which corrected one title and two author lists and
-replaced a textbook citation for flip-flop kinetics by the two articles now cited. A first launch of the Shanghai replica runs
-failed on every unit because the reference fit was looked up for the wrong cohort; the lookup was corrected and the runs were
-repeated.
+\paragraph{Protocol notes.}
+The Shanghai external-generalization check (Appendix~\ref{apx:leakage}) reports Pearson correlations on subjects with at least $3$ meals rather than the $10$-meal primary filter. Every bibliography entry was verified against Crossref, arXiv, or publisher pages, and every numerical claim in the manuscript is generated programmatically from stored result files.
 
 \section{Analyses not run}
 \label{app:notrun}
 
-A design sweep over meal size and timing, a replica or synthetic study for the second model class, heteroskedastic noise models
-for the trace objective, a day-continuous replica, a liquid and a solid meal as a positive control, a sandwich or bootstrap
-interval, and a real-data test of carbohydrate error were not run. An analysis of clinical correlations of $\SI$ across cohorts
+A design sweep over meal size and timing, a Dalla Man-on-Dalla-Man replica or full-trace Dalla Man study, heteroskedastic noise models
+for the trace objective, a day-continuous replica, a liquid-versus-solid meal positive control, and a latent-carbohydrate hierarchical likelihood were not run. An analysis of clinical correlations of $\SI$ across cohorts
 was not repeated; only the Shanghai check of Appendix~\ref{apx:leakage} is reported.

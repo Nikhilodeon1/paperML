@@ -23,25 +23,35 @@ import jax.numpy as jnp         # noqa: E402
 from scipy.optimize import minimize  # noqa: E402
 
 
+def _wrap_project(project, index: int):
+    if project is None:
+        return None
+    import inspect
+    _accepts_fixed = "fixed_index" in inspect.signature(project).parameters
+    return (lambda t: project(t, fixed_index=index)) if _accepts_fixed else project
+
+
 def reduced_value_and_grad(loss_fn, project, index: int, n: int):
     """`f(free, value)`: the loss with coordinate `index` held at `value` and the other coordinates `free`.
 
-    The projection (the real-pole region of the reparameterized fits) is applied and the fixed coordinate is then
-    restored, exactly as the Adam inner loop does, so both solvers minimize the same function.
+    The projection (the real-pole region of the reparameterized fits) is applied respecting `fixed_index`
+    and the fixed coordinate is then restored, exactly as the Adam inner loop does, so both solvers
+    minimize the same function.
     """
     free_index = jnp.asarray([i for i in range(n) if i != index])
+    _proj = _wrap_project(project, index)
 
     def f(free, value):
         full = jnp.zeros(n, dtype=free.dtype).at[free_index].set(free).at[index].set(value)
-        if project is not None:
-            full = project(full).at[index].set(value)
+        if _proj is not None:
+            full = _proj(full).at[index].set(value)
         return loss_fn(full)
 
     return jax.jit(jax.value_and_grad(f)), free_index
 
 
 def fixed_coordinate_minimum(value_and_grad, free_index, start, index: int, value: float, lower, upper,
-                             maxiter: int = 200) -> dict:
+                             maxiter: int = 200, project=None) -> dict:
     """L-BFGS-B over the free coordinates from `start` (a full vector), with coordinate `index` fixed at `value`."""
     start = np.asarray(start, dtype=float)
     free = np.asarray(free_index)
@@ -56,6 +66,9 @@ def fixed_coordinate_minimum(value_and_grad, free_index, start, index: int, valu
     theta = start.copy()
     theta[free] = result.x
     theta[index] = value
+    _proj = _wrap_project(project, index)
+    if _proj is not None:
+        theta = np.asarray(_proj(jnp.asarray(theta)).at[index].set(value), dtype=float)
     return {"loss": float(result.fun), "theta": theta, "converged": bool(result.success), "iterations": int(result.nit)}
 
 
@@ -73,7 +86,7 @@ def profile_lbfgsb(loss_fn, phi_hat, index: int, grid, lower, upper, project=Non
     for k in order:
         side = -1 if grid[k] < phi_hat[index] else +1
         out = fixed_coordinate_minimum(value_and_grad, free_index, previous[side], index, float(grid[k]), lower, upper,
-                                       maxiter)
+                                       maxiter, project=project)
         losses[k], thetas[k], converged[k] = out["loss"], out["theta"], out["converged"]
         previous[side] = out["theta"]
     return {"index": int(index), "grid": grid.tolist(), "profile": losses.tolist(),
