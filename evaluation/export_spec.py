@@ -63,7 +63,9 @@ def collect() -> dict:
     import paper_config as cfg
 
     defaults = params_mod.PhysioParams()
-    engine_params = [f.name for f in fields(jax_engine.JaxPhysioParams)]
+    # Basal glucose is a field of the engine's parameters only so that the subject-specific-basal variant can set it. Its
+    # value everywhere else is the fixed constant reported under "fixed_constants".
+    engine_params = [f.name for f in fields(jax_engine.JaxPhysioParams) if f.name != "basal_glucose"]
 
     return {
         "state": {

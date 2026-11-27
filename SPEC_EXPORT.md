@@ -182,7 +182,7 @@ def diurnal_cortisol(clock_hour):
 
 ## Vector field, verbatim
 
-`vector_field` (simulation/jax_engine.py, lines 140-195)
+`vector_field` (simulation/jax_engine.py, lines 142-197)
 
 ```python
 def vector_field(t, y, args):
@@ -211,9 +211,9 @@ def vector_field(t, y, args):
     hepatic = 0.10 * softplus_relu(cortisol - 15.0)
 
     dG_met = (-(p.glucose_effectiveness + x_act) * glucose
-              + p.glucose_effectiveness * _GB + Ra / Vg + hepatic)
+              + p.glucose_effectiveness * p.basal_glucose + Ra / Vg + hepatic)
     dI = (-p.insulin_clearance * (insulin - _IB)
-          + p.insulin_secretion * softplus_relu(glucose - _GB))
+          + p.insulin_secretion * softplus_relu(glucose - p.basal_glucose))
     si_eff = p.insulin_sensitivity * (1.0 - p.circadian_amp)  # resistance(clock)=const here
     dX = -p.x_decay * x_act + p.x_gain * si_eff * (insulin - _IB)
     dStomach = -emptying + _meal_rate(t, meal_time, mass_mg)
@@ -243,7 +243,7 @@ def vector_field(t, y, args):
     return dy
 ```
 
-`run_meal` (simulation/jax_engine.py, lines 198-219)
+`run_meal` (simulation/jax_engine.py, lines 200-221)
 
 ```python
 def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_g: float = 0.0,
@@ -257,7 +257,7 @@ def run_meal(params: JaxPhysioParams, carbs_g: float, fat_g: float = 0.0, fiber_
     blunt = 1.0 / (1.0 + 0.08 * fiber_g + 0.005 * fat_g)
     mass_mg = carbs_g * 1000.0 * 0.90 * blunt
     ts = jnp.arange(0.0, duration_min + 1e-6, step_min)
-    y0 = initial_state()
+    y0 = initial_state(params.basal_glucose)
     if RESIDUAL_GUT_FRACTION:
         y0 = y0.at[IDX["gut_glucose_mg"]].set(RESIDUAL_GUT_FRACTION * mass_mg)
     sol = diffeqsolve(

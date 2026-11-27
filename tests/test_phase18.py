@@ -30,7 +30,11 @@ def test_replica_arguments_carry_the_systematic_error():
     base = {"seed": 0, "cgm": True, "carb_cv": 0.0}
     plain = subject_source._replica_args(config, base, "CGMacros-001")
     biased = subject_source._replica_args(config, {**base, "carb_bias": 0.25}, "CGMacros-001")
-    assert plain != biased and plain[-1] == 0.0 and biased[-1] == 0.25
+    import inspect
+    names = list(inspect.signature(subject_source._replica_cached.__wrapped__).parameters)
+    position = names.index("carb_bias")
+    assert len(plain) == len(names), "every replica key must reach the cache key"
+    assert plain != biased and plain[position] == 0.0 and biased[position] == 0.25
 
 
 def test_systematic_error_is_one_common_multiplier_per_subject():
