@@ -13,8 +13,13 @@ The same four tests fail on a clean checkout of commit `68fb52d`, which is older
 They exercise application modules (cross-system answers, sleep, stress). They are not fixed. Before the anonymized
 package is built, either fix them or leave those modules and tests out of the package.
 
-Last full run of the suite (26 November, before the completeness manifest was added): 669 passed, 6 skipped, these 4
-failed. A full run on the final tagged commit is still owed.
+## Latest full run (26 November 2026, branch `tmlr-revision`)
+
+At commit `9405e39`: 717 passed, 6 skipped, 5 failed. Four are the ones above. The fifth,
+`tests/test_phase15.py::test_replica_arguments_separate_residual_and_perturbation`, was broken by this work: it read
+replica arguments by position, and two arguments had been added. It now reads them by name and its file passes. The
+run before it also caught two other breakages from this work (the specification exporter and a similar test), fixed in
+`9405e39`. A full run on the final tagged commit is still owed.
 
 ## Known side effect
 
