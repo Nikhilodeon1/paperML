@@ -1,54 +1,61 @@
-# Open items for the TMLR paper (updated 2026-11-26, after the front-matter rewrite)
+# Open items for the TMLR paper
 
-## Blocking submission
+Updated 26 November 2026, after the work on the reviewer's second-round plan (`reviewer_plan_2026-11-26.md`).
+The user's ordered to-do list is `your_steps.md`. Claims are tracked in `claim_ledger.md`.
 
-1. **Pending pod results.** `[pending]` cells remain in the coordinate table (Shanghai, real traces) and in the
-   coverage table (fitted truths, CV 0.75). Needed: `phase21_a_results.tgz`, `phase21_gapfill_b.tgz`,
-   `phase21_gapfill_perturb.tgz`. Pod C's archive is merged. After merging: `python -m evaluation.phase21_summary`,
-   `python -m evaluation.figs_tmlr`, `python -m evaluation.tmlr_build --compile`.
-2. **Text that depends on those results.**
-   - Section 5.2 says perturbing p1, p2 and n in the generator "was not run". The pods run it. Rewrite from the
-     `resPb*` macros, then recheck the limitation "One model family with fixed constants".
-   - Limitation "Replica design" says fitted truths come from one seed. Seeds 1 and 2 (CV 0 and 0.75) are running;
-     the summary reads them but no table shows them yet.
-   - Shanghai replicas (CV 0 and 0.75) are summarised as `resCShanghaiFit*` and not yet in the text.
-   - If fitted CV 0.75 or the extra seeds disagree with Section 5.4, change the abstract and discussion too.
-3. **Appendix cleanup not done.** The linter still reports amendment mentions, hypothesis codes, inline status tags
-   and number walls, mostly in the appendices. The side analyses the review flagged (F.7, F.9, the random-forest and
-   SNPE comparison) are still there. `evaluation.lint_numbers` reported hand-typed numbers in 22 files (mostly
-   settings and the specification table); not reviewed.
-4. **AI-use statement.** The sentence claiming the authors verified every number and reference was removed because
-   nothing in the record shows it. Add it back only after doing the check. Also confirm that the statement and the
-   first-page footnote describe what the assistant did.
-5. **References checked for existence only** (metadata, not content): bellman1970structural,
-   rothenberg1971identification, venzon1988method, efron1987better, holm1979simple, wilson1927probable,
-   byrd1995limited, white1982maximum, dallaman2002oral, brazeau2013carbohydrate, cook1994simulation,
-   albers2017personalized. They are cited only as pointers. Read them or leave the wording as it is.
-   The four arXiv entries that a lookup could not find are no longer cited and were removed from the bibliography.
+## Status of the reviewer's plan
 
-## Author pass (rewrite in your own words, keep the facts)
+| item | state |
+|---|---|
+| Stage 0: completeness manifest | done; also fails on a bounded interval with no in-box point under the threshold |
+| Stage 0: unfinished runs exit nonzero | done |
+| Stage 0: test failures | shown to predate this work (`test_status.md`); not fixed |
+| Stage 0: hand-typed numbers | done: the checker no longer scans generated files and reports 0; numbers in math mode were reviewed and are settings |
+| Stage 0: frozen index covers every macro file; tagged commit | **after the reruns** |
+| Stage 1: outcome rules written before results | done; R1 applied once on the earlier solver and will be reapplied |
+| Stage 1: pending runs | replaced by the reruns (the earlier solver stopped early at some points) |
+| Stage 2: one protocol | code and pod queue ready; **runs not started** |
+| Stage 2: exact-domain results deleted | done in the appendix |
+| Stage 3: calibration, isolated meals, basal glucose, sensor lag, Dalla Man rerun | code, tests, one end-to-end unit each, and pod queue ready; **runs not started** |
+| Stage 4: rules applied by code | `python -m evaluation.rules` |
+| Stage 4: claim ledger | written; last column waits for results |
+| Stage 4: Table 2 split and wording, interval score column, vocabulary, figure caption | done |
+| Stage 4: true-parameter reference with bootstrap intervals; rank correlation against CV | done |
+| Stage 4: appendix cuts and keeps; register moved out of the paper | done (27 pages, from 39) |
+| Stage 4: design schematic | **not done** |
+| Stage 4: Hovorka-type identifiability reference | added Garcia-Tirado et al. 2018 (abstract checked). It covers three control-oriented type 1 models, not the Hovorka model by name; I found no Hovorka-specific identifiability study |
+| Stage 5: authors' hand rewrite, verification statement, reference checks | **authors** |
+| Stage 6: submission gate | after all of the above |
 
-Introduction paragraphs 1 to 3 (motivation, closest prior work, scope); Section 5.3 opening (what the real-data
-prediction comparison can and cannot show); Section 5.4 "A bounded interval is not a sign of better data";
-Section 5.5 second paragraph (pseudo-true value); Discussion "What limits identification", "What the replicas add"
-and "Recommendations"; Limitations; Conclusion; Broader Impact.
+## Still to write once results arrive (not experiments)
 
-## Not run (stated in Limitations or the text)
+- A summary that writes LaTeX macros from the reruns, and the repointing of every iAUC, centroid, residual-gut, window,
+  Dalla Man, calibration, isolated-meal, basal, and Shanghai number in the paper. `rules.py` already computes them.
+- Rewrite of Section 5.5 around the Dalla Man rerun, and of Section 5.2's statement that a perturbation test was not
+  run. A short remedy paragraph for the calibration result, and one-sentence results for R14 to R16.
+- The appendix still prints numbers from the old protocol in the timing, cohort, window, Dalla Man real-fit, and
+  solver-history parts. Each is replaced by its rerun or cut.
+- The paper must not be sent out in its current state: Sections 5.1, 5.2, and 5.5 are old-protocol, and Section 5.4 uses
+  the solver without restarts.
 
-SIMEX or another input-error remedy; a Bergman fit with sensor lag and free p2; a Dalla Man replica fitted by Dalla
-Man; a second generator distribution; overlapping meals; restriction to meals with gaps over 4 h; subject-specific
-basal glucose; per-meal k_e; posterior contraction.
+## Not run, stated as limitations
 
-## Weak points a reviewer can press
+Dalla Man fitted to its own replica; a second Dalla Man parameter distribution; per-meal k_e; posterior contraction;
+a free `p2`.
 
-- **All iAUC profiles (box table, Section 5.2 S_I results, replica, synthetic, perturbations) use the older 15-point
-  Adam protocol and Sections 5.1 and 5.2 do not say so.** The abstract's unbounded-rates claim rests on them. Rerun with
-  `inner_solver=lbfgsb`, `grid_points=29`, or label them.
-- Centroid, residual-gut, exact-domain and Dalla Man profiles also use the older protocol. The text says so.
-- Why logging error moves estimates toward slower absorption is not established.
-- Held-out iAUC ratio 0.99 (fast corner, S_I fixed at truth, appendix) is below the floor of 1.00, unexplained.
-- `amendment16_macros.tex` and `amendment17_macros.tex` are not in the frozen number index or ledger.
+## Record keeping and anonymity
+
+- `amendment16_macros.tex` and `amendment17_macros.tex` are not yet in the frozen number index.
+- Tracked old failure files, `results_return/logs`, and `workshop_caleai/build` contain a local user path. The anonymous
+  package must leave them out, with git history. The compiled PDF was checked: no author or user name.
+- Running the test suite rewrites `evaluation/figures/fig4_clinical_recovery.pdf`; restore it afterwards.
+
+## References checked for existence only
+
+bellman1970structural, rothenberg1971identification, venzon1988method, efron1987better, holm1979simple,
+wilson1927probable, byrd1995limited, white1982maximum, dallaman2002oral, brazeau2013carbohydrate, cook1994simulation,
+albers2017personalized.
 
 ## Elsewhere
 
-The CALE-AI workshop paper still uses coverage numbers from the older protocol.
+The CALE-AI workshop paper still uses old-protocol coverage numbers.
