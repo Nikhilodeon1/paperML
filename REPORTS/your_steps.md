@@ -88,7 +88,26 @@ the linter, the number check and the full test suite, and tag one commit. I repo
    path.
 7. **Submit** once there are no `[pending]` cells, no undefined references, and the checks in step 7 pass.
 
-## CALE-AI
+## CALE-AI (abstract and paper both due 27 November 2026; no time zone stated)
 
-The workshop paper uses old-protocol trace numbers. Update it after step 5 gives the new Section 5.4 numbers. Check
-its exact deadline and time zone now; the date recorded here is 27 November 2026.
+1. **Register the abstract on EasyChair now** (title and abstract without result numbers).
+2. When pod 1 has finished its first 12 runs and pod 2 its first 3, download `stage2_pod1_results.tgz` and
+   `stage2_pod2_results.tgz` into `paperML` and tell me. I merge them and run:
+
+   ```powershell
+   python workshop_caleai/ws_numbers.py
+   ```
+
+   ```powershell
+   python workshop_caleai/build.py
+   ```
+
+   ```powershell
+   python workshop_caleai/package.py
+   ```
+
+   The first command stops if a sweep is incomplete or a sentence of the paper stops being true.
+3. Confirm the AI-use paragraph, rewrite the passages in `workshop_caleai/author_pass.md`, and submit
+   `workshop_caleai/submission/Anonymous.pdf`. **Never submit `Draft.pdf`.**
+
+Details and risks: `workshop_caleai/SUBMISSION_CHECKLIST.md`.

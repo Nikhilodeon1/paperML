@@ -44,3 +44,12 @@ paper/*.fdb_latexmk
 paper/*.toc
 paper/main.pdf
 phase*_results/
+
+# run output that must not be committed (some of it records local paths and machine names)
+logs/
+sbi-logs/
+results_return/
+final_extra/
+*.failed.json
+*_results.tgz
+workshop_caleai/build/

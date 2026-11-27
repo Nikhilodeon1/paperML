@@ -29,7 +29,7 @@ DEFINING = ("results_macros.tex", "amendment16_macros.tex", "amendment17_macros.
 
 
 def manuscript_files() -> list:
-    return [p for p in sorted(PAPER.glob("*.tex")) if p.name not in GENERATED and p.name != "appendix_deviations.tex"]
+    return [p for p in sorted(PAPER.glob("*.tex")) if p.name not in GENERATED]
 
 
 def pending_macros() -> list[str]:

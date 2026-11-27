@@ -23,28 +23,17 @@ from pathlib import Path
 
 from evaluation.results_io import ROOT
 
-INCLUDE_DIRS = ("evaluation", "personalization", "simulation", "cohort_cache", "julia", "paper", "scripts",
-                "REPORTS", "results")
-INCLUDE_FILES = ("data_paths.py", "paper_config.py", "pytest.ini", "requirements-aistats.txt",
-                 "PREREG.md", "PREREG_AMENDMENT_1.md", "PREREG_AMENDMENT_2.md",
-                 "PREREG_AMENDMENT_3.md", "PREREG_AMENDMENT_4.md", "PREREG_AMENDMENT_5.md",
-                 "PREREG_AMENDMENT_6.md", "PREREG_AMENDMENT_7.md", "PREREG_AMENDMENT_8.md",
-                 "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "PREREG_AMENDMENT_12.md", "PREREG_AMENDMENT_13.md", "PREREG_AMENDMENT_14.md", "PREREG_AMENDMENT_15.md", "PREREG_AMENDMENT_16.md", "SPEC_EXPORT.md", "docs/POD.md",
-                 "docs/PHASE9.md")
-INCLUDE_TESTS = ("test_prediction_cv.py", "test_phase7.py", "test_phase8.py", "test_phase1.py", "test_phase2_modules.py", "test_lint_terms.py",
-                 "test_runner.py", "test_results_pipeline.py", "test_cv_utils.py", "test_subject_loss.py",
-                 "test_identifiability.py", "test_identifiability_toys.py", "test_observables.py",
-                 "test_stats_utils.py", "test_determinism.py", "test_spec_and_cohort.py", "test_phase9.py",
-                 "test_phase10.py", "test_phase13.py", "test_phase14.py", "test_phase15.py", "test_phase16.py", "test_phase17.py", "test_phase18.py", "test_phase19.py")
+INCLUDE_DIRS = ("evaluation", "personalization", "simulation", "knowledge_base", "cohort_cache", "julia", "paper",
+                "results", "tests")
+# Of REPORTS/ only the analysis record ships: the outcome rules and the hypothesis register. The rest are working notes.
+INCLUDE_FILES = ("README.md", "data_paths.py", "paper_config.py", "pytest.ini", "requirements-aistats.txt",
+                 "a4_fisher.tgz", "SPEC_EXPORT.md", "PREREG.md",
+                 "PREREG_AMENDMENT_1.md", "PREREG_AMENDMENT_2.md", "PREREG_AMENDMENT_3.md", "PREREG_AMENDMENT_4.md", "PREREG_AMENDMENT_5.md", "PREREG_AMENDMENT_6.md", "PREREG_AMENDMENT_7.md", "PREREG_AMENDMENT_8.md", "PREREG_AMENDMENT_9.md", "PREREG_AMENDMENT_10.md", "PREREG_AMENDMENT_11.md", "PREREG_AMENDMENT_12.md", "PREREG_AMENDMENT_13.md", "PREREG_AMENDMENT_14.md", "PREREG_AMENDMENT_15.md", "PREREG_AMENDMENT_16.md", "PREREG_AMENDMENT_17.md",
+                 "REPORTS/decision_rules_2026-11-26.md", "REPORTS/hypothesis_register.tex")
 EXCLUDE_PARTS = {"__pycache__", ".git", ".venv", ".jax_cache", ".cache", "node_modules", "data",
                  "user_data", "logs", "sbi-logs"}
-# Product code that lives beside the analyses in this repository and that no analysis imports.
-# Working notes of the authors: the reports that describe results stay, the planning documents do not.
-EXCLUDE_FILES = ("REPORTS/claims_ledger.md", "REPORTS/strategy_report_phase9.md", "REPORTS/strategy_report_final.md",
-                 "REPORTS/tmlr_cover_note.md", "REPORTS/revision_writeup.md", "REPORTS/external_review_brief.md",
-                 "personalization/auth.py", "personalization/user_store.py", "personalization/mailer.py",
-                 "personalization/dexcom.py", "personalization/store.py", "personalization/time_machine.py")
-EXCLUDE_SUFFIXES = (".pyc", ".claim", ".heartbeat", ".partial", ".tgz", ".zip", ".failed.json", ".log")
+EXCLUDE_FILES: tuple[str, ...] = ()
+EXCLUDE_SUFFIXES = (".pyc", ".claim", ".heartbeat", ".partial", ".zip", ".failed.json", ".log")
 TEXT_SUFFIXES = {".py", ".md", ".tex", ".json", ".txt", ".toml", ".cfg", ".yaml", ".yml", ".sh", ".jl",
                  ".ini", ".csv", ".bib", ".gz"}
 
@@ -71,10 +60,6 @@ def candidate_files() -> list[Path]:
             files.extend(p for p in base.rglob("*") if p.is_file())
     for name in INCLUDE_FILES:
         path = ROOT / name
-        if path.is_file():
-            files.append(path)
-    for name in INCLUDE_TESTS:
-        path = ROOT / "tests" / name
         if path.is_file():
             files.append(path)
     keep = []
