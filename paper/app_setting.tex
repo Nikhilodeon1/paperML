@@ -23,9 +23,8 @@ Held-out prediction uses $5$-fold cross-validation within subject, repeated $5$ 
 SHA-256 and identical for every method, so no method benefits from a favorable split. One unit is a subject and a
 repeat, every meal is held out once, a subject's score is its mean over repeats, and every interval resamples
 \emph{subjects}. We compare gradient fitting with three parameters or with $\SI$ only, exhaustive grid search of the same
-loss (a $20\times8\times8$ grid, or a $41$-point grid), and the same under the full-trace objective. The baselines are a
-random forest, a simulation-based-inference estimate trained on simulated data, the personal mean, the population
-default and persistence. Two methods are called equivalent when the $90\%$ bootstrap interval of their paired difference
+loss (a $20\times8\times8$ grid, or a $41$-point grid), and the same under the full-trace objective. The baselines are
+the personal mean, the population default, and persistence. Two methods are called equivalent when the $90\%$ bootstrap interval of their paired difference
 lies inside $(-150,+150)$ mg\,dL$^{-1}$\,min. Margins of $90$ and $300$ are also reported. A difference is not called an
 equivalence unless that test was run.
 
@@ -33,26 +32,14 @@ equivalence unless that test was run.
 The equivalence margin of $150$\,mg\,dL$^{-1}$\,min was chosen prior to analysis as an operational scale rather than a clinical cutoff. It is smaller than the gain of the
 gradient fit over a subject's own mean on CGMacros (\resDiffGradThreeVsPersonalMean{}, roughly $65\%$ of that gain), and a small fraction of the mean
 error (\resMaeGradThree{}). The smaller margin of $90$ is the stricter test and $300$ the looser one, and the
-conclusions of H7 and H8 for the primary comparisons are those reported in Appendix~\ref{app:results}. A margin
+conclusions for the primary comparisons are those reported in Appendix~\ref{app:results}. A margin
 tied to a clinical decision would require an outcome beyond iAUC.
-
-\paragraph{The learned baselines.}
-Both are trained once on simulated meals, with parameters drawn from a prior over a box, and then applied to each
-subject's training meals. The input is five summaries of a postprandial window (iAUC, peak, time of peak, baseline and
-early slope), the carbohydrate load and the subject's body profile. The random forest is an amortized point estimator;
-for a subject it returns the median over training meals of its estimate of $\SI$. The simulation-based-inference
-estimate (SNPE) is a posterior fitted with a normalizing flow, and for a subject it returns the median over meals of the
-posterior mean of $\SI$. Either value of $\SI$ is then run through the simulator, with the other parameters at their
-population values, to predict the held-out meals. These baselines estimate $\SI$ only and are not tuned to the held-out folds, so we read their
-differences from the twin as differences and not as a ranking of methods.
 
 \subsection{Statistics and the analysis plan}
 \label{sec:plan}
 
 Fractions of subjects carry Wilson intervals. Paired differences carry subject-level BCa bootstrap intervals
 ($\resBootstrapResamples$ resamples), Wilcoxon tests with Holm correction within families, and two one-sided tests for
-equivalence. The analysis plan, with thresholds, was fixed in version control before the analyses were run
-(hypotheses H1--H10). Amendments were committed before the analyses they concern or, where stated, after results had been
-seen. H11 and H12 were declared before their analyses. \textbf{H13--H42 were declared after earlier results were seen}
-and are marked post hoc throughout. Appendix~\ref{app:register} lists every hypothesis with its rule, status, and
-deviations.
+equivalence. Ten hypotheses with their thresholds were fixed in version control before the analyses were run
+(Table~\ref{tab:plan}); every other analysis is exploratory. The full record, with each later analysis and when it was
+declared, is kept with the code.

@@ -142,3 +142,18 @@ error on every truth set" stays if coverage at CV 0.75 is below coverage with ex
 random-truth seeds. "A bounded count moves in opposite directions" stays if bounded `tau1` counts rise from CV 0 to 0.25
 on fitted truths (seed 0) and fall from CV 0 to 0.75 on both random-truth seeds. The ordering statement stays if rank
 correlation at CV 0.75 is at least 0.6 on both random-truth seeds.
+- **Definitions for the new experiments (recorded 26 November 2026, before any of them ran).**
+  *R11:* the Dalla Man control is run through the same pipeline as every other replica (coordinate trace fit, search
+  rectangle, converged profiles) in place of the exact-domain code of the earlier control. One parameter distribution and
+  one random stream, the same sampler as that control; sensor noise is the subject's own, as in the other replicas; fat
+  and fibre are set to zero in the fitted model because the Dalla Man gut takes only the carbohydrate load. The
+  pseudo-true `tau1` is the polished estimate on the noise-free output.
+  *R13:* only the logged carbohydrate given to the fit is replaced; the truth and the noise are unchanged.
+  *R14:* gaps are hours since the previous logged meal of any kind. The comparison is with the same subjects using all
+  their meals; for the iAUC it is made at the primary box.
+  *R15:* a subject's basal glucose is the median over their meals of the mean glucose in the 30 minutes before the meal,
+  used in the fitted model's basal term, insulin-secretion threshold and starting state.
+  *R16:* the lag is first order with a fixed time constant of 10 minutes (not the generator's per-subject delay), applied
+  inside the fitted model. It is run on the noise-free and noisy Dalla Man replicas only. `p2` is not freed.
+  *Window sweep:* iAUC at 60, 90 and 120 minutes, primary box; 180 minutes is the main run. If any `k_e` or `k_a`
+  interval is bounded at a shorter window, the statement "at windows from 60 to 180 minutes" is replaced by the counts.

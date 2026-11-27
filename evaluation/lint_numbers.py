@@ -38,7 +38,7 @@ _MATH_ENVIRONMENTS = ("equation", "equation*", "align", "align*", "gather", "gat
 _OPAQUE_COMMANDS = re.compile(
     r"\\(?:cite[a-zA-Z]*|ref|eqref|autoref|pageref|label|input|include(?:graphics)?|safefigure|"
     r"usepackage|documentclass|bibliography(?:style)?|newcommand|renewcommand|def|"
-    r"hspace|vspace|setlength|addtolength|columnwidth|textwidth|linewidth|arraystretch|"
+    r"hspace|vspace|setlength|addtolength|addtocounter|columnwidth|textwidth|linewidth|arraystretch|"
     r"url|href|caption\s*\*?\s*\[|begin|end|color|rowcolor|cmidrule|midrule|toprule|bottomrule|"
     r"multicolumn|multirow|fontsize|selectfont|pdfoutput|pdfminorversion)"
     # Repeated optional brackets: \citep[see][p.~3]{key} carries two of them. At most two brace
@@ -161,7 +161,9 @@ def main() -> None:
     ap.add_argument("files", nargs="*", type=Path)
     args = ap.parse_args()
     paths = args.files or sorted(PAPER.glob("*.tex"))
-    paths = [p for p in paths if p.name != "results_macros.tex"]
+    from evaluation.tmlr_build import GENERATED
+    if not args.files:                                  # files written by a script are not hand-typed
+        paths = [p for p in paths if p.name not in GENERATED]
     if not paths:
         print("no .tex files to lint")
         return

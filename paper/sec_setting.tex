@@ -57,7 +57,7 @@ The prediction fit of Section~\ref{sec:prediction} minimizes the mean squared iA
 That error is of order $\resPenaltyLossScale$ (mg\,dL$^{-1}$\,min)$^2$ at the fit, because the mean absolute error is \resMaeGradThree{} mg\,dL$^{-1}$\,min, whereas the penalty cannot exceed $0.03$.
 The penalty therefore acts only along directions in which the data are flat, and the prediction fit, and the replica truths taken from it, are in practice unregularized least-squares fits of the iAUC.
 Residuals are Gaussian with per-subject, per-observable variances estimated from a pilot fit and then frozen (preventing variance inflation inside optimization); stacked observables use inverse-variance weights, and trace residuals are Prais--Winsten whitened for lag-$1$ autocorrelation.
-Fits use fixed-step Adam \citep{kingma2015adam} in log coordinates, and the symmetric-coordinate trace fits of Section~\ref{sec:more} are polished with multi-start L-BFGS-B \citep{byrd1995limited}.
+Fits use fixed-step Adam \citep{kingma2015adam} in log coordinates, and the estimates of the profile analyses are then refined from several starting points with L-BFGS-B \citep{byrd1995limited}.
 
 \begin{definition}[Profile interval and classification]
 \label{def:profile}
@@ -97,6 +97,6 @@ The Shanghai carbohydrates are estimated by keyword from free-text dietary recor
 Held-out prediction uses $5$ repeats of $5$-fold within-subject cross-validation with identical SHA-256-seeded folds across methods.
 Two fits are called equivalent when the $90\%$ bootstrap interval of their paired difference lies inside a margin (two one-sided tests; \citealp{schuirmann1987comparison}). The margin is $150$\,mg\,dL$^{-1}$\,min, which is \resMarginShareGain\% of the gain of the three-parameter fit over the personal mean, so Section~\ref{sec:prediction} also reports the differences themselves.
 Proportions report $95\%$ Wilson intervals \citep{wilson1927probable}, paired differences report subject-level BCa bootstrap intervals \citep{efron1987better}, and test families use Holm correction \citep{holm1979simple}.
-Ten hypotheses were fixed in version control before any analysis (Table~\ref{tab:plan}); everything from Section~\ref{sec:prediction} onward was added after earlier results had been seen and is exploratory (Appendix~\ref{app:register} lists all of it; cohort and protocol details are in Appendix~\ref{app:setting}).
+Ten hypotheses were fixed in version control before any analysis (Table~\ref{tab:plan}). Every other analysis was added after earlier results had been seen and is exploratory; the full record is kept with the code. Cohort and protocol details are in Appendix~\ref{app:setting}.
 
 \input{generated/plan}

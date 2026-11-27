@@ -64,8 +64,20 @@ def default_config() -> dict:
         "polish_starts": 5, "polish_maxiter": 300,
         "profile_parameters": ["Vmx", "kabs", "kmax", "kmin"],
         "grid_points": 11, "profile_steps": 50, "profile_learning_rate": 0.03,
+        # "lbfgsb" solves every grid point to convergence, as the other profiles do; "adam" is the earlier protocol.
+        "inner_solver": "adam", "lbfgsb_maxiter": 200, "lbfgsb_restarts": 0,
         "rtol": 1e-6, "atol": 1e-6, "max_steps": 20000,
     }
+
+
+PROTOCOL_KEYS = ("inner_solver", "grid_points", "lbfgsb_restarts")
+
+
+def matches(payload: dict, config: dict) -> bool:
+    """Whether a stored result was computed under this configuration's protocol. Results from before the protocol was
+    recorded were computed with the earlier one."""
+    earlier = default_config()
+    return all(payload.get(key, earlier[key]) == config.get(key, earlier[key]) for key in PROTOCOL_KEYS)
 
 
 def units(config: dict) -> list[str]:
@@ -186,8 +198,13 @@ def run_unit(unit: str, config: dict) -> dict:
     for name in config["profile_parameters"]:
         index = TARGETS.index(name)
         phi_grid = np.linspace(lower[index], upper[index], config["grid_points"])
-        raw = profile_likelihood(nll, phi_hat, index, phi_grid, lower=lower, upper=upper,
-                                 steps=config["profile_steps"], learning_rate=config["profile_learning_rate"])
+        if config.get("inner_solver", "adam") == "lbfgsb":
+            from evaluation.profile_solver import profile_lbfgsb
+            raw = profile_lbfgsb(nll, phi_hat, index, phi_grid, lower, upper, None, int(config["lbfgsb_maxiter"]),
+                                 int(config["lbfgsb_restarts"]))
+        else:
+            raw = profile_likelihood(nll, phi_hat, index, phi_grid, lower=lower, upper=upper,
+                                     steps=config["profile_steps"], learning_rate=config["profile_learning_rate"])
         profile = np.asarray(raw["profile"], dtype=float)
         drift = np.asarray(raw["drift"], dtype=float)
         reference = min(loss_at_hat, float(profile.min()))
@@ -197,8 +214,10 @@ def run_unit(unit: str, config: dict) -> dict:
             "classification": classify_profile(grid, profile, delta=CHI2_DELTA, reference=reference),
             "unsettled": int(np.sum(np.abs(drift) > 0.05)),
             "better_than_theta_hat": bool(float(profile.min()) < loss_at_hat - 1e-6),
-            "theta_hat": float(theta_hat[index]),
+            "theta_hat": float(theta_hat[index]), "n_in_box": int(len(grid)),
         }
+        if "converged" in raw:
+            profiles[name]["solver_converged"] = [bool(v) for v in raw["converged"]]
     distance = {k: float(min(phi_hat[i] - lower[i], upper[i] - phi_hat[i]) / span[i])
                 for i, k in enumerate(TARGETS)}
     return {
@@ -207,6 +226,7 @@ def run_unit(unit: str, config: dict) -> dict:
         "distance_to_bound": distance, "polish": {k: v for k, v in polished.items() if k != "phi"},
         "fisher": fisher.as_dict(), "information_after_profiling_others": dict(zip(TARGETS, information)),
         "profiles": profiles, "delta": CHI2_DELTA, "wall_seconds": round(time.perf_counter() - started, 1),
+        **{key: config.get(key) for key in PROTOCOL_KEYS},
         "macros": {},
     }
 
@@ -219,7 +239,8 @@ def summarize(config: dict | None = None) -> dict:
     from evaluation.results_io import largest_matching
     from evaluation.stats_utils import wilson_ci
 
-    rows = list(largest_matching(ANALYSIS_ID, lambda p: True).values())
+    protocol = {**default_config(), **(config or {})}
+    rows = list(largest_matching(ANALYSIS_ID, lambda p: matches(p, protocol)).values())
     if not rows:
         return {"n_subjects": 0}
     out = {"n_subjects": len(rows), "parameters": {}}

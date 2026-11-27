@@ -118,7 +118,11 @@ def base_params(profile: dict) -> JaxPhysioParams:
     change here moves every result; it is read from the same `PhysioParams.from_profile` the
     product code uses rather than reimplemented.
     """
-    return JaxPhysioParams.from_numpy(PhysioParams.from_profile(profile))
+    params = JaxPhysioParams.from_numpy(PhysioParams.from_profile(profile))
+    basal = profile.get("basal_glucose_mg_dl")                  # set only by the subject-specific-basal variant
+    if basal is not None:
+        params = eqx.tree_at(lambda p: p.basal_glucose, params, jnp.asarray(float(basal), jnp.float32))
+    return params
 
 
 def theta_of(params: JaxPhysioParams) -> jnp.ndarray:

@@ -2,35 +2,25 @@
 \label{app:reproducibility}
 
 \paragraph{Code.}
-All analyses are modules of one repository. Each writes one result file per work unit (a subject or a subject and a
-repeat) under a directory keyed by a hash of the code version and configuration, enabling exact provenance and
-resumable runs. All reported numerical quantities are populated programmatically via LaTeX macros generated from
-frozen, SHA-256-checksummed result files. The supplement holds an anonymized archive with the code, tests, and
-cohort cache, with no raw data, version-control history, or author identifiers.
+All analyses are modules of one repository. Each writes one result file per subject (or per subject and repeat) in a
+directory keyed by a hash of the code version and the configuration, so runs can resume and each result can be traced to
+the code that produced it. The numbers in the text, tables, and figures are inserted by script from stored result files.
+A completeness check lists the subjects every reported sweep must contain and stops the build of its numbers if any is
+missing. The supplement holds an anonymized archive with the code, tests, and cohort cache, with no raw data,
+version-control history, or author identifiers.
 
 \paragraph{Data.}
 The three cohorts are public \citep{das2025cgmacros,zhao2023shanghai,hall2018glucotypes}. Their licences are those of
 the original releases, and we do not redistribute the raw files. The code reads a content-hashed cache of the parsed
-cohorts. Its manifest records the source, the selection rule and a checksum, so a machine without the raw files
+cohorts. Its manifest records the source, the selection rule, and a checksum, so a machine without the raw files
 reproduces the same subjects.
 
 \paragraph{Compute.}
-The identifiability analyses and the cross-validation ran on one CPU node with thirty workers, and a three-subject smoke
-test of the whole pipeline runs on a laptop. The package pins the version of every dependency. Random streams are seeded
-from SHA-256 hashes of the unit, so results do not depend on the number of workers or their order.
-
-\paragraph{Reproducing the results.}
-The anonymized code archive includes a quick three-subject smoke test, modular runners for the main identifiability, cross-validation, replica, synthetic, Dalla Man, exact feasible-domain $\mathcal{D}$, real-pole audit, and misspecified-generator experiments, and asset builders regenerating all macros, tables, and figures from stored outputs:
-\begin{verbatim}
-python -m evaluation.reproduce_pipeline --quick   # 3-subject smoke test
-python -m evaluation.a26_exact_domain_profiles    # exact feasible-domain D profiles
-python -m evaluation.a27_misspecified_dalla_man   # Dalla Man -> Bergman control
-python -m evaluation.make_paper_assets            # core macros, tables, figures
-python -m evaluation.make_amendment16_macros      # Amendment 16 & A25-A27 macros
-\end{verbatim}
-Full batch-execution instructions for every experiment group are documented in the release \texttt{README.md}.
+The analyses run on CPU. Random streams are seeded from SHA-256 hashes of the unit, so results do not depend on the number
+of workers or their order. The package pins the version of every dependency, and a three-subject smoke test of the whole
+pipeline runs on a laptop. Commands for every experiment are listed in the release notes of the code archive.
 
 \paragraph{The analysis plan.}
-The plan and its amendments are text files in the repository with their commit identifiers, and each amendment states
-what had been seen when it was written. One function per hypothesis computes the verdicts of the register
-(Table~\ref{tab:register}) from the stored results.
+The ten hypotheses of Table~\ref{tab:plan}, their thresholds, and the record of every later analysis, with what had been
+seen when it was declared, are text files in the repository. For the most recent runs, the statement each result would
+support or remove was written down before the result was read.

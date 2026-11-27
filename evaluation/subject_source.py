@@ -70,6 +70,19 @@ def get_subject(config: dict, unit: str) -> Subject:
     replica = config.get("replica")
     if replica:
         subject = _replica_subject(subject, replica, config)
+    if config.get("min_gap_h"):
+        if replica:
+            raise ValueError("the isolated-meal restriction applies to real data only")
+        from evaluation.variants import isolate
+        subject = isolate(subject, float(config["min_gap_h"]))
+    if config.get("window_min"):
+        subject = dataclasses.replace(subject, window_min=float(config["window_min"]))
+    if config.get("basal") == "subject":
+        from evaluation.variants import subject_basal
+        subject = dataclasses.replace(
+            subject, profile={**subject.profile, "basal_glucose_mg_dl": subject_basal(subject.records)})
+    elif config.get("basal") not in (None, "population"):
+        raise ValueError(f"unknown basal setting {config['basal']!r}")
     return subject
 
 
@@ -160,20 +173,34 @@ def _ar1_noise(rng, rho: float, innovation_sd: float, shape: tuple[int, int]) ->
 @lru_cache(maxsize=256)
 def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool, carb_cv: float,
                     limit, truth_mode: str = "fit", cgm_scale: float = 1.0, residual: float = 0.0,
-                    perturb_key: str = "", carb_bias: float = 0.0) -> tuple:
+                    perturb_key: str = "", carb_bias: float = 0.0, calibrate: str = "",
+                    generator: str = "") -> tuple:
     from simulation import jax_engine
     config = {"cohort": cohort, "min_meals": min_meals, "limit": limit}
     subject = _cohort_subject(config, unit)
-    truth = (random_parameters(unit, seed) if truth_mode == "random"
-             else true_parameters(subject, unit))
     perturb = json.loads(perturb_key) if perturb_key else None
-    with jax_engine.residual_gut(residual):                             # Amendment 11: designed residual gut content
-        clean = _simulate(subject, truth, perturb=perturb)              # 210 min on a 5 min grid
+    if generator == "dalla_man":
+        from evaluation import dm_generator
+        if carb_cv > 0 or carb_bias > 0 or residual or perturb:
+            raise ValueError("the Dalla Man generator runs with exact carbohydrate and no other change")
+        parameters = dm_generator.sample_parameters(unit)
+        clean, tau1 = dm_generator.simulate(subject, parameters)
+        truth = {"tau1_dm": tau1, "tau1_dm_plus_td": tau1 + float(parameters["Td"])}
+        # The Dalla Man gut takes the carbohydrate load alone, so the fitted model must not blunt it by fat or fibre.
+        subject = dataclasses.replace(subject, records=tuple(
+            {**r, "fat_g": 0.0, "fiber_g": 0.0, "protein_g": 0.0} for r in subject.records))
+    elif generator:
+        raise ValueError(f"unknown generator {generator!r}")
+    else:
+        truth = (random_parameters(unit, seed) if truth_mode == "random"
+                 else true_parameters(subject, unit))
+        with jax_engine.residual_gut(residual):                         # Amendment 11: designed residual gut content
+            clean = _simulate(subject, truth, perturb=perturb)          # 210 min on a 5 min grid
     n_samples = clean.shape[1]
     glucose = clean.copy()
     noise = {"rho": None, "innovation_sd": None, "fallback": None}
     if cgm:
-        noise = real_residual_noise(subject, unit)
+        noise = real_residual_noise(_cohort_subject(config, unit), unit)
         # Amendment 7: the CGM noise of the replica can be scaled down. The stream is the same, so a smaller
         # scale is the same draws shrunk (common random numbers across scales).
         noise = {**noise, "scale": float(cgm_scale)}
@@ -190,6 +217,11 @@ def _replica_cached(cohort: str, min_meals: int, unit: str, seed: int, cgm: bool
         # Amendment 14: a systematic logging error, the same unit-mean lognormal multiplier for every meal of the subject
         sigma2 = np.log1p(carb_bias ** 2)
         logged = logged * float(_rng(unit, seed, "carb_bias").lognormal(-0.5 * sigma2, np.sqrt(sigma2)))
+    if calibrate == "regression":
+        from evaluation.variants import regression_calibrate
+        logged = regression_calibrate(logged, carb_cv)
+    elif calibrate:
+        raise ValueError(f"unknown calibration {calibrate!r}")
     from simulation.jax_observables import Window, iauc
     window = Window()
     records = []
@@ -208,7 +240,8 @@ def _replica_args(config: dict, replica: dict, unit: str) -> tuple:
     return (config["cohort"], config["min_meals"], unit, int(replica.get("seed", 0)), bool(replica.get("cgm", True)),
             float(replica.get("carb_cv", 0.25)), config.get("limit"), str(replica.get("truth", "fit")),
             float(replica.get("cgm_scale", 1.0)), float(replica.get("residual_gut", 0.0)),
-            json.dumps(perturb, sort_keys=True) if perturb else "", float(replica.get("carb_bias", 0.0)))
+            json.dumps(perturb, sort_keys=True) if perturb else "", float(replica.get("carb_bias", 0.0)),
+            str(replica.get("calibrate", "")), str(replica.get("generator", "")))
 
 
 def _replica_subject(subject: Subject, replica: dict, config: dict) -> Subject:
@@ -228,6 +261,8 @@ def replica_truth(config: dict, unit: str) -> dict:
 def truth_in_coordinates(theta_true: dict) -> dict:
     """The true parameters in the natural units of the coordinate profiles: `S_I`, `tau1`, `p`."""
     from personalization import coords as co
+    if "tau1_dm" in theta_true:                      # a Dalla Man truth has a mean appearance time and nothing else
+        return {"log_tau1": float(theta_true["tau1_dm"])}
     tau1, p = co.rates_to_tau_p(theta_true["gastric_emptying"], theta_true["carb_absorption"])
     return {"log_insulin_sensitivity": float(theta_true["insulin_sensitivity"]),
             "log_tau1": float(tau1), "log_p": float(p)}

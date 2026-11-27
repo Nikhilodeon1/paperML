@@ -2,7 +2,7 @@
 \label{sec:results}
 
 Proportions carry $95\%$ Wilson intervals and paired differences carry $95\%$ subject-level BCa bootstrap intervals.
-Everything below is exploratory except the ten hypotheses of Table~\ref{tab:plan}; Appendix~\ref{app:register} gives the origin of every other check, and Appendix~\ref{app:results} holds the supporting tables.
+Everything below is exploratory except the ten hypotheses of Table~\ref{tab:plan}. Appendix~\ref{app:results} holds the supporting tables.
 
 \subsection{The gut rates are not bounded under iAUC}
 \label{sec:timing}\label{sec:structural}
@@ -81,22 +81,23 @@ The $150$ mg\,dL$^{-1}$\,min equivalence margin is \resMarginShareGain\% of the 
 Gradient fitting and exhaustive grid search of the same loss differ by \resDiffGradThreeVsGridThree{} (\resDiffGradThreeVsGridThreeLow{} to \resDiffGradThreeVsGridThreeHigh).
 Fitting the rates from the iAUC makes the held-out peak time and trace worse than fixing them at population values (peak \resPeakGradThree{} against \resPeakGradOne{} min; trace \resTraceRmseGradThree{} against \resTraceRmseGradOne{} mg\,dL$^{-1}$).
 
-\paragraph{The floor and a negative control.}
-On a replica the error of the true model, the floor, is known.
-On the two random-truth replicas, the three-parameter fit has a median held-out iAUC error of \resPvpRandomZeroRatio{} times the floor (seed $0$) and \resPvpRandomOneRatio{} times (seed $1$), while the median log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming.
+\paragraph{The true-parameter reference and a negative control.}
+On a replica the held-out error of the model with the true parameters is known, and we use it as a reference. It is not a lower bound: under logging error a fit can absorb part of the error through $\SI$ and predict better than the true parameters do.
+On the two random-truth replicas, the three-parameter fit has a median held-out iAUC error of \resPvpRandomZeroRatio{} times the reference (seed $0$) and \resPvpRandomOneRatio{} times (seed $1$), while the median log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming.
 The correlation across subjects between the ratio and the timing error is weak, and its interval straddles zero (Table~\ref{tab:floor}).
 To see how much timing error the iAUC can hide, we pinned $(\ke,\ka)$ to the slowest and fastest corners of the box and refitted $\SI$ on each training fold.
-The iAUC error stays within \resNegZeroSlowRefitIauc{} to \resNegZeroFastRefitIauc{} times the floor on seed $0$, as for the fitted rates (\resNegOneSlowRefitIauc{} on seed $1$).
+The iAUC error stays within \resNegZeroSlowRefitIauc{} to \resNegZeroFastRefitIauc{} times the reference on seed $0$, as for the fitted rates (\resNegOneSlowRefitIauc{} on seed $1$).
+The $95\%$ bootstrap intervals over subjects of the two seed-$0$ medians are \resNegZeroSlowRefitIaucLow--\resNegZeroSlowRefitIaucHigh{} (slow corner) and \resNegZeroFastRefitIaucLow--\resNegZeroFastRefitIaucHigh{} (fast corner).
 Of the two other held-out targets, only the peak time discriminates, and only partly: its ratio is \resFloorPeakRandomZeroThreeRatio{} for the fit, \resNegZeroSlowRefitPeak{} for the slow corner and \resNegZeroFastRefitPeak{} for the fast one, and for the fit it rises with the timing error (Spearman $\rho$ \resFloorPeakRandomZeroThreeRho).
 The trace ratio is about \resFloorTraceRandomZeroThreeRatio{} for the fit and for both corners, so it does not discriminate.
-One out-of-target check, the peak time, is therefore informative on replicas, and no check we ran is informative on real data, where the floor is not observable.
+One out-of-target check, the peak time, is therefore informative on replicas, and no check we ran is informative on real data, where the reference is not observable.
 
 \begin{table}[tbp]
 \centering\footnotesize\setlength{\tabcolsep}{4pt}
 \begin{tabular}{lcccc}
 \toprule
  & \multicolumn{2}{c}{random truths, seed $0$} & \multicolumn{2}{c}{random truths, seed $1$} \\
-held-out target and model & ratio to floor & Spearman $\rho$ [$95\%$ CI] & ratio to floor & Spearman $\rho$ [$95\%$ CI] \\
+held-out target and model & ratio to reference & Spearman $\rho$ [$95\%$ CI] & ratio to reference & Spearman $\rho$ [$95\%$ CI] \\
 \midrule
 iAUC, $3$-parameter fit & \resPvpRandomZeroRatio & \resPvpRandomZeroRhoTimingRatio{} [\resPvpRandomZeroRhoTimingRatioLow, \resPvpRandomZeroRhoTimingRatioHigh] & \resPvpRandomOneRatio & \resPvpRandomOneRhoTimingRatio{} [\resPvpRandomOneRhoTimingRatioLow, \resPvpRandomOneRhoTimingRatioHigh] \\
 peak time, $3$-parameter fit & \resFloorPeakRandomZeroThreeRatio & \resFloorPeakRandomZeroThreeRho{} [\resFloorPeakRandomZeroThreeRhoLow, \resFloorPeakRandomZeroThreeRhoHigh] & \resFloorPeakRandomOneThreeRatio & \resFloorPeakRandomOneThreeRho{} [\resFloorPeakRandomOneThreeRhoLow, \resFloorPeakRandomOneThreeRhoHigh] \\

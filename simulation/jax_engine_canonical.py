@@ -82,6 +82,7 @@ class CanonicalParams(eqx.Module):
     insulin_secretion: jax.Array
     sigma1: jax.Array
     c: jax.Array
+    basal_glucose: jax.Array = eqx.field(default_factory=lambda: jnp.asarray(_GB, dtype=jnp.float32))
 
     @staticmethod
     def from_jax_params(p, sigma1=None, c=None) -> "CanonicalParams":
@@ -93,7 +94,7 @@ class CanonicalParams(eqx.Module):
             glucose_effectiveness=p.glucose_effectiveness, x_decay=p.x_decay, x_gain=p.x_gain,
             insulin_clearance=p.insulin_clearance, insulin_secretion=p.insulin_secretion,
             sigma1=jnp.asarray(s1 if sigma1 is None else sigma1),
-            c=jnp.asarray(cc if c is None else c))
+            c=jnp.asarray(cc if c is None else c), basal_glucose=p.basal_glucose)
 
 
 # --- coordinate maps ------------------------------------------------------------------------------
@@ -129,9 +130,9 @@ def tau_p_to_canonical(tau1, p):
 
 # --- the engine -----------------------------------------------------------------------------------
 
-def initial_state() -> jnp.ndarray:
+def initial_state(basal_glucose=_GB) -> jnp.ndarray:
     y = jnp.zeros(N_STATE, dtype=jnp.float64)
-    y = y.at[IDX["glucose_mg_dl"]].set(90.0)
+    y = y.at[IDX["glucose_mg_dl"]].set(basal_glucose)
     y = y.at[IDX["insulin_uU_ml"]].set(10.0)
     y = y.at[IDX["glycogen_g"]].set(450.0)
     y = y.at[IDX["ketones_mmol_l"]].set(0.1)
@@ -160,9 +161,9 @@ def vector_field(t, y, args):
 
     hepatic = 0.10 * softplus_relu(cortisol - 15.0)
     dG_met = (-(p.glucose_effectiveness + x_act) * glucose
-              + p.glucose_effectiveness * _GB + Ra / Vg + hepatic)
+              + p.glucose_effectiveness * p.basal_glucose + Ra / Vg + hepatic)
     dI = (-p.insulin_clearance * (insulin - _IB)
-          + p.insulin_secretion * softplus_relu(glucose - _GB))
+          + p.insulin_secretion * softplus_relu(glucose - p.basal_glucose))
     si_eff = p.insulin_sensitivity * (1.0 - p.circadian_amp)
     dX = -p.x_decay * x_act + p.x_gain * si_eff * (insulin - _IB)
     dGly_met = 0.15 * sigmoid_switch(insulin, 15.0, 10.0)
@@ -197,7 +198,7 @@ def run_meal(params: CanonicalParams, carbs_g: float, fat_g: float = 0.0, fiber_
     ts = jnp.arange(0.0, duration_min + 1e-6, step_min)
     solution = diffeqsolve(
         ODETerm(vector_field), Tsit5(), t0=0.0, t1=float(duration_min), dt0=1.0,
-        y0=initial_state(), args=(params, meal_time, mass_mg, clock_hour),
+        y0=initial_state(params.basal_glucose), args=(params, meal_time, mass_mg, clock_hour),
         saveat=SaveAt(ts=ts),
         stepsize_controller=PIDController(rtol=1e-4, atol=1e-4), max_steps=10000,
     )

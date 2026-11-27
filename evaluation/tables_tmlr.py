@@ -190,7 +190,7 @@ def prediction_compact_table(summary: dict) -> None:
     trace = summary.get("prediction_trace_rmse", {}).get("cells", {})
     names = [("grad3", "gradient, three parameters"), ("grid3", "grid search, three parameters"),
              ("grad1", "gradient, $\\SI$ only"), ("grid1", "grid search, $\\SI$ only"),
-             ("grad3_trace", "gradient, trace objective"), ("rf", "random forest"), ("snpe", "SNPE"),
+             ("grad3_trace", "gradient, trace objective"),
              ("personal_mean", "personal mean"), ("population", "population default"),
              ("persistence", "persistence")]
     rows = []
@@ -222,16 +222,48 @@ def scorecard_table(verdicts: dict) -> None:
     _write("scorecard.tex", tex)
 
 
+PRIMARY = ("H1", "H3", "H5", "H7", "H9")
+PREDICTION = ("H7", "H8", "H9")                # the pre-specified hypotheses about prediction
+INCONCLUSIVE = ("inconclusive: the rule fires under the plan's formulation of the model but not under the simulator's")
+NUMBER_WORDS = ("none", "one", "two", "three", "four", "five")
+
+
+def _outcome(status: str) -> str:
+    return INCONCLUSIVE if status == "formulation-dependent" else _esc(status)
+
+
+def primary_tally(verdicts: dict) -> dict:
+    statuses = [verdicts[n]["status"] for n in PRIMARY]
+    tally = {"not met": statuses.count("not met"), "met": statuses.count("met"),
+             "inconclusive": statuses.count("formulation-dependent")}
+    if sum(tally.values()) != len(PRIMARY):
+        raise ValueError(f"a primary endpoint has a status the caption has no word for: {statuses}")
+    return tally
+
+
 def plan_table(verdicts: dict) -> None:
     """The ten hypotheses fixed before any analysis, with their outcome, for the main text."""
+    def row(name):
+        mark = "$^\\dagger$" if name in PRIMARY else ""
+        return f"{TOPIC[name]}{mark} & {_outcome(verdicts[name]['status'])} \\\\"
+
     names = [f"H{i}" for i in range(1, 11) if f"H{i}" in verdicts]
-    rows = [f"{n} & {TOPIC[n]} & {_esc(verdicts[n]['status']).replace('formulation-dependent', 'depends on the assumed initial gut state')} \\\\" for n in names]
-    lines = ["\\begin{table}[tbp]", "\\centering\\footnotesize", "\\begin{tabularx}{\\linewidth}{lXl}", "\\toprule",
-             "& question & outcome \\\\", "\\midrule"] + rows + [
+    identification = [row(n) for n in names if n not in PREDICTION]
+    prediction = [row(n) for n in names if n in PREDICTION]
+    tally = primary_tally(verdicts)
+    lines = ["\\begin{table}[tbp]", "\\centering\\footnotesize",
+             "\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}X>{\\raggedright\\arraybackslash}p{0.36\\linewidth}}",
+             "\\toprule", "hypothesis fixed before any analysis & outcome \\\\", "\\midrule",
+             "\\multicolumn{2}{l}{\\emph{Identifiability and diagnostics}} \\\\"] + identification + [
+             "\\midrule", "\\multicolumn{2}{l}{\\emph{Held-out prediction}} \\\\"] + prediction + [
              "\\bottomrule", "\\end{tabularx}",
-             "\\caption{The ten hypotheses fixed in version control before any analysis was run, and what the stored results show. "
-             "H1, H3, H5, H7 and H9 are the primary endpoints. Every analysis in Section~\\ref{sec:prediction} onward is exploratory "
-             "(Appendix~\\ref{app:register}).}", "\\label{tab:plan}", "\\end{table}"]
+             "\\caption{The ten hypotheses fixed in version control before any analysis was run, with the outcome of each "
+             "rule as computed under the protocol the plan specified. Of the five primary endpoints "
+             f"($\\dagger$), {NUMBER_WORDS[tally['not met']]} were not met, {NUMBER_WORDS[tally['met']]} was met, and "
+             f"{NUMBER_WORDS[tally['inconclusive']]} was inconclusive. The timing of the plan is reported by the authors "
+             "and cannot be checked under anonymous review. Every analysis not listed here is exploratory, and the "
+             "analyses behind the diagnostic rows are in the repository.}",
+             "\\label{tab:plan}", "\\end{table}"]
     _write("plan.tex", "\n".join(lines) + "\n")
 
 

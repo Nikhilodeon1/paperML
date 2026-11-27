@@ -4,7 +4,7 @@
 The exchange symmetry leaves $\tau_1=1/\ke+1/\ka$ and $p=1/(\ke\ka)$ unchanged, so we fit the trace in $(\log\SI,\log\tau_1,\log p)$.
 The search region is the smallest rectangle in these coordinates that contains the primary box.
 Where $p>\tau_1^2/4$ no real rates exist, and the fit projects onto the equal-rate boundary while holding any profiled coordinate fixed.
-Estimates are polished by multi-start L-BFGS-B, and every point of a $29$-point profile grid is solved to convergence with the same optimizer.
+Each estimate is refined by L-BFGS-B from several starting points, and every point of a $29$-point profile grid is solved to convergence with the same optimizer; where its line search fails, the point is solved again from two other starting points.
 A coarser grid with a fixed number of optimizer steps, which we used first, overstates the excess likelihood at the truth and therefore understates coverage (Appendix~\ref{apx:numerics}).
 
 On real CGMacros traces the interval for $\tau_1$ is bounded in \resCRealNTauBd{} of \resCRealNTauInt{} interior subjects, and the interval for $p$ in \resCRealNPBd{} of \resCRealNPInt{} (Table~\ref{tab:coords}).
@@ -54,41 +54,41 @@ With fitted truths, which are bunched near one edge, it is lower even with exact
 
 \begin{table}[tbp]
 \centering\footnotesize\setlength{\tabcolsep}{4.5pt}
-\begin{tabular}{llrrrrr}
+\begin{tabular}{llrrrrrr}
 \toprule
-truths & CV & covers truth & narrow: covers / all & bounded & signed error & width \\
+truths & CV & covers truth & narrow: covers / all & bounded & signed error & width & score \\
 \midrule
-\multicolumn{7}{l}{$\tau_1$} \\
-random, seed $0$ & $0$ & \resCRandZeroTauCover & \resCRandZeroTauNarrowCovers{} / \resCRandZeroTauNarrow & \resCRandZeroTauBd & \resCRandZeroTauShift & \resCRandZeroTauWidth \\
- & $0.25$ & \resCRandQuarterTauCover & \resCRandQuarterTauNarrowCovers{} / \resCRandQuarterTauNarrow & \resCRandQuarterTauBd & \resCRandQuarterTauShift & \resCRandQuarterTauWidth \\
- & $0.75$ & \resCRandThreeQuarterTauCover & \resCRandThreeQuarterTauNarrowCovers{} / \resCRandThreeQuarterTauNarrow & \resCRandThreeQuarterTauBd & \resCRandThreeQuarterTauShift & \resCRandThreeQuarterTauWidth \\
-random, seed $1$ & $0$ & \resCRandZeroSeedOneTauCover & \resCRandZeroSeedOneTauNarrowCovers{} / \resCRandZeroSeedOneTauNarrow & \resCRandZeroSeedOneTauBd & \resCRandZeroSeedOneTauShift & \resCRandZeroSeedOneTauWidth \\
- & $0.25$ & \resCRandQuarterSeedOneTauCover & \resCRandQuarterSeedOneTauNarrowCovers{} / \resCRandQuarterSeedOneTauNarrow & \resCRandQuarterSeedOneTauBd & \resCRandQuarterSeedOneTauShift & \resCRandQuarterSeedOneTauWidth \\
- & $0.75$ & \resCRandThreeQuarterSeedOneTauCover & \resCRandThreeQuarterSeedOneTauNarrowCovers{} / \resCRandThreeQuarterSeedOneTauNarrow & \resCRandThreeQuarterSeedOneTauBd & \resCRandThreeQuarterSeedOneTauShift & \resCRandThreeQuarterSeedOneTauWidth \\
-fitted, seed $0$ & $0$ & \resCFitZeroTauCover & \resCFitZeroTauNarrowCovers{} / \resCFitZeroTauNarrow & \resCFitZeroTauBd & \resCFitZeroTauShift & \resCFitZeroTauWidth \\
- & $0.25$ & \resCFitQuarterTauCover & \resCFitQuarterTauNarrowCovers{} / \resCFitQuarterTauNarrow & \resCFitQuarterTauBd & \resCFitQuarterTauShift & \resCFitQuarterTauWidth \\
- & $0.75$ & \resCFitThreeQuarterTauCover & \resCFitThreeQuarterTauNarrowCovers{} / \resCFitThreeQuarterTauNarrow & \resCFitThreeQuarterTauBd & \resCFitThreeQuarterTauShift & \resCFitThreeQuarterTauWidth \\
+\multicolumn{8}{l}{$\tau_1$} \\
+random, seed $0$ & $0$ & \resCRandZeroTauCover & \resCRandZeroTauNarrowCovers{} / \resCRandZeroTauNarrow & \resCRandZeroTauBd & \resCRandZeroTauShift & \resCRandZeroTauWidth & \resCRandZeroTauScore \\
+ & $0.25$ & \resCRandQuarterTauCover & \resCRandQuarterTauNarrowCovers{} / \resCRandQuarterTauNarrow & \resCRandQuarterTauBd & \resCRandQuarterTauShift & \resCRandQuarterTauWidth & \resCRandQuarterTauScore \\
+ & $0.75$ & \resCRandThreeQuarterTauCover & \resCRandThreeQuarterTauNarrowCovers{} / \resCRandThreeQuarterTauNarrow & \resCRandThreeQuarterTauBd & \resCRandThreeQuarterTauShift & \resCRandThreeQuarterTauWidth & \resCRandThreeQuarterTauScore \\
+random, seed $1$ & $0$ & \resCRandZeroSeedOneTauCover & \resCRandZeroSeedOneTauNarrowCovers{} / \resCRandZeroSeedOneTauNarrow & \resCRandZeroSeedOneTauBd & \resCRandZeroSeedOneTauShift & \resCRandZeroSeedOneTauWidth & \resCRandZeroSeedOneTauScore \\
+ & $0.25$ & \resCRandQuarterSeedOneTauCover & \resCRandQuarterSeedOneTauNarrowCovers{} / \resCRandQuarterSeedOneTauNarrow & \resCRandQuarterSeedOneTauBd & \resCRandQuarterSeedOneTauShift & \resCRandQuarterSeedOneTauWidth & \resCRandQuarterSeedOneTauScore \\
+ & $0.75$ & \resCRandThreeQuarterSeedOneTauCover & \resCRandThreeQuarterSeedOneTauNarrowCovers{} / \resCRandThreeQuarterSeedOneTauNarrow & \resCRandThreeQuarterSeedOneTauBd & \resCRandThreeQuarterSeedOneTauShift & \resCRandThreeQuarterSeedOneTauWidth & \resCRandThreeQuarterSeedOneTauScore \\
+fitted, seed $0$ & $0$ & \resCFitZeroTauCover & \resCFitZeroTauNarrowCovers{} / \resCFitZeroTauNarrow & \resCFitZeroTauBd & \resCFitZeroTauShift & \resCFitZeroTauWidth & \resCFitZeroTauScore \\
+ & $0.25$ & \resCFitQuarterTauCover & \resCFitQuarterTauNarrowCovers{} / \resCFitQuarterTauNarrow & \resCFitQuarterTauBd & \resCFitQuarterTauShift & \resCFitQuarterTauWidth & \resCFitQuarterTauScore \\
+ & $0.75$ & \resCFitThreeQuarterTauCover & \resCFitThreeQuarterTauNarrowCovers{} / \resCFitThreeQuarterTauNarrow & \resCFitThreeQuarterTauBd & \resCFitThreeQuarterTauShift & \resCFitThreeQuarterTauWidth & \resCFitThreeQuarterTauScore \\
 \midrule
-\multicolumn{7}{l}{$p$} \\
-random, seed $0$ & $0$ & \resCRandZeroPCover & \resCRandZeroPNarrowCovers{} / \resCRandZeroPNarrow & \resCRandZeroPBd & \resCRandZeroPShift & \resCRandZeroPWidth \\
- & $0.25$ & \resCRandQuarterPCover & \resCRandQuarterPNarrowCovers{} / \resCRandQuarterPNarrow & \resCRandQuarterPBd & \resCRandQuarterPShift & \resCRandQuarterPWidth \\
- & $0.75$ & \resCRandThreeQuarterPCover & \resCRandThreeQuarterPNarrowCovers{} / \resCRandThreeQuarterPNarrow & \resCRandThreeQuarterPBd & \resCRandThreeQuarterPShift & \resCRandThreeQuarterPWidth \\
-random, seed $1$ & $0$ & \resCRandZeroSeedOnePCover & \resCRandZeroSeedOnePNarrowCovers{} / \resCRandZeroSeedOnePNarrow & \resCRandZeroSeedOnePBd & \resCRandZeroSeedOnePShift & \resCRandZeroSeedOnePWidth \\
- & $0.25$ & \resCRandQuarterSeedOnePCover & \resCRandQuarterSeedOnePNarrowCovers{} / \resCRandQuarterSeedOnePNarrow & \resCRandQuarterSeedOnePBd & \resCRandQuarterSeedOnePShift & \resCRandQuarterSeedOnePWidth \\
- & $0.75$ & \resCRandThreeQuarterSeedOnePCover & \resCRandThreeQuarterSeedOnePNarrowCovers{} / \resCRandThreeQuarterSeedOnePNarrow & \resCRandThreeQuarterSeedOnePBd & \resCRandThreeQuarterSeedOnePShift & \resCRandThreeQuarterSeedOnePWidth \\
-fitted, seed $0$ & $0$ & \resCFitZeroPCover & \resCFitZeroPNarrowCovers{} / \resCFitZeroPNarrow & \resCFitZeroPBd & \resCFitZeroPShift & \resCFitZeroPWidth \\
- & $0.25$ & \resCFitQuarterPCover & \resCFitQuarterPNarrowCovers{} / \resCFitQuarterPNarrow & \resCFitQuarterPBd & \resCFitQuarterPShift & \resCFitQuarterPWidth \\
- & $0.75$ & \resCFitThreeQuarterPCover & \resCFitThreeQuarterPNarrowCovers{} / \resCFitThreeQuarterPNarrow & \resCFitThreeQuarterPBd & \resCFitThreeQuarterPShift & \resCFitThreeQuarterPWidth \\
+\multicolumn{8}{l}{$p$} \\
+random, seed $0$ & $0$ & \resCRandZeroPCover & \resCRandZeroPNarrowCovers{} / \resCRandZeroPNarrow & \resCRandZeroPBd & \resCRandZeroPShift & \resCRandZeroPWidth & \resCRandZeroPScore \\
+ & $0.25$ & \resCRandQuarterPCover & \resCRandQuarterPNarrowCovers{} / \resCRandQuarterPNarrow & \resCRandQuarterPBd & \resCRandQuarterPShift & \resCRandQuarterPWidth & \resCRandQuarterPScore \\
+ & $0.75$ & \resCRandThreeQuarterPCover & \resCRandThreeQuarterPNarrowCovers{} / \resCRandThreeQuarterPNarrow & \resCRandThreeQuarterPBd & \resCRandThreeQuarterPShift & \resCRandThreeQuarterPWidth & \resCRandThreeQuarterPScore \\
+random, seed $1$ & $0$ & \resCRandZeroSeedOnePCover & \resCRandZeroSeedOnePNarrowCovers{} / \resCRandZeroSeedOnePNarrow & \resCRandZeroSeedOnePBd & \resCRandZeroSeedOnePShift & \resCRandZeroSeedOnePWidth & \resCRandZeroSeedOnePScore \\
+ & $0.25$ & \resCRandQuarterSeedOnePCover & \resCRandQuarterSeedOnePNarrowCovers{} / \resCRandQuarterSeedOnePNarrow & \resCRandQuarterSeedOnePBd & \resCRandQuarterSeedOnePShift & \resCRandQuarterSeedOnePWidth & \resCRandQuarterSeedOnePScore \\
+ & $0.75$ & \resCRandThreeQuarterSeedOnePCover & \resCRandThreeQuarterSeedOnePNarrowCovers{} / \resCRandThreeQuarterSeedOnePNarrow & \resCRandThreeQuarterSeedOnePBd & \resCRandThreeQuarterSeedOnePShift & \resCRandThreeQuarterSeedOnePWidth & \resCRandThreeQuarterSeedOnePScore \\
+fitted, seed $0$ & $0$ & \resCFitZeroPCover & \resCFitZeroPNarrowCovers{} / \resCFitZeroPNarrow & \resCFitZeroPBd & \resCFitZeroPShift & \resCFitZeroPWidth & \resCFitZeroPScore \\
+ & $0.25$ & \resCFitQuarterPCover & \resCFitQuarterPNarrowCovers{} / \resCFitQuarterPNarrow & \resCFitQuarterPBd & \resCFitQuarterPShift & \resCFitQuarterPWidth & \resCFitQuarterPScore \\
+ & $0.75$ & \resCFitThreeQuarterPCover & \resCFitThreeQuarterPNarrowCovers{} / \resCFitThreeQuarterPNarrow & \resCFitThreeQuarterPBd & \resCFitThreeQuarterPShift & \resCFitThreeQuarterPWidth & \resCFitThreeQuarterPScore \\
 \bottomrule
 \end{tabular}
-\caption{Trace profiles on replicas of the \resCRandZeroTauN{} CGMacros subjects, by coefficient of variation (CV) of the carbohydrate logging error. ``Covers truth'' counts all subjects whose $95\%$ interval, clipped to the search range, contains the truth. ``Narrow'' intervals are bounded and at most $0.5$ log units wide (the search range spans \resCRandZeroTauBoxRange{} for $\tau_1$ and \resCRandZeroPBoxRange{} for $p$). ``Signed error'' is the median of log estimate minus log truth over all subjects, and ``width'' is the median log width of all clipped intervals. Coverage falls and the signed error rises with the error.}
+\caption{Trace profiles on replicas of the \resCRandZeroTauN{} CGMacros subjects, by coefficient of variation (CV) of the carbohydrate logging error. ``Covers truth'' counts all subjects whose $95\%$ interval, clipped to the search range, contains the truth. ``Narrow'' intervals are bounded and at most $0.5$ log units wide (the search range spans \resCRandZeroTauBoxRange{} for $\tau_1$ and \resCRandZeroPBoxRange{} for $p$). ``Signed error'' is the median of log estimate minus log truth over all subjects, ``width'' is the median log width of all clipped intervals, and ``score'' is the median interval score of a $95\%$ interval on the log scale (the width plus $40$ times the distance by which the truth lies outside; lower is better). Coverage falls and the signed error rises with the error.}
 \label{tab:cvsweep}
 \end{table}
 
 \begin{figure}[tbp]
 \centering
 \safefigure[width=\linewidth]{f11_cv_sweep}
-\caption{Trace profiles for $\tau_1$ (top) and $p$ (bottom) against the coefficient of variation of the carbohydrate logging error. \textbf{(a, d)} Share of intervals that contain the truth (dashed: $95\%$). \textbf{(b, e)} Share of bounded intervals. \textbf{(c, f)} Median signed log error of the estimate. Coverage falls on all three truth sets, whereas the bounded share falls with random truths and rises with fitted truths.}
+\caption{Trace profiles for $\tau_1$ (top) and $p$ (bottom) against the coefficient of variation of the carbohydrate logging error. \textbf{(a, e)} Share of intervals that contain the truth (dashed: $95\%$). \textbf{(b, f)} Share of bounded intervals. \textbf{(c, g)} Median signed log error of the estimate. \textbf{(d, h)} Rank correlation across subjects between estimate and truth. Coverage falls on all three truth sets, whereas the bounded share falls with random truths and rises with fitted truths.}
 \label{fig:cvsweep}
 \end{figure}
 

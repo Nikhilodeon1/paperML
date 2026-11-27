@@ -90,6 +90,11 @@ def default_config() -> dict:
         "inner_solver": "adam",
         # Extra starting points for a grid point where L-BFGS-B stops without success (profile_solver.profile_lbfgsb).
         "lbfgsb_restarts": 0,
+        # Stage 2 and 3 variants (evaluation/variants.py); None is the published setting.
+        "min_gap_h": None,
+        "basal": None,
+        "window_min": None,
+        "sensor_lag_min": None,
         "lbfgsb_maxiter": 200,
         # Amendment 14: "pilot" freezes the noise model at the pilot estimate (every earlier result); "final" estimates the
         # residual standard deviation and autocorrelation again at the polished estimate and profiles with those.
@@ -97,8 +102,14 @@ def default_config() -> dict:
     }
 
 
+VARIANT_KEYS = ("min_gap_h", "basal", "window_min", "sensor_lag_min")
+
+
 def units(config: dict) -> list[str]:
     subjects = load_cohort(config["cohort"], min_meals=config["min_meals"], limit=config["limit"])
+    if config.get("min_gap_h"):                       # a subject must keep the minimum number of isolated meals
+        from evaluation.variants import isolate
+        subjects = [s for s in subjects if isolate(s, float(config["min_gap_h"])).n_meals >= config["min_meals"]]
     return [s.subject_id for s in subjects]
 
 
@@ -109,6 +120,7 @@ def stored_estimate(config: dict, unit: str) -> dict | None:
     """
     from evaluation.results_io import load_all
     transformed = (config.get("replica") or config.get("carb_scale") not in (None, 1, 1.0)
+                   or any(config.get(key) for key in VARIANT_KEYS)
                    or config.get("parameterization", "rates") != "rates"
                    or config.get("noise_structure", "homoskedastic") != "homoskedastic")
     if transformed or config["cohort"] != "cgmacros":
@@ -200,8 +212,9 @@ def _run_unit(unit: str, config: dict) -> dict:
     parameterization = config.get("parameterization", "rates")
     log_space = parameterization != "rates"        # the fitted vector is already in log coordinates
     structure = config.get("noise_structure", "homoskedastic")
+    lag = float(config.get("sensor_lag_min") or 0.0)
     spec = ObjectiveSpec(name=name, lam=0.0, normalization="nll", bounds_scale=scale, window=window,
-                         parameterization=parameterization, noise_structure=structure)
+                         parameterization=parameterization, noise_structure=structure, sensor_lag_min=lag)
     names = list(spec.theta_names)
 
     stored = stored_estimate(config, unit)
@@ -211,7 +224,8 @@ def _run_unit(unit: str, config: dict) -> dict:
         source = "A4"
     else:
         ml = fit_ml(subject, ObjectiveSpec(name=name, bounds_scale=scale, window=window,
-                                           parameterization=parameterization, noise_structure=structure),
+                                           parameterization=parameterization, noise_structure=structure,
+                                           sensor_lag_min=lag),
                     steps=config["fit_steps"], pilot_steps=config["pilot_steps"],
                     learning_rate=config["fit_learning_rate"])
         theta_hat = np.array([ml.ml.theta[n] for n in names], dtype=float)
@@ -336,6 +350,7 @@ def _run_unit(unit: str, config: dict) -> dict:
         "inner_solver": config.get("inner_solver", "adam"), "grid_points": int(config["grid_points"]),
         "lbfgsb_restarts": int(config.get("lbfgsb_restarts", 0)),
         "noise_source": config.get("noise_source", "pilot"),
+        **{key: config.get(key) for key in VARIANT_KEYS},
         "noise_structure": structure, "profile_only": list(only) if only else None,
         "noise": noise.as_dict(),
         "bounds_scale": scale, "n_meals": subject.n_meals, "estimate_source": source,
@@ -375,6 +390,7 @@ def _matches(payload: dict, config: dict) -> bool:
             and int(payload.get("grid_points", 15)) == int(config.get("grid_points", 15))
             and payload.get("replica") == config.get("replica")
             and payload.get("carb_scale") == config.get("carb_scale")
+            and all(payload.get(key) == config.get(key) for key in VARIANT_KEYS)
             and (payload.get("polish") is not None) == bool(config.get("polish"))
             and _polish_starts(payload) == (int(config.get("polish_starts", 5)) if config.get("polish") else None)
             and payload.get("noise_structure", "homoskedastic") == config.get("noise_structure", "homoskedastic")

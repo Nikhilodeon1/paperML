@@ -4,7 +4,7 @@ A sweep is complete when the set of subject IDs with a stored result equals the 
 are not enough, and a sweep that is merely "mostly there" is not summarised: interrupted runs once left claim files that
 made later runs skip units while reporting no failure.
 
-Run:  python -m evaluation.manifest [--set phase21|stage2]   # prints every registered sweep, writes results/manifest.json,
+Run:  python -m evaluation.manifest [--set phase21|stage2|stage3]   # prints every registered sweep, writes results/manifest.json,
                                                # and exits 1 if any sweep is incomplete
 """
 from __future__ import annotations
@@ -90,18 +90,64 @@ def stage2_sweeps() -> dict[str, dict]:
     return out
 
 
+def stage3_sweeps() -> dict[str, dict]:
+    """The experiments that can change claims (decision rules R11 and R13 to R16) and the short window sweep."""
+    out = {f"window{minutes:g}": _stage2("iauc", window_min=minutes) for minutes in (60.0, 90.0, 120.0)}
+    generator = {"seed": 0, "carb_cv": 0.0, "generator": "dalla_man"}
+    for suffix, lag in (("", {}), ("_lag", {"sensor_lag_min": 10.0})):
+        out[f"dm_clean{suffix}"] = converged({**generator, "cgm": False}, **lag)   # noise-free: the pseudo-true value
+        out[f"dm_cgm{suffix}"] = converged({**generator, "cgm": True}, **lag)
+    for cv in (0.25, 0.75):
+        for seed in (0, 1):
+            out[f"calibrated{cv}_s{seed}"] = converged(_replica(seed, carb_cv=cv, truth="random",
+                                                                calibrate="regression"))
+    for hours in (4.0, 6.0):
+        out[f"gap{hours:g}_iauc"] = _stage2("iauc", min_gap_h=hours)
+        out[f"gap{hours:g}_trace"] = converged(None, min_gap_h=hours)
+    out["basal_iauc"] = _stage2("iauc", basal="subject")
+    out["basal_trace"] = converged(None, basal="subject")
+    shanghai = {"cohort": "shanghai", "min_meals": 10, "basal": "subject"}
+    out["basal_shanghai_iauc"] = _stage2("iauc", **shanghai)
+    out["basal_shanghai_trace"] = converged(None, **shanghai)
+    return out
+
+
+def other_sweeps() -> dict[str, tuple[str, dict]]:
+    """Sweeps of other analyses: name to (module, configuration)."""
+    from evaluation import dalla_man_identifiability as dm
+    return {"dm_real_iauc": ("evaluation.dalla_man_identifiability",
+                             {**dm.default_config(), "inner_solver": "lbfgsb", "grid_points": 29,
+                              "lbfgsb_restarts": 2})}
+
+
+def profile_sweeps() -> dict[str, dict]:
+    return {**phase21_sweeps(), **stage2_sweeps(), **stage3_sweeps()}
+
+
 @lru_cache(maxsize=None)
-def _cohort_units(cohort: str, min_meals: int, limit) -> tuple[str, ...]:
+def _cohort_units(cohort: str, min_meals: int, limit, min_gap_h) -> tuple[str, ...]:
     return tuple(profile_lik.units({**profile_lik.default_config(), "cohort": cohort, "min_meals": min_meals,
-                                    "limit": limit}))
+                                    "limit": limit, "min_gap_h": min_gap_h}))
 
 
 def expected_units(config: dict) -> list[str]:
-    return list(_cohort_units(config["cohort"], config["min_meals"], config.get("limit")))
+    return list(_cohort_units(config["cohort"], config["min_meals"], config.get("limit"), config.get("min_gap_h")))
 
 
 def found_units(config: dict) -> set[str]:
     return {row["subject_id"] for row in _rows(config)}
+
+
+def check_other(name: str) -> dict:
+    """The completeness report of a sweep from `other_sweeps` (currently the six-parameter Dalla Man fit)."""
+    from evaluation import dalla_man_identifiability as dm
+    from evaluation.results_io import largest_matching
+    _, config = other_sweeps()[name]
+    expected = dm.units(config)
+    rows = largest_matching(dm.ANALYSIS_ID, lambda p: dm.matches(p, config))
+    found = {row["subject_id"] for row in rows.values()}
+    return {"expected": len(expected), "found": len(found), "missing": sorted(set(expected) - found),
+            "unexpected": sorted(found - set(expected))}
 
 
 def check(config: dict) -> dict:
@@ -140,16 +186,17 @@ def require(sweeps: dict[str, dict]) -> None:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--set", dest="group", choices=("phase21", "stage2", "all"), default="all")
+    ap.add_argument("--set", dest="group", choices=("phase21", "stage2", "stage3", "all"), default="all")
     group = ap.parse_args(argv).group
     sweeps = {}
-    if group in ("phase21", "all"):
-        sweeps.update(phase21_sweeps())
-    if group in ("stage2", "all"):
-        sweeps.update(stage2_sweeps())
+    for tag, maker in (("phase21", phase21_sweeps), ("stage2", stage2_sweeps), ("stage3", stage3_sweeps)):
+        if group in (tag, "all"):
+            sweeps.update(maker())
     reports = {name: check(config) for name, config in sweeps.items()}
     for name, config in sweeps.items():
         reports[name]["spurious_bounded"] = spurious_bounded(_rows(config))
+    if group in ("stage3", "all"):
+        reports.update({name: {**check_other(name), "spurious_bounded": []} for name in other_sweeps()})
     OUT.write_text(json.dumps(reports, indent=2, sort_keys=True), encoding="utf-8")
     for name, report in reports.items():
         status = "complete" if is_complete(report) else "INCOMPLETE"

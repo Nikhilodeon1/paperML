@@ -84,6 +84,8 @@ class ObjectiveSpec:
     normalization: str = "mean"
     whiten_trace: bool = True
     legacy_full_window: bool = False
+    # First-order sensor lag inside the fitted model, in minutes; 0 is the published model. Coordinate fits only.
+    sensor_lag_min: float = 0.0
     parameterization: str = "rates"
     noise_structure: str = "homoskedastic"     # Amendment 6: "root" and "proportional": iAUC sensitivity models
 
@@ -95,6 +97,8 @@ class ObjectiveSpec:
         if self.parameterization not in PARAMETERIZATIONS:
             raise ValueError(f"unknown parameterization {self.parameterization!r}; "
                              f"known: {', '.join(PARAMETERIZATIONS)}")
+        if self.sensor_lag_min and self.parameterization == "rates":
+            raise ValueError("the sensor lag is implemented for the coordinate parameterizations only")
         if self.parameterization != "rates" and self.legacy_full_window:
             raise ValueError("the legacy window exists only to reproduce the submitted rate-space fit")
         if self.name not in LADDER:
@@ -314,11 +318,18 @@ def build_objective(spec: ObjectiveSpec, base, arrays: dict, observed: dict,
 
         def _simulate(theta_free):
             params = _canonical_at(theta_free)
-            return jax.vmap(
-                lambda cg, ft, fb: run_meal_canonical(
-                    params, cg, ft, fb, meal_time=30.0, duration_min=spec.duration_min,
-                    step_min=window.step_min)[1],
-                in_axes=(0, 0, 0))(arrays["carbs"], arrays["fat"], arrays["fiber"])
+            lag = float(spec.sensor_lag_min)
+            step = 1.0 if lag else window.step_min              # the lag is applied on a 1 minute grid
+
+            def one(cg, ft, fb):
+                glucose = run_meal_canonical(params, cg, ft, fb, meal_time=30.0, duration_min=spec.duration_min,
+                                             step_min=step)[1]
+                if not lag:
+                    return glucose
+                from evaluation.variants import sensor_lag
+                return sensor_lag(glucose, step, lag)[:: int(round(window.step_min / step))]
+
+            return jax.vmap(one, in_axes=(0, 0, 0))(arrays["carbs"], arrays["fat"], arrays["fiber"])
 
     def _predict(glucose):
         out = {}

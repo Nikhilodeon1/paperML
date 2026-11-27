@@ -13,6 +13,15 @@ IN_DIR = RESULTS / "phase20_amendment16"
 OUT_PATH = ROOT / "paper" / "amendment16_macros.tex"
 
 
+def _median_ci(values, draws: int = 10000, seed: int = 0) -> tuple[float, float]:
+    """95% percentile bootstrap interval of the median over subjects."""
+    import numpy as np
+    values = np.asarray(values, dtype=float)
+    index = np.random.default_rng(seed).integers(0, values.size, (draws, values.size))
+    low, high = np.percentile(np.median(values[index], axis=1), [2.5, 97.5])
+    return float(low), float(high)
+
+
 def _load(name: str) -> dict:
     return json.loads((IN_DIR / f"{name}.json").read_text(encoding="utf-8"))
 
@@ -64,6 +73,10 @@ def main() -> int:
                 m[f"resNeg{stag}{ctag}{mtag}Iauc"] = f"{blk['iauc_ratio']['median']:.2f}"
                 m[f"resNeg{stag}{ctag}{mtag}Peak"] = f"{blk['peak_ratio']['median']:.2f}"
                 m[f"resNeg{stag}{ctag}{mtag}Trace"] = f"{blk['trace_ratio']['median']:.2f}"
+                low, high = _median_ci([row[f"{cname}_{mode}"]["iauc_ratio"]
+                                        for row in a21["seeds"][s]["subjects"]])
+                m[f"resNeg{stag}{ctag}{mtag}IaucLow"] = f"{low:.2f}"
+                m[f"resNeg{stag}{ctag}{mtag}IaucHigh"] = f"{high:.2f}"
 
     # --- A22 (H40): CGMacros iAUC window sweep (60, 90, 120 min) ---
     h40_met = all(
