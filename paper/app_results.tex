@@ -172,14 +172,14 @@ The sensitivity of the iAUC to $\ke$ and $\ka$, relative to its sensitivity to $
 $\resWinNinetyLinKe$ and $\resWinNinetyLinKa$ for $\ke$ and $\ka$ in the linearized model. At the three-hour window
 used here the ratios are $\resWinOneEightyLinKe$ and $\resWinOneEightyLinKa$, and at six hours
 $\resWinThreeSixtyLinKe$ and $\resWinThreeSixtyLinKa$. The nonlinear engine agrees at three
-hours ($\resWinOneEightyNlKe$, $\resWinOneEightyNlKa$) but shows slight non-monotonicity at $6$\,h due to the softplus baseline floor. A shorter window increases timing sensitivity relative to $\SI$ while reducing $\SI$ sensitivity. Testing this directly in profile likelihood across $T\in\{60, 90, 120, 180\}$\,min on CGMacros (primary box, earlier $15$-point protocol; a rerun under the converged protocol is pending) shows that shortening the window moves gut-rate estimates off the upper bound (\resWinProfSixtyKeInt{} and \resWinProfSixtyKaInt{} interior for $\ke$ and $\ka$ at $60$\,min; \resWinProfNinetyKeInt{} and \resWinProfNinetyKaInt{} at $90$\,min; \resWinProfOneTwentyKeInt{} and \resWinProfOneTwentyKaInt{} at $120$\,min; $5$ and $6$ at $180$\,min), yet \resWinProfSixtyKeBd{} subjects have a bounded interval for $\ke$ or $\ka$ at any window, while bounded $\SI$ intervals drop from \resProfileIaucSIInteriorBoundedOne{} of \resProfileIaucSIInteriorNOne{} at $180$\,min to \resWinProfOneTwentySIBd{} of \resWinProfOneTwentySIInt{} ($120$\,min), \resWinProfNinetySIBd{} of \resWinProfNinetySIInt{} ($90$\,min), and \resWinProfSixtySIBd{} of \resWinProfSixtySIInt{} ($60$\,min).
+hours ($\resWinOneEightyNlKe$, $\resWinOneEightyNlKa$) but shows slight non-monotonicity at $6$\,h due to the softplus baseline floor. A shorter window increases timing sensitivity relative to $\SI$ while reducing $\SI$ sensitivity. Testing this directly in profile likelihood across $T\in\{60, 90, 120, 180\}$\,min on CGMacros (primary box, earlier protocol of Appendix~\ref{app:spec}) shows that shortening the window moves gut-rate estimates off the upper bound (\resWinProfSixtyKeInt{} and \resWinProfSixtyKaInt{} interior for $\ke$ and $\ka$ at $60$\,min; \resWinProfNinetyKeInt{} and \resWinProfNinetyKaInt{} at $90$\,min; \resWinProfOneTwentyKeInt{} and \resWinProfOneTwentyKaInt{} at $120$\,min; $5$ and $6$ at $180$\,min), yet \resWinProfSixtyKeBd{} subjects have a bounded interval for $\ke$ or $\ka$ at any window, while bounded $\SI$ intervals drop from \resProfileIaucSIInteriorBoundedOne{} of \resProfileIaucSIInteriorNOne{} at $180$\,min to \resWinProfOneTwentySIBd{} of \resWinProfOneTwentySIInt{} ($120$\,min), \resWinProfNinetySIBd{} of \resWinProfNinetySIInt{} ($90$\,min), and \resWinProfSixtySIBd{} of \resWinProfSixtySIInt{} ($60$\,min).
 
 \begin{figure}[tbp]
 \centering
 \safefigure[width=0.78\linewidth]{f8_window}
 \caption{Median (line) and interquartile range (band) over subjects of
 $|\partial\,\iauc/\partial\log k|/|\partial\,\iauc/\partial\log\SI|$ for $k=\ke$ and $k=\ka$, against the
-window after the meal, for the linearized and the nonlinear engine. Dashed: the thresholds of H2; dotted:
+window after the meal, for the linearized and the nonlinear engine. Dashed: the thresholds fixed in the analysis plan; dotted:
 a ratio of one.}
 \label{fig:window}
 \end{figure}
@@ -282,18 +282,6 @@ interval criterion; each row has $45$ subjects.}
 \label{tab:truthprofile}
 \end{table}
 
-\paragraph{Converged solver and finer grid.}
-A converged inner solver (L-BFGS-B at every grid point) changes no profile class (\resConvRealChanged{} of
-\resConvRealChangedOf{} on the real data, \resConvQuarterChanged{} of \resConvQuarterChangedOf{} at a quarter of the noise)
-and leaves the real-data bounded fractions at \resConvRealTauBounded\% and \resConvRealPBounded\%. A $29$-point grid
-in place of $15$ leaves them at \resGridRealTwentyNineTauBounded\% and \resGridRealTwentyNinePBounded\%, changing no
-class on the real data (\resGridRealChanged{} of \resGridRealChangedOf{}), the exact-carbohydrate replica (\resGridExactChanged{}),
-or the carbohydrate-error replica (\resGridRepChanged{}). Only the narrow profiles of the low-noise replica depend on the grid. On
-the $29$-point grid with the converged solver, the nominal interval at a quarter of the noise contains the truth for
-\resConvFineTauCover\% of subjects for $\tau_1$ and \resConvFinePCover\% for $p$, the detector bounds $\tau_1$ and $p$ in \resConvFineTauBounded\%
-and \resConvFinePBounded\% of interior subjects, and the bounded intervals contain the truth in \resConvFineTauCovbd\% and
-\resConvFinePCovbd\%.
-
 \subsection{A second model class}
 \label{apx:dm}
 
@@ -318,7 +306,7 @@ log coordinates, over subjects. \textbf{(b)} Subjects with a bounded $95\%$ prof
 \end{figure}
 
 \paragraph{A clinical correlation is not a check.}\label{apx:leakage}
-In the Shanghai cohort a fitted $\SI$ from an amortized estimator correlated with HbA1c, and most of that correlation
+In the Shanghai cohort, a fitted $\SI$ from a separately trained simulation-based estimator correlated with HbA1c, and most of that correlation
 disappeared with fasting glucose partialled out, so we do not use correlations with clinical measures to validate
 fitted parameters.
 \FloatBarrier

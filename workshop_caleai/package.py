@@ -20,15 +20,18 @@ SUB = HERE / "submission"
 
 def evidence() -> str:
     src = (HERE / "paper_src.tex").read_text(encoding="utf-8")
-    used = sorted(set(re.findall(r"\\((?:res|fig)[A-Za-z]+)", src)))
-    values = {**build.result_macros(), **build.figure_macros()}
+    used = sorted(set(re.findall(r"\\((?:res|fig|ws)[A-Za-z]+)", src)))
+    values = {**build.result_macros(), **build.figure_macros(), **build.workshop_numbers()["macros"]}
     rows = []
     for name in used:
-        origin = ("`workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results"
-                  if name.startswith("fig") else "`paper/results_macros.tex`, written by `evaluation/paper_numbers.py` from `results/index.json`")
+        if name.startswith("ws"):
+            origin = "`workshop_caleai/ws_numbers.py`, from complete sweeps of the converged protocol"
+        elif name.startswith("fig"):
+            origin = "`workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results"
+        else:
+            origin = "a generated macro file of the main manuscript (`paper/*macros.tex`)"
         rows.append(f"| `{name}` | {values[name]} | {origin} |")
-    return ("# Evidence ledger for the workshop paper\n\nEvery number in the paper is a macro. The result macros come from the frozen result "
-            "index of the main manuscript; the figure macros are computed from the same stored results when the figures are drawn. "
+    return ("# Evidence ledger for the workshop paper\n\nEvery result in the paper is a macro written by a script from stored results. "
             f"{len(used)} macros are used.\n\n| macro | value | source |\n|---|---|---|\n" + "\n".join(rows) + "\n")
 
 
@@ -37,11 +40,13 @@ def citations() -> str:
     head = [line for line in log if line.startswith("| key") or line.startswith("|---")]
     rows = [line for line in log if any(line.startswith(f"| `{k}`") for k in build.KEYS)]
     return ("# Citations used in the workshop paper\n\nThe rows are copied from the citation ledger of the main manuscript "
-            "(`paper/ledger/CITATIONS_VERIFIED.md`), where each source was opened and its metadata and supporting passage checked "
-            "on the access date given in the row. Re-open each URL once more before submission.\n\n" + "\n".join(head[:2] + rows) + "\n")
+            "(`paper/ledger/CITATIONS_VERIFIED.md`). Each row states its status: VERIFIED rows record a passage that was read, "
+            "METADATA-ONLY rows only that the source exists. Re-open each source before submission.\n\n" + "\n".join(head[:2] + rows) + "\n")
 
 
 def main() -> int:
+    if build.output_name() != "Anonymous":
+        raise SystemExit("the numbers are a draft: run `python workshop_caleai/ws_numbers.py` (without --draft) and rebuild")
     if SUB.exists():
         shutil.rmtree(SUB, ignore_errors=True)
     (SUB / "figures").mkdir(parents=True, exist_ok=True)

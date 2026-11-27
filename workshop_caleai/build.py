@@ -61,13 +61,29 @@ def figure_macros() -> dict[str, str]:
 
 
 def result_macros() -> dict[str, str]:
-    text = (ROOT / "paper" / "results_macros.tex").read_text(encoding="utf-8")
-    return {m.group(1): m.group(2) for m in re.finditer(r"\\newcommand\{\\(res[A-Za-z]+)\}\{(.*?)\}\s*(?:%.*)?$", text, re.M)}
+    out: dict[str, str] = {}
+    for name in ("results_macros.tex", "amendment16_macros.tex", "amendment17_macros.tex"):
+        text = (ROOT / "paper" / name).read_text(encoding="utf-8")
+        for m in re.finditer(r"\\(?:new|provide)command\{\\(res[A-Za-z]+)\}\{(.*?)\}\s*(?:%.*)?$", text, re.M):
+            out.setdefault(m.group(1), m.group(2))
+    return out
+
+
+def workshop_numbers() -> dict:
+    path = HERE / "ws_numbers.json"
+    if not path.exists():
+        raise SystemExit("run `python workshop_caleai/ws_numbers.py [--draft]` first")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def output_name() -> str:
+    """Draft numbers can only ever produce Draft.pdf, which `package.py` refuses to package."""
+    return "Draft" if workshop_numbers()["draft"] else "Anonymous"
 
 
 def flatten(src: str) -> str:
-    used = sorted(set(re.findall(r"\\((?:res|fig)[A-Za-z]+)", src)))
-    available = {**result_macros(), **figure_macros()}
+    used = sorted(set(re.findall(r"\\((?:res|fig|ws)[A-Za-z]+)", src)))
+    available = {**result_macros(), **figure_macros(), **workshop_numbers()["macros"]}
     missing = [name for name in used if name not in available]
     if missing:
         raise SystemExit("macros missing: " + ", ".join(missing))
@@ -90,19 +106,20 @@ def main() -> int:
     if BUILD.exists():
         shutil.rmtree(BUILD, ignore_errors=True)       # a viewer or shell may hold the folder open on Windows
     (BUILD / "figures").mkdir(parents=True, exist_ok=True)
-    for name in ("aaai2027.sty", "aaai2027.bst"):
-        shutil.copy(KIT / name, BUILD / name)
+    for style in ("aaai2027.sty", "aaai2027.bst"):
+        shutil.copy(KIT / style, BUILD / style)
+    name = output_name()
     for pdf in (HERE / "figures").glob("fig_*.pdf"):
         shutil.copy(pdf, BUILD / "figures" / pdf.name)
     (BUILD / "caleai.bib").write_text(bibliography(), encoding="utf-8")
-    (BUILD / f"{NAME}.tex").write_text(flatten((HERE / "paper_src.tex").read_text(encoding="utf-8")), encoding="utf-8")
-    for command in (["pdflatex", "-interaction=nonstopmode", f"{NAME}.tex"], ["bibtex", NAME],
-                    ["pdflatex", "-interaction=nonstopmode", f"{NAME}.tex"], ["pdflatex", "-interaction=nonstopmode", f"{NAME}.tex"]):
+    (BUILD / f"{name}.tex").write_text(flatten((HERE / "paper_src.tex").read_text(encoding="utf-8")), encoding="utf-8")
+    for command in (["pdflatex", "-interaction=nonstopmode", f"{name}.tex"], ["bibtex", name],
+                    ["pdflatex", "-interaction=nonstopmode", f"{name}.tex"], ["pdflatex", "-interaction=nonstopmode", f"{name}.tex"]):
         result = subprocess.run(command, cwd=BUILD, capture_output=True, text=True)
         if result.returncode and command[0] == "pdflatex":
             print(result.stdout[-2500:])
             return 1
-    print("built", BUILD / f"{NAME}.pdf")
+    print("built", BUILD / f"{name}.pdf")
     return 0
 
 

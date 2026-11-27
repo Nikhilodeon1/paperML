@@ -38,6 +38,12 @@ The user's ordered to-do list is `your_steps.md`. Claims are tracked in `claim_l
 - The paper must not be sent out in its current state: Sections 5.1, 5.2, and 5.5 are old-protocol, and Section 5.4 uses
   the solver without restarts.
 
+## Found 27 November: a partial sweep in Table 3
+
+The four-times-box row came from 29 of 45 subjects while the caption said 45. The summary now leaves a partial width
+out (`tests/test_box_table.py`), the row prints `[pending]`, and the introduction says "up to twice". When `iauc_box4`
+is complete, restore "four times" in the introduction only if rule R5 allows it.
+
 ## Not run, stated as limitations
 
 Dalla Man fitted to its own replica; a second Dalla Man parameter distribution; per-meal k_e; posterior contraction;

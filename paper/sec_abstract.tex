@@ -1,7 +1,7 @@
 Fitted parameters of a mechanistic glucose simulator are easy to read as physiology, and accurate prediction of held-out meals seems to support that reading.
 We test it on a differentiable Bergman-type simulator that personalizes insulin sensitivity ($\SI$), gastric emptying ($\ke$), and carbohydrate absorption ($\ka$) from continuous glucose monitoring (CGM) after meals, using three cohorts and simulations with known truth.
 When the target is the area under the postprandial curve, no profile-likelihood interval for $\ke$ or $\ka$ is bounded.
-Held-out area error does not show this: on simulated subjects, fits with both rates pinned to wrong extremes stay within a factor of \resNegZeroFastRefitIauc{} of the error of the true model.
+Held-out area error does not show this: on simulated subjects, fits with both rates pinned to wrong extremes stay within a median factor of \resNegZeroFastRefitIauc{} of the error of the true model.
 With exact inputs, the full trace recovers two combinations of the rates, and intervals for the summed transit time $\tau_1$ contain the truth in \resCRandZeroTauCover{} of \resCRandZeroTauN{} simulated subjects.
 Carbohydrate logging error shifts the estimates toward slower absorption without widening the intervals; at a coefficient of variation of $0.75$, only \resCRandThreeQuarterTauCover{} of \resCRandThreeQuarterTauN{} contain the truth.
 The same shift raises or lowers the number of bounded intervals, depending on where the truths lie.

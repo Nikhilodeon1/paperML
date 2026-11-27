@@ -86,7 +86,7 @@ Generic numerical rank of $J$ across random draws (tolerance $10^{-6}$) separate
 \paragraph{Replica and synthetic controls.}
 In the \emph{true-model replica}, each subject's prediction-fit estimate (moved at least $5\%$ inside the box) is the ground truth; real meals are simulated from that truth, corrupted with first-order autoregressive (AR($1$)) CGM noise matching the subject's empirical residual variance and lag-$1$ correlation, and fed to the estimator with lognormal carbohydrate logging error (unit mean, $\mathrm{CV}=0.25$).
 In the \emph{synthetic study}, truths are drawn independently and uniformly inside the box.
-The replica's fitted truths sit near the upper bound of the rates, which is the lower wall of $(\tau_1,p)$, so we also draw replica truths at random through the box (\emph{random-truth replica}).
+The replica's fitted truths sit near the upper bound of the rates, and therefore near one edge of the range searched in the combined coordinates of Section~\ref{sec:more}, so we also draw replica truths at random through the box (\emph{random-truth replica}).
 Both controls evaluate coverage conditional on their simulation assumptions and give no independent physiological validation.
 \emph{Coverage} means one thing throughout: the share of all subjects whose $95\%$ profile interval, clipped to the box, contains the true value.
 An interval open to the box edge covers the truth almost for free, so we also report the share of bounded intervals, the coverage of bounded intervals narrower than $0.5$ in log units, and the median interval score.

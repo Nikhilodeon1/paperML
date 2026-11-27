@@ -15,9 +15,9 @@ enter the glucose equation only through terms that are numerically negligible fo
 \begin{table}[h]
 \centering\small
 \input{spec_table}
-\caption{Left: the free parameters (rows one to three) and the non-fitted parameters of the model, with
+\caption{Upper block: the free parameters (rows one to three) and the non-fitted parameters of the model, with
 reference population values and inference bounds; body weight $W$ is populated from each subject's recorded weight
-rather than held constant across subjects (the listed $78$\,kg is the reference-profile default). Right: the fixed constants.}
+rather than held constant across subjects (the listed $78$\,kg is the reference-profile default). Lower block: the fixed constants.}
 \label{tab:spec}
 \end{table}
 
@@ -52,6 +52,8 @@ observables, with frozen $\sigma_k$ and, for the trace, frozen autocorrelation $
 
 \subsection{Profile likelihood}
 
+The trace profiles of Section~\ref{sec:more} use the converged protocol described there. The other profiles in this
+version of the analysis, including all iAUC profiles, use the following earlier protocol.
 For each parameter the grid has $15$ log-spaced points over the box. At every point the other parameters
 are re-optimized with $100$ Adam steps in log coordinates started from the estimate (a warm start that keeps
 the inner optimum on one branch). The reference level is the lower of the loss at the estimate and the lowest

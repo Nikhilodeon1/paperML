@@ -452,7 +452,7 @@ def fig7_prediction():
     primary = [(f"{c['first']}-{c['second']}", c) for c in p2.get("prediction", {}).get("comparisons", [])
                if "ci95" in c]
     order = ["grad3-grid3", "grad1-grid1", "grad3-grad1", "grad3_trace-grad3", "grad1_trace-grad1",
-             "grad3-personal_mean", "grad3-rf", "grad3-snpe"]
+             "grad3-personal_mean"]
     primary = {k: c for k, c in primary}
     if not primary:
         return None

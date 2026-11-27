@@ -12,6 +12,7 @@ The weakest eigenvector of the timing block lies along the exchange tangent $(1/
 The alignment is not specific to iAUC, since it is also found under the full trace (\resCosineTraceOne); what iAUC changes is the size of the smallest eigenvalue.
 Recomputing the spectrum at a solver tolerance of $10^{-8}$ for all \resTolN{} subjects changes the eigenvalues by a median of \resTolMedianRelChange\% (largest change \resTolMaxRelChange\%) and keeps the cosine above \resTolMinCosine.
 
+These iAUC profiles use the earlier protocol of Appendix~\ref{app:spec}, with a $15$-point grid and a fixed-step inner solver.
 Table~\ref{tab:box} counts bounded profile intervals for the three parameters under iAUC at three box widths.
 No interval for $\ke$ or $\ka$ is bounded at any width.
 At the primary box only \resBoxOneKeInt{} and \resBoxOneKaInt{} subjects have an interior estimate, so that row cannot support a fraction; at twice the width the counts are \resBoxTwoKeInt{} and \resBoxTwoKaInt, and at four times \resBoxFourKeInt{} and \resBoxFourKaInt.
@@ -83,14 +84,15 @@ Fitting the rates from the iAUC makes the held-out peak time and trace worse tha
 
 \paragraph{The true-parameter reference and a negative control.}
 On a replica the held-out error of the model with the true parameters is known, and we use it as a reference. It is not a lower bound: under logging error a fit can absorb part of the error through $\SI$ and predict better than the true parameters do.
-On the two random-truth replicas, the three-parameter fit has a median held-out iAUC error of \resPvpRandomZeroRatio{} times the reference (seed $0$) and \resPvpRandomOneRatio{} times (seed $1$), while the median log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming.
+On the two random-truth replicas, the three-parameter fit has a median held-out iAUC error of \resPvpRandomZeroRatio{} times the reference (seed $0$) and \resPvpRandomOneRatio{} times (seed $1$), while the median root-mean-square log error of $\ke$ and $\ka$ is \resPvpRandomZeroTiming{} and \resPvpRandomOneTiming.
 The correlation across subjects between the ratio and the timing error is weak, and its interval straddles zero (Table~\ref{tab:floor}).
 To see how much timing error the iAUC can hide, we pinned $(\ke,\ka)$ to the slowest and fastest corners of the box and refitted $\SI$ on each training fold.
-The iAUC error stays within \resNegZeroSlowRefitIauc{} to \resNegZeroFastRefitIauc{} times the reference on seed $0$, as for the fitted rates (\resNegOneSlowRefitIauc{} on seed $1$).
+On seed $0$ the median iAUC ratio to the reference is \resNegZeroSlowRefitIauc{} for the slow corner and \resNegZeroFastRefitIauc{} for the fast one, compared with \resPvpRandomZeroRatio{} for the fitted rates; on seed $1$ the ratio is \resNegOneSlowRefitIauc{} for the slow corner, and for the fast corner it is \resNegOneFastRefitIauc.
 The $95\%$ bootstrap intervals over subjects of the two seed-$0$ medians are \resNegZeroSlowRefitIaucLow--\resNegZeroSlowRefitIaucHigh{} (slow corner) and \resNegZeroFastRefitIaucLow--\resNegZeroFastRefitIaucHigh{} (fast corner).
 Of the two other held-out targets, only the peak time discriminates, and only partly: its ratio is \resFloorPeakRandomZeroThreeRatio{} for the fit, \resNegZeroSlowRefitPeak{} for the slow corner and \resNegZeroFastRefitPeak{} for the fast one, and for the fit it rises with the timing error (Spearman $\rho$ \resFloorPeakRandomZeroThreeRho).
-The trace ratio is about \resFloorTraceRandomZeroThreeRatio{} for the fit and for both corners, so it does not discriminate.
-One out-of-target check, the peak time, is therefore informative on replicas, and no check we ran is informative on real data, where the reference is not observable.
+The median trace ratio is about \resFloorTraceRandomZeroThreeRatio{} for the fit and for both corners, so it does not tell the wrong corners from the fit.
+Across the subjects of the fit, however, the trace ratio rises with the timing error more clearly than the peak-time ratio does (Table~\ref{tab:floor}).
+Both targets therefore carry information on replicas. None of these ratios can be computed on real data, where the true model's error is unknown.
 
 \begin{table}[tbp]
 \centering\footnotesize\setlength{\tabcolsep}{4pt}
@@ -127,7 +129,7 @@ We simulated traces from it for the \resMisspecN{} CGMacros meal schedules with 
 The Bergman intervals for $\tau_1$ are bounded in \resMisspecTauBd{} of \resMisspecN{} subjects and cover $\tau_{1,\mathrm{DM}}$ in \resMisspecCovDm\%.
 That is close to definitional, because Bergman's $\tau_1$ is not the Dalla Man appearance time: it absorbs the sensor lag, the fixed insulin-action constants and the gut structure the model lacks.
 Under misspecification a maximum-likelihood fit converges to a pseudo-true value, which we obtained by fitting the Bergman model to the noise-free Dalla Man output.
-That value has a median of \resPtMedianPseudo{}\,min against \resPtMedianDm{}\,min for $\tau_{1,\mathrm{DM}}$, a model bias of \resPtBias{}\,min (\resPtBiasTd{}\,min if the sensor lag is added), and all \resPtTied{} pseudo-true fits sit at equal rates $\ke=\ka$.
+That value has a median of \resPtMedianPseudo{}\,min against \resPtMedianDm{}\,min for $\tau_{1,\mathrm{DM}}$, a median per-subject difference, the model bias, of \resPtBias{}\,min (\resPtBiasTd{}\,min if the sensor lag is added), and all \resPtTied{} pseudo-true fits sit at equal rates $\ke=\ka$.
 The estimator itself lands within \resPtAbsGap{}\,min of its pseudo-true value, but the intervals are narrow (median log width \resPtWidth) and cover it in \resPtCoversPseudo{} of the \resPtBounded{} bounded cases.
 So there are two shortfalls: the model biases the target by tens of minutes, and in this run the intervals also cover the estimator's own target well below the nominal rate.
 Subject order is preserved (Spearman $\rho$ of \resPtRhoEstPseudo{} between estimate and pseudo-true value, \resMisspecRhoDm{} against $\tau_{1,\mathrm{DM}}$), so $\hat\tau_1$ can rank subjects when it cannot measure timing.

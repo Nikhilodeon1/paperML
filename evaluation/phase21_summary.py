@@ -140,7 +140,7 @@ def box_four() -> dict:
     out = {}
     for scale, tag in ((1.0, "One"), (2.0, "Two"), (4.0, "Four")):
         s = profile_lik.summarize({**profile_lik.default_config(), "objective": "iauc", "bounds_scale": scale})
-        if not s.get("n_subjects"):
+        if s.get("n_subjects") != _expected("cgmacros", 10):          # a partial width never reaches the table
             continue
         interior = s["interior_for_parameter"]
         bounded = {k: v.get("n_bounded") for k, v in s["parameters"].items()}

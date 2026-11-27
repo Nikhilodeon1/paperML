@@ -40,7 +40,7 @@ So the trace can identify the two combinations when the simulator and its inputs
 We then give the estimator carbohydrate values multiplied by lognormal noise with unit mean.
 As its coefficient of variation (CV) grows, coverage falls on every truth set (Figure~\ref{fig:cvsweep}).
 At a CV of $0.25$ the effect is visible for $\tau_1$ and small for $p$.
-At $0.75$ most intervals for $\tau_1$ miss: \resCRandThreeQuarterTauCover{} and \resCRandThreeQuarterSeedOneTauCover{} of \resCRandThreeQuarterTauN{} contain the truth.
+At $0.75$ most intervals for $\tau_1$ miss: on seed~$0$, \resCRandThreeQuarterTauCover{} of \resCRandThreeQuarterTauN{} contain the truth (seed~$1$: \resCRandThreeQuarterSeedOneTauCover).
 The estimate moves toward slower absorption.
 The median signed log error of $\tau_1$ on seed~$0$ rises from \resCRandZeroTauShift{} with exact carbohydrate to \resCRandQuarterTauShift{} at $0.25$ and \resCRandThreeQuarterTauShift{} at $0.75$, where it reaches \resCRandThreeQuarterSeedOneTauShift{} on seed~$1$.
 The median interval width does not grow to match; it is \resCRandZeroTauWidth{} log units with exact carbohydrate and \resCRandThreeQuarterTauWidth{} at $0.75$.
@@ -100,7 +100,7 @@ The difference lies in where the truths are.
 The fitted truths of $\tau_1$ sit at a median of \resCFitZeroTauTruthPosPct\% of the search range above its lower edge, and the random truths at \resCRandZeroTauTruthPosPct\%.
 Near the edge, \resCFitZeroTauOpenLow{} intervals are open on the lower side with exact carbohydrate.
 The shift toward larger $\tau_1$ carries estimates away from that edge, and only \resCFitQuarterTauOpenLow{} remain open below at $0.25$.
-In the middle of the range the same shift moves estimates toward the upper edge, where the number of intervals open above grows from \resCRandZeroTauOpenHigh{} to \resCRandThreeQuarterTauOpenHigh.
+In the middle of the range the same shift moves estimates toward the upper edge, where the number of intervals open above grows from \resCRandZeroTauOpenHigh{} with exact carbohydrate to \resCRandThreeQuarterTauOpenHigh{} at a CV of $0.75$ on seed~$0$.
 Hence the bounded count on real data cannot be turned into a statement about the size of the logging error, and a noisier input can produce more bounded intervals with fewer correct ones.
 
 \paragraph{Breaking the symmetry by design.}
