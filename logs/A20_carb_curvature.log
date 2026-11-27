@@ -1,7 +1,0 @@
-2026-11-22 12:03:26 [A20_carb_curvature] start: 2 units, 0 already done, 0 previously failed, 1 workers
-2026-11-22 12:14:22 [A20_carb_curvature] start: 45 units, 0 already done, 0 previously failed, 3 workers
-2026-11-22 12:19:33 [A20_carb_curvature] start: 45 units, 0 already done, 0 previously failed, 3 workers
-2026-11-22 12:20:01 [A20_carb_curvature] start: 45 units, 0 already done, 0 previously failed, 3 workers
-2026-11-22 12:21:00 [A20_carb_curvature] worker 0 exited 1; restarting.   warnings.warn(
-2026-11-22 12:21:00 [A20_carb_curvature] worker 1 exited 1; restarting.   warnings.warn(
-2026-11-22 12:21:00 [A20_carb_curvature] worker 2 exited 1; restarting.   warnings.warn(
