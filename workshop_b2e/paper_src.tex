@@ -14,7 +14,7 @@
 %%MACROS%%
 \setcounter{secnumdepth}{1}
 
-\title{Held-Out Prediction Does Not Validate the Parameters of a Glucose Twin}
+\title{A Held-Out Score Does Not Validate a Glucose Twin's Parameters}
 \author{
     Anonymous Submission
 }
@@ -26,31 +26,29 @@
 \maketitle
 
 \begin{abstract}
-A personal glucose twin can show a person a fitted physiological parameter, and accuracy on held-out meals is a natural reason to trust it. We ask whether that evaluation supports the displayed quantity. We fit a Bergman-type glucose simulator to meals recorded with continuous glucose monitors, and to simulated replicas in which the true parameters are known. When the target is the incremental area under the glucose curve (iAUC), no profile-likelihood interval for gastric emptying or carbohydrate absorption is bounded. Held-out iAUC does not show this: on simulated subjects, fits with both rates pinned to wrong extremes stay within a median factor of \resNegZeroFastRefitIauc{} of the error of the true model. With exact inputs, the full glucose trace recovers the summed transit time of the two rates, and its 95\% intervals contain the truth in \wsRandAZeroCover{} of \wsN{} simulated subjects. When the logged carbohydrate has a coefficient of variation of 0.75, only \wsRandAThreeQuarterCover{} of \wsN{} contain it, because the estimates shift while the intervals do not widen. Under the same error the number of bounded intervals can rise or fall, depending on where the truths lie. We turn these results into checks to run before a fitted parameter is shown to a user.
+A personal glucose twin can show a person a fitted physiological parameter, and a good score on held-out meals is a natural reason to allow that. We test whether such a score supports the claim. We fit a Bergman-type glucose simulator to meals recorded with continuous glucose monitors, and to simulated replicas whose true parameters are known. When the target is the incremental area under the glucose curve (iAUC), no profile-likelihood interval for gastric emptying or carbohydrate absorption is bounded. Held-out iAUC does not show this: on simulated subjects, fits with both rates pinned to wrong extremes have median errors \resNegZeroSlowRefitIauc{} and \resNegZeroFastRefitIauc{} times that of the true model. With exact inputs, the full glucose trace recovers the summed transit time of the two rates, and its 95\% intervals contain the truth in \wsRandAZeroCover{} of \wsN{} simulated subjects. When the logged carbohydrate has a coefficient of variation of 0.75, only \wsRandAThreeQuarterCover{} of \wsN{} contain it, because the estimates shift while the intervals do not widen. Under the same error the number of bounded intervals can rise or fall, depending on where the truths lie. We list the evidence to collect before a fitted parameter is shown as a measurement.
 \end{abstract}
 
 \section{Introduction}
 
-An application that tells a person their gastric emptying is slow presents a fitted parameter as a measurement of that person. Before anyone can study what such a message does to behavior or health, the number in it has to mean what its name says. A natural check on the underlying model is whether it predicts meals it has not seen. That check constrains whatever combination of parameters drives the prediction. It need not constrain each parameter, because an optimizer returns a value for every parameter whether or not the data determine it.
+An evaluation score supports some claims and not others. Consider an application that tells a person their gastric emptying is slow. A natural piece of evidence for releasing it is that the underlying model predicts meals it has not seen. That score constrains whatever combination of parameters drives the prediction. It need not constrain each parameter, because an optimizer returns a value for every parameter whether or not the data determine it.
 
-We study this for one model family and two fitting targets, using data in which the truth is known. We measure the validity of a displayed quantity and no human outcome.
-
-Identifiability analysis separates what the data determine from what the estimator supplies \citep{cobelli1980parameter,miao2011identifiability,wieland2021structural}. A closely related study calibrates personal glucose models on oral glucose tolerance tests with continuous glucose monitoring and plasma insulin, and reports better practical identifiability with monitored than with venous glucose \citep{erdos2024leveraging}. Our meals are free-living and self-logged, we have no insulin measurement, and we test each interval against simulations whose parameters we know.
+The system here is a mechanistic simulator fitted to one person's meals, not an agent. The case is useful because the gap between score and claim can be measured: in simulated replicas the true parameters are known, so each piece of evidence can be compared with what it is taken to show. A closely related study calibrates personal glucose models on oral glucose tolerance tests with continuous glucose monitoring and plasma insulin, and reports better practical identifiability with monitored than with venous glucose \citep{erdos2024leveraging}. Our meals are free-living and self-logged, we have no insulin measurement, and we test each interval on simulations whose parameters we know.
 
 Our contributions are the following.
 \begin{enumerate}
 \item The iAUC does not determine the two gut rates, and held-out iAUC does not reveal it. Fits with badly wrong rates predict the held-out area almost as well as the true model does.
 \item The full trace can recover a combination of the rates when the inputs are exact. Error in the logged carbohydrate moves the estimate without widening its interval.
-\item A count of bounded intervals can rise or fall under the same input error, so it is not evidence that the intervals can be believed. We state the checks that are.
+\item A count of bounded intervals can rise or fall under the same input error, so it does not show that the intervals can be believed. We list evidence that bears on that question.
 \end{enumerate}
 
 \section{Related Work}
 
-Identifiability is structural when asked of noise-free output and practical when asked of finite, noisy data \citep{cobelli1980parameter,miao2011identifiability,wieland2021structural}. The profile likelihood diagnoses both \citep{raue2009structural}, and fitted biological models often constrain only combinations of their parameters \citep{gutenkunst2007universally,eisenberg2014determining}. In oral pharmacokinetics, flip-flop kinetics hides which of two serial rates is the slower \citep{boxenbaum1998flipflop}, and statistical moments describe what an area retains about the timing of absorption \citep{yamaoka1978statistical,cutler1978theory}. Models of postprandial response are often evaluated by how well they predict it \citep{zeevi2015personalized,berry2020human}. Our question arises when a mechanistic model's parameters are also reported as quantities about a person.
+Identifiability is structural when asked of noise-free output and practical when asked of finite, noisy data \citep{cobelli1980parameter,miao2011identifiability,wieland2021structural}. The profile likelihood diagnoses both \citep{raue2009structural}, and fitted biological models often constrain only combinations of their parameters \citep{gutenkunst2007universally,eisenberg2014determining}. In oral pharmacokinetics, flip-flop kinetics hides which of two serial rates is the slower \citep{boxenbaum1998flipflop}. Models of postprandial response are often evaluated by how well they predict it \citep{zeevi2015personalized,berry2020human}. Our question arises when a mechanistic model's parameters are also reported as quantities about a person.
 
 \section{Setting}\label{sec:setting}
 
-\paragraph{Data.} We use CGMacros \citep{das2025cgmacros} (\resCohortCgmSubjects{} subjects with at least ten meals). A Shanghai cohort \citep{zhao2023shanghai} (\resCohortShanghaiSubjects{} subjects) and a standardized-meal cohort \citep{hall2018glucotypes} (\resCohortHallSubjects{}) enter only the Fisher analysis of Figure~\ref{fig:area}. All profile, prediction, and replica numbers in the text are from CGMacros.
+\paragraph{Data.} We use CGMacros \citep{das2025cgmacros}, with \resCohortCgmSubjects{} subjects who logged at least ten meals.
 
 \paragraph{Model.} Each meal is simulated alone from an empty gut with a Bergman-type model \citep{bergman1979} and a two-compartment gut \citep[for a fuller meal model, see][]{dallaman2007}:
 \begin{eqnarray}
@@ -71,14 +69,7 @@ where $Q_1$ and $Q_2$ are stomach and intestinal glucose, $G$ is plasma glucose,
 
 \section{The Area Does Not Determine the Gut Rates}\label{sec:area}
 
-An area keeps little of how a meal arrives. Its long-window value depends on the mass delivered and not on the two rates, and at three hours the rates enter mainly through how much has arrived by the end of the window. The Fisher information agrees: under the iAUC its median eigenvalues are \resEigMedianOne{}, \resEigMedianTwo{}, and \resEigMedianThree{}, so one direction is nearly flat (Figure~\ref{fig:area}).
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=0.93\textwidth]{figures/fig_area}
-\caption{What an area retains. \textbf{(a)} iAUC over the box of $k_e$ and $k_a$; dashed lines join rate pairs with equal $\tau_1$, and circles mark the pairs plotted in (b). \textbf{(b)} Glucose for three pairs with equal $\tau_1$, one of them also with its rates exchanged, and their difference from pair B; grey marks one standard deviation of sensor noise. \textbf{(c)} Fisher eigenvalues, weakest first, under the iAUC for CGMacros (white), Shanghai (light grey), and the standardized-meal cohort (dark grey), and under the trace for CGMacros (hatched).}
-\label{fig:area}
-\end{figure*}
+An area keeps little of how a meal arrives \citep{yamaoka1978statistical,cutler1978theory}. Its long-window value depends on the mass delivered and not on the two rates, and at three hours the rates enter mainly through how much has arrived by the end of the window. The Fisher information agrees: under the iAUC its median eigenvalues are \resEigMedianOne{}, \resEigMedianTwo{}, and \resEigMedianThree{}, so one direction is nearly flat.
 
 Table~\ref{tab:box} counts bounded profile intervals under the iAUC. No interval for $k_e$ or $k_a$ is bounded in boxes \wsBoxRange{}. In the primary box most rate estimates lie on a wall, where no interval can close, which is why the wider boxes are the more informative rows. Insulin sensitivity is bounded for some subjects, and how many depends strongly on the box. Whether a displayed sensitivity has a closed interval therefore depends on a search range that the user never sees.
 
@@ -97,7 +88,7 @@ box & int. & bd. & int. & bd. & int. & bd. \\
 \label{tab:box}
 \end{table}
 
-\section{Held-Out iAUC Does Not Show It}\label{sec:prediction}
+\section{What the Held-Out Score Misses}\label{sec:prediction}
 
 On the real data the twin is a modest predictor. Its held-out iAUC error is \resGainPct\% below that of the subject's own mean, and it is worse than that mean on peak time (\resPeakGradThree{} versus \resPeakPersonalMean{} minutes) and on the trace (\resTraceRmseGradThree{} versus \resTraceRmsePersonalMean{} mg\,dL$^{-1}$). Real data also cannot say what the small differences hide, because the true parameters are unknown.
 
@@ -118,7 +109,7 @@ The trace carries more timing information than the area. On real CGMacros traces
 
 \paragraph{Exact inputs.} With exact carbohydrate and the subjects' own sensor noise, the $\tau_1$ interval covers the truth in \wsRandAZeroCover{} of \wsN{} subjects on random-truth seed 0 (seed 1: \wsRandBZeroCover), and the $p$ interval in \wsRandAZeroCoverP{} (seed 1: \wsRandBZeroCoverP). Many intervals are also informative: \wsRandAZeroNarrow{} of the seed-0 $\tau_1$ intervals are bounded and narrower than a factor of about 1.65, and \wsRandAZeroNarrowCover{} of those cover. This is a best case, because the fitted model is the one that generated the data.
 
-\paragraph{Logging error.} As the CV of the logging error grows, coverage falls on all three truth sets (Table~\ref{tab:sweep}, Figure~\ref{fig:trace}). The estimate of $\tau_1$ moves toward slower absorption: on seed 0 the median signed log error grows from \wsRandAZeroShift{} with exact inputs to \wsRandAThreeQuarterShift{} at a CV of 0.75. The median interval width does not grow (\wsRandAZeroWidth{} and \wsRandAThreeQuarterWidth{} in log units). The likelihood treats the logged load as exact, so its interval has no term for doubt about the input. We have not established why the shift is toward slower absorption.
+\paragraph{Logging error.} As the CV of the logging error grows, coverage falls on all three truth sets (Table~\ref{tab:sweep}); on random-truth seed 0 it goes from \wsRandAZeroCover{} of \wsN{} with exact inputs to \wsRandAThreeQuarterCover{} of \wsN{} at a CV of 0.75. The estimate of $\tau_1$ moves toward slower absorption: on seed 0 the median signed log error grows from \wsRandAZeroShift{} with exact inputs to \wsRandAThreeQuarterShift{} at a CV of 0.75. The median interval width does not grow (\wsRandAZeroWidth{} and \wsRandAThreeQuarterWidth{} in log units). The likelihood treats the logged load as exact, so its interval has no term for doubt about the input. We have not established why the shift is toward slower absorption.
 
 \begin{table}[t]
 \centering
@@ -142,27 +133,20 @@ fitted & 0 & \wsFitZeroCover & \wsFitZeroBounded & \wsFitZeroShift & \wsFitZeroR
 \label{tab:sweep}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.86\columnwidth]{figures/fig_trace}
-\caption{$\tau_1$ against the CV of the logging error. \textbf{(a)} Intervals covering the truth (dash-dotted line: 95\%). \textbf{(b)} Bounded intervals. Coverage falls for every truth set, while the bounded share falls with random truths and rises with fitted ones.}
-\label{fig:trace}
-\end{figure}
-
 \paragraph{Bounded counts can mislead.} With random truths, the number of bounded $\tau_1$ intervals falls from \wsRandAZeroBounded{} with exact inputs to \wsRandAThreeQuarterBounded{} at a CV of 0.75 (seed 0). With fitted truths it rises from \wsFitZeroBounded{} to \wsFitQuarterBounded{} between exact inputs and a CV of 0.25. The fitted truths sit near the lower edge of the box (median \wsFitPosPct\% of its width above it; random truths, \wsRandPosPct\%), where many intervals are open below when inputs are exact. A shift toward larger $\tau_1$ moves those estimates away from the edge and closes the intervals, while for truths in the middle of the box it pushes estimates toward the upper edge. A developer who saw more bounded intervals could read worse inputs as better data. An evaluation with truths only at the fitted values would have shown just the rising count.
 
 \paragraph{Ordering.} The ranking of subjects holds up better than coverage: on seed 0 the rank correlation is \wsRandAZeroRho{} with exact inputs and \wsRandAThreeQuarterRho{} at a CV of 0.75. This holds in simulation under the assumed error; real data cannot test it.
 
-\section{Checks Before a Parameter Is Shown}\label{sec:checks}
+\section{Evidence the Claim Needs}\label{sec:checks}
 
-Our results suggest four checks for a developer who intends to show a fitted physiological parameter, or for a study that treats it as the content of an intervention. Each needs only the simulator and the meal records.
+The claim to be supported is that a displayed number measures the named physiological quantity in this person. Our results suggest four pieces of evidence to collect before making it. Each needs only the simulator and the meal records.
 \begin{enumerate}
-\item Report which quantity is shown, what was held fixed to estimate it, and its profile interval with the box that defines it.
+\item State which quantity is shown, what was held fixed to estimate it, and its profile interval with the box that defines it.
 \item Score a held-out target that the fit did not use, and do not read accuracy on the training target as support for each parameter.
-\item Simulate replicas with the expected input error and with truths spread through the box as well as at the fitted values, and report coverage and interval width, not the number of bounded intervals.
+\item Simulate replicas with the expected input error and with truths spread through the box as well as at the fitted values, and report coverage and interval width, not only the number of bounded intervals.
 \item Where only an ordering of people survives those replicas, present an ordering, if anything, and not a physiological value.
 \end{enumerate}
-For evaluation of user-facing systems more broadly, the lesson is that accuracy in predicting the next observation is not by itself evidence for a latent quantity shown to the user.
+More generally, accuracy on the next observation measures prediction. In this case, a claim about a latent quantity needed a test in which that quantity was known.
 
 \section{Limitations}
 
@@ -172,7 +156,7 @@ For evaluation of user-facing systems more broadly, the lesson is that accuracy 
 
 \paragraph{Replica design.} Replicas reuse the \wsN{} CGMacros meal schedules, use at most two seeds per truth set, and start each meal from an empty gut, although the median gap between logged meals is \resOverlapMedianGap{} hours and \resOverlapWithinFour\% of gaps are under four hours.
 
-\paragraph{Scope.} The profile and prediction results are for one small cohort. We measured no human outcome and do not show that showing an unreliable parameter harms anyone.
+\paragraph{Scope.} All results are for one small cohort. We measured no human outcome, did not study how an unreliable parameter affects the person who sees it, and did not test whether these findings carry over to the evaluation of AI agents.
 
 \section*{Ethical Statement}
 
@@ -180,6 +164,6 @@ All data are public and de-identified, and we collected none. The simulator is a
 
 \paragraph{Use of generative AI.} We used a large-language-model coding assistant (Claude Code, Anthropic) to write and run analysis code, to generate the scripts that insert stored results into the text and figures, and to draft and edit the manuscript. The authors directed the research and take full responsibility for the content, including its claims and references.
 
-\bibliography{caleai}
+\bibliography{refs}
 
 \end{document}

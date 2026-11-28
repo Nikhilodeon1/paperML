@@ -1,38 +1,51 @@
-# CALE-AI 2027 submission: checklist
+# Bench2Evidence (AAAI-27 Bridge) short paper: checklist
 
-Venue facts, re-read on 27 November 2026 from https://caleai.github.io/ and https://easychair.org/cfp/CALE-AI2027:
+Venue facts, read on 27 November 2026 from https://bench-to-evidence.github.io:
 
-- **Abstract registration and paper are both due 27 November 2026. Neither page states a time zone.** No extension is
-  announced.
-- Full papers: 8 pages (workshop site) or 9 (EasyChair), references excluded. Use 8 as the limit.
-- AAAI format. Review mode, anonymity, AI policy, and required checklists are not stated. The paper is anonymous.
-- Non-archival. Permission for concurrent submission is stated for extended abstracts only; nothing is said for full papers.
-- Submission: https://easychair.org/my/conference?conf=caleai2027. Contact for questions: the organizer address on the
-  workshop site.
-- Topic: evaluating user-facing AI interventions (causal and longitudinal human effects). **Fit risk:** this paper studies
-  whether a quantity a system would show is measured well enough to be shown. It has no human outcome and no deployed
-  intervention. It says so, and does not present itself as an intervention study.
+- Submissions due **1 December 2026, anywhere on Earth** (2 December, 3:59 am PST).
+- Short paper 2 to 4 pages, or full paper 6 to 8. AAAI-27 format. **Whether references count is not stated.** The draft
+  is 4 pages with references included, so it fits either reading. Keep it that way.
+- Non-archival: "published work is welcome".
+- Anonymity, AI-use policy, and required checklists are not stated. The paper is anonymous.
+- Submission through OpenReview. The page warns that a new profile without an institutional email address can take time
+  to be approved. The page's submission link is the one to use.
+- AAAI-27 registration is required for every accepted submission. The Bridge is in person, 16 to 17 February 2027,
+  Montreal.
+- Contacts on the page: vedantk@ibm.com, pateldha@us.ibm.com.
+
+**Fit risk:** the Bridge is about evaluating AI agents before deployment. This paper has no agent. It offers a case in
+which a held-out score is taken to support a claim it does not support, and it says that transfer to agents was not
+tested.
 
 ## Build
 
 ```powershell
-python workshop_caleai/ws_numbers.py          # final: needs the new reruns; stops if a sentence stops being true
-python workshop_caleai/build.py               # writes build/Anonymous.pdf
-python workshop_caleai/package.py             # writes submission/; refuses draft numbers
+python workshop_b2e/ws_numbers.py
 ```
 
-With `--draft` on the first command, the build writes `build/Draft.pdf` from the earlier runs. **Never submit Draft.pdf.**
-Its trace numbers come from the solver that stopped early and its area numbers from the old protocol, while the text
-describes the new protocol.
+```powershell
+python workshop_b2e/build.py
+```
 
-The final build needs these sweeps complete: `real`, `rand0.0/0.25/0.75` (seeds 0 and 1), `fit0.0/0.25/0.75` (seed 0),
-from pod 1, and `iauc_box1`, `iauc_box2`, `iauc_box4`, from pod 2.
+```powershell
+python workshop_b2e/package.py
+```
+
+The first command needs the new reruns and stops if a sweep is incomplete or a sentence stops being true. It needs
+`real`, `rand0.0/0.25/0.75` (seeds 0 and 1), `fit0.0/0.25/0.75` (seed 0), and `iauc_box1`, `iauc_box2`, `iauc_box4`.
+The third refuses draft numbers. With `--draft` on the first command the build writes `build/Draft.pdf` from the earlier
+runs. **Never submit Draft.pdf:** its trace numbers come from the solver that stopped early and its area numbers from
+the old protocol, while the text describes the new protocol.
+
+The held-out prediction numbers come from the journal paper's macro files, not from these sweeps. Rebuild after those
+files are updated.
 
 ## Before submitting (authors)
 
-1. Register the abstract on EasyChair. The registered text has no result numbers.
-2. Read the Ethical Statement's AI paragraph and confirm that it describes what happened. It makes no claim that the
-   authors verified numbers or references; add one only after doing the checks.
-3. Ask the organizers, or decide yourselves, about the concurrent journal submission, and say so wherever TMLR asks.
+1. Create the OpenReview profile.
+2. Confirm that the AI-use paragraph describes what happened. It makes no claim that the authors verified numbers or
+   references; add one only after doing the checks.
+3. Open each reference at its source. See `CITATIONS_VERIFIED.md`, which `package.py` writes.
 4. Rewrite in your own words the passages listed in `author_pass.md`.
-5. Check the final PDF's page count, fonts, and metadata.
+5. Say wherever TMLR asks that a non-archival short version is under review at this Bridge, if you submit both.
+6. Check the final PDF's page count, fonts, and metadata.

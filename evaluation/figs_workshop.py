@@ -1,4 +1,4 @@
-"""Figures for the CALE-AI workshop paper (AAAI two-column format).
+"""Figures for the workshop paper (AAAI two-column format).
 
 Rules of the AAAI author kit that these figures follow: PDF output, fonts embedded as Type 42 (no Type 3), text at least nine
 point at the size the figure is included, lines at least half a point, no clipping in LaTeX (figures are cropped here),
@@ -6,7 +6,7 @@ and a design that reads in grayscale (marker shape, line style and fill carry th
 Colours are dark enough for a contrast of at least 4.5:1 on white.
 
 Every number a figure shows is computed here from the stored results; the numbers that the text quotes are written to
-`workshop_caleai/figure_numbers.json` and enter the paper as macros.
+`workshop_b2e/figure_numbers.json` and enter the paper as macros.
 
 Run:  python -m evaluation.figs_workshop
 """
@@ -18,8 +18,8 @@ import numpy as np
 
 from evaluation.results_io import RESULTS, ROOT
 
-OUT = ROOT / "workshop_caleai" / "figures"
-NUMBERS = ROOT / "workshop_caleai" / "figure_numbers.json"
+OUT = ROOT / "workshop_b2e" / "figures"
+NUMBERS = ROOT / "workshop_b2e" / "figure_numbers.json"
 BLUE, ORANGE, GREEN, PURPLE, GREY, BLACK = "#00589B", "#A8420A", "#00704A", "#6B2D7A", "#595959", "#111111"
 COLUMN, FULL = 3.0, 6.2          # inches; included at 0.9 of the column and at 0.9 of the text width
 NUM: dict = {}

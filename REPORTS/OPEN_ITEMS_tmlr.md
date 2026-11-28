@@ -52,7 +52,7 @@ a free `p2`.
 ## Record keeping and anonymity
 
 - `amendment16_macros.tex` and `amendment17_macros.tex` are not yet in the frozen number index.
-- Tracked old failure files, `results_return/logs`, and `workshop_caleai/build` contain a local user path. The anonymous
+- Tracked old failure files, `results_return/logs`, and `workshop_b2e/build` contain a local user path. The anonymous
   package must leave them out, with git history. The compiled PDF was checked: no author or user name.
 - Running the test suite rewrites `evaluation/figures/fig4_clinical_recovery.pdf`; restore it afterwards.
 
@@ -64,4 +64,4 @@ albers2017personalized.
 
 ## Elsewhere
 
-The CALE-AI workshop paper still uses old-protocol coverage numbers.
+The Bench2Evidence short paper (`workshop_b2e/`) is a draft on the earlier runs until the new sweeps are complete.

@@ -84,30 +84,30 @@ the linter, the number check and the full test suite, and tag one commit. I repo
    references only after you have done both.
 5. **One outside reader** for the abstract and Section 5.
 6. **Anonymity:** tell me the names and strings to forbid so I can build and check the anonymous package. It must leave
-   out git history, `*.failed.json`, `results_return/logs`, and `workshop_caleai/`, some of which contain your local user
+   out git history, `*.failed.json`, `results_return/logs`, and `workshop_b2e/`, some of which contain your local user
    path.
 7. **Submit** once there are no `[pending]` cells, no undefined references, and the checks in step 7 pass.
 
-## CALE-AI (abstract and paper both due 27 November 2026; no time zone stated)
+## Bench2Evidence short paper (due 1 December, anywhere on Earth = 2 December, 3:59 am PST)
 
-1. **Register the abstract on EasyChair now** (title and abstract without result numbers).
-2. When pod 1 has finished its first 12 runs and pod 2 its first 3, download `stage2_pod1_results.tgz` and
-   `stage2_pod2_results.tgz` into `paperML` and tell me. I merge them and run:
+1. **Create an OpenReview profile now.** The venue warns that new profiles can take time to be approved.
+2. When the sweeps listed in `workshop_b2e/SUBMISSION_CHECKLIST.md` are complete, download the pod archives into
+   `paperML` and tell me. I merge them and run:
 
    ```powershell
-   python workshop_caleai/ws_numbers.py
+   python workshop_b2e/ws_numbers.py
    ```
 
    ```powershell
-   python workshop_caleai/build.py
+   python workshop_b2e/build.py
    ```
 
    ```powershell
-   python workshop_caleai/package.py
+   python workshop_b2e/package.py
    ```
 
    The first command stops if a sweep is incomplete or a sentence of the paper stops being true.
-3. Confirm the AI-use paragraph, rewrite the passages in `workshop_caleai/author_pass.md`, and submit
-   `workshop_caleai/submission/Anonymous.pdf`. **Never submit `Draft.pdf`.**
+3. Confirm the AI-use paragraph, rewrite the passages in `workshop_b2e/author_pass.md`, and submit
+   `workshop_b2e/submission/Anonymous.pdf`. **Never submit `Draft.pdf`.**
 
-Details and risks: `workshop_caleai/SUBMISSION_CHECKLIST.md`.
+Details and risks: `workshop_b2e/SUBMISSION_CHECKLIST.md`.

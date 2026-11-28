@@ -1,10 +1,10 @@
-"""Numbers, the sweep figure, and the statement checks of the CALE-AI paper.
+"""Numbers and statement checks of the workshop paper.
 
 Final mode reads only complete sweeps of the converged protocol (the same registry as the journal paper) and stops if a
 sweep is incomplete or if a sentence the paper prints is no longer true of the numbers. Draft mode reads the earlier
 stored runs, so the text can be written and laid out before the reruns exist. A draft is never to be submitted.
 
-Run:  python workshop_caleai/ws_numbers.py [--draft]      # writes ws_numbers.json and figures/fig_trace.pdf
+Run:  python workshop_b2e/ws_numbers.py [--draft]      # writes ws_numbers.json
 """
 from __future__ import annotations
 
@@ -128,31 +128,6 @@ def statements(raw: dict, blocks: dict) -> dict[str, bool]:
     }
 
 
-def figure(blocks: dict) -> None:
-    from evaluation.figs_workshop import BLACK, BLUE, GREY, ORANGE, _plt, _save
-    plt = _plt()
-    fig, axes = plt.subplots(2, 1, figsize=(3.0, 3.3), sharex=True)
-    series = (("RandA", "random truths, seed 0", BLUE, "o", "-", True),
-              ("RandB", "random truths, seed 1", BLACK, "s", "--", False),
-              ("Fit", "fitted truths", ORANGE, "^", ":", True))
-    for ax, field, label in zip(axes, ("cover", "bounded"), ("covers truth (%)", "bounded (%)")):
-        for truth, name, color, marker, line, filled in series:
-            x = sorted(CV)
-            y = [100 * blocks[truth, cv][field] / SUBJECTS for cv in x]
-            ax.plot(x, y, color=color, marker=marker, ls=line, ms=4.5, mfc=color if filled else "white", label=name)
-        ax.set_ylim(0, 105)
-        ax.set_ylabel(label)
-        ax.set_xticks(sorted(CV))
-    axes[0].axhline(95, color=GREY, lw=0.7, ls="-.")
-    axes[1].set_xlabel("logging error (CV)")
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=1, bbox_to_anchor=(0.55, -0.15))
-    for ax, letter in zip(axes, "ab"):
-        ax.text(-0.22, 1.02, letter, transform=ax.transAxes, fontsize=10, fontweight="bold")
-    fig.tight_layout()
-    _save(fig, "fig_trace")
-
-
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--draft", action="store_true")
@@ -163,7 +138,6 @@ def main(argv=None) -> int:
         print(f"STATEMENT NO LONGER HOLDS: {text}")
     if failed and not args.draft:
         raise SystemExit("rewrite the sentences above before building the final paper")
-    figure(blocks)
     OUT.write_text(json.dumps({"draft": args.draft, "boxes": raw["boxes"], "macros": macros}, indent=2), encoding="utf-8")
     print(f"{'DRAFT' if args.draft else 'FINAL'}: wrote {len(macros)} numbers; {len(failed)} statements failing")
     return 0

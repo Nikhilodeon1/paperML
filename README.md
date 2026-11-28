@@ -13,7 +13,7 @@ glucose monitoring after meals, and whether held-out prediction reveals the ones
 | `cohort_cache/` | parsed, hash-checked cohorts, so no dataset download is needed |
 | `results/` | stored results behind the numbers in the paper |
 | `paper/` | the journal manuscript; every result in it is a generated macro |
-| `workshop_caleai/` | the workshop paper |
+| `workshop_b2e/` | the workshop paper |
 | `julia/` | symbolic identifiability runs |
 | `PREREG*.md`, `REPORTS/` | analysis plan and amendments, outcome rules, status |
 | `tests/` | tests |
@@ -48,9 +48,9 @@ python -m pytest -q tests
 Workshop paper:
 
 ```bash
-python workshop_caleai/ws_numbers.py                      # add --draft before the reruns exist
-python workshop_caleai/build.py
-python workshop_caleai/package.py                         # refuses draft numbers
+python workshop_b2e/ws_numbers.py                      # add --draft before the reruns exist
+python workshop_b2e/build.py
+python workshop_b2e/package.py                         # refuses draft numbers
 ```
 
 ## Anonymous code package

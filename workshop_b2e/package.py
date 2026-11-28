@@ -1,6 +1,6 @@
-"""Assemble `workshop_caleai/submission/` (only files the paper uses) and write the evidence and citation logs.
+"""Assemble `workshop_b2e/submission/` (only files the paper uses) and write the evidence and citation logs.
 
-Run after `python workshop_caleai/build.py`.
+Run after `python workshop_b2e/build.py`.
 """
 from __future__ import annotations
 
@@ -25,9 +25,9 @@ def evidence() -> str:
     rows = []
     for name in used:
         if name.startswith("ws"):
-            origin = "`workshop_caleai/ws_numbers.py`, from complete sweeps of the converged protocol"
+            origin = "`workshop_b2e/ws_numbers.py`, from complete sweeps of the converged protocol"
         elif name.startswith("fig"):
-            origin = "`workshop_caleai/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results"
+            origin = "`workshop_b2e/figure_numbers.json`, written by `evaluation/figs_workshop.py` from the stored results"
         else:
             origin = "a generated macro file of the main manuscript (`paper/*macros.tex`)"
         rows.append(f"| `{name}` | {values[name]} | {origin} |")
@@ -46,12 +46,12 @@ def citations() -> str:
 
 def main() -> int:
     if build.output_name() != "Anonymous":
-        raise SystemExit("the numbers are a draft: run `python workshop_caleai/ws_numbers.py` (without --draft) and rebuild")
+        raise SystemExit("the numbers are a draft: run `python workshop_b2e/ws_numbers.py` (without --draft) and rebuild")
     if SUB.exists():
         shutil.rmtree(SUB, ignore_errors=True)
     (SUB / "figures").mkdir(parents=True, exist_ok=True)
     b = HERE / "build"
-    for name in ("Anonymous.tex", "Anonymous.bbl", "Anonymous.pdf", "caleai.bib", "aaai2027.sty", "aaai2027.bst"):
+    for name in ("Anonymous.tex", "Anonymous.bbl", "Anonymous.pdf", "refs.bib", "aaai2027.sty", "aaai2027.bst"):
         shutil.copy(b / name, SUB / name)
     for fig in (b / "figures").glob("fig_*.pdf"):
         shutil.copy(fig, SUB / "figures" / fig.name)

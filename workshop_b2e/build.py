@@ -4,7 +4,7 @@ The AAAI kit requires one .tex file with no \\input, so this script inlines ever
 result macros of the main manuscript and the numbers of the workshop figures), copies the style files, the figures and a
 bibliography made of verified entries, and compiles with pdflatex and bibtex.
 
-Run:  python workshop_caleai/build.py            # writes workshop_caleai/build/Anonymous.tex and .pdf
+Run:  python workshop_b2e/build.py            # writes workshop_b2e/build/Anonymous.tex and .pdf
 """
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ BUILD = HERE / "build"
 KIT = HERE / "AuthorKit27"
 NAME = "Anonymous"
 KEYS = ("zeevi2015personalized", "berry2020human", "bergman1979", "dallaman2007", "raue2009structural",
-        "yamaoka1978statistical", "cutler1978theory", "das2025cgmacros", "zhao2023shanghai", "hall2018glucotypes",
+        "yamaoka1978statistical", "cutler1978theory", "das2025cgmacros",
         "cobelli1980parameter", "miao2011identifiability", "wieland2021structural", "gutenkunst2007universally",
         "erdos2024leveraging", "eisenberg2014determining", "boxenbaum1998flipflop")
 DIGITS = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four", "5": "Five", "6": "Six", "7": "Seven",
@@ -72,7 +72,7 @@ def result_macros() -> dict[str, str]:
 def workshop_numbers() -> dict:
     path = HERE / "ws_numbers.json"
     if not path.exists():
-        raise SystemExit("run `python workshop_caleai/ws_numbers.py [--draft]` first")
+        raise SystemExit("run `python workshop_b2e/ws_numbers.py [--draft]` first")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -109,10 +109,11 @@ def main() -> int:
     for style in ("aaai2027.sty", "aaai2027.bst"):
         shutil.copy(KIT / style, BUILD / style)
     name = output_name()
-    for pdf in (HERE / "figures").glob("fig_*.pdf"):
-        shutil.copy(pdf, BUILD / "figures" / pdf.name)
-    (BUILD / "caleai.bib").write_text(bibliography(), encoding="utf-8")
-    (BUILD / f"{name}.tex").write_text(flatten((HERE / "paper_src.tex").read_text(encoding="utf-8")), encoding="utf-8")
+    source = (HERE / "paper_src.tex").read_text(encoding="utf-8")
+    for figure in re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{figures/(\w+)\}", source):     # only what is used
+        shutil.copy(HERE / "figures" / f"{figure}.pdf", BUILD / "figures" / f"{figure}.pdf")
+    (BUILD / "refs.bib").write_text(bibliography(), encoding="utf-8")
+    (BUILD / f"{name}.tex").write_text(flatten(source), encoding="utf-8")
     for command in (["pdflatex", "-interaction=nonstopmode", f"{name}.tex"], ["bibtex", name],
                     ["pdflatex", "-interaction=nonstopmode", f"{name}.tex"], ["pdflatex", "-interaction=nonstopmode", f"{name}.tex"]):
         result = subprocess.run(command, cwd=BUILD, capture_output=True, text=True)
